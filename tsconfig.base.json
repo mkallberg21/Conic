@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@conic/domain": ["packages/domain/src/index.ts"],
+      "@conic/contracts": ["packages/contracts/src/index.ts"]
+    },
+    "declaration": true,
+    "sourceMap": true
+  }
+}
