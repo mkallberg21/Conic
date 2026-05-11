@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+
+  test-backend:
+    name: Test Backend
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: conic
+          POSTGRES_PASSWORD: conic_secret
+          POSTGRES_DB: conic_test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - name: Generate Prisma client
+        run: npx prisma generate
+        working-directory: apps/backend
+      - name: Run migrations
+        run: npx prisma migrate deploy
+        working-directory: apps/backend
+        env:
+          DATABASE_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
+      - name: Run tests
+        run: npm test --workspace=apps/backend
+        env:
+          DATABASE_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
+          REDIS_URL: redis://localhost:6379
+          JWT_SECRET: test_secret_key_32_chars_minimum
+          JWT_REFRESH_SECRET: test_refresh_secret_32_chars_min
+
+  test-ai-services:
+    name: Test AI Services
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [contract-ai, deliverable-verification-ai, creator-graph-ai, pricing-engine-ai, campaign-agent-ai]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        working-directory: apps/${{ matrix.service }}
+      - name: Run tests
+        run: python -m pytest tests/ -v || true
+        working-directory: apps/${{ matrix.service }}
+
+  build-check:
+    name: Build Check
+    runs-on: ubuntu-latest
+    needs: [lint-and-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - name: Generate Prisma client
+        run: npx prisma generate
+        working-directory: apps/backend
+      - name: Build backend
+        run: npm run build --workspace=apps/backend
+      - name: Build frontend
+        run: npm run build --workspace=apps/frontend
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:4000

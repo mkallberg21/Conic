@@ -1,23 +1,126 @@
 services:
   postgres:
-    image: postgres:16
+    image: postgres:16-alpine
     container_name: conic-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: conic
-      POSTGRES_PASSWORD: conic
+      POSTGRES_PASSWORD: conic_secret
       POSTGRES_DB: conic
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U conic']
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
-    image: redis:7
+    image: redis:7-alpine
     container_name: conic-redis
     restart: unless-stopped
     ports:
       - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    container_name: conic-backend
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgresql://conic:conic_secret@postgres:5432/conic
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:-changeme_in_production}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-changeme_refresh}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      CONTRACT_AI_URL: http://contract-ai:8001
+      DELIVERABLE_AI_URL: http://deliverable-verification-ai:8002
+      CREATOR_GRAPH_AI_URL: http://creator-graph-ai:8003
+      PRICING_ENGINE_AI_URL: http://pricing-engine-ai:8004
+      CAMPAIGN_AGENT_AI_URL: http://campaign-agent-ai:8005
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  contract-ai:
+    build:
+      context: ./apps/contract-ai
+      dockerfile: Dockerfile
+    container_name: conic-contract-ai
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+
+  deliverable-verification-ai:
+    build:
+      context: ./apps/deliverable-verification-ai
+      dockerfile: Dockerfile
+    container_name: conic-deliverable-ai
+    restart: unless-stopped
+    ports:
+      - "8002:8002"
+
+  creator-graph-ai:
+    build:
+      context: ./apps/creator-graph-ai
+      dockerfile: Dockerfile
+    container_name: conic-creator-graph-ai
+    restart: unless-stopped
+    ports:
+      - "8003:8003"
+
+  pricing-engine-ai:
+    build:
+      context: ./apps/pricing-engine-ai
+      dockerfile: Dockerfile
+    container_name: conic-pricing-ai
+    restart: unless-stopped
+    ports:
+      - "8004:8004"
+
+  campaign-agent-ai:
+    build:
+      context: ./apps/campaign-agent-ai
+      dockerfile: Dockerfile
+    container_name: conic-campaign-ai
+    restart: unless-stopped
+    ports:
+      - "8005:8005"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+    container_name: conic-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:4000
+    depends_on:
+      - backend
 
 volumes:
   pgdata:
+  redis_data:

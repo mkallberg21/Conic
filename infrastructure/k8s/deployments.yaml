@@ -1,0 +1,177 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conic-backend
+  namespace: conic
+  labels:
+    app: conic-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: conic-backend
+  template:
+    metadata:
+      labels:
+        app: conic-backend
+    spec:
+      containers:
+        - name: backend
+          image: ${ECR_REGISTRY}/conic-backend:latest
+          ports:
+            - containerPort: 4000
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: conic-secrets
+                  key: DATABASE_URL
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: conic-secrets
+                  key: REDIS_URL
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: conic-secrets
+                  key: JWT_SECRET
+            - name: JWT_REFRESH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: conic-secrets
+                  key: JWT_REFRESH_SECRET
+            - name: STRIPE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: conic-secrets
+                  key: STRIPE_SECRET_KEY
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: conic-secrets
+                  key: OPENAI_API_KEY
+            - name: CONTRACT_AI_URL
+              value: http://contract-ai-svc:8001
+            - name: DELIVERABLE_AI_URL
+              value: http://deliverable-verification-ai-svc:8002
+            - name: CREATOR_GRAPH_AI_URL
+              value: http://creator-graph-ai-svc:8003
+            - name: PRICING_ENGINE_AI_URL
+              value: http://pricing-engine-ai-svc:8004
+            - name: CAMPAIGN_AGENT_AI_URL
+              value: http://campaign-agent-ai-svc:8005
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 4000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conic-backend-svc
+  namespace: conic
+spec:
+  selector:
+    app: conic-backend
+  ports:
+    - port: 4000
+      targetPort: 4000
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conic-frontend
+  namespace: conic
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: conic-frontend
+  template:
+    metadata:
+      labels:
+        app: conic-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ${ECR_REGISTRY}/conic-frontend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: https://api.conic.app
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conic-frontend-svc
+  namespace: conic
+spec:
+  selector:
+    app: conic-frontend
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: conic-ingress
+  namespace: conic
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+    - hosts:
+        - conic.app
+        - api.conic.app
+      secretName: conic-tls
+  rules:
+    - host: conic.app
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: conic-frontend-svc
+                port:
+                  number: 3000
+    - host: api.conic.app
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: conic-backend-svc
+                port:
+                  number: 4000

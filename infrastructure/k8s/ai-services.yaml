@@ -1,0 +1,211 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contract-ai
+  namespace: conic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: contract-ai
+  template:
+    metadata:
+      labels:
+        app: contract-ai
+    spec:
+      containers:
+        - name: contract-ai
+          image: ${ECR_REGISTRY}/conic-contract-ai:latest
+          ports:
+            - containerPort: 8001
+          env:
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: conic-secrets
+                  key: OPENAI_API_KEY
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: contract-ai-svc
+  namespace: conic
+spec:
+  selector:
+    app: contract-ai
+  ports:
+    - port: 8001
+      targetPort: 8001
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deliverable-verification-ai
+  namespace: conic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deliverable-verification-ai
+  template:
+    metadata:
+      labels:
+        app: deliverable-verification-ai
+    spec:
+      containers:
+        - name: deliverable-verification-ai
+          image: ${ECR_REGISTRY}/conic-deliverable-verification-ai:latest
+          ports:
+            - containerPort: 8002
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "125m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deliverable-verification-ai-svc
+  namespace: conic
+spec:
+  selector:
+    app: deliverable-verification-ai
+  ports:
+    - port: 8002
+      targetPort: 8002
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: creator-graph-ai
+  namespace: conic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: creator-graph-ai
+  template:
+    metadata:
+      labels:
+        app: creator-graph-ai
+    spec:
+      containers:
+        - name: creator-graph-ai
+          image: ${ECR_REGISTRY}/conic-creator-graph-ai:latest
+          ports:
+            - containerPort: 8003
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: creator-graph-ai-svc
+  namespace: conic
+spec:
+  selector:
+    app: creator-graph-ai
+  ports:
+    - port: 8003
+      targetPort: 8003
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pricing-engine-ai
+  namespace: conic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pricing-engine-ai
+  template:
+    metadata:
+      labels:
+        app: pricing-engine-ai
+    spec:
+      containers:
+        - name: pricing-engine-ai
+          image: ${ECR_REGISTRY}/conic-pricing-engine-ai:latest
+          ports:
+            - containerPort: 8004
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "125m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pricing-engine-ai-svc
+  namespace: conic
+spec:
+  selector:
+    app: pricing-engine-ai
+  ports:
+    - port: 8004
+      targetPort: 8004
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: campaign-agent-ai
+  namespace: conic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: campaign-agent-ai
+  template:
+    metadata:
+      labels:
+        app: campaign-agent-ai
+    spec:
+      containers:
+        - name: campaign-agent-ai
+          image: ${ECR_REGISTRY}/conic-campaign-agent-ai:latest
+          ports:
+            - containerPort: 8005
+          env:
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: conic-secrets
+                  key: OPENAI_API_KEY
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: campaign-agent-ai-svc
+  namespace: conic
+spec:
+  selector:
+    app: campaign-agent-ai
+  ports:
+    - port: 8005
+      targetPort: 8005

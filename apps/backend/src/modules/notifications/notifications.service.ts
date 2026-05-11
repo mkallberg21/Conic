@@ -1,0 +1,87 @@
+import { Injectable } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
+import { PrismaService } from '../../prisma/prisma.service';
+import { EVENTS } from '../../events/event-bus.service';
+
+@Injectable()
+export class NotificationsService {
+  constructor(private readonly prisma: PrismaService) {}
+
+  @OnEvent(EVENTS.CONTRACT_CREATED)
+  async onContractCreated(payload: { contractId: string; brandId: string; creatorId: string }) {
+    const contract = await this.prisma.contract.findUnique({
+      where: { id: payload.contractId },
+      include: { creator: { include: { user: true } } },
+    });
+    if (!contract) return;
+
+    await this.prisma.notification.create({
+      data: {
+        recipientId: contract.creator.userId,
+        type: 'CONTRACT_CREATED',
+        title: 'New contract received',
+        body: `You have a new contract: "${contract.title}". Review and sign.`,
+        data: { contractId: payload.contractId },
+      },
+    });
+  }
+
+  @OnEvent(EVENTS.DELIVERABLE_SUBMITTED)
+  async onDeliverableSubmitted(payload: { deliverableId: string; contractId: string }) {
+    const deliverable = await this.prisma.deliverable.findUnique({
+      where: { id: payload.deliverableId },
+      include: { contract: { include: { brand: { include: { user: true } } } } },
+    });
+    if (!deliverable) return;
+
+    await this.prisma.notification.create({
+      data: {
+        recipientId: deliverable.contract.brand.userId,
+        type: 'DELIVERABLE_SUBMITTED',
+        title: 'Deliverable submitted for review',
+        body: `"${deliverable.title}" has been submitted. Review and approve.`,
+        data: { deliverableId: payload.deliverableId },
+      },
+    });
+  }
+
+  @OnEvent(EVENTS.PAYMENT_RELEASED)
+  async onPaymentReleased(payload: { paymentId: string; amount: number; creatorId: string }) {
+    const creator = await this.prisma.creator.findUnique({
+      where: { id: payload.creatorId },
+    });
+    if (!creator) return;
+
+    await this.prisma.notification.create({
+      data: {
+        recipientId: creator.userId,
+        type: 'PAYMENT_RELEASED',
+        title: 'Payment received',
+        body: `A payment of $${(payload.amount / 100).toFixed(2)} has been released to your account.`,
+        data: { paymentId: payload.paymentId },
+      },
+    });
+  }
+
+  async findForUser(userId: string) {
+    return this.prisma.notification.findMany({
+      where: { recipientId: userId },
+      orderBy: { createdAt: 'desc' },
+      take: 50,
+    });
+  }
+
+  async markRead(notificationId: string, userId: string) {
+    return this.prisma.notification.updateMany({
+      where: { id: notificationId, recipientId: userId },
+      data: { read: true, readAt: new Date() },
+    });
+  }
+
+  async markAllRead(userId: string) {
+    return this.prisma.notification.updateMany({
+      where: { recipientId: userId, read: false },
+      data: { read: true, readAt: new Date() },
+    });
+  }
+}

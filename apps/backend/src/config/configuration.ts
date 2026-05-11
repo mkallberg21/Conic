@@ -1,0 +1,39 @@
+export default () => ({
+  app: {
+    port: parseInt(process.env.PORT ?? '4000', 10),
+    corsOrigin: process.env.CORS_ORIGIN ?? 'http://localhost:3000',
+    env: process.env.NODE_ENV ?? 'development',
+  },
+  database: {
+    url: process.env.DATABASE_URL,
+  },
+  redis: {
+    host: process.env.REDIS_HOST ?? 'localhost',
+    port: parseInt(process.env.REDIS_PORT ?? '6379', 10),
+    password: process.env.REDIS_PASSWORD,
+  },
+  jwt: {
+    secret: process.env.JWT_SECRET ?? 'change-me-in-production',
+    expiresIn: process.env.JWT_EXPIRES_IN ?? '15m',
+    refreshSecret: process.env.JWT_REFRESH_SECRET ?? 'refresh-change-me',
+    refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN ?? '7d',
+  },
+  stripe: {
+    secretKey: process.env.STRIPE_SECRET_KEY,
+    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+    platformFeeRate: parseFloat(process.env.PLATFORM_FEE_RATE ?? '0.05'),
+  },
+  ai: {
+    openaiApiKey: process.env.OPENAI_API_KEY,
+    contractAiUrl: process.env.CONTRACT_AI_URL ?? 'http://localhost:8001',
+    deliverableAiUrl: process.env.DELIVERABLE_AI_URL ?? 'http://localhost:8002',
+    creatorGraphUrl: process.env.CREATOR_GRAPH_URL ?? 'http://localhost:8003',
+    pricingEngineUrl: process.env.PRICING_ENGINE_URL ?? 'http://localhost:8004',
+    campaignAgentUrl: process.env.CAMPAIGN_AGENT_URL ?? 'http://localhost:8005',
+  },
+  storage: {
+    provider: process.env.STORAGE_PROVIDER ?? 'local',
+    s3Bucket: process.env.S3_BUCKET,
+    s3Region: process.env.AWS_REGION ?? 'us-east-1',
+  },
+});
