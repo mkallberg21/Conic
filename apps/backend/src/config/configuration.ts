@@ -25,6 +25,11 @@ export default () => ({
     masterFundingSourceUrl: process.env.DWOLLA_MASTER_FUNDING_SOURCE_URL,
     platformFeeRate: parseFloat(process.env.PLATFORM_FEE_RATE ?? '0.05'),
   },
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackUrl: process.env.GOOGLE_CALLBACK_URL ?? 'http://localhost:4000/v1/auth/google/callback',
+  },
   ai: {
     openaiApiKey: process.env.OPENAI_API_KEY,
     contractAiUrl: process.env.CONTRACT_AI_URL ?? 'http://localhost:8001',
@@ -32,6 +37,7 @@ export default () => ({
     creatorGraphUrl: process.env.CREATOR_GRAPH_URL ?? 'http://localhost:8003',
     pricingEngineUrl: process.env.PRICING_ENGINE_URL ?? 'http://localhost:8004',
     campaignAgentUrl: process.env.CAMPAIGN_AGENT_URL ?? 'http://localhost:8005',
+    performancePredictionUrl: process.env.PERFORMANCE_PREDICTION_AI_URL ?? 'http://localhost:8006',
   },
   storage: {
     provider: process.env.STORAGE_PROVIDER ?? 'local',

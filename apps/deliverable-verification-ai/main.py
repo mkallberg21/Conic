@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import verify
+from app.routers import verify, cv
 
 app = FastAPI(
     title="Conic Deliverable Verification AI",
@@ -16,6 +16,7 @@ app.add_middleware(
 )
 
 app.include_router(verify.router, prefix="/verify", tags=["verify"])
+app.include_router(cv.router, prefix="/cv", tags=["cv"])
 
 
 @app.get("/health")

@@ -209,3 +209,55 @@ spec:
   ports:
     - port: 8005
       targetPort: 8005
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: performance-prediction-ai
+  namespace: conic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: performance-prediction-ai
+  template:
+    metadata:
+      labels:
+        app: performance-prediction-ai
+    spec:
+      containers:
+        - name: performance-prediction-ai
+          image: ${ECR_REGISTRY}/conic-performance-prediction-ai:latest
+          ports:
+            - containerPort: 8006
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8006
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8006
+            initialDelaySeconds: 15
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: performance-prediction-ai-svc
+  namespace: conic
+spec:
+  selector:
+    app: performance-prediction-ai
+  ports:
+    - port: 8006
+      targetPort: 8006

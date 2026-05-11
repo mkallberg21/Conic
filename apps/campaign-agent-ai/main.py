@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import timeline, debrief, insights
+from app.routers import timeline, debrief, insights, pdf_export
 
 app = FastAPI(
     title="Conic Campaign Agent AI",
@@ -18,6 +18,7 @@ app.add_middleware(
 app.include_router(timeline.router, prefix="/timeline", tags=["timeline"])
 app.include_router(debrief.router, prefix="/debrief", tags=["debrief"])
 app.include_router(insights.router, prefix="/insights", tags=["insights"])
+app.include_router(pdf_export.router, prefix="/pdf", tags=["pdf"])
 
 
 @app.get("/health")

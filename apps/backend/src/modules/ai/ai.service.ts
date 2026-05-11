@@ -63,6 +63,9 @@ export class AiService {
   private get pricingEngineUrl() {
     return this.configService.get<string>('ai.pricingEngineUrl');
   }
+  private get performancePredictionUrl() {
+    return this.configService.get<string>('ai.performancePredictionUrl');
+  }
   private get creatorGraphUrl() {
     return this.configService.get<string>('ai.creatorGraphUrl');
   }
@@ -197,6 +200,50 @@ export class AiService {
     });
 
     return result;
+  }
+
+  async predictPerformanceFull(input: {
+    followers: number;
+    engagementRate: number;
+    audienceScore?: number;
+    fraudScore?: number;
+    niche?: string;
+    platform?: string;
+    avgViews?: number;
+    postFrequencyPerWeek?: number;
+    historicalRoi?: number;
+    campaignBudget?: number;
+  }) {
+    const fallback = {
+      tier: 'micro',
+      reach_estimate: Math.round(input.followers * 0.12),
+      engagement_rate_predicted: input.engagementRate * 0.95,
+      conversion_rate: 0.02,
+      roi_estimate: 2.5,
+      confidence_score: 70,
+      percentile_rank: 55,
+      estimated_cpm: 6,
+      estimated_cpe: 60,
+      recommendations: [],
+    };
+
+    return this.callAiService(
+      this.performancePredictionUrl!,
+      '/predict/creator',
+      {
+        followers: input.followers,
+        engagement_rate: input.engagementRate,
+        audience_score: input.audienceScore ?? 0.7,
+        fraud_score: input.fraudScore ?? 0.0,
+        niche: input.niche ?? 'lifestyle',
+        platform: input.platform ?? 'instagram',
+        avg_views: input.avgViews,
+        post_frequency_per_week: input.postFrequencyPerWeek ?? 3,
+        historical_roi: input.historicalRoi,
+        campaign_budget: input.campaignBudget ?? 5000,
+      },
+      fallback,
+    );
   }
 
   async getPricingRecommendation(input: {

@@ -130,6 +130,41 @@ export class AuthService {
     return { message: 'Logged out successfully' };
   }
 
+  async googleOauthUser(profile: {
+    googleId: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    avatarUrl: string | null;
+  }) {
+    let user = await this.prisma.user.findUnique({ where: { email: profile.email } });
+
+    if (!user) {
+      user = await this.prisma.user.create({
+        data: {
+          email: profile.email,
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          role: 'BRAND' as const,
+          passwordHash: '',   // OAuth users have no local password
+          isActive: true,
+        },
+      });
+    }
+
+    const tokens = await this.generateTokens(user.id, user.email, user.role);
+    return {
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      },
+      ...tokens,
+    };
+  }
+
   private async generateTokens(userId: string, email: string, role: string) {
     const payload = { sub: userId, email, role };
 

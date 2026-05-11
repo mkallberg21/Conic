@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, FileText, CheckSquare, CreditCard,
-  Megaphone, BarChart2, Users, Settings, Zap,
+  Megaphone, BarChart2, Users, Settings, Zap, Network, Brain,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/use-auth';
@@ -17,6 +17,8 @@ const navItems = [
   { href: '/dashboard/campaigns', label: 'Campaigns', icon: Megaphone, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/analytics', label: 'Analytics', icon: BarChart2, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/creators', label: 'Creators', icon: Users, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/graph', label: 'Creator Graph', icon: Network, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/insights', label: 'AI Insights', icon: Brain, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
 ];
 
 export function Sidebar() {

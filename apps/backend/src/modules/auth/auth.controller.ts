@@ -7,13 +7,17 @@ import {
   HttpCode,
   HttpStatus,
   Version,
+  Req,
+  Res,
 } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
+import { GoogleAuthGuard } from '../../common/guards/google-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 
 @ApiTags('auth')
@@ -57,5 +61,31 @@ export class AuthController {
   @ApiOperation({ summary: 'Get current authenticated user' })
   async me(@CurrentUser() user: unknown) {
     return user;
+  }
+
+  @Get('google')
+  @UseGuards(GoogleAuthGuard)
+  @ApiOperation({ summary: 'Initiate Google OAuth2 flow' })
+  googleLogin() {
+    // Redirect handled by Passport
+  }
+
+  @Get('google/callback')
+  @UseGuards(GoogleAuthGuard)
+  @ApiOperation({ summary: 'Google OAuth2 callback' })
+  async googleCallback(@Req() req: Request, @Res() res: Response) {
+    const profile = req.user as {
+      googleId: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+      avatarUrl: string | null;
+    };
+    const result = await this.authService.googleOauthUser(profile);
+    // Redirect to frontend with token in query param (short-lived — FE exchanges immediately)
+    const frontendUrl = process.env.CORS_ORIGIN ?? 'http://localhost:3000';
+    res.redirect(
+      `${frontendUrl}/auth/callback?accessToken=${result.accessToken}&refreshToken=${result.refreshToken}`,
+    );
   }
 }

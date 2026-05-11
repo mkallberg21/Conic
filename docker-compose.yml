@@ -54,6 +54,9 @@ services:
       CREATOR_GRAPH_AI_URL: http://creator-graph-ai:8003
       PRICING_ENGINE_AI_URL: http://pricing-engine-ai:8004
       CAMPAIGN_AGENT_AI_URL: http://campaign-agent-ai:8005
+      PERFORMANCE_PREDICTION_AI_URL: http://performance-prediction-ai:8006
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
       NODE_ENV: production
     depends_on:
       postgres:
@@ -109,6 +112,15 @@ services:
       - "8005:8005"
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+
+  performance-prediction-ai:
+    build:
+      context: ./apps/performance-prediction-ai
+      dockerfile: Dockerfile
+    container_name: conic-performance-ai
+    restart: unless-stopped
+    ports:
+      - "8006:8006"
 
   frontend:
     build:

@@ -1,16 +1,17 @@
 # Conic Platform
 
-> **Market Readiness: 72%**
+> **Market Readiness: 82%**
 >
 > | Layer | Status | Readiness |
 > |---|---|---|
 > | Backend API (NestJS) | ✅ Complete | 100% |
-> | AI Microservices (5×) | ✅ Complete | 100% |
-> | Frontend (Next.js 15) | ✅ Complete | 100% |
+> | AI Microservices (6×) | ✅ Complete | 100% |
+> | Frontend (Next.js 15) | ✅ Complete — graph + AI hub added | 100% |
 > | Database Schema (Prisma) | ✅ Complete | 100% |
-> | Auth & RBAC | ✅ Complete | 100% |
+> | Auth & RBAC + Google OAuth | ✅ Complete | 100% |
 > | Payments (Dwolla ACH) | ✅ Wired, needs live keys | 85% |
-> | Docker / Compose | ✅ Complete | 100% |
+> | Shared UI Library (`@conic/ui`) | ✅ Complete | 100% |
+> | Docker / Compose | ✅ Complete (7 AI services) | 100% |
 > | CI/CD (GitHub Actions) | ✅ Complete | 100% |
 > | Infrastructure (Terraform/K8s) | ✅ Scaffolded, needs provisioning | 70% |
 > | Test coverage | ⚠️ Minimal | 15% |
@@ -23,20 +24,20 @@ The platform is **feature-complete and deployable** for early-access / beta use.
 
 ---
 
-The creator partnership operating system — AI-generated contracts, deliverable verification, Dwolla ACH payments, campaign automation, and a creator identity graph, all in one platform.
+The creator partnership operating system — AI-generated contracts, deliverable verification, Dwolla ACH payments, campaign automation, creator identity graph, and performance prediction, all in one platform.
 
 ## Stack
 
 | Layer | Technology |
 |---|---|
 | Backend API | NestJS 10 + Fastify + Prisma + PostgreSQL 16 |
-| AI Microservices | FastAPI 0.115 + Python 3.12 + OpenAI gpt-4o-mini |
+| AI Microservices | FastAPI 0.115 + Python 3.12 + OpenAI gpt-4o-mini + PyTorch |
 | Frontend | Next.js 15 + React 19 + TailwindCSS + shadcn/ui |
 | State | TanStack Query v5 + Zustand 5 |
 | Payments | Dwolla ACH (receive-only customers, platform escrow, ACH transfers) |
 | Queue / Events | BullMQ + EventEmitter2 |
 | Cache | Redis 7 |
-| Auth | Passport JWT + refresh token rotation |
+| Auth | Passport JWT + refresh token rotation + Google OAuth2 |
 | Infra | Docker Compose → AWS ECS + RDS + ElastiCache |
 | CI/CD | GitHub Actions → ECR → ECS rolling deploy |
 
@@ -46,23 +47,27 @@ The creator partnership operating system — AI-generated contracts, deliverable
 apps/
   backend/              NestJS API (port 4000)
     prisma/             700-line Prisma schema (20+ models)
-    src/modules/        auth · users · brands · creators · contracts ·
-                        deliverables · payments · campaigns · analytics ·
-                        ai · notifications
+    src/modules/        auth (JWT + Google OAuth) · users · brands · creators ·
+                        contracts · deliverables · payments · campaigns ·
+                        analytics · ai · notifications
   frontend/             Next.js 15 app (port 3000)
     src/app/            Landing, auth, full dashboard
+    src/app/(dashboard)/graph/     Creator Graph Explorer (force-directed SVG)
+    src/app/(dashboard)/insights/  AI Insights Hub (live predictor + feed)
     src/components/     shadcn/ui primitives + layout
   contract-ai/          FastAPI contract generator + risk scorer (port 8001)
-  deliverable-verification-ai/  Content verifier (port 8002)
+  deliverable-verification-ai/  Content verifier + CV image analysis (port 8002)
   creator-graph-ai/     NetworkX + scikit-learn ML graph (port 8003)
   pricing-engine-ai/    Market-aware rate calculator (port 8004)
-  campaign-agent-ai/    GPT-4o campaign agent (port 8005)
+  campaign-agent-ai/    GPT-4o campaign agent + PDF debrief export (port 8005)
+  performance-prediction-ai/  PyTorch MLP: reach, ER, conversion, ROI (port 8006)
 packages/
   types/                Shared TypeScript enums + interfaces
   utils/                Shared helpers (formatCurrency, formatDate, …)
+  ui/                   @conic/ui — shared shadcn + custom components
 infrastructure/
   terraform/            AWS VPC · ECS · RDS · ElastiCache · ECR · ALB
-  k8s/                  Kubernetes deployments + services + ingress
+  k8s/                  Kubernetes deployments + services (all 6 AI services)
 .github/workflows/
   ci.yml                Lint · typecheck · test · build check
   deploy.yml            Build Docker images → ECR → ECS rolling deploy
