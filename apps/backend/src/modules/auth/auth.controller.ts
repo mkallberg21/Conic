@@ -63,6 +63,17 @@ export class AuthController {
     return user;
   }
 
+  @Get('me/actions')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get action items requiring attention for current user' })
+  async myActions(
+    @CurrentUser('id') userId: string,
+    @CurrentUser('role') role: string,
+  ) {
+    return this.authService.getActions(userId, role);
+  }
+
   @Get('google')
   @UseGuards(GoogleAuthGuard)
   @ApiOperation({ summary: 'Initiate Google OAuth2 flow' })

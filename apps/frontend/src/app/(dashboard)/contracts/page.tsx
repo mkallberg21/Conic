@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -143,7 +144,11 @@ export default function ContractsPage() {
             <TableBody>
               {contracts.map((c: Record<string, unknown>) => (
                 <TableRow key={c.id as string}>
-                  <TableCell className="font-medium">{c.title as string}</TableCell>
+                  <TableCell className="font-medium">
+                    <Link href={`/contracts/${c.id as string}`} className="hover:underline">
+                      {c.title as string}
+                    </Link>
+                  </TableCell>
                   <TableCell><Badge variant={statusColor[c.status as string] ?? 'secondary'}>{c.status as string}</Badge></TableCell>
                   <TableCell>{formatCurrency(c.totalValue as number)}</TableCell>
                   <TableCell>

@@ -8,6 +8,7 @@ import { DeliverableStatus, UserRole } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService, EVENTS } from '../../events/event-bus.service';
 import { AiService } from '../ai/ai.service';
+import { AuditService } from '../../common/audit/audit.service';
 import {
   CreateDeliverableDto,
   SubmitDeliverableDto,
@@ -20,6 +21,7 @@ export class DeliverablesService {
     private readonly prisma: PrismaService,
     private readonly eventBus: EventBusService,
     private readonly aiService: AiService,
+    private readonly auditService: AuditService,
   ) {}
 
   async create(userId: string, role: UserRole, dto: CreateDeliverableDto) {
@@ -38,7 +40,7 @@ export class DeliverablesService {
       if (contract.brandId !== brand?.id) throw new ForbiddenException();
     }
 
-    return this.prisma.deliverable.create({
+    const deliverable = await this.prisma.deliverable.create({
       data: {
         contractId: dto.contractId,
         creatorId: contract.creatorId,
@@ -49,9 +51,22 @@ export class DeliverablesService {
         dueDate: new Date(dto.dueDate),
       },
     });
+
+    void this.auditService.log({
+      userId,
+      action: 'DELIVERABLE_CREATED',
+      resource: 'Deliverable',
+      resourceId: deliverable.id,
+      newValue: { title: dto.title, platform: dto.platform, dueDate: dto.dueDate, contractId: dto.contractId },
+    });
+
+    return deliverable;
   }
 
-  async findAll(userId: string, role: UserRole) {
+  async findAll(userId: string, role: UserRole, page = 1, take = 25) {
+    const skip = (page - 1) * Math.min(take, 100);
+    const limit = Math.min(take, 100);
+
     if (role === UserRole.CREATOR) {
       const creator = await this.prisma.creator.findUnique({ where: { userId } });
       return this.prisma.deliverable.findMany({
@@ -64,6 +79,8 @@ export class DeliverablesService {
           },
         },
         orderBy: { dueDate: 'asc' },
+        skip,
+        take: limit,
       });
     }
 
@@ -76,6 +93,8 @@ export class DeliverablesService {
           contract: { select: { id: true, title: true } },
         },
         orderBy: { dueDate: 'asc' },
+        skip,
+        take: limit,
       });
     }
 
@@ -85,6 +104,8 @@ export class DeliverablesService {
         contract: { select: { id: true, title: true, brandId: true } },
       },
       orderBy: { createdAt: 'desc' },
+      skip,
+      take: limit,
     });
   }
 
@@ -120,6 +141,14 @@ export class DeliverablesService {
       contractId: deliverable.contractId,
       creatorId: deliverable.creatorId,
       proofUrl: dto.proofUrl,
+    });
+
+    void this.auditService.log({
+      userId: creatorUserId,
+      action: 'DELIVERABLE_SUBMITTED',
+      resource: 'Deliverable',
+      resourceId: deliverableId,
+      newValue: { proofUrl: dto.proofUrl, proofType: dto.proofType, postUrl: dto.postUrl },
     });
 
     // Trigger async AI verification
@@ -171,6 +200,19 @@ export class DeliverablesService {
         paymentAmount: deliverable.paymentAmount ?? 0,
       });
     }
+
+    const auditActionMap: Record<string, string> = {
+      APPROVED: 'DELIVERABLE_APPROVED',
+      REJECTED: 'DELIVERABLE_REJECTED',
+      REVISION_REQUESTED: 'DELIVERABLE_REVISION_REQUESTED',
+    };
+    void this.auditService.log({
+      userId: brandUserId,
+      action: auditActionMap[dto.action] ?? dto.action,
+      resource: 'Deliverable',
+      resourceId: deliverableId,
+      newValue: { action: dto.action, rejectionReason: dto.rejectionReason },
+    });
 
     return updated;
   }

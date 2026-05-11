@@ -1,7 +1,7 @@
 import {
-  Controller, Get, Post, Body, UseGuards, Version, Param, Req,
+  Controller, Get, Post, Body, UseGuards, Version, Param, Req, Query,
 } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
 import { FastifyRequest } from 'fastify';
 import { ContractsService } from './contracts.service';
@@ -32,11 +32,15 @@ export class ContractsController {
 
   @Get()
   @ApiOperation({ summary: 'List contracts for current user' })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'take', required: false, type: Number })
   async findAll(
     @CurrentUser('id') userId: string,
     @CurrentUser('role') role: UserRole,
+    @Query('page') page = 1,
+    @Query('take') take = 25,
   ) {
-    return this.contractsService.findAll(userId, role);
+    return this.contractsService.findAll(userId, role, Number(page), Number(take));
   }
 
   @Get('templates')
@@ -51,6 +55,12 @@ export class ContractsController {
     return this.contractsService.findById(id);
   }
 
+  @Get(':id/activity')
+  @ApiOperation({ summary: 'Get shared activity feed for a contract' })
+  async getActivity(@Param('id') id: string) {
+    return this.contractsService.getActivity(id);
+  }
+
   @Post(':id/sign')
   @ApiOperation({ summary: 'Sign a contract (brand or creator)' })
   async sign(
@@ -61,5 +71,17 @@ export class ContractsController {
   ) {
     const ipAddress = req.ip ?? '0.0.0.0';
     return this.contractsService.sign(id, userId, role, ipAddress);
+  }
+
+  @Post(':id/dispute')
+  @ApiOperation({ summary: 'Open a dispute on an active contract' })
+  async dispute(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+    @Body() dto: { reason: string },
+    @Req() req: FastifyRequest,
+  ) {
+    const ipAddress = req.ip ?? '0.0.0.0';
+    return this.contractsService.dispute(id, userId, dto.reason, ipAddress);
   }
 }

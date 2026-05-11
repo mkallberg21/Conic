@@ -18,6 +18,7 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { AiModule } from './modules/ai/ai.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { EventBusModule } from './events/event-bus.module';
+import { AuditModule } from './common/audit/audit.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { EventBusModule } from './events/event-bus.module';
     // Core
     PrismaModule,
     EventBusModule,
+    AuditModule,
 
     // Feature modules
     AuthModule,

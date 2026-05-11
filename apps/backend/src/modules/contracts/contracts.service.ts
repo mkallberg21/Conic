@@ -9,6 +9,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService, EVENTS } from '../../events/event-bus.service';
 import { CreateContractDto } from './dto/create-contract.dto';
 import { AiService } from '../ai/ai.service';
+import { AuditService } from '../../common/audit/audit.service';
 
 @Injectable()
 export class ContractsService {
@@ -16,6 +17,7 @@ export class ContractsService {
     private readonly prisma: PrismaService,
     private readonly eventBus: EventBusService,
     private readonly aiService: AiService,
+    private readonly auditService: AuditService,
   ) {}
 
   async create(brandUserId: string, dto: CreateContractDto) {
@@ -80,10 +82,21 @@ export class ContractsService {
       totalValue: dto.totalValue,
     });
 
+    void this.auditService.log({
+      userId: brandUserId,
+      action: 'CONTRACT_CREATED',
+      resource: 'Contract',
+      resourceId: contract.id,
+      newValue: { title: dto.title, totalValue: dto.totalValue, creatorId: dto.creatorId },
+    });
+
     return contract;
   }
 
-  async findAll(userId: string, role: UserRole) {
+  async findAll(userId: string, role: UserRole, page = 1, take = 25) {
+    const skip = (page - 1) * Math.min(take, 100);
+    const limit = Math.min(take, 100);
+
     if (role === UserRole.BRAND) {
       const brand = await this.prisma.brand.findUnique({ where: { userId } });
       return this.prisma.contract.findMany({
@@ -93,6 +106,8 @@ export class ContractsService {
           _count: { select: { deliverables: true, payments: true } },
         },
         orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
       });
     }
 
@@ -105,6 +120,8 @@ export class ContractsService {
           _count: { select: { deliverables: true, payments: true } },
         },
         orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
       });
     }
 
@@ -114,6 +131,8 @@ export class ContractsService {
         creator: { include: { user: { select: { firstName: true, lastName: true } } } },
       },
       orderBy: { createdAt: 'desc' },
+      skip,
+      take: limit,
     });
   }
 
@@ -174,7 +193,92 @@ export class ContractsService {
       fullyExecuted: brandSigned && creatorSigned,
     });
 
+    void this.auditService.log({
+      userId,
+      action: 'CONTRACT_SIGNED',
+      resource: 'Contract',
+      resourceId: contractId,
+      newValue: {
+        signedBy: role === UserRole.BRAND ? 'brand' : 'creator',
+        fullyExecuted: brandSigned && creatorSigned,
+        status: updated.status,
+      },
+      ipAddress,
+    });
+
     return updated;
+  }
+
+  async dispute(contractId: string, userId: string, reason: string, ipAddress: string) {
+    const contract = await this.prisma.contract.findUnique({ where: { id: contractId } });
+    if (!contract) throw new NotFoundException('Contract not found');
+    if (contract.status !== ContractStatus.ACTIVE) {
+      throw new BadRequestException('Only active contracts can be disputed');
+    }
+
+    const updated = await this.prisma.contract.update({
+      where: { id: contractId },
+      data: { status: ContractStatus.DISPUTED },
+    });
+
+    void this.auditService.log({
+      userId,
+      action: 'CONTRACT_DISPUTED',
+      resource: 'Contract',
+      resourceId: contractId,
+      newValue: { reason, previousStatus: ContractStatus.ACTIVE },
+      ipAddress,
+    });
+
+    this.eventBus.emit(EVENTS.CONTRACT_SIGNED, {
+      contractId,
+      signedBy: 'dispute',
+      fullyExecuted: false,
+    });
+
+    return updated;
+  }
+
+  async getActivity(contractId: string) {
+    // Ensure contract exists
+    const contract = await this.prisma.contract.findUnique({
+      where: { id: contractId },
+      select: { id: true },
+    });
+    if (!contract) throw new NotFoundException('Contract not found');
+
+    // Gather related deliverable and payment IDs
+    const [deliverables, payments] = await Promise.all([
+      this.prisma.deliverable.findMany({ where: { contractId }, select: { id: true, title: true } }),
+      this.prisma.payment.findMany({ where: { contractId }, select: { id: true } }),
+    ]);
+
+    const deliverableIds = deliverables.map((d) => d.id);
+    const paymentIds = payments.map((p) => p.id);
+    const deliverableTitles = Object.fromEntries(deliverables.map((d) => [d.id, d.title]));
+
+    const entries = await this.prisma.auditLog.findMany({
+      where: {
+        OR: [
+          { resource: 'Contract', resourceId: contractId },
+          ...(deliverableIds.length ? [{ resource: 'Deliverable', resourceId: { in: deliverableIds } }] : []),
+          ...(paymentIds.length ? [{ resource: 'Payment', resourceId: { in: paymentIds } }] : []),
+        ],
+      },
+      include: {
+        user: { select: { id: true, firstName: true, lastName: true, role: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 100,
+    });
+
+    return entries.map((e) => ({
+      ...e,
+      resourceLabel:
+        e.resource === 'Deliverable' && e.resourceId
+          ? (deliverableTitles[e.resourceId] ?? e.resource)
+          : e.resource,
+    }));
   }
 
   async getTemplates() {
@@ -184,3 +288,4 @@ export class ContractsService {
     });
   }
 }
+

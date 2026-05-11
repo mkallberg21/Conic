@@ -165,6 +165,73 @@ export class AuthService {
     };
   }
 
+  /**
+   * Returns items that demand immediate attention for the current user.
+   * For CREATOR: contracts to sign, overdue deliverables, revision requests, pending payments.
+   * For BRAND: deliverables awaiting review, unsigned contracts, disputed contracts.
+   */
+  async getActions(userId: string, role: string) {
+    if (role === 'CREATOR') {
+      const creator = await this.prisma.creator.findUnique({ where: { userId } });
+      if (!creator) return { contractsToSign: [], deliverablesOverdue: [], revisionRequests: [], pendingPayments: [] };
+
+      const now = new Date();
+      const [contractsToSign, deliverablesOverdue, revisionRequests, pendingPayments] = await Promise.all([
+        this.prisma.contract.findMany({
+          where: { creatorId: creator.id, status: 'PENDING_SIGNATURE', creatorSignedAt: null },
+          select: { id: true, title: true, totalValue: true, brand: { include: { user: { select: { firstName: true, lastName: true } } } } },
+          take: 5,
+        }),
+        this.prisma.deliverable.findMany({
+          where: { creatorId: creator.id, status: { in: ['PENDING', 'IN_PROGRESS'] }, dueDate: { lt: now } },
+          select: { id: true, title: true, dueDate: true, platform: true, contract: { select: { id: true, title: true } } },
+          take: 10,
+          orderBy: { dueDate: 'asc' },
+        }),
+        this.prisma.deliverable.findMany({
+          where: { creatorId: creator.id, status: 'REVISION_REQUESTED' },
+          select: { id: true, title: true, rejectionReason: true, contract: { select: { id: true, title: true } } },
+          take: 5,
+        }),
+        this.prisma.payment.findMany({
+          where: { contract: { creatorId: creator.id }, status: 'PENDING' },
+          select: { id: true, amount: true, currency: true, description: true, contract: { select: { id: true, title: true } } },
+          take: 5,
+        }),
+      ]);
+
+      return { contractsToSign, deliverablesOverdue, revisionRequests, pendingPayments };
+    }
+
+    if (role === 'BRAND') {
+      const brand = await this.prisma.brand.findUnique({ where: { userId } });
+      if (!brand) return { pendingReview: [], contractsToSign: [], disputedContracts: [] };
+
+      const [pendingReview, contractsToSign, disputedContracts] = await Promise.all([
+        this.prisma.deliverable.findMany({
+          where: { contract: { brandId: brand.id }, status: { in: ['SUBMITTED', 'UNDER_REVIEW'] } },
+          select: { id: true, title: true, submittedAt: true, creator: { include: { user: { select: { firstName: true, lastName: true } } } }, contract: { select: { id: true, title: true } } },
+          take: 10,
+          orderBy: { submittedAt: 'asc' },
+        }),
+        this.prisma.contract.findMany({
+          where: { brandId: brand.id, status: 'PENDING_SIGNATURE', brandSignedAt: null },
+          select: { id: true, title: true, totalValue: true },
+          take: 5,
+        }),
+        this.prisma.contract.findMany({
+          where: { brandId: brand.id, status: 'DISPUTED' },
+          select: { id: true, title: true, creator: { include: { user: { select: { firstName: true, lastName: true } } } } },
+          take: 5,
+        }),
+      ]);
+
+      return { pendingReview, contractsToSign, disputedContracts };
+    }
+
+    return {};
+  }
+
   private async generateTokens(userId: string, email: string, role: string) {
     const payload = { sub: userId, email, role };
 
