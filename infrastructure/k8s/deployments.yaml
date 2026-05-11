@@ -43,11 +43,23 @@ spec:
                 secretKeyRef:
                   name: conic-secrets
                   key: JWT_REFRESH_SECRET
-            - name: STRIPE_SECRET_KEY
+            - name: DWOLLA_KEY
               valueFrom:
                 secretKeyRef:
                   name: conic-secrets
-                  key: STRIPE_SECRET_KEY
+                  key: DWOLLA_KEY
+            - name: DWOLLA_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: conic-secrets
+                  key: DWOLLA_SECRET
+            - name: DWOLLA_ENVIRONMENT
+              value: production
+            - name: DWOLLA_MASTER_FUNDING_SOURCE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: conic-secrets
+                  key: DWOLLA_MASTER_FUNDING_SOURCE_URL
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:

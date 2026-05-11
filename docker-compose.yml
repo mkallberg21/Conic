@@ -44,8 +44,10 @@ services:
       REDIS_URL: redis://redis:6379
       JWT_SECRET: ${JWT_SECRET:-changeme_in_production}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-changeme_refresh}
-      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
-      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      DWOLLA_KEY: ${DWOLLA_KEY:-}
+      DWOLLA_SECRET: ${DWOLLA_SECRET:-}
+      DWOLLA_ENVIRONMENT: ${DWOLLA_ENVIRONMENT:-sandbox}
+      DWOLLA_MASTER_FUNDING_SOURCE_URL: ${DWOLLA_MASTER_FUNDING_SOURCE_URL:-}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       CONTRACT_AI_URL: http://contract-ai:8001
       DELIVERABLE_AI_URL: http://deliverable-verification-ai:8002

@@ -35,11 +35,11 @@ export class PaymentsController {
     return this.paymentsService.release(id, userId);
   }
 
-  @Get('stripe/onboarding')
+  @Get('dwolla/onboarding')
   @UseGuards(RolesGuard)
   @Roles(UserRole.CREATOR)
-  @ApiOperation({ summary: 'Get Stripe Connect onboarding URL (Creator only)' })
-  async getOnboardingUrl(@CurrentUser('id') userId: string) {
-    return this.paymentsService.getStripeOnboardingUrl(userId);
+  @ApiOperation({ summary: 'Get Dwolla Drop-in client token for bank account setup (Creator only)' })
+  async getOnboardingToken(@CurrentUser('id') userId: string) {
+    return this.paymentsService.getDwollaOnboardingToken(userId);
   }
 }

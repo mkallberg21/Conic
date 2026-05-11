@@ -77,7 +77,7 @@ model User {
   passwordResetExpiry  DateTime?
   twoFactorEnabled     Boolean        @default(false)
   twoFactorSecret      String?
-  stripeCustomerId     String?
+  dwollaCustomerId     String?
   lastLoginAt          DateTime?
   isActive             Boolean        @default(true)
   createdAt            DateTime       @default(now())
@@ -115,8 +115,8 @@ model Brand {
   industry        String?
   logoUrl         String?
   description     String?
-  stripeAccountId String?
-  stripeOnboarded Boolean    @default(false)
+  dwollaCustomerId String?
+  dwollaVerified  Boolean    @default(false)
   totalSpend      Int        @default(0)
   creditBalance   Int        @default(0)
   createdAt       DateTime   @default(now())
@@ -145,8 +145,8 @@ model Creator {
   performanceScore Float               @default(0) // 0-100 predicted performance
   pricingTier      String?             // budget, mid, premium, celebrity
   rateCardJson     Json?               // { post: cents, story: cents, reel: cents, video: cents }
-  stripeAccountId  String?
-  stripeOnboarded  Boolean             @default(false)
+  dwollaCustomerId String?
+  dwollaVerified   Boolean             @default(false)
   totalEarnings    Int                 @default(0)
   isVerified       Boolean             @default(false)
   createdAt        DateTime            @default(now())
@@ -319,8 +319,7 @@ model Payment {
   amount            Int            // in cents
   currency          String         @default("USD")
   status            PaymentStatus  @default(PENDING)
-  stripePaymentIntentId String?
-  stripeTransferId  String?
+  dwollaTransferId  String?
   platformFeeRate   Float          @default(0.05) // 5%
   platformFee       Int            @default(0)
   netAmount         Int

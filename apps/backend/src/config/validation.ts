@@ -37,7 +37,19 @@ class EnvironmentVariables {
 
   @IsString()
   @IsOptional()
-  STRIPE_SECRET_KEY: string;
+  DWOLLA_KEY: string;
+
+  @IsString()
+  @IsOptional()
+  DWOLLA_SECRET: string;
+
+  @IsString()
+  @IsOptional()
+  DWOLLA_ENVIRONMENT: string = 'sandbox';
+
+  @IsString()
+  @IsOptional()
+  DWOLLA_MASTER_FUNDING_SOURCE_URL: string;
 }
 
 export function validate(config: Record<string, unknown>) {

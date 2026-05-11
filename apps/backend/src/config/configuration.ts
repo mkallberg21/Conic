@@ -18,9 +18,11 @@ export default () => ({
     refreshSecret: process.env.JWT_REFRESH_SECRET ?? 'refresh-change-me',
     refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN ?? '7d',
   },
-  stripe: {
-    secretKey: process.env.STRIPE_SECRET_KEY,
-    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+  dwolla: {
+    key: process.env.DWOLLA_KEY,
+    secret: process.env.DWOLLA_SECRET,
+    environment: process.env.DWOLLA_ENVIRONMENT ?? 'sandbox',
+    masterFundingSourceUrl: process.env.DWOLLA_MASTER_FUNDING_SOURCE_URL,
     platformFeeRate: parseFloat(process.env.PLATFORM_FEE_RATE ?? '0.05'),
   },
   ai: {

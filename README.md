@@ -9,7 +9,7 @@
 > | Frontend (Next.js 15) | ✅ Complete | 100% |
 > | Database Schema (Prisma) | ✅ Complete | 100% |
 > | Auth & RBAC | ✅ Complete | 100% |
-> | Payments (Stripe Connect) | ✅ Wired, needs live keys | 85% |
+> | Payments (Dwolla ACH) | ✅ Wired, needs live keys | 85% |
 > | Docker / Compose | ✅ Complete | 100% |
 > | CI/CD (GitHub Actions) | ✅ Complete | 100% |
 > | Infrastructure (Terraform/K8s) | ✅ Scaffolded, needs provisioning | 70% |
@@ -23,7 +23,7 @@ The platform is **feature-complete and deployable** for early-access / beta use.
 
 ---
 
-The creator partnership operating system — AI-generated contracts, deliverable verification, Stripe Connect payments, campaign automation, and a creator identity graph, all in one platform.
+The creator partnership operating system — AI-generated contracts, deliverable verification, Dwolla ACH payments, campaign automation, and a creator identity graph, all in one platform.
 
 ## Stack
 
@@ -33,7 +33,7 @@ The creator partnership operating system — AI-generated contracts, deliverable
 | AI Microservices | FastAPI 0.115 + Python 3.12 + OpenAI gpt-4o-mini |
 | Frontend | Next.js 15 + React 19 + TailwindCSS + shadcn/ui |
 | State | TanStack Query v5 + Zustand 5 |
-| Payments | Stripe Connect (Express accounts, platform fee) |
+| Payments | Dwolla ACH (receive-only customers, platform escrow, ACH transfers) |
 | Queue / Events | BullMQ + EventEmitter2 |
 | Cache | Redis 7 |
 | Auth | Passport JWT + refresh token rotation |
@@ -83,7 +83,7 @@ npm install
 
 ```bash
 cp .env.example .env
-# Fill in: JWT_SECRET, STRIPE_SECRET_KEY, OPENAI_API_KEY
+# Fill in: JWT_SECRET, DWOLLA_KEY, DWOLLA_SECRET, OPENAI_API_KEY
 ```
 
 ### 3. Start all services
@@ -115,7 +115,7 @@ docker compose up --build
 
 - **AI Contracts** — GPT-4o generates contract text, risk scores (0–100), and flags problematic clauses. Dual e-signature with IP capture.
 - **Deliverable Verification** — AI checks submitted URLs for hashtags, mentions, platform match, and content quality. Scores 0–100.
-- **Stripe Connect Payments** — Creator Express onboarding, milestone-based escrow, automatic release on deliverable approval, 5% platform fee.
+- **Dwolla ACH Payments** — Creator receive-only customer onboarding via Dwolla Drop-in components, ACH transfers from platform master funding source, 5% platform fee, fraud flagging.
 - **Creator Identity Graph** — NetworkX graph + KMeans clustering for audience overlap, bot-network detection, and influence scoring.
 - **Campaign Automation** — AI agent generates 14-task timelines, weekly summaries via cron, and post-campaign debriefs.
 - **Analytics** — ROI modeling, engagement benchmarks, Recharts dashboard.
@@ -163,6 +163,8 @@ git push origin main
 
 | Secret | Description |
 |---|---|
+| `DWOLLA_KEY` | Dwolla application key |
+| `DWOLLA_SECRET` | Dwolla application secret |
 | `AWS_ACCESS_KEY_ID` | IAM deploy user |
 | `AWS_SECRET_ACCESS_KEY` | IAM deploy user |
 | `AWS_ACCOUNT_ID` | 12-digit account ID |

@@ -36,8 +36,15 @@ variable "openai_api_key" {
   default     = ""
 }
 
-variable "stripe_secret_key" {
-  description = "Stripe secret key"
+variable "dwolla_key" {
+  description = "Dwolla application key"
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
+variable "dwolla_secret" {
+  description = "Dwolla application secret"
   type        = string
   sensitive   = true
   default     = ""
