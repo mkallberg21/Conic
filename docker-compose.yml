@@ -47,9 +47,9 @@ services:
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-conic}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-conic}
       REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
-      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set — use: openssl rand -base64 48}
-      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?JWT_REFRESH_SECRET must be set — use: openssl rand -base64 48}
-      INTERNAL_API_SECRET: ${INTERNAL_API_SECRET:?INTERNAL_API_SECRET must be set — use: openssl rand -base64 32}
+      JWT_SECRET: "${JWT_SECRET:?JWT_SECRET must be set}"
+      JWT_REFRESH_SECRET: "${JWT_REFRESH_SECRET:?JWT_REFRESH_SECRET must be set}"
+      INTERNAL_API_SECRET: "${INTERNAL_API_SECRET:?INTERNAL_API_SECRET must be set}"
       DWOLLA_KEY: ${DWOLLA_KEY:-}
       DWOLLA_SECRET: ${DWOLLA_SECRET:-}
       DWOLLA_ENVIRONMENT: ${DWOLLA_ENVIRONMENT:-sandbox}
