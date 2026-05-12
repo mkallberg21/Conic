@@ -21,13 +21,14 @@ export class ContractsService {
   ) {}
 
   async create(brandUserId: string, dto: CreateContractDto) {
-    const brand = await this.prisma.brand.findUnique({ where: { userId: brandUserId } });
+    const [brand, creator] = await Promise.all([
+      this.prisma.brand.findUnique({ where: { userId: brandUserId } }),
+      this.prisma.creator.findUnique({ where: { id: dto.creatorId } }),
+    ]);
     if (!brand) throw new ForbiddenException('Brand profile required');
-
-    const creator = await this.prisma.creator.findUnique({ where: { id: dto.creatorId } });
     if (!creator) throw new NotFoundException('Creator not found');
 
-    // Generate contract content via AI
+    // AI call happens OUTSIDE the transaction (network I/O, no DB lock needed)
     const aiContent = await this.aiService.generateContractContent({
       campaignType: 'influencer_post',
       platforms: dto.platforms,
@@ -37,42 +38,45 @@ export class ContractsService {
       totalValue: dto.totalValue,
     });
 
-    const contract = await this.prisma.contract.create({
-      data: {
-        brandId: brand.id,
-        creatorId: dto.creatorId,
-        title: dto.title,
-        content: aiContent.content,
-        templateId: dto.templateId,
-        usageRights: dto.usageRights,
-        exclusivity: dto.exclusivity ?? false,
-        exclusivityDays: dto.exclusivityDays,
-        platforms: dto.platforms,
-        startDate: dto.startDate ? new Date(dto.startDate) : undefined,
-        endDate: dto.endDate ? new Date(dto.endDate) : undefined,
-        totalValue: dto.totalValue,
-        currency: dto.currency ?? 'USD',
-        riskScore: aiContent.riskScore,
-        riskFlags: aiContent.riskFlags,
-        milestones: dto.milestones
-          ? {
-              createMany: {
-                data: dto.milestones.map((m) => ({
-                  title: m.title,
-                  description: m.description,
-                  amount: m.amount,
-                  dueDate: m.dueDate ? new Date(m.dueDate) : undefined,
-                  position: m.position,
-                })),
-              },
-            }
-          : undefined,
-      },
-      include: {
-        brand: { include: { user: { select: { firstName: true, lastName: true, email: true } } } },
-        creator: { include: { user: { select: { firstName: true, lastName: true, email: true } } } },
-        milestones: true,
-      },
+    // Atomic: contract + milestones created together or not at all
+    const contract = await this.prisma.$transaction(async (tx) => {
+      return tx.contract.create({
+        data: {
+          brandId: brand.id,
+          creatorId: dto.creatorId,
+          title: dto.title,
+          content: aiContent.content,
+          templateId: dto.templateId,
+          usageRights: dto.usageRights,
+          exclusivity: dto.exclusivity ?? false,
+          exclusivityDays: dto.exclusivityDays,
+          platforms: dto.platforms,
+          startDate: dto.startDate ? new Date(dto.startDate) : undefined,
+          endDate: dto.endDate ? new Date(dto.endDate) : undefined,
+          totalValue: dto.totalValue,
+          currency: dto.currency ?? 'USD',
+          riskScore: aiContent.riskScore,
+          riskFlags: aiContent.riskFlags,
+          milestones: dto.milestones
+            ? {
+                createMany: {
+                  data: dto.milestones.map((m) => ({
+                    title: m.title,
+                    description: m.description,
+                    amount: m.amount,
+                    dueDate: m.dueDate ? new Date(m.dueDate) : undefined,
+                    position: m.position,
+                  })),
+                },
+              }
+            : undefined,
+        },
+        include: {
+          brand: { include: { user: { select: { firstName: true, lastName: true, email: true } } } },
+          creator: { include: { user: { select: { firstName: true, lastName: true, email: true } } } },
+          milestones: true,
+        },
+      });
     });
 
     this.eventBus.emit(EVENTS.CONTRACT_CREATED, {
@@ -94,8 +98,8 @@ export class ContractsService {
   }
 
   async findAll(userId: string, role: UserRole, page = 1, take = 25) {
-    const skip = (page - 1) * Math.min(take, 100);
-    const limit = Math.min(take, 100);
+    const skip = (Math.max(1, page) - 1) * Math.min(take, 100);
+    const limit = Math.min(Math.max(1, take), 100);
 
     if (role === UserRole.BRAND) {
       const brand = await this.prisma.brand.findUnique({ where: { userId } });

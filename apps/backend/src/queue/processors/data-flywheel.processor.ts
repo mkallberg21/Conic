@@ -3,7 +3,7 @@ import { InjectQueue } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { Job, Queue } from 'bullmq';
 import { Prisma } from '@prisma/client';
-import { QUEUE_NAMES } from '../queue.module';
+import { QUEUE_NAMES } from '../queue.constants';
 import { PrismaService } from '../../prisma/prisma.service';
 import { FeatureStoreService } from '../../modules/feature-store/feature-store.service';
 import { EmbeddingsService } from '../../modules/embeddings/embeddings.service';

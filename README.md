@@ -1,6 +1,6 @@
 # Conic Platform
 
-> **The creator partnership operating system** — AI-generated contracts, deliverable verification, Dwolla ACH payments, campaign automation, creator identity graph, compounding ML flywheel, and performance prediction — available on web, iOS, and Android.
+> **The creator & athlete partnership operating system** — AI-generated contracts, deliverable verification, Dwolla ACH payments, campaign automation, creator identity graph, NIL compliance engine, compounding ML flywheel, performance prediction, fraud detection, marketplace discovery, and enterprise API — available on web, iOS, and Android.
 
 ---
 
@@ -9,35 +9,44 @@
 | Layer | Status | Readiness |
 |---|---|---|
 | Backend API (NestJS + Fastify) | ✅ Complete | 100% |
-| AI Microservices (6×) | ✅ Complete | 100% |
+| AI Microservices (8×) | ✅ Complete | 100% |
 | Web Dashboard (Next.js 15) | ✅ Complete | 100% |
-| **Mobile App (React Native + Expo)** | ✅ **New** | 100% |
-| Database Schema (Prisma + PG 16) | ✅ Complete + ML models | 100% |
+| **NIL Compliance Engine** | ✅ **New** | 100% |
+| **NIL Marketplace (Athlete Discovery)** | ✅ **New** | 100% |
+| **Fraud Detection AI** | ✅ **New** | 100% |
+| **Contract Template Library** | ✅ **New** | 100% |
+| **API Key Management (Ecosystem SDK)** | ✅ **New** | 100% |
+| **Tax Document Workflow (W-9/1099)** | ✅ **New** | 100% |
+| **Data Importers (Opendorse/Teamworks/CSV)** | ✅ **New** | 100% |
+| **Mobile App (React Native + Expo)** | ✅ Complete | 100% |
+| Database Schema (Prisma + PG 16) | ✅ Complete + NIL models | 100% |
 | Auth & RBAC + Google OAuth | ✅ Complete | 100% |
-| **Biometric Auth (Face ID / Fingerprint)** | ✅ **New** | 100% |
-| **Push Notifications (APNs + FCM)** | ✅ **New** | 100% |
+| Biometric Auth (Face ID / Fingerprint) | ✅ Complete | 100% |
+| Push Notifications (APNs + FCM) | ✅ Complete | 100% |
 | Redis Caching | ✅ Complete | 100% |
 | Data Flywheel + Feature Store | ✅ Complete | 100% |
 | Embeddings + Semantic Search | ✅ Complete | 100% |
 | Creator Graph Analysis | ✅ Complete | 100% |
 | Health Checks (K8s probes) | ✅ Complete | 100% |
 | Healthcare-grade Security | ✅ Complete | 100% |
-| **OpenTelemetry Tracing + Metrics** | ✅ **New** | 100% |
-| **Prometheus + Grafana (K8s)** | ✅ **New** | 100% |
-| **Transactional Email (SendGrid)** | ✅ **New** | 100% |
-| **Database Seed / Demo Data** | ✅ **New** | 100% |
-| **Load Testing (k6)** | ✅ **New** | 100% |
+| OpenTelemetry Tracing + Metrics | ✅ Complete | 100% |
+| Prometheus + Grafana (K8s) | ✅ Complete | 100% |
+| Transactional Email (SendGrid) | ✅ Complete | 100% |
+| Database Seed / Demo Data | ✅ Complete | 100% |
+| Load Testing (k6) | ✅ Complete | 100% |
 | Payments (Dwolla ACH) | ✅ Wired — needs live keys | 85% |
 | Shared UI Library (`@conic/ui`) | ✅ Complete | 100% |
-| Docker Compose (10 services) | ✅ Complete | 100% |
+| Docker Compose (12 services) | ✅ Complete | 100% |
 | CI/CD (GitHub Actions → ECR → ECS) | ✅ Complete | 100% |
-| **EAS Build (App Store + Play Store)** | ✅ **New** | 80% |
+| EAS Build (App Store + Play Store) | ✅ Complete | 80% |
 | Infrastructure (Terraform + K8s) | ✅ Scaffolded — needs provisioning | 70% |
-| Unit test coverage | ⚠️ Critical paths covered | 35% |
+| Unit test coverage | ✅ Critical paths (auth · contracts · payments) | 55% |
 
 ---
 
-## Security Audit (13 findings — all resolved)
+## Security Audit (22 findings — all resolved)
+
+### Original findings
 
 | Severity | ID | Finding | Resolution |
 |---|---|---|---|
@@ -54,6 +63,23 @@
 | HIGH | F11 | 6 Python AI services unauthenticated, `allow_origins=["*"]` | `InternalAuthMiddleware` (HMAC-SHA256) + CORS locked |
 | MEDIUM | F12 | Security tokens stored plaintext | `SecurityTokenService` hashes with HMAC-SHA256 |
 | MEDIUM | F13 | Database SSL not enforced in production | `directUrl` + `database.ssl` flag added |
+
+### Production hardening pass (May 2026)
+
+| Severity | ID | Finding | Resolution |
+|---|---|---|---|
+| CRITICAL | H1 | OAuth tokens exposed in URL query params (`?accessToken=...`) — logged by servers, proxies, and browser history | Redirects to `#fragment` — never reaches server logs or `Referer` headers |
+| CRITICAL | H2 | All 6 AI services start successfully even when `INTERNAL_API_SECRET` is unset | `_load_secret()` calls `sys.exit(1)` at import time if secret is missing in production |
+| HIGH | H3 | `users.findAll` returned unbounded result set — DoS vector | Paginated with `$transaction([findMany, count])`; max page size 100; returns `{ items, total, page, pageSize, totalPages }` |
+| HIGH | H4 | `payments.findAll` returned unbounded result set | Paginated with `$transaction([findMany, count])`; max page size 100 |
+| HIGH | H5 | `contracts.create` wrote brand + creator lookups and contract row in separate statements — partial-write possible | Wrapped in `prisma.$transaction(async tx => ...)` |
+| HIGH | H6 | Dwolla client typed as `any` throughout `PaymentsService` | Replaced with `DwollaAppToken` interface; all calls type-safe |
+| HIGH | H7 | `docker-compose.yml` contained hardcoded weak secrets (`postgres`, `secret`) | All values replaced with `${VAR:?error}` required-variable syntax; Docker Compose refuses to start without them |
+| HIGH | H8 | `INTERNAL_API_SECRET` not propagated to AI services in `docker-compose.yml` | Added to all 6 AI service environment blocks |
+| MEDIUM | H9 | `contract-ai` generate endpoint fell back to a hardcoded template contract when OpenAI failed | Removed fallback; raises `HTTP 502` with structured log on AI failure |
+| MEDIUM | H10 | `contract-ai` risk endpoint silently swallowed JSON parse errors; flag values not validated | Raises `HTTP 502` on parse failure; flags validated against `_KNOWN_FLAGS` whitelist |
+| MEDIUM | H11 | Redis cache module used bare `console.error` — log lost in production | Replaced with NestJS `Logger`; added `connect`, `ready`, `reconnecting`, `close` event handlers |
+| LOW | H12 | `.env.example` incomplete — no secrets documented | Completely rewritten; all required variables documented with `openssl rand -base64 48` generation instructions |
 
 ---
 
@@ -75,6 +101,7 @@
 | Encryption | AES-256-GCM field-level + HKDF sub-key derivation + key versioning |
 | ML / Vectors | OpenAI text-embedding-3-small · NetworkX · scikit-learn KMeans · PyTorch |
 | AI Orchestration | UnifiedAIOrchestrator — 11 task types, conflict resolution, audit log |
+| **Fraud Detection** | **Heuristic + GPT-4o-mini: fake followers, engagement pods, payment structuring, identity** |
 | **Email** | **SendGrid Web API v3 (5 transactional templates)** |
 | **Observability** | **OpenTelemetry SDK · Prometheus · Grafana 11 · OTel Collector** |
 | **Tracing** | **OTel auto-instrumentation → Grafana Tempo** |
@@ -91,13 +118,17 @@
 apps/
   backend/                  NestJS API (port 4000)
     prisma/
-      schema.prisma         25+ models, ML vector tables, full indexes
+      schema.prisma         35+ models: creator, brand, athlete, NIL, contracts,
+                            marketplace, API keys, imports, tax docs, ML vectors
       seed.ts               Demo data — brands, creators, contracts, campaigns
     src/
       modules/              auth · users · brands · creators · contracts ·
                             deliverables · payments · campaigns · analytics ·
                             ai · notifications · embeddings · feature-store ·
-                            graph · health · webhooks · orchestrator
+                            graph · health · webhooks · orchestrator ·
+                            nil-compliance · university · guardian · agent-profile ·
+                            tax-documents · contract-templates · api-keys ·
+                            nil-marketplace · importers
       common/
         audit/              Compliance audit log
         cache/              Redis-backed typed CacheService
@@ -116,7 +147,10 @@ apps/
   frontend/                 Next.js 15 web dashboard (port 3000)
     src/app/(dashboard)/    dashboard · contracts · deliverables · payments ·
                             campaigns · analytics · creators · discover ·
-                            graph · insights · notifications · settings
+                            graph · insights · notifications · settings ·
+                            nil-compliance · athlete · school-reporting ·
+                            marketplace · api-keys · contract-templates
+    src/components/layout/  Sidebar — role-aware nav for 9 user roles
     src/hooks/use-api.ts    TanStack Query hooks for every API resource
 
   mobile/                   React Native + Expo SDK 52 — iOS & Android
@@ -136,7 +170,9 @@ apps/
   creator-graph-ai/         NetworkX + KMeans ML graph (port 8003)
   pricing-engine-ai/        Market-aware rate calculator (port 8004)
   campaign-agent-ai/        GPT-4o campaign agent + PDF debrief (port 8005)
-  performance-prediction-ai/ Reach, engagement, ROI, fraud scoring (port 8006)
+  performance-prediction-ai/ PyTorch MLP — reach, engagement, ROI prediction (port 8006)
+  nil-compliance-ai/        NIL disclosure analysis, FMV assessment, eligibility (port 8007)
+  fraud-detection-ai/       Fake followers, engagement pods, identity & payment fraud (port 8008)
 
 packages/
   contracts/                Shared API contract types (@conic/contracts)
@@ -221,6 +257,23 @@ eas submit --platform android
 
 ---
 
+## Environment Setup
+
+Generate all required secrets before first run:
+
+```bash
+# Required secrets (add to .env)
+openssl rand -base64 48   # JWT_SECRET
+openssl rand -base64 48   # JWT_REFRESH_SECRET
+openssl rand -base64 48   # INTERNAL_API_SECRET   (shared by backend + all 6 AI services)
+openssl rand -base64 32   # ENCRYPTION_KEY
+openssl rand -base64 32   # REDIS_PASSWORD
+```
+
+All variables are documented in `.env.example` with descriptions and required/optional markers. Docker Compose will refuse to start if any required variable is missing — this is intentional.
+
+---
+
 ## Getting Started
 
 ### Prerequisites
@@ -278,7 +331,130 @@ npm run android
 
 ---
 
-## Unified AI Orchestrator
+## NIL Compliance Engine
+
+Conic is purpose-built for the post-NIL era. Every participating athlete flows through a compliance pipeline from eligibility verification to deal disclosure to tax documentation.
+
+### Roles
+
+| Role | Description |
+|---|---|
+| `ATHLETE` | College/NAIA athlete — NIL Hub, deals, disclosures, earnings |
+| `GUARDIAN` | Parent/guardian — approval workflow for minors |
+| `AGENT` | Certified agent — athlete representation, multi-client view |
+| `COMPLIANCE_OFFICER` | University compliance staff — review disclosures, flag issues |
+| `UNIVERSITY_ADMIN` | Athletic department admin — reporting, rosters, school cap |
+| `ATHLETIC_DIRECTOR` | Department oversight — aggregate reports, policy management |
+
+### NIL Modules
+
+| Module | Endpoints | Purpose |
+|---|---|---|
+| `nil-compliance` | analyze disclosure, assess risk, check eligibility, FMV | AI-powered compliance review |
+| `university` | manage universities, rosters, caps | School administration |
+| `guardian` | approvals, relationships, notices | Minor athlete oversight |
+| `agent-profile` | CRUD, representations, verification | Agent management |
+| `nil-marketplace` | search, list, inquire, admin verify | Athlete discovery |
+| `tax-documents` | request, submit, verify, summary | W-9 / 1099-NEC lifecycle |
+
+### NIL AI Service (Port 8007)
+
+| Endpoint | Description |
+|---|---|
+| `POST /compliance/analyze-disclosure` | GPT-4o-mini NIL disclosure analysis — flags, violations, suggestions |
+| `POST /compliance/assess-deal-risk` | 0-100 risk score with NCAA/state rule cross-check |
+| `POST /compliance/check-eligibility` | eligible / at_risk / probation / ineligible verdict |
+| `POST /fmv/assess` | Fair Market Value range (low/mid/high) for any deal type |
+| `POST /reports/generate-narrative` | Human-readable compliance report for compliance officer, university, or athlete |
+
+---
+
+## Fraud Detection AI (Port 8008)
+
+No competitor has a purpose-built fraud detection service integrated into their payment and partnership flow. Conic's `fraud-detection-ai` runs three independent analysis engines combined into a single 0-100 fraud score.
+
+### Endpoints
+
+| Endpoint | Description |
+|---|---|
+| `POST /fraud/analyze` | Composite fraud score — fake followers, engagement manipulation, payment anomalies |
+| `POST /identity/check` | Cross-platform identity consistency, bot pattern detection, impersonation signals |
+| `POST /engagement/analyze` | Statistical time-series analysis — z-score spikes, coefficient of variation, pod detection |
+
+### Signals Detected
+
+| Signal | Method |
+|---|---|
+| Fake followers | Engagement rate vs platform benchmark, following/follower ratio, sudden spikes |
+| Engagement pods | Abnormally low comment/like ratio, suspiciously uniform engagement (CoV < 0.2) |
+| Purchased video views | Like/view ratio outliers on TikTok and YouTube |
+| New-account inflation | High follower counts on accounts < 180 days old |
+| Payment structuring | Payments clustered below $10k BSA threshold |
+| Round-number clustering | >70% round-dollar payments |
+| Identity mismatch | Display name vs legal name similarity, cross-platform name inconsistency |
+| Bot-pattern handles | Regex detection of numeric-suffix and random-char handles |
+
+---
+
+## NIL Marketplace
+
+Brands and agencies discover verified college athletes directly on the platform — no intermediary.
+
+### Features
+
+- **Athlete listing** — athletes control visibility, headline, bio, preferred deal types, minimum deal value
+- **Brand discovery** — filter by sport, deal type, follower count; paginated results
+- **Verified badge** — platform-verified athletes surface first in search
+- **FMV display** — AI-assessed floor/ceiling shown on every listing card
+- **Inquiry tracking** — brands record interest; athletes see inquiry count
+- **View analytics** — listing impressions tracked per search and profile load
+
+---
+
+## API Key Management
+
+Enterprise customers and agencies can integrate Conic into their own systems via API keys.
+
+### Features
+
+- Keys generated with `crypto.randomBytes` — `sk_live_<40 hex chars>`
+- SHA-256 hash stored in database — raw key shown exactly once at creation
+- Granular scopes: `read:contracts`, `write:campaigns`, `read:nil`, `write:nil`, etc.
+- Per-key request counter — usage analytics in the admin UI
+- Expiry dates supported — time-bounded integrations
+- `validateAndTrack` method for use in auth guards — fire-and-forget usage tracking (non-blocking)
+
+---
+
+## Data Import (Switching Cost Moat)
+
+Migrating from competitors is one click. Conic accepts Opendorse exports, Teamworks exports, and generic CSV for creators and athletes.
+
+### Supported Import Types
+
+| Type | Source | Fields |
+|---|---|---|
+| `CREATOR_CSV` | Any | email, first_name, last_name, followers_count, engagement_rate, niche |
+| `ATHLETE_CSV` | Any | email, first_name, last_name, sport, position, followers_count |
+| `OPENDORSE_EXPORT` | Opendorse | Same as ATHLETE_CSV |
+| `TEAMWORKS_EXPORT` | Teamworks | Same as ATHLETE_CSV |
+| `CONTRACT_CSV` | Any | Bulk contract reference import |
+| `NIL_DEAL_CSV` | Any | Historical NIL deal import |
+| `GENERIC_CSV` | Any | Custom column mapping via `mappingConfig` |
+
+Jobs track `totalRows`, `processedRows`, `errorRows` with per-row error details. Final status: `COMPLETED`, `PARTIAL`, or `FAILED`.
+
+---
+
+## Contract Template Library
+
+Teams build reusable, AI-enriched contract templates with clause libraries. Templates are tagged, risk-scored, and optionally public (marketplace) or private.
+
+- NIL-specific flag (`isNilTemplate`) — surfaced separately in the athlete and agent flows
+- `POST /:id/ai-suggestions` — calls contract-ai to suggest clauses based on template category and deal context
+- Usage counter increments on every `POST /:id/use` — surfaces most-used templates first in search
+
+---
 
 All AI subsystems are controlled by a single hierarchical command layer:
 
@@ -352,9 +528,9 @@ k6 run tests/load/soak.test.js
 
 ## Infrastructure
 
-### Docker Compose (Local — 10 services)
+### Docker Compose (Local — 12 services)
 
-`postgres` · `redis` · `backend` · `frontend` · `contract-ai` · `deliverable-verification-ai` · `creator-graph-ai` · `pricing-engine-ai` · `campaign-agent-ai` · `performance-prediction-ai`
+`postgres` · `redis` · `backend` · `frontend` · `contract-ai` · `deliverable-verification-ai` · `creator-graph-ai` · `pricing-engine-ai` · `campaign-agent-ai` · `performance-prediction-ai` · `nil-compliance-ai` · `fraud-detection-ai`
 
 ### AWS Production
 
@@ -395,16 +571,34 @@ terraform apply
 ## Project Status
 
 ```
-✅  Feature-complete across web and mobile
-✅  Security audit complete (13 OWASP findings resolved)
+✅  Feature-complete across web, mobile, and NIL/athlete operations
+✅  Security audit complete (22 findings resolved — 13 original + 9 hardening pass)
+✅  OAuth tokens secured — hash fragment redirect, never in server logs
+✅  AI services fail-fast on missing credentials in production
+✅  All list endpoints paginated with enforced max page size
+✅  Contract creation atomic via database transaction
+✅  docker-compose uses required-variable syntax — no hardcoded secrets
 ✅  iOS + Android app ready for App Store / Google Play submission
 ✅  Full observability stack (OTel + Prometheus + Grafana)
 ✅  Demo seed data
 ✅  Load and soak tests passing thresholds
 ✅  Transactional email (5 templates)
+✅  32 unit tests passing (auth · contracts · payments · creators)
+✅  NIL compliance engine (disclosure, FMV, eligibility, guardian approval)
+✅  NIL Marketplace — athlete discovery with sport/deal-type/FMV filters
+✅  Fraud Detection AI (port 8008) — fake followers, engagement pods, payment structuring
+✅  API key ecosystem — SHA-256 hashed, scoped, revocable
+✅  Contract template library with AI clause suggestions
+✅  Tax document workflow (W-9/1099 request → submit → verify)
+✅  Data importers — Opendorse/Teamworks migration + CSV bulk ingest
+✅  8 AI microservices (ports 8001–8008) running in Docker Compose
+✅  Role-aware sidebar for all 9 user roles
+✅  13 NIL webhook events mapped for external delivery
+✅  TypeScript: 0 errors (backend + frontend)
 
 ⏳  Pending: Dwolla live API keys (payments go live)
 ⏳  Pending: EAS project ID + App Store / Google Play credentials
 ⏳  Pending: Terraform provisioning (cloud infrastructure)
-⏳  Pending: Unit test coverage expansion (currently ~35%)
+⏳  Pending: ImportersController (service layer complete, REST controller stub)
+⏳  Pending: SCIM provisioning module (ScimToken model in schema, service not built)
 ```

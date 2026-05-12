@@ -100,10 +100,13 @@ export class AuthController {
       avatarUrl: string | null;
     };
     const result = await this.authService.googleOauthUser(profile);
-    // Redirect to frontend with token in query param (short-lived — FE exchanges immediately)
     const frontendUrl = process.env.CORS_ORIGIN ?? 'http://localhost:3000';
-    res.redirect(
-      `${frontendUrl}/auth/callback?accessToken=${result.accessToken}&refreshToken=${result.refreshToken}`,
-    );
+
+    // Encode tokens into the URL *fragment* (#) — fragments are never sent to the server
+    // in HTTP Referer headers and are not stored in server access logs.
+    // The frontend reads window.location.hash and immediately exchanges the fragment tokens
+    // for its session state, then replaces history to clear the hash.
+    const fragment = `accessToken=${encodeURIComponent(result.accessToken)}&refreshToken=${encodeURIComponent(result.refreshToken)}`;
+    res.redirect(`${frontendUrl}/auth/callback#${fragment}`);
   }
 }

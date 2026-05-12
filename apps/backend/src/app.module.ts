@@ -30,6 +30,15 @@ import { QueueModule } from './queue/queue.module';
 import { WebhooksModule } from './modules/webhooks/webhooks.module';
 import { HealthModule } from './modules/health/health.module';
 import { FeatureStoreModule } from './modules/feature-store/feature-store.module';
+import { NilComplianceModule } from './modules/nil-compliance/nil-compliance.module';
+import { UniversityModule } from './modules/university/university.module';
+import { GuardianModule } from './modules/guardian/guardian.module';
+import { AgentProfileModule } from './modules/agent-profile/agent-profile.module';
+import { TaxDocumentsModule } from './modules/tax-documents/tax-documents.module';
+import { ContractTemplatesModule } from './modules/contract-templates/contract-templates.module';
+import { ApiKeysModule } from './modules/api-keys/api-keys.module';
+import { NilMarketplaceModule } from './modules/nil-marketplace/nil-marketplace.module';
+import { ImportersModule } from './modules/importers/importers.module';
 
 @Module({
   imports: [
@@ -90,6 +99,15 @@ import { FeatureStoreModule } from './modules/feature-store/feature-store.module
     WebhooksModule,
     HealthModule,
     FeatureStoreModule,
+    NilComplianceModule,
+    UniversityModule,
+    GuardianModule,
+    AgentProfileModule,
+    TaxDocumentsModule,
+    ContractTemplatesModule,
+    ApiKeysModule,
+    NilMarketplaceModule,
+    ImportersModule,
   ],
   providers: [
     // Apply ThrottlerGuard globally — every route is rate-limited by default

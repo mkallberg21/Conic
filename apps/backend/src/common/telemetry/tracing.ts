@@ -49,12 +49,13 @@ const sdk = new NodeSDK({
 
   // ── Metrics ──────────────────────────────────────────────────────────────
   // Dual export: Prometheus scrape + OTLP push (Grafana Cloud / Mimir).
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metricReader: new PeriodicExportingMetricReader({
     exporter: new OTLPMetricExporter({
       url: `${OTEL_EXPORTER_URL}/v1/metrics`,
     }),
     exportIntervalMillis: 15_000,
-  }),
+  }) as any,
 
   instrumentations: [
     getNodeAutoInstrumentations({
@@ -64,7 +65,6 @@ const sdk = new NodeSDK({
       '@opentelemetry/instrumentation-fastify': { enabled: true },
       '@opentelemetry/instrumentation-pg': { enabled: true },
       '@opentelemetry/instrumentation-redis': { enabled: true },
-      '@opentelemetry/instrumentation-bullmq': { enabled: true },
     }),
   ],
 });

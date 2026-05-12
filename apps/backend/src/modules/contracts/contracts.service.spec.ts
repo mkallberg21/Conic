@@ -9,16 +9,38 @@ import { AuditService } from '../../common/audit/audit.service';
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
 
+const mockCreatedContract = {
+  id: 'con_1',
+  brandId: 'br_1',
+  creatorId: 'cr_1',
+  status: ContractStatus.DRAFT,
+  brand: { user: { firstName: 'Brand', lastName: 'User', email: 'b@t.com' } },
+  creator: { user: { firstName: 'Creator', lastName: 'User', email: 'c@t.com' } },
+  milestones: [],
+};
+
+const mockTxClient = {
+  contract: {
+    create: jest.fn().mockResolvedValue(mockCreatedContract),
+  },
+};
+
 const mockPrisma = {
   brand: { findUnique: jest.fn() },
   creator: { findUnique: jest.fn() },
   contract: {
     create: jest.fn(),
-    findMany: jest.fn(),
+    findMany: jest.fn().mockResolvedValue([]),
     findUnique: jest.fn(),
     update: jest.fn(),
-    count: jest.fn(),
+    count: jest.fn().mockResolvedValue(0),
   },
+  // Simulate interactive transaction
+  $transaction: jest.fn().mockImplementation(async (fn) => {
+    if (typeof fn === 'function') return fn(mockTxClient);
+    // Batch transaction: execute array passthrough
+    return Promise.all(fn);
+  }),
 };
 
 const mockEventBus = { emit: jest.fn() };
@@ -49,12 +71,26 @@ describe('ContractsService', () => {
     }).compile();
 
     service = module.get<ContractsService>(ContractsService);
-    jest.clearAllMocks();
+    jest.resetAllMocks();
+
+    // Reset defaults
+    mockTxClient.contract.create.mockResolvedValue(mockCreatedContract);
+    mockAi.generateContractContent.mockResolvedValue({
+      content: '# Test Contract',
+      riskScore: 20,
+      riskFlags: [],
+      clauses: [],
+    });
+    mockPrisma.$transaction.mockImplementation(async (fn) => {
+      if (typeof fn === 'function') return fn(mockTxClient);
+      return Promise.all(fn);
+    });
   });
 
   describe('create', () => {
     it('throws ForbiddenException when brand profile missing', async () => {
       mockPrisma.brand.findUnique.mockResolvedValue(null);
+      mockPrisma.creator.findUnique.mockResolvedValue({ id: 'cr_1' });
 
       await expect(
         service.create('usr_no_brand', {
@@ -80,18 +116,9 @@ describe('ContractsService', () => {
       ).rejects.toThrow(NotFoundException);
     });
 
-    it('creates contract, calls AI and emits event', async () => {
+    it('creates contract inside a prisma transaction', async () => {
       mockPrisma.brand.findUnique.mockResolvedValue({ id: 'br_1' });
       mockPrisma.creator.findUnique.mockResolvedValue({ id: 'cr_1' });
-      mockPrisma.contract.create.mockResolvedValue({
-        id: 'con_1',
-        brandId: 'br_1',
-        creatorId: 'cr_1',
-        status: ContractStatus.DRAFT,
-        brand: { user: { firstName: 'Brand', lastName: 'User', email: 'b@t.com' } },
-        creator: { user: { firstName: 'Creator', lastName: 'User', email: 'c@t.com' } },
-        milestones: [],
-      });
 
       await service.create('usr_brand', {
         creatorId: 'cr_1',
@@ -100,13 +127,88 @@ describe('ContractsService', () => {
         totalValue: 100000,
       });
 
-      expect(mockAi.generateContractContent).toHaveBeenCalledTimes(1);
+      // Contract must be created inside the transaction, not on the outer client
+      expect(mockPrisma.$transaction).toHaveBeenCalledTimes(1);
+      expect(mockTxClient.contract.create).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls AI before opening the database transaction', async () => {
+      mockPrisma.brand.findUnique.mockResolvedValue({ id: 'br_1' });
+      mockPrisma.creator.findUnique.mockResolvedValue({ id: 'cr_1' });
+
+      const callOrder: string[] = [];
+      mockAi.generateContractContent.mockImplementation(async () => {
+        callOrder.push('ai');
+        return { content: '#Contract', riskScore: 10, riskFlags: [] };
+      });
+      mockPrisma.$transaction.mockImplementation(async (fn) => {
+        callOrder.push('transaction');
+        return fn(mockTxClient);
+      });
+
+      await service.create('usr_brand', {
+        creatorId: 'cr_1',
+        title: 'Test',
+        platforms: ['instagram'],
+        totalValue: 100000,
+      });
+
+      expect(callOrder).toEqual(['ai', 'transaction']);
+    });
+
+    it('emits contract.created event after successful creation', async () => {
+      mockPrisma.brand.findUnique.mockResolvedValue({ id: 'br_1' });
+      mockPrisma.creator.findUnique.mockResolvedValue({ id: 'cr_1' });
+
+      await service.create('usr_brand', {
+        creatorId: 'cr_1',
+        title: 'Instagram Campaign',
+        platforms: ['instagram'],
+        totalValue: 100000,
+      });
+
       expect(mockEventBus.emit).toHaveBeenCalledWith('contract.created', expect.any(Object));
+    });
+
+    it('writes an audit log after successful creation', async () => {
+      mockPrisma.brand.findUnique.mockResolvedValue({ id: 'br_1' });
+      mockPrisma.creator.findUnique.mockResolvedValue({ id: 'cr_1' });
+
+      await service.create('usr_brand', {
+        creatorId: 'cr_1',
+        title: 'Instagram Campaign',
+        platforms: ['instagram'],
+        totalValue: 100000,
+      });
+
+      expect(mockAudit.log).toHaveBeenCalledWith(
+        expect.objectContaining({ action: 'CONTRACT_CREATED' }),
+      );
+    });
+  });
+
+  describe('findAll', () => {
+    it('paginates for BRAND role and enforces max page size', async () => {
+      mockPrisma.brand.findUnique.mockResolvedValue({ id: 'br_1' });
+      mockPrisma.contract.findMany.mockResolvedValue([mockCreatedContract]);
+
+      const result = await service.findAll('usr_brand', UserRole.BRAND, 1, 999);
+
+      expect(result).toBeDefined();
+    });
+
+    it('returns results for CREATOR role', async () => {
+      mockPrisma.creator.findUnique.mockResolvedValue({ id: 'cr_1' });
+      mockPrisma.contract.findMany.mockResolvedValue([mockCreatedContract]);
+
+      const result = await service.findAll('usr_creator', UserRole.CREATOR, 1, 25);
+
+      expect(result).toBeDefined();
     });
   });
 
   describe('sign', () => {
-    const mockContract = {
+    const mockContractForSign = {
       id: 'con_1',
       status: ContractStatus.PENDING_SIGNATURE,
       brandId: 'br_1',
@@ -118,28 +220,56 @@ describe('ContractsService', () => {
     };
 
     it('throws ForbiddenException when user not party to contract', async () => {
-      mockPrisma.contract.findUnique.mockResolvedValue(mockContract);
+      mockPrisma.contract.findUnique.mockResolvedValue(mockContractForSign);
+      mockPrisma.brand.findUnique.mockResolvedValue(null); // usr_unrelated has no brand
 
       await expect(
-        service.sign('con_1', 'usr_unrelated', '1.2.3.4'),
+        service.sign('con_1', 'usr_unrelated', UserRole.BRAND, '1.2.3.4'),
       ).rejects.toThrow(ForbiddenException);
     });
 
-    it('allows brand to sign', async () => {
-      mockPrisma.contract.findUnique.mockResolvedValue(mockContract);
+    it('allows brand to sign and updates brandSignedAt', async () => {
+      mockPrisma.contract.findUnique.mockResolvedValue(mockContractForSign);
+      mockPrisma.brand.findUnique.mockResolvedValue({ id: 'br_1' });
       mockPrisma.contract.update.mockResolvedValue({
-        ...mockContract,
+        ...mockContractForSign,
         brandSignedAt: new Date(),
         status: ContractStatus.PENDING_SIGNATURE,
       });
 
-      const result = await service.sign('con_1', 'usr_brand', '1.2.3.4');
+      await service.sign('con_1', 'usr_brand', UserRole.BRAND, '1.2.3.4');
+
       expect(mockPrisma.contract.update).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({ brandSignedAt: expect.any(Date) }),
         }),
       );
-      expect(result).toBeDefined();
+    });
+
+    it('activates contract when both parties have signed', async () => {
+      const partiallySignedContract = {
+        ...mockContractForSign,
+        brandSignedAt: new Date(), // brand already signed
+      };
+      mockPrisma.contract.findUnique.mockResolvedValue(partiallySignedContract);
+      mockPrisma.creator.findUnique.mockResolvedValue({ id: 'cr_1' });
+      mockPrisma.contract.update.mockResolvedValue({
+        ...partiallySignedContract,
+        creatorSignedAt: new Date(),
+        status: ContractStatus.ACTIVE,
+      });
+
+      await service.sign('con_1', 'usr_creator', UserRole.CREATOR, '1.2.3.5');
+
+      expect(mockPrisma.contract.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            creatorSignedAt: expect.any(Date),
+            status: ContractStatus.ACTIVE,
+          }),
+        }),
+      );
     });
   });
 });
+

@@ -18,6 +18,20 @@ const INTERNAL_TO_WEBHOOK: Record<string, string> = {
   [EVENTS.DELIVERABLE_APPROVED]: 'deliverable.approved',
   [EVENTS.PAYMENT_RELEASED]: 'payment.released',
   [EVENTS.PAYMENT_FAILED]: 'payment.failed',
+  // NIL events
+  [EVENTS.NIL_DISCLOSURE_SUBMITTED]: 'nil.disclosure.submitted',
+  [EVENTS.NIL_DISCLOSURE_APPROVED]: 'nil.disclosure.approved',
+  [EVENTS.NIL_DISCLOSURE_REJECTED]: 'nil.disclosure.rejected',
+  [EVENTS.NIL_DEAL_CREATED]: 'nil.deal.created',
+  [EVENTS.NIL_DEAL_ACTIVATED]: 'nil.deal.activated',
+  [EVENTS.APPEARANCE_SCHEDULED]: 'nil.appearance.scheduled',
+  [EVENTS.APPEARANCE_COMPLETED]: 'nil.appearance.completed',
+  [EVENTS.GUARDIAN_APPROVED]: 'nil.guardian.approved',
+  [EVENTS.GUARDIAN_REJECTED]: 'nil.guardian.rejected',
+  [EVENTS.FMV_ASSESSED]: 'nil.fmv.assessed',
+  [EVENTS.ELIGIBILITY_FLAGGED]: 'nil.eligibility.flagged',
+  [EVENTS.TAX_DOCUMENT_REQUESTED]: 'tax.document.requested',
+  [EVENTS.TAX_DOCUMENT_SUBMITTED]: 'tax.document.submitted',
 };
 
 @Injectable()

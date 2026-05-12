@@ -93,7 +93,7 @@ describe('CreatorsService', () => {
     it('enqueues creator scoring job', async () => {
       await service.scheduleScoring('cr_1');
       expect(mockQueue.add).toHaveBeenCalledWith(
-        'score',
+        'score-creator',
         { creatorId: 'cr_1' },
         expect.any(Object),
       );

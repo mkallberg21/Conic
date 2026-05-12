@@ -1,8 +1,11 @@
-from fastapi import APIRouter
+import logging
+
+from fastapi import APIRouter, HTTPException
 from app.models.schemas import ContractGenRequest, ContractGenResponse, ClauseDetail
 from app.services.openai_service import generate_with_gpt, calculate_risk_score
 
 router = APIRouter()
+logger = logging.getLogger("conic.contract_ai.generate")
 
 SYSTEM_PROMPT = """You are a legal expert specializing in influencer marketing contracts.
 Generate professional, comprehensive contract text. Be specific about deliverables, 
@@ -106,15 +109,41 @@ By proceeding with this campaign, both parties acknowledge and agree to these te
 
 
 @router.post("", response_model=ContractGenResponse)
-async def generate_contract(req: ContractGenRequest):
+async def generate_contract(req: ContractGenRequest) -> ContractGenResponse:
     prompt = build_contract_prompt(req)
-    content = await generate_with_gpt(prompt, SYSTEM_PROMPT)
 
-    if not content:
-        content = build_fallback_contract(req)
+    try:
+        content = await generate_with_gpt(prompt, SYSTEM_PROMPT)
+    except Exception as exc:
+        logger.error("OpenAI request failed during contract generation: %s", exc, exc_info=True)
+        raise HTTPException(
+            status_code=502,
+            detail="AI contract generation temporarily unavailable. Please retry.",
+        ) from exc
+
+    if not content or len(content.strip()) < 100:
+        logger.error(
+            "OpenAI returned empty or truncated contract content (length=%d). "
+            "Not falling back to template — returning error to caller.",
+            len(content) if content else 0,
+        )
+        raise HTTPException(
+            status_code=502,
+            detail=(
+                "AI returned insufficient contract content. "
+                "Please retry or contact support."
+            ),
+        )
 
     flags = detect_risk_flags(req, content)
     risk_score = calculate_risk_score(flags)
+
+    logger.info(
+        "Contract generated. risk_score=%d flags=%s word_count=%d",
+        risk_score,
+        flags,
+        len(content.split()),
+    )
 
     clauses = [
         ClauseDetail(
@@ -147,11 +176,11 @@ async def generate_contract(req: ContractGenRequest):
             )
         )
 
-    suggestions = []
+    suggestions: list[str] = []
     if risk_score > 50:
         suggestions.append("Consider adding clearer revision limits to protect both parties.")
     if req.exclusivity and (req.exclusivity_days or 0) > 90:
-        suggestions.append("Long exclusivity period may discourage creator adoption. Consider reducing to 30-60 days.")
+        suggestions.append("Long exclusivity period may discourage creator adoption. Consider reducing to 30–60 days.")
     if req.total_value > 1000000:
         suggestions.append("High-value contract: consider milestone-based payments and escrow.")
 

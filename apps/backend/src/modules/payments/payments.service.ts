@@ -12,11 +12,20 @@ import { EventBusService, EVENTS } from '../../events/event-bus.service';
 import { OnEvent } from '@nestjs/event-emitter';
 import { AuditService } from '../../common/audit/audit.service';
 
+const MAX_PAGE_SIZE = 100;
+
+/** Typed surface of a Dwolla app-token we actually use. */
+interface DwollaAppToken {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  get(path: string): Promise<{ body: any }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  post(path: string, body: Record<string, unknown>): Promise<{ headers: { get(name: string): string | null }; body: any }>;
+}
+
 @Injectable()
 export class PaymentsService {
   private readonly logger = new Logger(PaymentsService.name);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private readonly dwolla: any;
+  private readonly dwolla: Client;
 
   constructor(
     private readonly prisma: PrismaService,
@@ -36,8 +45,10 @@ export class PaymentsService {
   // ── Helpers ────────────────────────────────────────────────────────────────
 
   /** Returns a machine-to-machine app token valid for 1 hour. */
-  private async appToken() {
-    return this.dwolla.auth.client();
+  private async appToken(): Promise<DwollaAppToken> {
+    // The dwolla-v2 type definitions are incomplete — cast through unknown
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (this.dwolla as any).auth.client() as Promise<DwollaAppToken>;
   }
 
   /** Resolve the platform's master funding source URL from config. */
@@ -45,38 +56,43 @@ export class PaymentsService {
     return this.configService.get<string>('dwolla.masterFundingSourceUrl') ?? '';
   }
 
-  async findAll(userId: string, role: UserRole) {
+  async findAll(userId: string, role: UserRole, page = 1, take = 25) {
+    const skip = (Math.max(1, page) - 1) * Math.min(take, MAX_PAGE_SIZE);
+    const limit = Math.min(Math.max(1, take), MAX_PAGE_SIZE);
+
+    const include = {
+      contract: { select: { id: true, title: true } },
+      deliverable: { select: { id: true, title: true } },
+    } as const;
+
+    const orderBy = { createdAt: 'desc' } as const;
+
     if (role === UserRole.CREATOR) {
-      const creator = await this.prisma.creator.findUnique({ where: { userId } });
-      return this.prisma.payment.findMany({
-        where: { contract: { creatorId: creator?.id } },
-        include: {
-          contract: { select: { id: true, title: true } },
-          deliverable: { select: { id: true, title: true } },
-        },
-        orderBy: { createdAt: 'desc' },
-      });
+      const creator = await this.prisma.creator.findUnique({ where: { userId }, select: { id: true } });
+      const where = { contract: { creatorId: creator?.id } };
+      const [items, total] = await this.prisma.$transaction([
+        this.prisma.payment.findMany({ where, include, orderBy, skip, take: limit }),
+        this.prisma.payment.count({ where }),
+      ]);
+      return { items, total, page: Math.max(1, page), pageSize: limit, totalPages: Math.ceil(total / limit) };
     }
 
     if (role === UserRole.BRAND) {
-      const brand = await this.prisma.brand.findUnique({ where: { userId } });
-      return this.prisma.payment.findMany({
-        where: { contract: { brandId: brand?.id } },
-        include: {
-          contract: { select: { id: true, title: true } },
-          deliverable: { select: { id: true, title: true } },
-        },
-        orderBy: { createdAt: 'desc' },
-      });
+      const brand = await this.prisma.brand.findUnique({ where: { userId }, select: { id: true } });
+      const where = { contract: { brandId: brand?.id } };
+      const [items, total] = await this.prisma.$transaction([
+        this.prisma.payment.findMany({ where, include, orderBy, skip, take: limit }),
+        this.prisma.payment.count({ where }),
+      ]);
+      return { items, total, page: Math.max(1, page), pageSize: limit, totalPages: Math.ceil(total / limit) };
     }
 
-    return this.prisma.payment.findMany({
-      include: {
-        contract: { select: { id: true, title: true } },
-        deliverable: { select: { id: true, title: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+    // ADMIN: all payments
+    const [items, total] = await this.prisma.$transaction([
+      this.prisma.payment.findMany({ include, orderBy, skip, take: limit }),
+      this.prisma.payment.count(),
+    ]);
+    return { items, total, page: Math.max(1, page), pageSize: limit, totalPages: Math.ceil(total / limit) };
   }
 
   async release(paymentId: string, brandUserId: string) {
@@ -101,8 +117,9 @@ export class PaymentsService {
 
         // Retrieve the creator's default funding source
         const fsRes = await token.get(`${creatorDwollaId}/funding-sources`);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const fundingSources: Array<{ _links: { self: { href: string } }; removed: boolean; type: string }> =
-          fsRes.body._embedded['funding-sources'];
+          (fsRes.body?._embedded?.['funding-sources'] as Array<{ _links: { self: { href: string } }; removed: boolean; type: string }>) ?? [];
         const destination = fundingSources.find((fs) => !fs.removed && fs.type === 'bank')
           ?? fundingSources.find((fs) => !fs.removed);
 
@@ -248,7 +265,7 @@ export class PaymentsService {
     });
 
     return {
-      clientToken: clientTokenRes.body.token as string,
+      clientToken: (clientTokenRes.body?.token ?? '') as string,
       customerUrl,
       environment: this.configService.get<string>('dwolla.environment') ?? 'sandbox',
     };

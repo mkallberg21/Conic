@@ -5,11 +5,14 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, FileText, CheckSquare, CreditCard,
   Megaphone, BarChart2, Users, Settings, Zap, Network, Brain,
+  ShieldCheck, GraduationCap, UserCircle, Store, Key, Upload,
+  ClipboardList, TrendingUp, Heart,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/use-auth';
 
 const navItems = [
+  // ─── Brand / Creator / Agency / Admin ────────────────────────────────────
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/contracts', label: 'Contracts', icon: FileText, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/deliverables', label: 'Deliverables', icon: CheckSquare, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
@@ -19,6 +22,33 @@ const navItems = [
   { href: '/dashboard/creators', label: 'Creators', icon: Users, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/graph', label: 'Creator Graph', icon: Network, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/insights', label: 'AI Insights', icon: Brain, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/contract-templates', label: 'Templates', icon: ClipboardList, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/marketplace', label: 'NIL Marketplace', icon: Store, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/api-keys', label: 'API Keys', icon: Key, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/importers', label: 'Data Import', icon: Upload, roles: ['AGENCY', 'ADMIN', 'UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR'] },
+
+  // ─── Athlete ──────────────────────────────────────────────────────────────
+  { href: '/athlete', label: 'NIL Hub', icon: TrendingUp, roles: ['ATHLETE'] },
+  { href: '/athlete/marketplace', label: 'My Listing', icon: Store, roles: ['ATHLETE'] },
+  { href: '/athlete/contracts', label: 'My Contracts', icon: FileText, roles: ['ATHLETE'] },
+  { href: '/athlete/payments', label: 'Earnings', icon: CreditCard, roles: ['ATHLETE'] },
+
+  // ─── Guardian ─────────────────────────────────────────────────────────────
+  { href: '/guardian', label: 'Guardian Portal', icon: Heart, roles: ['GUARDIAN'] },
+
+  // ─── Agent ────────────────────────────────────────────────────────────────
+  { href: '/agents/me', label: 'Agent Profile', icon: UserCircle, roles: ['AGENT'] },
+  { href: '/dashboard/marketplace', label: 'NIL Marketplace', icon: Store, roles: ['AGENT'] },
+  { href: '/agents/contracts', label: 'Client Contracts', icon: FileText, roles: ['AGENT'] },
+
+  // ─── Compliance Officer ───────────────────────────────────────────────────
+  { href: '/nil-compliance', label: 'NIL Compliance', icon: ShieldCheck, roles: ['COMPLIANCE_OFFICER'] },
+  { href: '/school-reporting', label: 'School Reports', icon: GraduationCap, roles: ['COMPLIANCE_OFFICER'] },
+
+  // ─── University Admin / Athletic Director ─────────────────────────────────
+  { href: '/school-reporting', label: 'Reporting', icon: GraduationCap, roles: ['UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR'] },
+  { href: '/nil-compliance', label: 'Compliance', icon: ShieldCheck, roles: ['UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR'] },
+  { href: '/dashboard/importers', label: 'Data Import', icon: Upload, roles: ['UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR'] },
 ];
 
 export function Sidebar() {
@@ -27,6 +57,13 @@ export function Sidebar() {
   const role = user?.role ?? 'BRAND';
 
   const filtered = navItems.filter((item) => item.roles.includes(role));
+  // Deduplicate by href so shared routes (e.g., /dashboard/importers) appear once
+  const seen = new Set<string>();
+  const deduped = filtered.filter((item) => {
+    if (seen.has(item.href)) return false;
+    seen.add(item.href);
+    return true;
+  });
 
   return (
     <aside className="flex h-full w-64 flex-col border-r bg-card px-3 py-4">
@@ -37,7 +74,7 @@ export function Sidebar() {
         <span className="text-lg font-bold">Conic</span>
       </div>
       <nav className="flex flex-1 flex-col gap-1">
-        {filtered.map((item) => {
+        {deduped.map((item) => {
           const Icon = item.icon;
           const active = pathname === item.href || pathname.startsWith(item.href + '/');
           return (

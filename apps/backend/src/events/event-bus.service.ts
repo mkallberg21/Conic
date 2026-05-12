@@ -72,6 +72,21 @@ export const EVENTS = {
   CAMPAIGN_SUMMARY_GENERATED: 'campaign.summary.generated',
   CREATOR_SCORE_UPDATED: 'creator.score.updated',
   CREATOR_REGISTERED: 'creator.registered',
+  // NIL / Athlete events
+  NIL_DISCLOSURE_SUBMITTED: 'nil.disclosure.submitted',
+  NIL_DISCLOSURE_APPROVED: 'nil.disclosure.approved',
+  NIL_DISCLOSURE_REJECTED: 'nil.disclosure.rejected',
+  NIL_DEAL_CREATED: 'nil.deal.created',
+  NIL_DEAL_ACTIVATED: 'nil.deal.activated',
+  APPEARANCE_SCHEDULED: 'appearance.scheduled',
+  APPEARANCE_COMPLETED: 'appearance.completed',
+  GUARDIAN_APPROVED: 'guardian.approved',
+  GUARDIAN_REJECTED: 'guardian.rejected',
+  COMPLIANCE_REPORT_GENERATED: 'compliance.report.generated',
+  FMV_ASSESSED: 'fmv.assessed',
+  ELIGIBILITY_FLAGGED: 'eligibility.flagged',
+  TAX_DOCUMENT_REQUESTED: 'tax.document.requested',
+  TAX_DOCUMENT_SUBMITTED: 'tax.document.submitted',
 } as const;
 
 // Events that should feed into the data flywheel

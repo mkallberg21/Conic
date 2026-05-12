@@ -18,6 +18,13 @@ enum UserRole {
   CREATOR
   AGENCY
   ADMIN
+  ATHLETE
+  GUARDIAN
+  AGENT
+  COMPLIANCE_OFFICER
+  COLLECTIVE_ADMIN
+  UNIVERSITY_ADMIN
+  ATHLETIC_DIRECTOR
 }
 
 enum ContractStatus {
@@ -63,6 +70,81 @@ enum VerificationStatus {
   FLAGGED
 }
 
+// ─── NIL / Athlete Enums ──────────────────────────────────────────────────────
+
+enum AthleteStatus {
+  ENROLLED          // active NCAA/NAIA athlete
+  PROFESSIONAL      // turned pro — no NIL restrictions
+  TRANSFERRED       // in transfer portal
+  GRADUATED         // graduated, eligibility exhausted
+  INACTIVE
+}
+
+enum EligibilityStatus {
+  ELIGIBLE
+  INELIGIBLE
+  UNDER_REVIEW
+  SUSPENDED
+}
+
+enum NilDisclosureStatus {
+  DRAFT
+  PENDING_REVIEW    // sent to compliance officer
+  APPROVED
+  REJECTED
+  EXPIRED           // beyond statutory window
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  EXPIRED
+  WITHDRAWN
+}
+
+enum AppearanceType {
+  SPEAKING
+  AUTOGRAPH_SIGNING
+  PROMOTIONAL_EVENT
+  ENDORSEMENT_APPEARANCE
+  CAMP_OR_CLINIC
+  VIRTUAL
+  MEDIA_INTERVIEW
+}
+
+enum TaxDocumentType {
+  W9
+  W8BEN
+  F1099NEC
+  F1042S
+}
+
+enum TaxDocumentStatus {
+  REQUESTED
+  SUBMITTED
+  VERIFIED
+  EXPIRED
+}
+
+enum ReportStatus {
+  DRAFT
+  SUBMITTED
+  ACKNOWLEDGED
+  REQUIRES_CORRECTION
+}
+
+enum DivisionLevel {
+  NCAA_D1
+  NCAA_D2
+  NCAA_D3
+  NAIA
+  NJCAA
+  HIGH_SCHOOL
+  PROFESSIONAL
+  OTHER
+}
+
 // ─── User & Identity ──────────────────────────────────────────────────────────
 
 model User {
@@ -88,11 +170,17 @@ model User {
   brand                Brand?
   creator              Creator?
   agency               Agency?
+  athlete              Athlete?
+  guardian             Guardian?
+  agentProfile         AgentProfile?
+  complianceOfficer    ComplianceOfficer?
 
   auditLogs            AuditLog[]
   sentNotifications    Notification[] @relation("SentNotifications")
   receivedNotifications Notification[] @relation("ReceivedNotifications")
   refreshTokens        RefreshToken[]
+  apiKeys              ApiKey[]
+  importJobs           ImportJob[]
 }
 
 model RefreshToken {
@@ -126,6 +214,8 @@ model Brand {
 
   contracts       Contract[]
   campaigns       Campaign[]
+  nilDeals        NilDeal[]
+  appearances     Appearance[]
 
   @@index([userId])
 }
@@ -160,6 +250,8 @@ model Creator {
   predictions      CreatorPrediction[]
   featureVectors   FeatureVector[]
   embeddings       EmbeddingRecord[]
+  taxDocuments     TaxDocument[]
+  fmvAssessments   FmvAssessment[]
 
   @@index([userId])
   @@index([handle])
@@ -227,6 +319,8 @@ model Contract {
   versions         ContractVersion[]
   clauses          ContractClause[]
   milestones       PaymentMilestone[]
+  nilExtension     ContractNilExtension?
+  nilDeals         NilDeal[]
 
   @@index([brandId])
   @@index([creatorId])
@@ -234,19 +328,26 @@ model Contract {
 }
 
 model ContractTemplate {
-  id          String     @id @default(cuid())
-  name        String
-  description String?
-  content     String     @db.Text
-  category    String     // influencer_post, ambassador, ugc, affiliate
-  isPublic    Boolean    @default(false)
-  createdBy   String?
-  clauseCount Int        @default(0)
-  usageCount  Int        @default(0)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id            String     @id @default(cuid())
+  name          String
+  description   String?
+  content       String     @db.Text
+  category      String     // influencer_post, ambassador, ugc, affiliate, nil_endorsement
+  isPublic      Boolean    @default(false)
+  isNilTemplate Boolean    @default(false)
+  createdBy     String?
+  platforms     String[]
+  tags          String[]
+  riskScore     Int?
+  clauseCount   Int        @default(0)
+  usageCount    Int        @default(0)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 
-  contracts   Contract[]
+  contracts     Contract[]
+
+  @@index([isPublic])
+  @@index([isNilTemplate])
 }
 
 model ContractVersion {
@@ -713,3 +814,641 @@ model ContactLead {
   convertedAt DateTime?
   createdAt   DateTime @default(now())
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// NIL + Athlete Ecosystem
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// ─── University & Athletic Department ─────────────────────────────────────────
+
+model University {
+  id                  String              @id @default(cuid())
+  name                String
+  shortName           String              // e.g. "UCLA"
+  ncaaSchoolId        String?             @unique
+  division            DivisionLevel       @default(NCAA_D1)
+  conference          String?
+  state               String?
+  country             String              @default("US")
+  website             String?
+  logoUrl             String?
+  primaryColor        String?
+  nilProgramActive    Boolean             @default(true)
+  nilPolicy           Json?               // school-specific NIL rules
+  reportingEmail      String?
+  reportingWindowDays Int                 @default(30)
+  disclosureRequired  Boolean             @default(true)
+  disclosureThreshold Int                 @default(0)  // cents; 0 = all deals
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  athleticDepartments AthleticDepartment[]
+  athletes            Athlete[]
+  complianceOfficers  ComplianceOfficer[]
+  complianceReports   ComplianceReport[]
+  nilCollectives      NilCollective[]
+
+  @@index([state])
+  @@index([division])
+  @@index([ncaaSchoolId])
+}
+
+model AthleticDepartment {
+  id           String     @id @default(cuid())
+  universityId String
+  university   University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  sport        String     // football, basketball, soccer, etc.
+  gender       String     // mens, womens, mixed
+  headCoach    String?
+  contactEmail String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  athletes     Athlete[]
+
+  @@unique([universityId, sport, gender])
+  @@index([universityId])
+  @@index([sport])
+}
+
+model ComplianceOfficer {
+  id           String      @id @default(cuid())
+  userId       String      @unique
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  universityId String
+  university   University  @relation(fields: [universityId], references: [id])
+  title        String?
+  phone        String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([universityId])
+}
+
+// ─── Athlete ───────────────────────────────────────────────────────────────────
+
+model Athlete {
+  id                    String             @id @default(cuid())
+  userId                String             @unique
+  user                  User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  universityId          String?
+  university            University?        @relation(fields: [universityId], references: [id])
+  athleticDepartmentId  String?
+  athleticDepartment    AthleticDepartment? @relation(fields: [athleticDepartmentId], references: [id])
+  sport                 String
+  position              String?
+  jerseyNumber          String?
+  classYear             String?            // Freshman, Sophomore, Junior, Senior, Graduate
+  graduationYear        Int?
+  status                AthleteStatus      @default(ENROLLED)
+  eligibilityStatus     EligibilityStatus  @default(ELIGIBLE)
+  eligibilityYearsLeft  Int?
+  ncaaId                String?            @unique
+  // NIL Program
+  nilActive             Boolean            @default(false)
+  nilCapCents           Int?               // school/state NIL annual cap (null = unlimited)
+  nilEarnedYtdCents     Int                @default(0)
+  nilDisclosureRequired Boolean            @default(true)
+  // Performance & Social
+  followersCount        Int                @default(0)
+  engagementRate        Float              @default(0)
+  primaryPlatform       String?
+  platforms             Json?
+  audienceScore         Float              @default(0)
+  fraudScore            Float              @default(0)
+  performanceScore      Float              @default(0)
+  fmvMinCents           Int?               // AI-generated FMV floor
+  fmvMaxCents           Int?               // AI-generated FMV ceiling
+  fmvLastAssessedAt     DateTime?
+  // Financial
+  dwollaCustomerId      String?
+  dwollaVerified        Boolean            @default(false)
+  totalEarningsNilCents Int                @default(0)
+  isVerified            Boolean            @default(false)
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+
+  guardians             GuardianRelationship[]
+  agentRelationships    AgentRepresentation[]
+  nilDisclosures        NilDisclosure[]
+  appearances           Appearance[]
+  nilDeals              NilDeal[]
+  fmvAssessments        FmvAssessment[]
+  taxDocuments          TaxDocument[]
+  graphNode             AthleteGraphNode?
+  marketplaceListing    NilMarketplaceListing?
+
+  @@index([userId])
+  @@index([universityId])
+  @@index([sport])
+  @@index([status])
+  @@index([eligibilityStatus])
+  @@index([nilActive])
+  @@index([performanceScore])
+}
+
+// ─── Guardian ─────────────────────────────────────────────────────────────────
+
+model Guardian {
+  id                String                 @id @default(cuid())
+  userId            String                 @unique
+  user              User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone             String?
+  relationship      String                 // parent, legal_guardian, etc.
+  isVerified        Boolean                @default(false)
+  verifiedAt        DateTime?
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+
+  athleteRelationships GuardianRelationship[]
+  approvals            GuardianApproval[]
+
+  @@index([userId])
+}
+
+model GuardianRelationship {
+  id          String    @id @default(cuid())
+  guardianId  String
+  guardian    Guardian  @relation(fields: [guardianId], references: [id], onDelete: Cascade)
+  athleteId   String
+  athlete     Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  relationship String   // mother, father, legal_guardian
+  isPrimary   Boolean   @default(false)
+  canApprove  Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+
+  @@unique([guardianId, athleteId])
+  @@index([guardianId])
+  @@index([athleteId])
+}
+
+model GuardianApproval {
+  id             String         @id @default(cuid())
+  guardianId     String
+  guardian       Guardian       @relation(fields: [guardianId], references: [id], onDelete: Cascade)
+  resourceType   String         // nil_deal, contract, appearance, disclosure
+  resourceId     String
+  status         ApprovalStatus @default(PENDING)
+  requestedAt    DateTime       @default(now())
+  respondedAt    DateTime?
+  expiresAt      DateTime
+  notes          String?
+  ipAddress      String?
+  createdAt      DateTime       @default(now())
+
+  @@index([guardianId])
+  @@index([resourceType, resourceId])
+  @@index([status])
+}
+
+// ─── Agent ────────────────────────────────────────────────────────────────────
+
+model AgentProfile {
+  id              String                @id @default(cuid())
+  userId          String                @unique
+  user            User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agencyName      String?
+  licenseNumber   String?
+  licenseState    String?
+  website         String?
+  phone           String?
+  bio             String?
+  isVerified      Boolean               @default(false)
+  verifiedAt      DateTime?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  representations AgentRepresentation[]
+
+  @@index([userId])
+}
+
+model AgentRepresentation {
+  id              String      @id @default(cuid())
+  agentId         String
+  agent           AgentProfile @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  athleteId       String
+  athlete         Athlete     @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  scope           String[]    // nil_deals, appearances, social_media, full_representation
+  commissionRate  Float       @default(0.15)
+  contractUrl     String?
+  startDate       DateTime
+  endDate         DateTime?
+  isActive        Boolean     @default(true)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@unique([agentId, athleteId])
+  @@index([agentId])
+  @@index([athleteId])
+  @@index([isActive])
+}
+
+// ─── NIL Collective ───────────────────────────────────────────────────────────
+
+model NilCollective {
+  id                String        @id @default(cuid())
+  name              String
+  slug              String        @unique
+  universityId      String?
+  university        University?   @relation(fields: [universityId], references: [id])
+  sport             String?       // null = all sports
+  website           String?
+  logoUrl           String?
+  description       String?       @db.Text
+  contactEmail      String?
+  ein               String?       // tax ID
+  isVerified        Boolean       @default(false)
+  totalFundsRaisedCents Int       @default(0)
+  totalPaidOutCents     Int       @default(0)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  nilDeals          NilDeal[]
+
+  @@index([universityId])
+  @@index([sport])
+}
+
+// ─── NIL Deal ─────────────────────────────────────────────────────────────────
+
+model NilDeal {
+  id                 String              @id @default(cuid())
+  athleteId          String
+  athlete            Athlete             @relation(fields: [athleteId], references: [id])
+  collectiveId       String?
+  collective         NilCollective?      @relation(fields: [collectiveId], references: [id])
+  brandId            String?
+  brand              Brand?              @relation(fields: [brandId], references: [id])
+  title              String
+  description        String?             @db.Text
+  dealType           String              // endorsement, appearance, social_post, licensing, camp
+  valueCents         Int
+  currency           String              @default("USD")
+  fmvAssessmentId    String?
+  fmvAssessment      FmvAssessment?      @relation(fields: [fmvAssessmentId], references: [id])
+  startDate          DateTime?
+  endDate            DateTime?
+  disclosureId       String?
+  disclosure         NilDisclosure?      @relation(fields: [disclosureId], references: [id])
+  contractId         String?
+  contract           Contract?           @relation(fields: [contractId], references: [id])
+  guardianApproved   Boolean             @default(false)
+  agentApproved      Boolean             @default(false)
+  complianceApproved Boolean             @default(false)
+  status             String              @default("PENDING") // PENDING, ACTIVE, COMPLETED, CANCELLED
+  aiRiskScore        Int                 @default(0)
+  aiRiskFlags        Json?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  @@index([athleteId])
+  @@index([collectiveId])
+  @@index([brandId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ─── NIL Disclosure ───────────────────────────────────────────────────────────
+
+model NilDisclosure {
+  id                  String              @id @default(cuid())
+  athleteId           String
+  athlete             Athlete             @relation(fields: [athleteId], references: [id])
+  universityId        String?
+  dealType            String              // endorsement, appearance, social_post, licensing
+  brandName           String
+  dealValueCents      Int
+  startDate           DateTime
+  endDate             DateTime?
+  description         String?
+  platforms           String[]
+  status              NilDisclosureStatus @default(DRAFT)
+  submittedAt         DateTime?
+  reviewedAt          DateTime?
+  reviewedBy          String?             // complianceOfficer userId
+  reviewNotes         String?
+  // Auto-generated by AI
+  aiGeneratedSummary  String?
+  aiComplianceFlags   Json?
+  aiStateRules        Json?               // applicable state laws
+  aiNcaaRules         Json?               // NCAA rules triggered
+  // Documents
+  contractUrl         String?
+  supportingDocUrls   String[]
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  nilDeals            NilDeal[]
+  contractExtensions  ContractNilExtension[]
+
+  @@index([athleteId])
+  @@index([universityId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ─── Appearance ───────────────────────────────────────────────────────────────
+
+model Appearance {
+  id                String          @id @default(cuid())
+  athleteId         String
+  athlete           Athlete         @relation(fields: [athleteId], references: [id])
+  brandId           String?
+  brand             Brand?          @relation(fields: [brandId], references: [id])
+  nilDealId         String?
+  type              AppearanceType
+  title             String
+  description       String?
+  venueName         String?
+  venueAddress      String?
+  city              String?
+  state             String?
+  scheduledAt       DateTime
+  durationMinutes   Int             @default(60)
+  compensationCents Int
+  currency          String          @default("USD")
+  status            String          @default("SCHEDULED") // SCHEDULED, CONFIRMED, COMPLETED, CANCELLED, NO_SHOW
+  confirmationCode  String?
+  guardinApprovalId String?
+  travelIncluded    Boolean         @default(false)
+  travelDetails     Json?
+  checkInAt         DateTime?
+  checkOutAt        DateTime?
+  proofUrl          String?         // photo proof of appearance
+  notes             String?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@index([athleteId])
+  @@index([brandId])
+  @@index([scheduledAt])
+  @@index([status])
+}
+
+// ─── Tax Documents ────────────────────────────────────────────────────────────
+
+model TaxDocument {
+  id              String            @id @default(cuid())
+  athleteId       String?
+  athlete         Athlete?          @relation(fields: [athleteId], references: [id])
+  creatorId       String?
+  creator         Creator?          @relation(fields: [creatorId], references: [id])
+  type            TaxDocumentType
+  taxYear         Int
+  status          TaxDocumentStatus @default(REQUESTED)
+  documentUrl     String?           // encrypted S3 URL
+  ssn_last4       String?           // last 4 only, never full SSN
+  businessName    String?
+  addressLine1    String?
+  city            String?
+  state           String?
+  zip             String?
+  totalAmountCents Int?
+  requestedAt     DateTime          @default(now())
+  submittedAt     DateTime?
+  verifiedAt      DateTime?
+  expiresAt       DateTime?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([athleteId])
+  @@index([creatorId])
+  @@index([taxYear])
+  @@index([type, status])
+}
+
+// ─── FMV Assessment ───────────────────────────────────────────────────────────
+
+model FmvAssessment {
+  id                  String    @id @default(cuid())
+  athleteId           String?
+  athlete             Athlete?  @relation(fields: [athleteId], references: [id])
+  creatorId           String?
+  creator             Creator?  @relation(fields: [creatorId], references: [id])
+  dealType            String    // endorsement, appearance, social_post, licensing
+  sport               String?
+  platform            String?
+  followersCount      Int?
+  engagementRate      Float?
+  marketTier          String?   // local, regional, national, international
+  fmvMinCents         Int
+  fmvMaxCents         Int
+  fmvMedianCents      Int
+  confidenceScore     Float     // 0-1
+  comparableDeals     Json?     // anonymized comps
+  eligibilityRisk     String?   // low, medium, high — risk of exceeding FMV = endorsement
+  aiModel             String
+  riskFlags           Json?
+  rawFactors          Json?     // input features used
+  createdAt           DateTime  @default(now())
+
+  nilDeals            NilDeal[]
+
+  @@index([athleteId])
+  @@index([creatorId])
+  @@index([dealType])
+  @@index([createdAt])
+}
+
+// ─── Compliance Reports (School Reporting) ────────────────────────────────────
+
+model ComplianceReport {
+  id                  String        @id @default(cuid())
+  universityId        String
+  university          University    @relation(fields: [universityId], references: [id])
+  reportType          String        // monthly, quarterly, annual, ad_hoc
+  period              String        // e.g. "2024-Q1", "2024-12"
+  status              ReportStatus  @default(DRAFT)
+  athleteCount        Int           @default(0)
+  dealCount           Int           @default(0)
+  totalValueCents     Int           @default(0)
+  disclosureCount     Int           @default(0)
+  pendingDisclosures  Int           @default(0)
+  flaggedDeals        Int           @default(0)
+  // AI-generated narrative
+  aiSummary           String?       @db.Text
+  aiRiskNarrative     String?       @db.Text
+  aiRecommendations   Json?
+  // Structured data
+  dealsByType         Json?         // { endorsement: 12, appearance: 4, ... }
+  dealsBySport        Json?         // { football: 30, basketball: 15, ... }
+  dealsTimeline       Json?         // monthly breakdown
+  topEarners          Json?         // anonymized top-N athletes
+  // Report document
+  pdfUrl              String?
+  csvUrl              String?
+  submittedAt         DateTime?
+  acknowledgedAt      DateTime?
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  @@index([universityId])
+  @@index([reportType, period])
+  @@index([status])
+}
+
+// ─── Athlete Identity Graph ───────────────────────────────────────────────────
+
+model AthleteGraphNode {
+  id                String              @id @default(cuid())
+  athleteId         String              @unique
+  athlete           Athlete             @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  clusterId         String?
+  clusterLabel      String?             // e.g. "SEC Football Skill Players"
+  centralityScore   Float               @default(0)
+  influenceScore    Float               @default(0)
+  botNetworkScore   Float               @default(0)
+  audienceOverlap   Json?
+  crossSportReach   Json?              // estimated reach in other sports' audiences
+  trending          Boolean             @default(false)
+  trendingScore     Float               @default(0)
+  brandFitScores    Json?              // { brand_category: score }
+  embeddingVector   Float[]
+  lastAnalyzedAt    DateTime?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  @@index([clusterId])
+  @@index([influenceScore])
+}
+
+// ─── Contract NIL extension ───────────────────────────────────────────────────
+// Extend existing Contract to support NIL-specific fields via a separate table
+
+model ContractNilExtension {
+  id                    String    @id @default(cuid())
+  contractId            String    @unique
+  contract              Contract  @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  athleteId             String?
+  nilDealId             String?
+  isNilContract         Boolean   @default(true)
+  ncaaCompliant         Boolean?
+  stateCompliant        Boolean?
+  universityApproved    Boolean   @default(false)
+  universityApprovedAt  DateTime?
+  guardianSignatureRequired Boolean @default(false)
+  guardianSignedAt      DateTime?
+  guardianSignerIp      String?
+  agentSignatureRequired Boolean  @default(false)
+  agentSignedAt         DateTime?
+  disclosureId          String?
+  disclosure            NilDisclosure? @relation(fields: [disclosureId], references: [id])
+  applicableStateLaws   String[]
+  ncaaRules             Json?
+  exclusivitySports     String[]  // sports excluded from future deals
+  fmvVerified           Boolean   @default(false)
+  fmvAssessmentId       String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([contractId])
+  @@index([athleteId])
+}
+
+// ─── API Keys (Ecosystem / SDK Moat) ─────────────────────────────────────────
+
+model ApiKey {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  keyHash      String    @unique
+  prefix       String
+  scopes       String[]
+  lastUsedAt   DateTime?
+  expiresAt    DateTime?
+  isActive     Boolean   @default(true)
+  requestCount BigInt    @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([keyHash])
+}
+
+// ─── NIL Marketplace ─────────────────────────────────────────────────────────
+
+model NilMarketplaceListing {
+  id                   String   @id @default(cuid())
+  athleteId            String   @unique
+  athlete              Athlete  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  headline             String
+  bio                  String?
+  sport                String
+  preferredDealTypes   String[]
+  minDealValueCents    Int      @default(0)
+  socialFollowersTotal Int      @default(0)
+  engagementRatePct    Float?
+  audienceAgeRange     String?
+  audienceGenderSplit  Json?
+  topAudienceLocations String[]
+  isVisible            Boolean  @default(true)
+  featuredImageUrl     String?
+  verifiedByPlatform   Boolean  @default(false)
+  viewCount            Int      @default(0)
+  inquiryCount         Int      @default(0)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([sport])
+  @@index([isVisible])
+  @@index([minDealValueCents])
+}
+
+// ─── SCIM Provisioning ────────────────────────────────────────────────────────
+
+model ScimToken {
+  id          String    @id @default(cuid())
+  tenantId    String
+  tenantType  String
+  tokenHash   String    @unique
+  description String?
+  lastUsedAt  DateTime?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+
+  @@index([tenantId])
+}
+
+// ─── Import Jobs (Data Moat / Switching Cost) ─────────────────────────────────
+
+enum ImportJobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  PARTIAL
+}
+
+enum ImportType {
+  CREATOR_CSV
+  ATHLETE_CSV
+  CONTRACT_CSV
+  NIL_DEAL_CSV
+  OPENDORSE_EXPORT
+  TEAMWORKS_EXPORT
+  GENERIC_CSV
+}
+
+model ImportJob {
+  id            String          @id @default(cuid())
+  userId        String
+  user          User            @relation(fields: [userId], references: [id])
+  type          ImportType
+  status        ImportJobStatus @default(PENDING)
+  fileName      String
+  fileUrl       String?
+  totalRows     Int             @default(0)
+  processedRows Int             @default(0)
+  errorRows     Int             @default(0)
+  errors        Json?
+  mappingConfig Json?
+  completedAt   DateTime?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+

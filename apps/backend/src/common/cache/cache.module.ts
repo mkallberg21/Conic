@@ -1,9 +1,11 @@
-import { Global, Module } from '@nestjs/common';
+import { Global, Module, Logger } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheService } from './cache.service';
 import Redis from 'ioredis';
 
 export const REDIS_CLIENT = 'REDIS_CLIENT';
+
+const redisLogger = new Logger('Redis');
 
 @Global()
 @Module({
@@ -22,12 +24,30 @@ export const REDIS_CLIENT = 'REDIS_CLIENT';
           enableOfflineQueue: false,
           retryStrategy: (times) => Math.min(times * 200, 5000),
         });
-        client.on('error', (err) => {
-          // Non-fatal — cache miss degrades gracefully to DB
+
+        client.on('connect', () => {
+          redisLogger.log('Connected to Redis');
+        });
+
+        client.on('ready', () => {
+          redisLogger.log('Redis client ready');
+        });
+
+        client.on('error', (err: Error) => {
           if (process.env.NODE_ENV !== 'test') {
-            console.error('[Redis] connection error', err.message);
+            // Structured log — captured by any NestJS log transporter (e.g. Winston/Pino)
+            redisLogger.error('Redis connection error', err.stack);
           }
         });
+
+        client.on('close', () => {
+          redisLogger.warn('Redis connection closed — will retry');
+        });
+
+        client.on('reconnecting', (delay: number) => {
+          redisLogger.warn(`Redis reconnecting in ${delay}ms`);
+        });
+
         return client;
       },
       inject: [ConfigService],

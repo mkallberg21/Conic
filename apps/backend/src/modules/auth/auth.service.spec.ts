@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { PrismaService } from '../../prisma/prisma.service';
-import * as bcrypt from 'bcryptjs';
+import * as argon2 from 'argon2';
 import { UserRole } from '@prisma/client';
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
@@ -118,7 +118,7 @@ describe('AuthService', () => {
     });
 
     it('throws UnauthorizedException for wrong password', async () => {
-      const hash = await bcrypt.hash('correct-password', 12);
+      const hash = await argon2.hash('correct-password');
       mockPrisma.user.findUnique.mockResolvedValue({ ...mockUser, passwordHash: hash });
 
       await expect(
@@ -127,7 +127,7 @@ describe('AuthService', () => {
     });
 
     it('returns tokens on correct credentials', async () => {
-      const hash = await bcrypt.hash('correct-password', 12);
+      const hash = await argon2.hash('correct-password');
       mockPrisma.user.findUnique.mockResolvedValue({ ...mockUser, passwordHash: hash });
       mockPrisma.user.update.mockResolvedValue({ ...mockUser });
       mockPrisma.refreshToken.create.mockResolvedValue({ token: 'refresh' });

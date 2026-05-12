@@ -4,15 +4,15 @@ services:
     container_name: conic-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: conic
-      POSTGRES_PASSWORD: conic_secret
-      POSTGRES_DB: conic
+      POSTGRES_USER: ${POSTGRES_USER:-conic}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
+      POSTGRES_DB: ${POSTGRES_DB:-conic}
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U conic']
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-conic}']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -21,12 +21,17 @@ services:
     image: redis:7-alpine
     container_name: conic-redis
     restart: unless-stopped
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD:?REDIS_PASSWORD must be set}
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
     healthcheck:
-      test: ['CMD', 'redis-cli', 'ping']
+      test: ['CMD', 'redis-cli', '-a', '${REDIS_PASSWORD}', 'ping']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -40,10 +45,11 @@ services:
     ports:
       - "4000:4000"
     environment:
-      DATABASE_URL: postgresql://conic:conic_secret@postgres:5432/conic
-      REDIS_URL: redis://redis:6379
-      JWT_SECRET: ${JWT_SECRET:-changeme_in_production}
-      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-changeme_refresh}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-conic}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-conic}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set — use: openssl rand -base64 48}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?JWT_REFRESH_SECRET must be set — use: openssl rand -base64 48}
+      INTERNAL_API_SECRET: ${INTERNAL_API_SECRET:?INTERNAL_API_SECRET must be set — use: openssl rand -base64 32}
       DWOLLA_KEY: ${DWOLLA_KEY:-}
       DWOLLA_SECRET: ${DWOLLA_SECRET:-}
       DWOLLA_ENVIRONMENT: ${DWOLLA_ENVIRONMENT:-sandbox}
@@ -55,9 +61,13 @@ services:
       PRICING_ENGINE_AI_URL: http://pricing-engine-ai:8004
       CAMPAIGN_AGENT_AI_URL: http://campaign-agent-ai:8005
       PERFORMANCE_PREDICTION_AI_URL: http://performance-prediction-ai:8006
+      NIL_COMPLIANCE_AI_URL: http://nil-compliance-ai:8007
+      FRAUD_DETECTION_AI_URL: http://fraud-detection-ai:8008
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
       NODE_ENV: production
+      APP_ENV: production
     depends_on:
       postgres:
         condition: service_healthy
@@ -74,6 +84,9 @@ services:
       - "8001:8001"
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      INTERNAL_API_SECRET: ${INTERNAL_API_SECRET:?INTERNAL_API_SECRET must be set}
+      BACKEND_ORIGIN: http://backend:4000
+      APP_ENV: production
 
   deliverable-verification-ai:
     build:
@@ -83,6 +96,11 @@ services:
     restart: unless-stopped
     ports:
       - "8002:8002"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      INTERNAL_API_SECRET: ${INTERNAL_API_SECRET:?INTERNAL_API_SECRET must be set}
+      BACKEND_ORIGIN: http://backend:4000
+      APP_ENV: production
 
   creator-graph-ai:
     build:
@@ -92,6 +110,11 @@ services:
     restart: unless-stopped
     ports:
       - "8003:8003"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      INTERNAL_API_SECRET: ${INTERNAL_API_SECRET:?INTERNAL_API_SECRET must be set}
+      BACKEND_ORIGIN: http://backend:4000
+      APP_ENV: production
 
   pricing-engine-ai:
     build:
@@ -101,6 +124,10 @@ services:
     restart: unless-stopped
     ports:
       - "8004:8004"
+    environment:
+      INTERNAL_API_SECRET: ${INTERNAL_API_SECRET:?INTERNAL_API_SECRET must be set}
+      BACKEND_ORIGIN: http://backend:4000
+      APP_ENV: production
 
   campaign-agent-ai:
     build:
@@ -112,6 +139,9 @@ services:
       - "8005:8005"
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      INTERNAL_API_SECRET: ${INTERNAL_API_SECRET:?INTERNAL_API_SECRET must be set}
+      BACKEND_ORIGIN: http://backend:4000
+      APP_ENV: production
 
   performance-prediction-ai:
     build:
@@ -121,6 +151,38 @@ services:
     restart: unless-stopped
     ports:
       - "8006:8006"
+    environment:
+      INTERNAL_API_SECRET: ${INTERNAL_API_SECRET:?INTERNAL_API_SECRET must be set}
+      BACKEND_ORIGIN: http://backend:4000
+      APP_ENV: production
+
+  nil-compliance-ai:
+    build:
+      context: ./apps/nil-compliance-ai
+      dockerfile: Dockerfile
+    container_name: conic-nil-compliance-ai
+    restart: unless-stopped
+    ports:
+      - "8007:8007"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      INTERNAL_API_SECRET: ${INTERNAL_API_SECRET:?INTERNAL_API_SECRET must be set}
+      BACKEND_ORIGIN: http://backend:4000
+      APP_ENV: production
+
+  fraud-detection-ai:
+    build:
+      context: ./apps/fraud-detection-ai
+      dockerfile: Dockerfile
+    container_name: conic-fraud-detection-ai
+    restart: unless-stopped
+    ports:
+      - "8008:8008"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      INTERNAL_API_SECRET: ${INTERNAL_API_SECRET:?INTERNAL_API_SECRET must be set}
+      BACKEND_ORIGIN: http://backend:4000
+      APP_ENV: production
 
   frontend:
     build:
@@ -131,7 +193,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:4000
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4000}
     depends_on:
       - backend
 

@@ -13,18 +13,8 @@ import { AiModule } from '../modules/ai/ai.module';
 import { FeatureStoreModule } from '../modules/feature-store/feature-store.module';
 import { EmbeddingsModule } from '../modules/embeddings/embeddings.module';
 import { GraphModule } from '../modules/graph/graph.module';
-
-export const QUEUE_NAMES = {
-  AI_VERIFICATION: 'ai-verification',
-  CREATOR_SCORING: 'creator-scoring',
-  WEBHOOK_DELIVERY: 'webhook-delivery',
-  CAMPAIGN_SUMMARY: 'campaign-summary',
-  DATA_FLYWHEEL: 'data-flywheel',
-  EMBEDDING: 'embedding',
-  GRAPH_ANALYSIS: 'graph-analysis',
-} as const;
-
-export type QueueName = (typeof QUEUE_NAMES)[keyof typeof QUEUE_NAMES];
+import { QUEUE_NAMES } from './queue.constants';
+export { QUEUE_NAMES, QueueName } from './queue.constants';
 
 @Module({
   imports: [

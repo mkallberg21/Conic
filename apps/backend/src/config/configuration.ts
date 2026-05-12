@@ -53,6 +53,8 @@ export default () => ({
     pricingEngineUrl: process.env.PRICING_ENGINE_URL ?? 'http://localhost:8004',
     campaignAgentUrl: process.env.CAMPAIGN_AGENT_URL ?? 'http://localhost:8005',
     performancePredictionUrl: process.env.PERFORMANCE_PREDICTION_AI_URL ?? 'http://localhost:8006',
+    nilComplianceAiUrl: process.env.NIL_COMPLIANCE_AI_URL ?? 'http://localhost:8007',
+    fraudDetectionAiUrl: process.env.FRAUD_DETECTION_AI_URL ?? 'http://localhost:8008',
   },
   storage: {
     provider: process.env.STORAGE_PROVIDER ?? 'local',
