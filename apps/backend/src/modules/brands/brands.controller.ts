@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, Body, UseGuards, Version, Param } from '@nestjs/common';
+import { Controller, Get, Patch, Body, UseGuards, Param } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
 import { BrandsService } from './brands.service';
@@ -12,7 +12,6 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('brands')
-@Version('1')
 export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
 

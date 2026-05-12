@@ -1,5 +1,5 @@
 import {
-  Controller, Post, Body, Param, UseGuards, Version, Get,
+  Controller, Post, Body, Param, UseGuards, Get,
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { AiService } from './ai.service';
@@ -9,7 +9,6 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('ai')
-@Version('1')
 export class AiController {
   constructor(private readonly aiService: AiService) {}
 

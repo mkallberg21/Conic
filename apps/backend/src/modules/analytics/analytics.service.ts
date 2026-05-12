@@ -188,7 +188,7 @@ export class AnalyticsService {
         predictions: {
           take: 1,
           orderBy: { createdAt: 'desc' },
-          select: { predictedRoi: true, predictedReach: true, confidence: true },
+          select: { predictedROI: true, predictedReach: true, confidence: true },
         },
       },
     });

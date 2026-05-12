@@ -200,15 +200,15 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
                     </button>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className={cn('text-sm font-medium', task.completed && 'line-through text-muted-foreground')}>
+                        <p className={cn('text-sm font-medium', (task.completed as boolean) && 'line-through text-muted-foreground')}>
                           {task.title as string}
                         </p>
-                        {task.aiGenerated && (
+                        {(task.aiGenerated as boolean) && (
                           <Badge variant="secondary" className="text-[10px] gap-1 py-0">
                             <Sparkles className="h-2.5 w-2.5" /> AI
                           </Badge>
                         )}
-                        {task.priority && (
+                        {(task.priority as string | undefined) && (
                           <Badge
                             className={cn('text-[10px] py-0', task.priority === 'HIGH' ? 'bg-rose-100 text-rose-700' : task.priority === 'MEDIUM' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600')}
                             variant="secondary"
@@ -217,8 +217,8 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
                           </Badge>
                         )}
                       </div>
-                      {task.description && <p className="text-xs text-muted-foreground mt-0.5">{task.description as string}</p>}
-                      {task.dueDate && <p className="text-[11px] text-muted-foreground mt-1">Due: {formatDate(task.dueDate as string)}</p>}
+                      {(task.description as string | undefined) && <p className="text-xs text-muted-foreground mt-0.5">{task.description as string}</p>}
+                      {(task.dueDate as string | undefined) && <p className="text-[11px] text-muted-foreground mt-1">Due: {formatDate(task.dueDate as string)}</p>}
                     </div>
                   </div>
                 ))

@@ -22,7 +22,6 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
-@Version('1')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

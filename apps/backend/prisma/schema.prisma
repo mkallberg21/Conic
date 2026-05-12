@@ -156,9 +156,20 @@ model Creator {
   deliverables     Deliverable[]
   graphNode        CreatorGraphNode?
   predictions      CreatorPrediction[]
+  featureVectors   FeatureVector[]
+  embeddings       EmbeddingRecord[]
 
   @@index([userId])
   @@index([handle])
+  @@index([performanceScore])
+  @@index([followersCount])
+  @@index([engagementRate])
+  @@index([fraudScore])
+  @@index([audienceScore])
+  @@index([pricingTier])
+  @@index([isVerified])
+  @@index([primaryPlatform])
+  @@index([createdAt])
 }
 
 model Agency {
@@ -304,6 +315,8 @@ model Deliverable {
   @@index([contractId])
   @@index([creatorId])
   @@index([status])
+  @@index([creatorId, status])
+  @@index([dueDate])
 }
 
 // ─── Payments ─────────────────────────────────────────────────────────────────
@@ -334,6 +347,8 @@ model Payment {
 
   @@index([contractId])
   @@index([status])
+  @@index([contractId, status])
+  @@index([createdAt])
 }
 
 model PaymentMilestone {
@@ -358,6 +373,7 @@ model Campaign {
   id              String          @id @default(cuid())
   brandId         String
   brand           Brand           @relation(fields: [brandId], references: [id])
+  deletedAt       DateTime?
   title           String
   description     String?         @db.Text
   status          CampaignStatus  @default(DRAFT)
@@ -389,6 +405,8 @@ model Campaign {
 
   @@index([brandId])
   @@index([status])
+  @@index([brandId, status])
+  @@index([deletedAt])
 }
 
 model CampaignTask {
@@ -402,11 +420,13 @@ model CampaignTask {
   completed   Boolean  @default(false)
   completedAt DateTime?
   aiGenerated Boolean  @default(false)
+  priority    String?  @default("MEDIUM") // LOW, MEDIUM, HIGH
   position    Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([campaignId])
+  @@index([campaignId, completed])
 }
 
 model CampaignSummary {
@@ -501,14 +521,113 @@ model AIRequest {
   outputPayload Json?
   status        String   @default("pending") // pending, success, failed
   durationMs    Int?
-  tokensUsed    Int?
+  tokensUsed    Int?     @default(0)
+  costUsd       Float?   @default(0)
   errorMessage  String?
   resourceType  String?  // contract, deliverable, creator, campaign
   resourceId    String?
+  modelVersion  String?
   createdAt     DateTime @default(now())
 
   @@index([modelType])
   @@index([resourceType, resourceId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ─── Feature Store (ML Data Flywheel) ────────────────────────────────────────
+
+model FeatureVector {
+  id           String   @id @default(cuid())
+  creatorId    String?
+  creator      Creator? @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  entityType   String   // creator, contract, deliverable, campaign
+  entityId     String
+  featureSet   String   // scoring, pricing, fraud, engagement
+  version      Int      @default(1)
+  features     Json     // { key: value } feature map
+  computedAt   DateTime @default(now())
+  expiresAt    DateTime?
+
+  @@index([entityType, entityId])
+  @@index([creatorId])
+  @@index([featureSet])
+  @@index([computedAt])
+}
+
+model EmbeddingRecord {
+  id           String   @id @default(cuid())
+  creatorId    String?
+  creator      Creator? @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  entityType   String   // creator, clause, contract, deliverable
+  entityId     String
+  embeddingType String  // profile, graph, clause, style
+  model        String   // text-embedding-3-small, node2vec-v1, etc.
+  dimensions   Int
+  vector       Float[]
+  metadata     Json?
+  createdAt    DateTime @default(now())
+
+  @@unique([entityType, entityId, embeddingType, model])
+  @@index([entityType, entityId])
+  @@index([creatorId])
+}
+
+model ModelRegistry {
+  id           String   @id @default(cuid())
+  name         String
+  version      String
+  type         String   // scoring, pricing, fraud, graph, contract_risk
+  endpoint     String?
+  artifactPath String?
+  metrics      Json?    // { accuracy, f1, auc, ... }
+  isActive     Boolean  @default(false)
+  isChampion   Boolean  @default(false)  // the production model
+  trainedAt    DateTime?
+  promotedAt   DateTime?
+  metadata     Json?
+  createdAt    DateTime @default(now())
+
+  driftAlerts  ModelDriftAlert[]
+
+  @@unique([name, version])
+  @@index([type, isActive])
+  @@index([isChampion])
+}
+
+model ModelDriftAlert {
+  id            String        @id @default(cuid())
+  modelId       String
+  model         ModelRegistry @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  metricName    String
+  baseline      Float
+  observed      Float
+  driftScore    Float
+  severity      String        // low, medium, high, critical
+  resolved      Boolean       @default(false)
+  resolvedAt    DateTime?
+  createdAt     DateTime      @default(now())
+
+  @@index([modelId])
+  @@index([severity, resolved])
+  @@index([createdAt])
+}
+
+model DataFlywheelEvent {
+  id           String   @id @default(cuid())
+  eventType    String   // contract.signed, deliverable.approved, payment.completed, ...
+  sourceEntity String   // creator, contract, deliverable, campaign, payment
+  sourceId     String
+  payload      Json
+  processed    Boolean  @default(false)
+  processedAt  DateTime?
+  processingMs Int?
+  featuresFed  String[] // which feature sets were updated
+  createdAt    DateTime @default(now())
+
+  @@index([eventType])
+  @@index([sourceEntity, sourceId])
+  @@index([processed, createdAt])
 }
 
 // ─── Notifications ────────────────────────────────────────────────────────────

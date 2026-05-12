@@ -30,7 +30,7 @@ async function bootstrap() {
 
   // Global prefix & versioning
   app.setGlobalPrefix('api');
-  app.enableVersioning({ type: VersioningType.URI });
+  app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
 
   // Global pipes
   app.useGlobalPipes(

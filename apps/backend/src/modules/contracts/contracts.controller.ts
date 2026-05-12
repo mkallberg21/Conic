@@ -1,5 +1,5 @@
 import {
-  Controller, Get, Post, Body, UseGuards, Version, Param, Req, Query,
+  Controller, Get, Post, Body, UseGuards, Param, Req, Query,
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
@@ -15,7 +15,6 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('contracts')
-@Version('1')
 export class ContractsController {
   constructor(private readonly contractsService: ContractsService) {}
 

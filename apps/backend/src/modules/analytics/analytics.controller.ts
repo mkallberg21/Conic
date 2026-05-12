@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards, Version } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
 import { AnalyticsService } from './analytics.service';
@@ -11,7 +11,6 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('analytics')
-@Version('1')
 export class AnalyticsController {
   constructor(private readonly analyticsService: AnalyticsService) {}
 

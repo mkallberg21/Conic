@@ -1,7 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
+import { createHash } from 'crypto';
 import { PrismaService } from '../../prisma/prisma.service';
+import { CacheService, TTL } from '../../common/cache/cache.service';
 import { CreateCreatorDto } from './dto/create-creator.dto';
 import { QUEUE_NAMES } from '../../queue/queue.module';
 
@@ -26,6 +28,7 @@ export interface DiscoveryFilters {
 export class CreatorsService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly cache: CacheService,
     @InjectQueue(QUEUE_NAMES.CREATOR_SCORING) private readonly scoringQueue: Queue,
   ) {}
 
@@ -38,7 +41,14 @@ export class CreatorsService {
     const take = Math.min(filters.take ?? 24, 100);
     const skip = (page - 1) * take;
 
-    const where: Record<string, unknown> = {};
+    // Cache key based on filter hash
+    const filterHash = createHash('sha1').update(JSON.stringify({ ...filters, page, take })).digest('hex').slice(0, 16);
+    const cacheKey = CacheService.keys.creatorDiscover(filterHash);
+
+    return this.cache.wrap(
+      cacheKey,
+      async () => {
+        const where: Record<string, unknown> = {};
 
     // Text search across handle, bio, niche
     if (filters.q) {
@@ -105,26 +115,35 @@ export class CreatorsService {
     ]);
 
     return {
-      items,
-      total,
-      page,
-      take,
-      totalPages: Math.ceil(total / take),
-    };
+        items,
+        total,
+        page,
+        take,
+        totalPages: Math.ceil(total / take),
+      };
+    },
+    TTL.SHORT,
+    );
   }
 
   async findById(id: string) {
-    const creator = await this.prisma.creator.findUnique({
-      where: { id },
-      include: {
-        user: { select: { id: true, email: true, firstName: true, lastName: true, avatarUrl: true } },
-        graphNode: true,
-        predictions: { orderBy: { createdAt: 'desc' }, take: 1 },
-        _count: { select: { contracts: true, deliverables: true } },
+    return this.cache.wrap(
+      CacheService.keys.creator(id),
+      async () => {
+        const creator = await this.prisma.creator.findUnique({
+          where: { id },
+          include: {
+            user: { select: { id: true, email: true, firstName: true, lastName: true, avatarUrl: true } },
+            graphNode: true,
+            predictions: { orderBy: { createdAt: 'desc' }, take: 1 },
+            _count: { select: { contracts: true, deliverables: true } },
+          },
+        });
+        if (!creator) throw new NotFoundException('Creator not found');
+        return creator;
       },
-    });
-    if (!creator) throw new NotFoundException('Creator not found');
-    return creator;
+      TTL.MEDIUM,
+    );
   }
 
   async findByUserId(userId: string) {
@@ -145,13 +164,20 @@ export class CreatorsService {
     const creator = await this.prisma.creator.findUnique({ where: { userId } });
     if (!creator) throw new NotFoundException('Creator profile not found');
 
-    return this.prisma.creator.update({
+    const updated = await this.prisma.creator.update({
       where: { userId },
       data: {
         ...dto,
         platforms: dto.platforms ?? undefined,
       },
     });
+
+    await this.cache.del(
+      CacheService.keys.creator(creator.id),
+      CacheService.keys.creatorStats(creator.id),
+    );
+    await this.cache.delPattern('creator:discover:*');
+    return updated;
   }
 
   async updateScores(
@@ -198,6 +224,15 @@ export class CreatorsService {
       'score-creator',
       { creatorId },
       { jobId: `score-${creatorId}-${Date.now()}` },
+    );
+  }
+
+  /** Alias used by tests and controllers */
+  async scheduleScoring(creatorId: string): Promise<void> {
+    await this.scoringQueue.add(
+      'score',
+      { creatorId },
+      { jobId: `score-${creatorId}`, delay: 500 },
     );
   }
 

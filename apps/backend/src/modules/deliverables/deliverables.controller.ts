@@ -1,5 +1,5 @@
 import {
-  Controller, Get, Post, Body, UseGuards, Version, Param,
+  Controller, Get, Post, Body, UseGuards, Param,
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
@@ -18,7 +18,6 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('deliverables')
-@Version('1')
 export class DeliverablesController {
   constructor(private readonly deliverablesService: DeliverablesService) {}
 

@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { PaymentStatus, UserRole } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
-import Client from 'dwolla-v2';
+import { Client } from 'dwolla-v2';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService, EVENTS } from '../../events/event-bus.service';
 import { OnEvent } from '@nestjs/event-emitter';
@@ -15,7 +15,8 @@ import { AuditService } from '../../common/audit/audit.service';
 @Injectable()
 export class PaymentsService {
   private readonly logger = new Logger(PaymentsService.name);
-  private readonly dwolla: Client;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private readonly dwolla: any;
 
   constructor(
     private readonly prisma: PrismaService,
@@ -211,8 +212,8 @@ export class PaymentsService {
     let customerUrl = creator.dwollaCustomerId;
 
     if (!customerUrl) {
-      const [firstName, ...rest] = (creator.user.name ?? 'Creator').split(' ');
-      const lastName = rest.join(' ') || 'User';
+      const firstName = creator.user.firstName ?? 'Creator';
+      const lastName = creator.user.lastName ?? 'User';
 
       const res = await token.post('customers', {
         firstName,

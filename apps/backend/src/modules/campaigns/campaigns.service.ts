@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, ForbiddenException, Logger } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService, EVENTS } from '../../events/event-bus.service';
@@ -39,7 +40,7 @@ export class CampaignsService {
         endDate: dto.endDate ? new Date(dto.endDate) : undefined,
         platforms: dto.platforms ?? [],
         niche: dto.niche ?? [],
-        targetAudience: dto.targetAudience,
+        targetAudience: dto.targetAudience as Prisma.InputJsonValue | undefined,
         aiTimeline,
         tasks: {
           createMany: {

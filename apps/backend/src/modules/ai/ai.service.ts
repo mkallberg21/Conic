@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 
 // ─── Input/Output Types ───────────────────────────────────────────────────────
@@ -126,7 +127,7 @@ export class AiService {
         verificationScore: result.verificationScore,
         verificationStatus: result.status as 'PASSED' | 'FAILED' | 'FLAGGED',
         verificationFlags: result.flags,
-        verificationReport: result.report as Record<string, unknown>,
+        verificationReport: result.report as unknown as Prisma.InputJsonValue,
         status: result.status === 'PASSED' ? 'UNDER_REVIEW' : 'UNDER_REVIEW',
       },
     });

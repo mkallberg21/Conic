@@ -1,6 +1,7 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
+import { Prisma } from '@prisma/client';
 import { QUEUE_NAMES } from '../queue.module';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ConfigService } from '@nestjs/config';
@@ -103,7 +104,7 @@ export class CreatorScoringProcessor extends WorkerHost {
           data: {
             modelType: 'creator_score',
             inputPayload: features,
-            outputPayload: prediction,
+            outputPayload: prediction as unknown as Prisma.InputJsonValue,
             status: 'success',
             resourceType: 'Creator',
             resourceId: creatorId,

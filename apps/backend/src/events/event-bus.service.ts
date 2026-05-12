@@ -70,19 +70,54 @@ export const EVENTS = {
   FRAUD_DETECTED: 'fraud.detected',
   CAMPAIGN_SUMMARY_GENERATED: 'campaign.summary.generated',
   CREATOR_SCORE_UPDATED: 'creator.score.updated',
+  CREATOR_REGISTERED: 'creator.registered',
 } as const;
+
+// Events that should feed into the data flywheel
+const FLYWHEEL_EVENTS = new Set([
+  'contract.signed',
+  'contract.activated',
+  'deliverable.approved',
+  'deliverable.rejected',
+  'payment.released',
+  'creator.score.updated',
+  'creator.registered',
+]);
 
 // ─── Service ──────────────────────────────────────────────────────────────────
 
 @Injectable()
 export class EventBusService implements OnModuleDestroy {
   private readonly logger = new Logger(EventBusService.name);
+  private flywheelQueue?: import('bullmq').Queue;
 
   constructor(private readonly eventEmitter: EventEmitter2) {}
 
-  emit<T>(event: string, payload: T): void {
+  /** Called by QueueModule after init to inject the flywheel queue reference */
+  setFlywheelQueue(queue: import('bullmq').Queue): void {
+    this.flywheelQueue = queue;
+  }
+
+  emit<T extends Record<string, unknown>>(event: string, payload: T): void {
     this.logger.debug(`Emitting event: ${event}`);
     this.eventEmitter.emit(event, payload);
+
+    // Fan into data flywheel queue
+    if (FLYWHEEL_EVENTS.has(event) && this.flywheelQueue) {
+      const sourceEntity = event.split('.')[0];
+      const sourceId =
+        (payload['creatorId'] as string) ??
+        (payload['contractId'] as string) ??
+        (payload['paymentId'] as string) ??
+        'unknown';
+      this.flywheelQueue
+        .add(
+          event,
+          { eventType: event, sourceEntity, sourceId, payload },
+          { delay: 2000, jobId: `${event}:${sourceId}:${Date.now()}` },
+        )
+        .catch((err) => this.logger.error(`Flywheel queue error: ${(err as Error).message}`));
+    }
   }
 
   on<T>(event: string, listener: (payload: T) => void): void {

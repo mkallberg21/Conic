@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, UseGuards, Version } from '@nestjs/common';
+import { Controller, Get, Post, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
 import { PaymentsService } from './payments.service';
@@ -11,7 +11,6 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('payments')
-@Version('1')
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 

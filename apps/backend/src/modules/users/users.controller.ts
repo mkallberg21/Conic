@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Patch, UseGuards, Version } from '@nestjs/common';
+import { Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
 import { UsersService } from './users.service';
@@ -11,7 +11,6 @@ import { Roles } from '../../common/decorators/roles.decorator';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
 @Controller('users')
-@Version('1')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

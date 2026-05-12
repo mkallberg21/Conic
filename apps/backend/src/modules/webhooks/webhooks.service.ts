@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { OnEvent } from '@nestjs/event-emitter';
@@ -111,7 +112,7 @@ export class WebhooksService {
         data: {
           endpointId: ep.id,
           event: webhookEvent,
-          payload,
+          payload: payload as unknown as Prisma.InputJsonValue,
         },
       });
 

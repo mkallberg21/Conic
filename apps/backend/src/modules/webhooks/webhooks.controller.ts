@@ -1,5 +1,5 @@
 import {
-  Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Version,
+  Controller, Get, Post, Put, Delete, Body, Param, UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
@@ -14,7 +14,6 @@ import { Roles } from '../../common/decorators/roles.decorator';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN, UserRole.BRAND)
 @Controller('webhooks')
-@Version('1')
 export class WebhooksController {
   constructor(private readonly webhooksService: WebhooksService) {}
 

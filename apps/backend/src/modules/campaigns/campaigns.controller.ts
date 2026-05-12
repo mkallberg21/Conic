@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseGuards, Version } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
 import { CampaignsService } from './campaigns.service';
@@ -13,7 +13,6 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.BRAND, UserRole.ADMIN)
 @Controller('campaigns')
-@Version('1')
 export class CampaignsController {
   constructor(private readonly campaignsService: CampaignsService) {}
 

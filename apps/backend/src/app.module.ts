@@ -6,6 +6,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import configuration from './config/configuration';
 import { validate } from './config/validation';
 import { PrismaModule } from './prisma/prisma.module';
+import { CacheModule } from './common/cache/cache.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { BrandsModule } from './modules/brands/brands.module';
@@ -21,6 +22,9 @@ import { EventBusModule } from './events/event-bus.module';
 import { AuditModule } from './common/audit/audit.module';
 import { QueueModule } from './queue/queue.module';
 import { WebhooksModule } from './modules/webhooks/webhooks.module';
+import { HealthModule } from './modules/health/health.module';
+import { FeatureStoreModule } from './modules/feature-store/feature-store.module';
+import { EmbeddingsModule } from './modules/embeddings/embeddings.module';
 
 @Module({
   imports: [
@@ -31,18 +35,19 @@ import { WebhooksModule } from './modules/webhooks/webhooks.module';
       validate,
     }),
 
-    // Rate limiting
+    // Rate limiting — tightened for auth endpoints
     ThrottlerModule.forRoot([
-      { name: 'short', ttl: 1000, limit: 20 },
-      { name: 'long', ttl: 60000, limit: 200 },
+      { name: 'global-short', ttl: 1000, limit: 30 },
+      { name: 'global-long', ttl: 60000, limit: 300 },
     ]),
 
     // Events & scheduling
     EventEmitterModule.forRoot({ wildcard: true }),
     ScheduleModule.forRoot(),
 
-    // Core
+    // Core infrastructure (global)
     PrismaModule,
+    CacheModule,
     EventBusModule,
     AuditModule,
 
@@ -60,6 +65,9 @@ import { WebhooksModule } from './modules/webhooks/webhooks.module';
     NotificationsModule,
     QueueModule,
     WebhooksModule,
+    HealthModule,
+    FeatureStoreModule,
+    EmbeddingsModule,
   ],
 })
 export class AppModule {}
