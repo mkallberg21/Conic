@@ -1,6 +1,6 @@
 # Conic Platform
 
-> **Market Readiness: 91%**
+> **Market Readiness: 94%**
 >
 > | Layer | Status | Readiness |
 > |---|---|---|
@@ -14,6 +14,7 @@
 > | Embeddings + Semantic Search | ✅ Complete | 100% |
 > | Creator Graph Analysis | ✅ Complete | 100% |
 > | Health Checks (K8s probes) | ✅ Complete | 100% |
+> | Healthcare-grade Security | ✅ Complete | 100% |
 > | Payments (Dwolla ACH) | ✅ Wired, needs live keys | 85% |
 > | Shared UI Library (`@conic/ui`) | ✅ Complete | 100% |
 > | Docker / Compose | ✅ Complete (7 services) | 100% |
@@ -42,7 +43,8 @@ The creator partnership operating system — AI-generated contracts, deliverable
 | Payments | Dwolla ACH (receive-only customers, platform escrow, ACH transfers) |
 | Queue / Events | BullMQ 7 (7 queues) + EventEmitter2 |
 | Cache | Redis 7 + ioredis (typed CacheService with TTL constants) |
-| Auth | Passport JWT + refresh token rotation + Google OAuth2 |
+| Auth | Passport JWT (RS256 asymmetric) + Argon2id + refresh token rotation + Google OAuth2 |
+| Encryption | AES-256-GCM field-level encryption + HKDF sub-key derivation + key versioning |
 | ML / Vectors | OpenAI text-embedding-3-small · NetworkX graph · scikit-learn KMeans |
 | Infra | Docker Compose → AWS ECS + RDS + ElastiCache |
 | CI/CD | GitHub Actions → ECR → ECS rolling deploy |
@@ -58,7 +60,7 @@ apps/
                           deliverables · payments · campaigns · analytics ·
                           ai · notifications · embeddings · feature-store ·
                           graph · health · webhooks
-      common/             cache/ · audit/ · guards/ · filters/ · interceptors/
+      common/             cache/ · audit/ · encryption/ · guards/ · filters/ · interceptors/
       queue/processors/   ai-verification · creator-scoring · webhook-delivery ·
                           campaign-summary · data-flywheel · embedding · graph-analysis
       events/             event-bus (typed events + flywheel fan-out)
@@ -133,6 +135,19 @@ docker compose up --build
 
 ## Core Features
 
+### Security (Healthcare-grade)
+- **AES-256-GCM field encryption** — `EncryptionService` encrypts PII at the column level with a unique 96-bit IV per operation. Keys are versioned (`v1:`, `v2:`, …) enabling zero-downtime rotation. HKDF derives a separate sub-key per field so a leaked key cannot decrypt other fields.
+- **Key rotation** — set `ENCRYPTION_ACTIVE_VERSION=v2` and add `ENCRYPTION_KEY_V2` while keeping V1; old ciphertexts auto-decrypt, new writes use V2. Generate all secrets: `node scripts/generate-keys.mjs >> .env`.
+- **Argon2id passwords** — 64 MiB memory cost, 3 iterations, parallelism 4 (OWASP 2024). Replaces bcrypt.
+- **RS256 asymmetric JWT** — tokens are signed with a 4096-bit RSA private key; any service can verify with the public key without holding the signing secret. Falls back to HS256 in dev.
+- **Hashed refresh tokens** — SHA-256 of the raw token is stored in the database. A stolen DB dump cannot replay sessions.
+- **Redis-backed rate limiting** — survives restarts, shared across replicas. Auth tiers: 5 register / 10 login / 20 refresh per minute per IP. Global: 20 burst/s + 120/min.
+- **Helmet CSP** — `Content-Security-Policy`, `HSTS` (1-year + preload), `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`.
+- **PII masking interceptor** — `SensitiveDataInterceptor` applied globally strips `passwordHash`, `*Token`, `*Secret`, `*Key`, SSN, bank account numbers from every API response.
+- **HTTPS enforcement** — HTTP → HTTPS 301 redirect in production via `x-forwarded-proto`.
+- **Next.js security headers** — CSP, HSTS, COOP, CORP, COEP, `Permissions-Policy` on every route. `X-Powered-By` removed.
+- **Swagger hidden in production** — docs only served when `NODE_ENV !== production`.
+
 ### Platform
 - **AI Contracts** — GPT-4o generates contract content, risk scores (0–100), and flags problematic clauses. Dual e-signature with IP capture and full audit trail.
 - **Deliverable Verification** — AI checks submitted content for hashtags, mentions, platform match, and content quality. Scores 0–100 with rejection reasons.
@@ -191,6 +206,41 @@ GET    /admin/feature-store/training-batch?featureSet=scoring&limit=10000
 GET    /health                    GET    /health/ready
 GET    /health/live
 ```
+
+## Security Setup
+
+### Generate all secrets (run once)
+
+```bash
+node scripts/generate-keys.mjs >> .env
+```
+
+This generates:
+- `JWT_PRIVATE_KEY` / `JWT_PUBLIC_KEY` — RS4096 key pair (base64 PEM)
+- `JWT_REFRESH_SECRET` — 512-bit random
+- `ENCRYPTION_KEY_V1` — 256-bit AES master key
+
+### Key rotation (zero-downtime)
+
+```bash
+# 1. Generate a new key
+openssl rand -hex 32  # → set as ENCRYPTION_KEY_V2
+# 2. Set the active version
+ENCRYPTION_ACTIVE_VERSION=v2
+# 3. Deploy — new writes use V2, old V1 ciphertexts still decrypt
+# 4. Run a backfill job to re-encrypt V1 rows with V2, then remove ENCRYPTION_KEY_V1
+```
+
+### Required environment variables
+
+| Variable | Description |
+|---|---|
+| `JWT_PRIVATE_KEY` | RS4096 private key (base64 PEM) — signs access tokens |
+| `JWT_PUBLIC_KEY` | RS4096 public key (base64 PEM) — verifies tokens |
+| `JWT_REFRESH_SECRET` | 512-bit hex secret for refresh tokens |
+| `ENCRYPTION_KEY_V1` | 256-bit hex AES master key for field encryption |
+| `ENCRYPTION_ACTIVE_VERSION` | `v1` (or `v2` etc. during rotation) |
+| `REDIS_URL` / `REDIS_HOST` | Redis instance (required for rate limiting) |
 
 ## Queue Architecture
 
