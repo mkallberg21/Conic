@@ -77,10 +77,15 @@ export class AiService {
     payload: unknown,
     fallback: T,
   ): Promise<T> {
+    const internalSecret = this.configService.get<string>('ai.internalSecret') ?? '';
     try {
       const response = await fetch(`${url}${path}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          // Authenticate to internal AI services
+          'X-Internal-Secret': internalSecret,
+        },
         body: JSON.stringify(payload),
         signal: AbortSignal.timeout(15000),
       });

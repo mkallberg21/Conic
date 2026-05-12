@@ -11,6 +11,7 @@ import { validate } from './config/validation';
 import { PrismaModule } from './prisma/prisma.module';
 import { CacheModule } from './common/cache/cache.module';
 import { EncryptionModule } from './common/encryption/encryption.module';
+import { SecurityModule } from './common/security/security.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { BrandsModule } from './modules/brands/brands.module';
@@ -67,6 +68,7 @@ import { FeatureStoreModule } from './modules/feature-store/feature-store.module
     PrismaModule,
     CacheModule,
     EncryptionModule,
+    SecurityModule,
     EventBusModule,
     AuditModule,
 

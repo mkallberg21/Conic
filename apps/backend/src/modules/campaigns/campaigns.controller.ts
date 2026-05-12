@@ -33,13 +33,21 @@ export class CampaignsController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get campaign details with tasks and summaries' })
-  async findOne(@Param('id') id: string) {
-    return this.campaignsService.findById(id);
+  async findOne(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+    @CurrentUser('role') role: UserRole,
+  ) {
+    return this.campaignsService.findById(id, userId, role);
   }
 
   @Post(':id/debrief')
   @ApiOperation({ summary: 'Generate AI campaign debrief and PDF summary' })
-  async debrief(@Param('id') id: string) {
-    return this.campaignsService.generateDebrief(id);
+  async debrief(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+    @CurrentUser('role') role: UserRole,
+  ) {
+    return this.campaignsService.generateDebrief(id, userId, role);
   }
 }

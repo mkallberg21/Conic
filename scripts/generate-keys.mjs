@@ -36,3 +36,6 @@ console.log(`ENCRYPTION_ACTIVE_VERSION=v1`);
 console.log('');
 console.log('# ── Legacy symmetric fallback (dev only, ignored when RS256 set) ────');
 console.log(`JWT_SECRET=${randomBytes(32).toString('hex')}`);
+console.log('');
+console.log('# ── Internal AI Service Secret ───────────────────────────────────────');
+console.log(`INTERNAL_API_SECRET=${randomBytes(32).toString('hex')}`);

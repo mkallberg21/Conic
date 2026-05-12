@@ -5,7 +5,9 @@ export default () => ({
     env: process.env.NODE_ENV ?? 'development',
   },
   database: {
+    // In production, DATABASE_URL must include ?sslmode=require (enforced at connection time by Prisma)
     url: process.env.DATABASE_URL,
+    ssl: process.env.NODE_ENV === 'production',
   },
   redis: {
     host: process.env.REDIS_HOST ?? 'localhost',
@@ -44,6 +46,7 @@ export default () => ({
   },
   ai: {
     openaiApiKey: process.env.OPENAI_API_KEY,
+    internalSecret: process.env.INTERNAL_API_SECRET,
     contractAiUrl: process.env.CONTRACT_AI_URL ?? 'http://localhost:8001',
     deliverableAiUrl: process.env.DELIVERABLE_AI_URL ?? 'http://localhost:8002',
     creatorGraphUrl: process.env.CREATOR_GRAPH_URL ?? 'http://localhost:8003',

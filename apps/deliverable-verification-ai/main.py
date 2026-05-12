@@ -1,18 +1,25 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import verify, cv
+from app.middleware.internal_auth import InternalAuthMiddleware
 
 app = FastAPI(
     title="Conic Deliverable Verification AI",
     description="AI-powered content verification for deliverables (CV + NLP)",
     version="1.0.0",
+    docs_url=None if os.environ.get("NODE_ENV") == "production" else "/docs",
+    redoc_url=None if os.environ.get("NODE_ENV") == "production" else "/redoc",
 )
 
+app.add_middleware(InternalAuthMiddleware)
+
+_backend_origin = os.environ.get("BACKEND_ORIGIN", "http://localhost:4000")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=[_backend_origin],
+    allow_methods=["POST", "GET"],
+    allow_headers=["Content-Type", "X-Internal-Secret"],
 )
 
 app.include_router(verify.router, prefix="/verify", tags=["verify"])

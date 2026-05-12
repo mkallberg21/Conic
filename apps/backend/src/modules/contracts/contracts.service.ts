@@ -138,7 +138,7 @@ export class ContractsService {
     });
   }
 
-  async findById(id: string) {
+  async findById(id: string, userId: string, role: UserRole) {
     const contract = await this.prisma.contract.findUnique({
       where: { id },
       include: {
@@ -152,6 +152,13 @@ export class ContractsService {
       },
     });
     if (!contract) throw new NotFoundException('Contract not found');
+
+    // Enforce object-level authorization — ADMIN sees all
+    if (role !== UserRole.ADMIN) {
+      const allowed = await this.userOwnsContract(userId, role, contract);
+      if (!allowed) throw new ForbiddenException('Access denied');
+    }
+
     return contract;
   }
 
@@ -161,6 +168,21 @@ export class ContractsService {
 
     if (contract.status === ContractStatus.ACTIVE) {
       throw new BadRequestException('Contract already fully executed');
+    }
+
+    // Verify the signer actually owns their side of this contract
+    if (role === UserRole.BRAND) {
+      const brand = await this.prisma.brand.findUnique({ where: { userId } });
+      if (!brand || contract.brandId !== brand.id) {
+        throw new ForbiddenException('You are not the brand party to this contract');
+      }
+    } else if (role === UserRole.CREATOR) {
+      const creator = await this.prisma.creator.findUnique({ where: { userId } });
+      if (!creator || contract.creatorId !== creator.id) {
+        throw new ForbiddenException('You are not the creator party to this contract');
+      }
+    } else {
+      throw new ForbiddenException('Only brand or creator parties can sign a contract');
     }
 
     const updateData: Record<string, unknown> = {};
@@ -211,12 +233,16 @@ export class ContractsService {
     return updated;
   }
 
-  async dispute(contractId: string, userId: string, reason: string, ipAddress: string) {
+  async dispute(contractId: string, userId: string, role: UserRole, reason: string, ipAddress: string) {
     const contract = await this.prisma.contract.findUnique({ where: { id: contractId } });
     if (!contract) throw new NotFoundException('Contract not found');
     if (contract.status !== ContractStatus.ACTIVE) {
       throw new BadRequestException('Only active contracts can be disputed');
     }
+
+    // Only the brand or creator party to this contract may raise a dispute
+    const allowed = await this.userOwnsContract(userId, role, contract);
+    if (!allowed) throw new ForbiddenException('Access denied');
 
     const updated = await this.prisma.contract.update({
       where: { id: contractId },
@@ -241,13 +267,18 @@ export class ContractsService {
     return updated;
   }
 
-  async getActivity(contractId: string) {
-    // Ensure contract exists
+  async getActivity(contractId: string, userId: string, role: UserRole) {
+    // Ensure contract exists and requester is a party (or admin)
     const contract = await this.prisma.contract.findUnique({
       where: { id: contractId },
-      select: { id: true },
+      select: { id: true, brandId: true, creatorId: true },
     });
     if (!contract) throw new NotFoundException('Contract not found');
+
+    if (role !== UserRole.ADMIN) {
+      const allowed = await this.userOwnsContract(userId, role, contract);
+      if (!allowed) throw new ForbiddenException('Access denied');
+    }
 
     // Gather related deliverable and payment IDs
     const [deliverables, payments] = await Promise.all([
@@ -288,6 +319,27 @@ export class ContractsService {
       where: { isPublic: true },
       orderBy: { usageCount: 'desc' },
     });
+  }
+
+  /**
+   * Returns true if `userId` with `role` is a party to the contract.
+   * Used for BOLA/IDOR defence on findById, getActivity, dispute.
+   */
+  private async userOwnsContract(
+    userId: string,
+    role: UserRole,
+    contract: { brandId: string; creatorId: string },
+  ): Promise<boolean> {
+    if (role === UserRole.BRAND) {
+      const brand = await this.prisma.brand.findUnique({ where: { userId } });
+      return !!brand && brand.id === contract.brandId;
+    }
+    if (role === UserRole.CREATOR) {
+      const creator = await this.prisma.creator.findUnique({ where: { userId } });
+      return !!creator && creator.id === contract.creatorId;
+    }
+    // AGENCY — not a direct party; deny by default
+    return false;
   }
 }
 

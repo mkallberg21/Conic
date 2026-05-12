@@ -39,7 +39,9 @@ export class AnalyticsController {
   }
 
   @Get('creators/top')
-  @ApiOperation({ summary: 'Get top-performing creators' })
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.BRAND, UserRole.ADMIN)
+  @ApiOperation({ summary: 'Get top-performing creators (Brand/Admin only)' })
   async topCreators(@Query('limit') limit?: number) {
     return this.analyticsService.getTopCreators(limit);
   }
@@ -72,10 +74,12 @@ export class AnalyticsController {
   }
 
   @Get('creator-comparison')
-  @ApiOperation({ summary: 'Side-by-side AI score comparison for up to 5 creators' })
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.BRAND, UserRole.ADMIN)
+  @ApiOperation({ summary: 'Side-by-side AI score comparison for up to 5 creators (Brand/Admin only)' })
   @ApiQuery({ name: 'ids', description: 'Comma-separated creator IDs', required: true })
   async creatorComparison(@Query('ids') ids: string) {
-    const creatorIds = ids.split(',').slice(0, 5);
+    const creatorIds = ids.split(',').map((id) => id.trim()).slice(0, 5);
     return this.analyticsService.getCreatorComparison(creatorIds);
   }
 }

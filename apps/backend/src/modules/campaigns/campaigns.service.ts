@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, ForbiddenException, Logger } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, UserRole } from '@prisma/client';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService, EVENTS } from '../../events/event-bus.service';
@@ -75,7 +75,7 @@ export class CampaignsService {
     });
   }
 
-  async findById(id: string) {
+  async findById(id: string, userId?: string, role?: UserRole) {
     const campaign = await this.prisma.campaign.findUnique({
       where: { id },
       include: {
@@ -84,15 +84,32 @@ export class CampaignsService {
       },
     });
     if (!campaign) throw new NotFoundException('Campaign not found');
+
+    // Ownership check — ADMIN sees all
+    if (userId && role && role !== UserRole.ADMIN) {
+      const brand = await this.prisma.brand.findUnique({ where: { userId } });
+      if (!brand || campaign.brandId !== brand.id) {
+        throw new ForbiddenException('Access denied');
+      }
+    }
+
     return campaign;
   }
 
-  async generateDebrief(campaignId: string) {
+  async generateDebrief(campaignId: string, userId?: string, role?: UserRole) {
     const campaign = await this.prisma.campaign.findUnique({
       where: { id: campaignId },
       include: { tasks: true },
     });
     if (!campaign) throw new NotFoundException('Campaign not found');
+
+    // Ownership check — only the owning brand (or admin) can generate a debrief
+    if (userId && role && role !== UserRole.ADMIN) {
+      const brand = await this.prisma.brand.findUnique({ where: { userId } });
+      if (!brand || campaign.brandId !== brand.id) {
+        throw new ForbiddenException('Access denied');
+      }
+    }
 
     const debrief = await this.aiService.generateCampaignDebrief({
       campaignId,

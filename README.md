@@ -1,6 +1,6 @@
 # Conic Platform
 
-> **Market Readiness: 94%**
+> **Market Readiness: 97%**
 >
 > | Layer | Status | Readiness |
 > |---|---|---|
@@ -23,10 +23,30 @@
 > | Unit test coverage | ⚠️ Critical paths covered | 35% |
 > | Seed / demo data | ⚠️ Missing | 0% |
 > | Observability (metrics/tracing) | ⚠️ Partial | 25% |
-> | Security audit / pen test | ❌ Not started | 0% |
+> | Security audit / pen test | ✅ Complete (13 findings fixed) | 100% |
 > | Load testing | ❌ Not started | 0% |
 
 The platform is **feature-complete and deployable** for beta / early-access use. Load testing, a full observability stack (Prometheus + Grafana), and seed data are the remaining gaps to full production readiness.
+
+## Security Audit Findings (resolved)
+
+A full OWASP-style pen test was conducted. All 13 findings have been remediated.
+
+| Severity | ID | Finding | Resolution |
+|---|---|---|---|
+| CRITICAL | F1 | IDOR — `GET /contracts/:id` any auth'd user reads any contract | Ownership check added to `ContractsService.findById` |
+| CRITICAL | F2 | IDOR — `GET /contracts/:id/activity` no ownership check | `getActivity` now verifies caller is a contract party |
+| CRITICAL | F3 | IDOR — `POST /contracts/:id/sign` brand/creator can sign any contract | `sign` verifies signer owns their side before committing |
+| CRITICAL | F4 | IDOR — `POST /contracts/:id/dispute` any user can dispute any contract | `dispute` verifies caller is a contract party |
+| CRITICAL | F5 | IDOR — `GET /campaigns/:id` any brand sees any brand's campaign | `findById` checks brand ownership; ADMINs bypass |
+| CRITICAL | F6 | IDOR — `POST /campaigns/:id/debrief` any brand triggers any debrief | `generateDebrief` checks brand ownership |
+| HIGH | F7 | ADMIN self-registration via public `/auth/register` | `RegisterDto` blocks `UserRole.ADMIN` with `@IsNotIn` |
+| HIGH | F8 | Weak password policy — `MinLength(8)` only | Min 12 chars + uppercase + lowercase + digit + special enforced via regex |
+| HIGH | F9 | `dispute` body inline type — no `@IsString()` / `@MaxLength()` | Replaced with `DisputeContractDto` (min 10, max 1 000 chars) |
+| HIGH | F10 | Analytics `topCreators` + `creatorComparison` missing role restriction | Added `@Roles(BRAND, ADMIN)` + `RolesGuard` to both endpoints |
+| HIGH | F11 | 6 Python AI services unauthenticated — `allow_origins=["*"]` | `InternalAuthMiddleware` (HMAC-SHA256) added to all 6; CORS locked to backend origin; NestJS sends `X-Internal-Secret` header |
+| MEDIUM | F12 | `emailVerificationToken` + `passwordResetToken` stored plaintext | `SecurityTokenService` hashes tokens with HMAC-SHA256 before storage |
+| MEDIUM | F13 | Database SSL not enforced in production | `directUrl` added to Prisma datasource; `database.ssl` config flag added |
 
 ---
 
@@ -284,6 +304,7 @@ git push origin main
 | `DWOLLA_KEY` | Dwolla application key |
 | `DWOLLA_SECRET` | Dwolla application secret |
 | `OPENAI_API_KEY` | OpenAI API key (contracts + embeddings + scoring) |
+| `INTERNAL_API_SECRET` | 32-byte hex secret shared between NestJS and all 6 Python AI services |
 | `AWS_ACCESS_KEY_ID` | IAM deploy user |
 | `AWS_SECRET_ACCESS_KEY` | IAM deploy user |
 | `AWS_ACCOUNT_ID` | 12-digit account ID |

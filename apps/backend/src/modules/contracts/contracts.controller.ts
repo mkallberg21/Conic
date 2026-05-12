@@ -6,6 +6,7 @@ import { UserRole } from '@prisma/client';
 import { FastifyRequest } from 'fastify';
 import { ContractsService } from './contracts.service';
 import { CreateContractDto } from './dto/create-contract.dto';
+import { DisputeContractDto } from './dto/dispute-contract.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
@@ -50,14 +51,22 @@ export class ContractsController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get contract details' })
-  async findOne(@Param('id') id: string) {
-    return this.contractsService.findById(id);
+  async findOne(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+    @CurrentUser('role') role: UserRole,
+  ) {
+    return this.contractsService.findById(id, userId, role);
   }
 
   @Get(':id/activity')
   @ApiOperation({ summary: 'Get shared activity feed for a contract' })
-  async getActivity(@Param('id') id: string) {
-    return this.contractsService.getActivity(id);
+  async getActivity(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+    @CurrentUser('role') role: UserRole,
+  ) {
+    return this.contractsService.getActivity(id, userId, role);
   }
 
   @Post(':id/sign')
@@ -77,10 +86,11 @@ export class ContractsController {
   async dispute(
     @Param('id') id: string,
     @CurrentUser('id') userId: string,
-    @Body() dto: { reason: string },
+    @CurrentUser('role') role: UserRole,
+    @Body() dto: DisputeContractDto,
     @Req() req: FastifyRequest,
   ) {
     const ipAddress = req.ip ?? '0.0.0.0';
-    return this.contractsService.dispute(id, userId, dto.reason, ipAddress);
+    return this.contractsService.dispute(id, userId, role, dto.reason, ipAddress);
   }
 }
