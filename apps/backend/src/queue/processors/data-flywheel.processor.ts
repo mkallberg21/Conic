@@ -1,12 +1,14 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
+import { InjectQueue } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
-import { Job } from 'bullmq';
+import { Job, Queue } from 'bullmq';
 import { Prisma } from '@prisma/client';
 import { QUEUE_NAMES } from '../queue.module';
 import { PrismaService } from '../../prisma/prisma.service';
 import { FeatureStoreService } from '../../modules/feature-store/feature-store.service';
 import { EmbeddingsService } from '../../modules/embeddings/embeddings.service';
 import { CacheService } from '../../common/cache/cache.service';
+import type { GraphAnalysisJobData } from './graph-analysis.processor';
 
 export interface DataFlywheelJobData {
   eventType: string;
@@ -24,8 +26,17 @@ export class DataFlywheelProcessor extends WorkerHost {
     private readonly featureStore: FeatureStoreService,
     private readonly embeddings: EmbeddingsService,
     private readonly cache: CacheService,
+    @InjectQueue(QUEUE_NAMES.GRAPH_ANALYSIS) private readonly graphQueue: Queue,
   ) {
     super();
+  }
+
+  private async scheduleGraphRecompute(creatorId: string): Promise<void> {
+    await this.graphQueue.add(
+      'graph.recompute',
+      { scope: 'node', creatorId } satisfies GraphAnalysisJobData,
+      { delay: 5_000, jobId: `graph:node:${creatorId}`, removeOnComplete: 50 },
+    );
   }
 
   async process(job: Job<DataFlywheelJobData>): Promise<void> {
@@ -103,7 +114,8 @@ export class DataFlywheelProcessor extends WorkerHost {
 
     await this.featureStore.computeAndStoreCreatorFeatures(creatorId);
     await this.cache.del(CacheService.keys.creator(creatorId));
-    featuresFed.push('scoring', 'pricing');
+    await this.scheduleGraphRecompute(creatorId);
+    featuresFed.push('scoring', 'pricing', 'graph');
   }
 
   private async onDeliverableEvent(
@@ -115,7 +127,8 @@ export class DataFlywheelProcessor extends WorkerHost {
 
     await this.featureStore.computeAndStoreCreatorFeatures(creatorId);
     await this.cache.del(CacheService.keys.creator(creatorId), CacheService.keys.creatorStats(creatorId));
-    featuresFed.push('scoring', 'fraud');
+    await this.scheduleGraphRecompute(creatorId);
+    featuresFed.push('scoring', 'fraud', 'graph');
   }
 
   private async onPaymentCompleted(
@@ -136,22 +149,25 @@ export class DataFlywheelProcessor extends WorkerHost {
       CacheService.keys.creator(contract.creatorId),
       CacheService.keys.analytics('brand', contract.brandId),
     );
-    featuresFed.push('scoring', 'pricing', 'fraud');
+    await this.scheduleGraphRecompute(contract.creatorId);
+    featuresFed.push('scoring', 'pricing', 'fraud', 'graph');
   }
 
   private async onCreatorScoreUpdated(creatorId: string, featuresFed: string[]): Promise<void> {
     await this.featureStore.computeAndStoreCreatorFeatures(creatorId);
     await this.embeddings.embedCreatorProfile(creatorId);
+    await this.scheduleGraphRecompute(creatorId);
     await this.cache.del(
       CacheService.keys.creator(creatorId),
       CacheService.keys.prediction(creatorId),
       CacheService.keys.graphNode(creatorId),
     );
-    featuresFed.push('scoring', 'graph', 'engagement');
+    featuresFed.push('scoring', 'graph', 'engagement', 'embedding');
   }
 
   private async onCreatorRegistered(creatorId: string, featuresFed: string[]): Promise<void> {
     await this.embeddings.embedCreatorProfile(creatorId);
-    featuresFed.push('profile');
+    await this.scheduleGraphRecompute(creatorId);
+    featuresFed.push('profile', 'graph');
   }
 }

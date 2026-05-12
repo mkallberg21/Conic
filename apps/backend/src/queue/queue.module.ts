@@ -7,10 +7,12 @@ import { WebhookDeliveryProcessor } from './processors/webhook-delivery.processo
 import { CampaignSummaryProcessor } from './processors/campaign-summary.processor';
 import { DataFlywheelProcessor } from './processors/data-flywheel.processor';
 import { EmbeddingProcessor } from './processors/embedding.processor';
+import { GraphAnalysisProcessor } from './processors/graph-analysis.processor';
 import { PrismaModule } from '../prisma/prisma.module';
 import { AiModule } from '../modules/ai/ai.module';
 import { FeatureStoreModule } from '../modules/feature-store/feature-store.module';
 import { EmbeddingsModule } from '../modules/embeddings/embeddings.module';
+import { GraphModule } from '../modules/graph/graph.module';
 
 export const QUEUE_NAMES = {
   AI_VERIFICATION: 'ai-verification',
@@ -19,6 +21,7 @@ export const QUEUE_NAMES = {
   CAMPAIGN_SUMMARY: 'campaign-summary',
   DATA_FLYWHEEL: 'data-flywheel',
   EMBEDDING: 'embedding',
+  GRAPH_ANALYSIS: 'graph-analysis',
 } as const;
 
 export type QueueName = (typeof QUEUE_NAMES)[keyof typeof QUEUE_NAMES];
@@ -50,11 +53,13 @@ export type QueueName = (typeof QUEUE_NAMES)[keyof typeof QUEUE_NAMES];
       { name: QUEUE_NAMES.CAMPAIGN_SUMMARY },
       { name: QUEUE_NAMES.DATA_FLYWHEEL },
       { name: QUEUE_NAMES.EMBEDDING },
+      { name: QUEUE_NAMES.GRAPH_ANALYSIS },
     ),
     PrismaModule,
     AiModule,
     FeatureStoreModule,
     EmbeddingsModule,
+    GraphModule,
   ],
   providers: [
     AiVerificationProcessor,
@@ -63,6 +68,7 @@ export type QueueName = (typeof QUEUE_NAMES)[keyof typeof QUEUE_NAMES];
     CampaignSummaryProcessor,
     DataFlywheelProcessor,
     EmbeddingProcessor,
+    GraphAnalysisProcessor,
   ],
   exports: [BullModule],
 })

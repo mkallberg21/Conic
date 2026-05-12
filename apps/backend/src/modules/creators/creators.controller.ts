@@ -9,13 +9,17 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { GraphService } from '../graph/graph.service';
 
 @ApiTags('creators')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('creators')
 export class CreatorsController {
-  constructor(private readonly creatorsService: CreatorsService) {}
+  constructor(
+    private readonly creatorsService: CreatorsService,
+    private readonly graphService: GraphService,
+  ) {}
 
   @Get()
   @ApiOperation({ summary: 'Discover creators with advanced filters' })
@@ -132,6 +136,13 @@ export class CreatorsController {
   async enqueueScoring(@Param('id') id: string) {
     await this.creatorsService.enqueueScoring(id);
     return { queued: true, creatorId: id };
+  }
+
+  @Get(':id/network')
+  @ApiOperation({ summary: 'Get creator influence graph — node metrics + neighbourhood' })
+  @ApiQuery({ name: 'depth', required: false, type: Number })
+  async getNetwork(@Param('id') id: string, @Query('depth') depth?: string) {
+    return this.graphService.getNetwork(id, depth ? parseInt(depth, 10) : 1);
   }
 }
 

@@ -5,6 +5,7 @@ import { Prisma } from '@prisma/client';
 import { QUEUE_NAMES } from '../queue.module';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ConfigService } from '@nestjs/config';
+import { FeatureStoreService } from '../../modules/feature-store/feature-store.service';
 
 export interface CreatorScoringJobData {
   creatorId: string;
@@ -27,6 +28,7 @@ export class CreatorScoringProcessor extends WorkerHost {
   constructor(
     private readonly prisma: PrismaService,
     private readonly config: ConfigService,
+    private readonly featureStore: FeatureStoreService,
   ) {
     super();
   }
@@ -113,6 +115,22 @@ export class CreatorScoringProcessor extends WorkerHost {
       ]);
 
       this.logger.log(`Creator ${creatorId} scored: performance=${performanceScore}`);
+
+      // Persist scores to feature store for model training
+      await this.featureStore.upsertFeatures(
+        'creator',
+        creatorId,
+        'scoring',
+        {
+          audienceAuthenticity: prediction.audienceAuthenticity,
+          fraudLikelihood: prediction.fraudLikelihood,
+          predictedROI: prediction.predictedROI,
+          predictedReach: prediction.predictedReach,
+          confidence: prediction.confidence,
+          performanceScore,
+        },
+        creatorId,
+      );
     }
   }
 }
