@@ -19,6 +19,8 @@ import { AiModule } from './modules/ai/ai.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { EventBusModule } from './events/event-bus.module';
 import { AuditModule } from './common/audit/audit.module';
+import { QueueModule } from './queue/queue.module';
+import { WebhooksModule } from './modules/webhooks/webhooks.module';
 
 @Module({
   imports: [
@@ -56,6 +58,8 @@ import { AuditModule } from './common/audit/audit.module';
     AnalyticsModule,
     AiModule,
     NotificationsModule,
+    QueueModule,
+    WebhooksModule,
   ],
 })
 export class AppModule {}

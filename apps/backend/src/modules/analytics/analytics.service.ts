@@ -121,4 +121,76 @@ export class AnalyticsService {
 
     return Object.entries(grouped).map(([date, amount]) => ({ date, amount }));
   }
+
+  async getTimeSeries(
+    metric: 'revenue' | 'contracts' | 'deliverables',
+    days = 30,
+    brandUserId?: string,
+  ) {
+    const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+    // Build a complete date scaffold
+    const scaffold: Record<string, number> = {};
+    for (let i = days - 1; i >= 0; i--) {
+      const d = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
+      scaffold[d.toISOString().split('T')[0]] = 0;
+    }
+
+    if (metric === 'revenue') {
+      const brandFilter = brandUserId
+        ? { contract: { brand: { userId: brandUserId } } }
+        : {};
+      const payments = await this.prisma.payment.findMany({
+        where: { status: 'COMPLETED', paidAt: { gte: since }, ...brandFilter },
+        select: { amount: true, paidAt: true },
+      });
+      payments.forEach((p) => {
+        const day = p.paidAt?.toISOString().split('T')[0];
+        if (day && scaffold[day] !== undefined) scaffold[day] += p.amount;
+      });
+    } else if (metric === 'contracts') {
+      const brandFilter = brandUserId ? { brand: { userId: brandUserId } } : {};
+      const contracts = await this.prisma.contract.findMany({
+        where: { createdAt: { gte: since }, ...brandFilter },
+        select: { createdAt: true },
+      });
+      contracts.forEach((c) => {
+        const day = c.createdAt.toISOString().split('T')[0];
+        if (scaffold[day] !== undefined) scaffold[day] += 1;
+      });
+    } else {
+      // deliverables
+      const deliverables = await this.prisma.deliverable.findMany({
+        where: { submittedAt: { gte: since } },
+        select: { submittedAt: true },
+      });
+      deliverables.forEach((d) => {
+        const day = d.submittedAt?.toISOString().split('T')[0];
+        if (day && scaffold[day] !== undefined) scaffold[day] += 1;
+      });
+    }
+
+    return Object.entries(scaffold).map(([date, value]) => ({ date, value }));
+  }
+
+  async getCreatorComparison(creatorIds: string[]) {
+    return this.prisma.creator.findMany({
+      where: { id: { in: creatorIds } },
+      select: {
+        id: true,
+        handle: true,
+        followersCount: true,
+        engagementRate: true,
+        performanceScore: true,
+        fraudScore: true,
+        audienceScore: true,
+        pricingTier: true,
+        user: { select: { firstName: true, lastName: true, avatarUrl: true } },
+        predictions: {
+          take: 1,
+          orderBy: { createdAt: 'desc' },
+          select: { predictedRoi: true, predictedReach: true, confidence: true },
+        },
+      },
+    });
+  }
 }

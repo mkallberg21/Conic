@@ -1,5 +1,5 @@
 import { Controller, Get, Query, UseGuards, Version } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
 import { AnalyticsService } from './analytics.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
@@ -54,5 +54,29 @@ export class AnalyticsController {
     @Query('days') days?: number,
   ) {
     return this.analyticsService.getRevenueChart(userId, days);
+  }
+
+  @Get('time-series')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.BRAND, UserRole.ADMIN)
+  @ApiOperation({ summary: 'Time-series data for recharts visualisation' })
+  @ApiQuery({ name: 'metric', enum: ['revenue', 'contracts', 'deliverables'], required: false })
+  @ApiQuery({ name: 'days', required: false, example: 30 })
+  async timeSeries(
+    @CurrentUser('id') userId: string,
+    @CurrentUser('role') role: UserRole,
+    @Query('metric') metric: 'revenue' | 'contracts' | 'deliverables' = 'revenue',
+    @Query('days') days = 30,
+  ) {
+    const brandUserId = role === UserRole.BRAND ? userId : undefined;
+    return this.analyticsService.getTimeSeries(metric, +days, brandUserId);
+  }
+
+  @Get('creator-comparison')
+  @ApiOperation({ summary: 'Side-by-side AI score comparison for up to 5 creators' })
+  @ApiQuery({ name: 'ids', description: 'Comma-separated creator IDs', required: true })
+  async creatorComparison(@Query('ids') ids: string) {
+    const creatorIds = ids.split(',').slice(0, 5);
+    return this.analyticsService.getCreatorComparison(creatorIds);
   }
 }
