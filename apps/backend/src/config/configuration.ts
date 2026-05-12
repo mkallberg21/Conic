@@ -13,10 +13,22 @@ export default () => ({
     password: process.env.REDIS_PASSWORD,
   },
   jwt: {
+    // RS256 asymmetric (production) — base64-encoded PEM
+    privateKey: process.env.JWT_PRIVATE_KEY
+      ? Buffer.from(process.env.JWT_PRIVATE_KEY, 'base64').toString('utf8')
+      : undefined,
+    publicKey: process.env.JWT_PUBLIC_KEY
+      ? Buffer.from(process.env.JWT_PUBLIC_KEY, 'base64').toString('utf8')
+      : undefined,
+    // HS256 symmetric fallback (dev only)
     secret: process.env.JWT_SECRET ?? 'change-me-in-production',
     expiresIn: process.env.JWT_EXPIRES_IN ?? '15m',
     refreshSecret: process.env.JWT_REFRESH_SECRET ?? 'refresh-change-me',
     refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN ?? '7d',
+  },
+  encryption: {
+    // Active key version for new writes. Set to 'v2' during rotation.
+    activeVersion: process.env.ENCRYPTION_ACTIVE_VERSION ?? 'v1',
   },
   dwolla: {
     key: process.env.DWOLLA_KEY,

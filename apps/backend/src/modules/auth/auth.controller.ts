@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { Throttle, SkipThrottle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -25,20 +26,26 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  // 5 register attempts per minute per IP — prevents account enumeration floods
   @Post('register')
+  @Throttle({ burst: { ttl: 60000, limit: 5 }, standard: { ttl: 60000, limit: 5 } })
   @ApiOperation({ summary: 'Register a new user (brand, creator, or agency)' })
   async register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);
   }
 
+  // 10 login attempts per minute per IP — brute-force protection
   @Post('login')
+  @Throttle({ burst: { ttl: 60000, limit: 10 }, standard: { ttl: 60000, limit: 10 } })
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Login and receive JWT tokens' })
   async login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
   }
 
+  // 20 refresh calls per minute — prevents token cycling attacks
   @Post('refresh')
+  @Throttle({ burst: { ttl: 60000, limit: 20 }, standard: { ttl: 60000, limit: 20 } })
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Refresh access token' })
   async refresh(@Body() dto: RefreshTokenDto) {
@@ -75,6 +82,7 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(GoogleAuthGuard)
+  @SkipThrottle()
   @ApiOperation({ summary: 'Initiate Google OAuth2 flow' })
   googleLogin() {
     // Redirect handled by Passport

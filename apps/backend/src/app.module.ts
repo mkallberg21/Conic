@@ -1,12 +1,16 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerStorageRedisService } from '@nest-lab/throttler-storage-redis';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard } from '@nestjs/throttler';
 import configuration from './config/configuration';
 import { validate } from './config/validation';
 import { PrismaModule } from './prisma/prisma.module';
 import { CacheModule } from './common/cache/cache.module';
+import { EncryptionModule } from './common/encryption/encryption.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { BrandsModule } from './modules/brands/brands.module';
@@ -34,11 +38,26 @@ import { FeatureStoreModule } from './modules/feature-store/feature-store.module
       validate,
     }),
 
-    // Rate limiting — tightened for auth endpoints
-    ThrottlerModule.forRoot([
-      { name: 'global-short', ttl: 1000, limit: 30 },
-      { name: 'global-long', ttl: 60000, limit: 300 },
-    ]),
+    // Rate limiting backed by Redis (survives restarts, shared across replicas)
+    // Three tiers:
+    //   burst    — 20 req/s  prevents hot-path floods
+    //   standard — 120 req/min normal API usage
+    //   auth     — 10 req/min on login/register (must be applied per-route via @Throttle)
+    ThrottlerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        throttlers: [
+          { name: 'burst',    ttl: 1000,  limit: 20 },
+          { name: 'standard', ttl: 60000, limit: 120 },
+        ],
+        storage: new ThrottlerStorageRedisService({
+          host: config.get('redis.host', 'localhost'),
+          port: config.get('redis.port', 6379),
+          password: config.get<string | undefined>('redis.password'),
+          keyPrefix: 'throttler:',
+        }),
+      }),
+    }),
 
     // Events & scheduling
     EventEmitterModule.forRoot({ wildcard: true }),
@@ -47,6 +66,7 @@ import { FeatureStoreModule } from './modules/feature-store/feature-store.module
     // Core infrastructure (global)
     PrismaModule,
     CacheModule,
+    EncryptionModule,
     EventBusModule,
     AuditModule,
 
@@ -66,6 +86,13 @@ import { FeatureStoreModule } from './modules/feature-store/feature-store.module
     WebhooksModule,
     HealthModule,
     FeatureStoreModule,
+  ],
+  providers: [
+    // Apply ThrottlerGuard globally — every route is rate-limited by default
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

@@ -7,8 +7,8 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserRole } from '@prisma/client';
-import * as bcrypt from 'bcryptjs';
-import { v4 as uuidv4 } from 'uuid';
+import * as argon2 from 'argon2';
+import { createHash } from 'crypto';
 import { PrismaService } from '../../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -27,7 +27,12 @@ export class AuthService {
       throw new ConflictException('Email already registered');
     }
 
-    const passwordHash = await bcrypt.hash(dto.password, 12);
+    const passwordHash = await argon2.hash(dto.password, {
+      type: argon2.argon2id,
+      memoryCost: 65536,   // 64 MiB — OWASP recommended
+      timeCost: 3,
+      parallelism: 4,
+    });
 
     const user = await this.prisma.user.create({
       data: {
@@ -79,7 +84,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const valid = await bcrypt.compare(dto.password, user.passwordHash);
+    const valid = await argon2.verify(user.passwordHash, dto.password);
     if (!valid) {
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -104,8 +109,9 @@ export class AuthService {
   }
 
   async refresh(refreshToken: string) {
+    const tokenHash = this.hashToken(refreshToken);
     const stored = await this.prisma.refreshToken.findUnique({
-      where: { token: refreshToken },
+      where: { token: tokenHash },
       include: { user: true },
     });
 
@@ -113,7 +119,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid or expired refresh token');
     }
 
-    // Rotate token
+    // Rotate: delete old token before issuing new one (token theft prevention)
     await this.prisma.refreshToken.delete({ where: { id: stored.id } });
 
     const tokens = await this.generateTokens(
@@ -232,25 +238,39 @@ export class AuthService {
     return {};
   }
 
+  /**
+   * SHA-256 the raw refresh token before storing/looking up.
+   * If the refresh_tokens table is exfiltrated, raw tokens cannot be replayed.
+   */
+  private hashToken(token: string): string {
+    return createHash('sha256').update(token).digest('hex');
+  }
+
   private async generateTokens(userId: string, email: string, role: string) {
     const payload = { sub: userId, email, role };
 
-    const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.signAsync(payload, {
-        secret: this.configService.get('jwt.secret'),
-        expiresIn: this.configService.get('jwt.expiresIn'),
-      }),
-      this.jwtService.signAsync(payload, {
-        secret: this.configService.get('jwt.refreshSecret'),
-        expiresIn: this.configService.get('jwt.refreshExpiresIn'),
-      }),
-    ]);
+    const privateKey = this.configService.get<string>('jwt.privateKey');
+    const refreshSecret = this.configService.get<string>('jwt.refreshSecret');
 
-    // Store refresh token
-    const expiresIn = 7 * 24 * 60 * 60 * 1000; // 7 days
+    // Access token: RS256 asymmetric — verifiable by any service with the public key
+    const accessToken = await this.jwtService.signAsync(payload, {
+      ...(privateKey
+        ? { privateKey, algorithm: 'RS256' }
+        : { secret: this.configService.get('jwt.secret') }),
+      expiresIn: this.configService.get('jwt.expiresIn', '15m'),
+    });
+
+    // Refresh token: HS256 with its own secret — never leaves the auth service
+    const refreshToken = await this.jwtService.signAsync(
+      { sub: userId, type: 'refresh' },
+      { secret: refreshSecret, expiresIn: this.configService.get('jwt.refreshExpiresIn', '7d') },
+    );
+
+    // Store SHA-256 hash of the refresh token (not the raw token)
+    const expiresIn = 7 * 24 * 60 * 60 * 1000;
     await this.prisma.refreshToken.create({
       data: {
-        token: refreshToken,
+        token: this.hashToken(refreshToken),
         userId,
         expiresAt: new Date(Date.now() + expiresIn),
       },

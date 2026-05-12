@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import type { Algorithm } from 'jsonwebtoken';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../../prisma/prisma.service';
 
@@ -18,11 +19,25 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     configService: ConfigService,
     private readonly prisma: PrismaService,
   ) {
-    super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: false,
-      secretOrKey: configService.get<string>('jwt.secret'),
-    });
+    const privateKey = configService.get<string>('jwt.privateKey');
+    const publicKey = configService.get<string>('jwt.publicKey');
+    const symmetricSecret = configService.get<string>('jwt.secret');
+
+    // RS256 if asymmetric keys are configured, HS256 fallback for dev
+    const strategyOptions = publicKey
+      ? {
+          jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+          ignoreExpiration: false,
+          secretOrKey: publicKey,
+          algorithms: ['RS256'] as Algorithm[],
+        }
+      : {
+          jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+          ignoreExpiration: false,
+          secretOrKey: symmetricSecret,
+        };
+
+    super(strategyOptions);
   }
 
   async validate(payload: JwtPayload) {

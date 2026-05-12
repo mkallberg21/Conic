@@ -17,6 +17,8 @@
     "db:generate": "prisma generate"
   },
   "dependencies": {
+    "@fastify/helmet": "^13.0.2",
+    "@nest-lab/throttler-storage-redis": "^1.2.0",
     "@nestjs/axios": "^4.0.1",
     "@nestjs/bullmq": "^11.0.4",
     "@nestjs/common": "^10.4.19",
@@ -31,6 +33,7 @@
     "@nestjs/terminus": "^11.1.1",
     "@nestjs/throttler": "^6.4.0",
     "@prisma/client": "^6.0.0",
+    "argon2": "^0.44.0",
     "axios": "^1.16.0",
     "bcryptjs": "^2.4.3",
     "bullmq": "^5.22.0",
