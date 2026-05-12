@@ -75,7 +75,19 @@ export class OrchestratorService {
       ...request.payload,
     };
 
-    // 3. Execute all stages (sequential), steps within each stage (parallel)
+    // 3a. Compound tasks: delegate to a named handler that owns its own fan-out
+    if (plan.compoundHandler) {
+      return this.executeCompound(
+        plan.compoundHandler,
+        taskId,
+        sessionId,
+        startMs,
+        request,
+        enrichedPayload,
+      );
+    }
+
+    // 3b. Standard tasks: execute all stages (sequential), steps in parallel
     const allModuleResults: ModuleResult[] = [];
     for (const stage of plan.steps) {
       const stageResults = await this.executeStage(stage, enrichedPayload, taskId);
@@ -151,6 +163,277 @@ export class OrchestratorService {
 
   listTaskTypes(): TaskType[] {
     return this.taskRouter.listTaskTypes();
+  }
+
+  // ── Compound task dispatcher ────────────────────────────────────────────────
+
+  private async executeCompound(
+    handler: string,
+    taskId: string,
+    sessionId: string,
+    startMs: number,
+    request: OrchestratorRequest,
+    payload: Record<string, unknown>,
+  ): Promise<OrchestratorResponse> {
+    switch (handler) {
+      case 'campaignIntelligence':
+        return this.executeCampaignIntelligence(taskId, sessionId, startMs, request, payload);
+      default:
+        throw new Error(`[Orchestrator] Unknown compound handler: ${handler}`);
+    }
+  }
+
+  /**
+   * CAMPAIGN_INTELLIGENCE — compound fan-out execution.
+   *
+   * Stage 1 (all in parallel):
+   *   • Campaign timeline  (campaign-agent-ai)
+   *   • For each creator:  graph-ai + performance-ai + pricing-engine-ai
+   *     ↳ Each creator's dual-model prediction is conflict-resolved independently.
+   *
+   * Expected payload shape:
+   * {
+   *   campaign: { objective?, platforms[], budget?, startDate?, endDate?, title?, creatorCount? }
+   *   creators: Array<{
+   *     creatorId, followers, engagementRate, niche?, platform?,
+   *     avgViews?, audienceScore?, fraudScore?
+   *   }>
+   * }
+   *
+   * Max 20 creators per call to prevent runaway parallelism.
+   */
+  private async executeCampaignIntelligence(
+    taskId: string,
+    sessionId: string,
+    startMs: number,
+    request: OrchestratorRequest,
+    payload: Record<string, unknown>,
+  ): Promise<OrchestratorResponse> {
+    const campaign = (payload['campaign'] ?? payload) as Record<string, unknown>;
+    const rawCreators = Array.isArray(payload['creators']) ? payload['creators'] : [];
+    const MAX_CREATORS = 20;
+    const creators = rawCreators.slice(0, MAX_CREATORS) as Array<Record<string, unknown>>;
+
+    this.logger.log(
+      `[${taskId}] CAMPAIGN_INTELLIGENCE fan-out: ${creators.length} creator(s) in parallel`,
+    );
+
+    // ── Stage 1: timeline + all creator intelligence in parallel ─────────────
+    const [timelineResult, ...creatorResults] = await Promise.all([
+      // Timeline
+      this.executeModule(
+        {
+          moduleId: 'campaign-agent-ai',
+          method: 'runCampaignTimeline',
+          required: true,
+          defaultConfidence: 0.87,
+        },
+        campaign,
+        taskId,
+      ),
+      // Per-creator intelligence: graph + performance + pricing in parallel
+      ...creators.map(creator =>
+        this.executeCreatorIntelligence(creator, taskId),
+      ),
+    ]);
+
+    // ── Stage 2: resolve creator profiles ────────────────────────────────────
+    const creatorProfiles = creatorResults.map((cr, idx) => {
+      const creatorId = (creators[idx]['creatorId'] ?? `creator-${idx}`) as string;
+      const { merged: intelligence, conflicts: creatorConflicts } = cr;
+      return {
+        creatorId,
+        intelligence: this.outputNormalizer.applyOutputContract(intelligence),
+        conflicts: creatorConflicts,
+        confidence:
+          creatorConflicts.length === 0
+            ? 0.85
+            : Math.max(0.6, 0.85 - creatorConflicts.length * 0.05),
+      };
+    });
+
+    // ── Stage 3: aggregate launch plan metrics ────────────────────────────────
+    const launchPlan = this.aggregateLaunchPlan(campaign, creatorProfiles);
+
+    const merged: Record<string, unknown> = {
+      timeline: timelineResult.result ?? {},
+      creatorProfiles,
+      launchPlan,
+    };
+
+    // ── Flatten module results for response metadata ──────────────────────────
+    const allModuleResults: ModuleResult[] = [timelineResult];
+    for (const cr of creatorResults) {
+      allModuleResults.push(...cr.moduleResults);
+    }
+    const allConflicts = creatorResults.flatMap(cr => cr.conflicts);
+
+    const executionMs = Date.now() - startMs;
+    const reasoning =
+      `Task=CAMPAIGN_INTELLIGENCE. Timeline via campaign-agent-ai. ` +
+      `${creators.length} creator(s) analysed via creator-graph-ai + ` +
+      `performance-prediction-ai + pricing-engine-ai (parallel fan-out). ` +
+      `${allConflicts.length} conflict(s) resolved. ` +
+      `EstimatedReach=${(launchPlan['totalEstimatedReach'] as number | undefined ?? 0).toLocaleString()}. ` +
+      `BudgetRequired=$${((launchPlan['totalBudgetRequiredCents'] as number | undefined ?? 0) / 100).toFixed(0)}.`;
+
+    const response = this.outputNormalizer.normalize(
+      taskId,
+      'CAMPAIGN_INTELLIGENCE',
+      allModuleResults.filter(r => !r.error),
+      allConflicts,
+      merged,
+      executionMs,
+      reasoning,
+    );
+
+    this.contextStore.set(sessionId, 'last_CAMPAIGN_INTELLIGENCE', merged);
+    this.contextStore.appendDecision(sessionId, {
+      taskId,
+      taskType: 'CAMPAIGN_INTELLIGENCE',
+      confidence: response.confidence,
+      timestamp: response.timestamp,
+    });
+    this.decisionLogger.record(request, response);
+
+    this.logger.log(
+      `[${taskId}] END CAMPAIGN_INTELLIGENCE → ${response.status} ` +
+        `| ${executionMs}ms | ${creators.length} creator(s) | confidence=${response.confidence}`,
+    );
+
+    return response;
+  }
+
+  /**
+   * Runs the three intelligence modules for a single creator in parallel
+   * and conflict-resolves the dual-model numeric outputs.
+   */
+  private async executeCreatorIntelligence(
+    creator: Record<string, unknown>,
+    taskId: string,
+  ): Promise<{
+    merged: Record<string, unknown>;
+    conflicts: OrchestratorResponse['conflicts'];
+    moduleResults: ModuleResult[];
+  }> {
+    const creatorId = creator['creatorId'] as string | undefined;
+    const perfPayload: Record<string, unknown> = {
+      followers: creator['followers'] ?? 0,
+      engagementRate: creator['engagementRate'] ?? creator['engagement_rate'] ?? 3.5,
+      audienceScore: creator['audienceScore'] ?? 0.75,
+      fraudScore: creator['fraudScore'] ?? 0.0,
+      niche: Array.isArray(creator['niche']) ? creator['niche'][0] : (creator['niche'] ?? 'lifestyle'),
+      platform: creator['platform'] ?? 'instagram',
+      avgViews: creator['avgViews'],
+    };
+    const pricingPayload: Record<string, unknown> = {
+      platform: creator['platform'] ?? 'instagram',
+      contentType: creator['contentType'] ?? 'post',
+      niche: Array.isArray(creator['niche']) ? creator['niche'] : ['lifestyle'],
+      followersCount: creator['followers'] ?? 0,
+      engagementRate: creator['engagementRate'] ?? creator['engagement_rate'] ?? 3.5,
+    };
+
+    const [graphResult, perfResult, pricingResult] = await Promise.all([
+      creatorId
+        ? this.executeModule(
+            { moduleId: 'creator-graph-ai', method: 'runCreatorGraph', required: true, defaultConfidence: 0.78 },
+            { creatorId },
+            taskId,
+          )
+        : this.executeModule(
+            { moduleId: 'performance-prediction-ai', method: 'runPerformancePredict', required: true, defaultConfidence: 0.83 },
+            perfPayload,
+            taskId,
+          ),
+      this.executeModule(
+        { moduleId: 'performance-prediction-ai', method: 'runPerformancePredict', required: true, defaultConfidence: 0.83 },
+        perfPayload,
+        taskId,
+      ),
+      this.executeModule(
+        { moduleId: 'pricing-engine-ai', method: 'runPricingRecommend', required: false, defaultConfidence: 0.82 },
+        pricingPayload,
+        taskId,
+      ),
+    ]);
+
+    const moduleResults = [graphResult, perfResult, pricingResult];
+
+    // Conflict-resolve the primary prediction models (graph + performance)
+    const { merged: predictionMerged, conflicts } = this.conflictResolver.resolve(
+      [graphResult, perfResult].filter(r => !r.error),
+    );
+
+    // Combine with pricing (distinct fields — no conflicts expected)
+    const pricingData = pricingResult.error
+      ? {}
+      : (pricingResult.result as Record<string, unknown>) ?? {};
+
+    const merged: Record<string, unknown> = {
+      ...predictionMerged,
+      pricing: pricingData,
+    };
+
+    return { merged, conflicts, moduleResults };
+  }
+
+  /**
+   * Aggregates per-creator intelligence into a campaign-level launch plan.
+   */
+  private aggregateLaunchPlan(
+    campaign: Record<string, unknown>,
+    creatorProfiles: Array<{
+      creatorId: string;
+      intelligence: Record<string, unknown>;
+      confidence: number;
+    }>,
+  ): Record<string, unknown> {
+    let totalReach = 0;
+    let totalBudget = 0;
+    let totalConfidence = 0;
+    const tierBreakdown: Record<string, number> = {};
+
+    for (const profile of creatorProfiles) {
+      const intel = profile.intelligence;
+
+      const reach =
+        (intel['predictedReach'] as number) ??
+        (intel['reach_estimate'] as number) ??
+        0;
+      totalReach += typeof reach === 'number' ? reach : 0;
+
+      const pricing = intel['pricing'] as Record<string, unknown> | undefined;
+      const rate = (pricing?.['recommended_rate'] as number) ?? 0;
+      totalBudget += typeof rate === 'number' ? rate : 0;
+
+      totalConfidence += profile.confidence;
+
+      const tier =
+        (intel['tier'] as string) ??
+        (pricing?.['tier'] as string) ??
+        'micro';
+      tierBreakdown[tier] = (tierBreakdown[tier] ?? 0) + 1;
+    }
+
+    const avgConfidence =
+      creatorProfiles.length > 0 ? totalConfidence / creatorProfiles.length : 0;
+
+    // Recommend the start date from the first timeline milestone or campaign input
+    const recommendedLaunchDate =
+      (campaign['startDate'] as string | undefined) ??
+      new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+    return {
+      totalEstimatedReach: Math.round(totalReach),
+      totalBudgetRequiredCents: Math.round(totalBudget),
+      creatorCount: creatorProfiles.length,
+      avgCreatorConfidence: Math.round(avgConfidence * 100) / 100,
+      tierBreakdown,
+      recommendedLaunchDate,
+      campaignObjective: campaign['objective'] ?? 'awareness',
+      platforms: campaign['platforms'] ?? [],
+    };
   }
 
   // ── Internal execution engine ───────────────────────────────────────────────

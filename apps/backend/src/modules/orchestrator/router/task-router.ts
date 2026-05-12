@@ -13,16 +13,19 @@ export interface ExecutionStep {
   defaultConfidence: number;
 }
 
-export type MergeStrategy = 'first' | 'combine' | 'confidence-weighted';
+export type MergeStrategy = 'first' | 'combine' | 'confidence-weighted' | 'compound';
 
 export interface ExecutionPlan {
   /**
    * 2-D array: outer = sequential stages, inner = steps run in parallel
    * within that stage.
+   * Empty for compound tasks — the orchestrator handles fan-out directly.
    */
   steps: ExecutionStep[][];
   mergeStrategy: MergeStrategy;
   description: string;
+  /** When set, the orchestrator delegates to a named compound handler. */
+  compoundHandler?: string;
 }
 
 // ─── Task → Execution Plan Registry ──────────────────────────────────────────
@@ -172,6 +175,17 @@ const PLANS: Record<TaskType, ExecutionPlan> = {
     ],
     mergeStrategy: 'first',
     description: 'End-of-campaign debrief + PDF export via campaign-agent-ai',
+  },
+
+  // ── Compound: full launch plan (timeline + per-creator intelligence) ────────
+  CAMPAIGN_INTELLIGENCE: {
+    steps: [], // fan-out handled directly by OrchestratorService
+    mergeStrategy: 'compound',
+    compoundHandler: 'campaignIntelligence',
+    description:
+      'Full campaign launch plan — timeline from campaign-agent-ai + per-creator ' +
+      'intelligence (graph-ai + performance-ai + pricing-engine-ai) executed in ' +
+      'parallel for all creators; conflict-resolved and merged into one launch plan',
   },
 };
 

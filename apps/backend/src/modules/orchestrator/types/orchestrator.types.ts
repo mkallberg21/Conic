@@ -8,7 +8,8 @@ export type TaskType =
   | 'CREATOR_PREDICT'
   | 'CREATOR_INTELLIGENCE'
   | 'CAMPAIGN_TIMELINE'
-  | 'CAMPAIGN_DEBRIEF';
+  | 'CAMPAIGN_DEBRIEF'
+  | 'CAMPAIGN_INTELLIGENCE';
 
 // ─── Module IDs ───────────────────────────────────────────────────────────────
 
