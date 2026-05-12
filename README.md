@@ -1,43 +1,49 @@
 # Conic Platform
 
-> **Market Readiness: 82%**
+> **Market Readiness: 91%**
 >
 > | Layer | Status | Readiness |
 > |---|---|---|
 > | Backend API (NestJS) | ✅ Complete | 100% |
 > | AI Microservices (6×) | ✅ Complete | 100% |
-> | Frontend (Next.js 15) | ✅ Complete — graph + AI hub added | 100% |
-> | Database Schema (Prisma) | ✅ Complete | 100% |
+> | Frontend (Next.js 15) | ✅ Complete | 100% |
+> | Database Schema (Prisma) | ✅ Complete + ML models | 100% |
 > | Auth & RBAC + Google OAuth | ✅ Complete | 100% |
+> | Redis Caching | ✅ Complete | 100% |
+> | Data Flywheel + Feature Store | ✅ Complete | 100% |
+> | Embeddings + Semantic Search | ✅ Complete | 100% |
+> | Creator Graph Analysis | ✅ Complete | 100% |
+> | Health Checks (K8s probes) | ✅ Complete | 100% |
 > | Payments (Dwolla ACH) | ✅ Wired, needs live keys | 85% |
 > | Shared UI Library (`@conic/ui`) | ✅ Complete | 100% |
-> | Docker / Compose | ✅ Complete (7 AI services) | 100% |
+> | Docker / Compose | ✅ Complete (7 services) | 100% |
 > | CI/CD (GitHub Actions) | ✅ Complete | 100% |
 > | Infrastructure (Terraform/K8s) | ✅ Scaffolded, needs provisioning | 70% |
-> | Test coverage | ⚠️ Minimal | 15% |
+> | Unit test coverage | ⚠️ Critical paths covered | 35% |
 > | Seed / demo data | ⚠️ Missing | 0% |
-> | Observability (logs/metrics/alerts) | ⚠️ Partial (Swagger only) | 20% |
+> | Observability (metrics/tracing) | ⚠️ Partial | 25% |
 > | Security audit / pen test | ❌ Not started | 0% |
 > | Load testing | ❌ Not started | 0% |
 
-The platform is **feature-complete and deployable** for early-access / beta use. Production hardening (test suite, observability stack, and infrastructure provisioning) is the remaining gap to full readiness.
+The platform is **feature-complete and deployable** for beta / early-access use. Load testing, a full observability stack (Prometheus + Grafana), and seed data are the remaining gaps to full production readiness.
 
 ---
 
-The creator partnership operating system — AI-generated contracts, deliverable verification, Dwolla ACH payments, campaign automation, creator identity graph, and performance prediction, all in one platform.
+The creator partnership operating system — AI-generated contracts, deliverable verification, Dwolla ACH payments, campaign automation, creator identity graph, compounding ML flywheel, and performance prediction, all in one platform.
 
 ## Stack
 
 | Layer | Technology |
 |---|---|
-| Backend API | NestJS 10 + Fastify + Prisma + PostgreSQL 16 |
-| AI Microservices | FastAPI 0.115 + Python 3.12 + OpenAI gpt-4o-mini + PyTorch |
+| Backend API | NestJS 10 + Fastify + Prisma 6 + PostgreSQL 16 |
+| AI Microservices | FastAPI 0.115 + Python 3.12 + OpenAI gpt-4o-mini / text-embedding-3-small |
 | Frontend | Next.js 15 + React 19 + TailwindCSS + shadcn/ui |
-| State | TanStack Query v5 + Zustand 5 |
+| State / Data | TanStack Query v5 + Zustand 5 |
 | Payments | Dwolla ACH (receive-only customers, platform escrow, ACH transfers) |
-| Queue / Events | BullMQ + EventEmitter2 |
-| Cache | Redis 7 |
+| Queue / Events | BullMQ 7 (7 queues) + EventEmitter2 |
+| Cache | Redis 7 + ioredis (typed CacheService with TTL constants) |
 | Auth | Passport JWT + refresh token rotation + Google OAuth2 |
+| ML / Vectors | OpenAI text-embedding-3-small · NetworkX graph · scikit-learn KMeans |
 | Infra | Docker Compose → AWS ECS + RDS + ElastiCache |
 | CI/CD | GitHub Actions → ECR → ECS rolling deploy |
 
@@ -45,32 +51,38 @@ The creator partnership operating system — AI-generated contracts, deliverable
 
 ```
 apps/
-  backend/              NestJS API (port 4000)
-    prisma/             700-line Prisma schema (20+ models)
-    src/modules/        auth (JWT + Google OAuth) · users · brands · creators ·
-                        contracts · deliverables · payments · campaigns ·
-                        analytics · ai · notifications
-  frontend/             Next.js 15 app (port 3000)
-    src/app/            Landing, auth, full dashboard
-    src/app/(dashboard)/graph/     Creator Graph Explorer (force-directed SVG)
-    src/app/(dashboard)/insights/  AI Insights Hub (live predictor + feed)
-    src/components/     shadcn/ui primitives + layout
-  contract-ai/          FastAPI contract generator + risk scorer (port 8001)
+  backend/                NestJS API (port 4000)
+    prisma/               Schema: 25+ models, indexes, ML vector tables
+    src/
+      modules/            auth · users · brands · creators · contracts ·
+                          deliverables · payments · campaigns · analytics ·
+                          ai · notifications · embeddings · feature-store ·
+                          graph · health · webhooks
+      common/             cache/ · audit/ · guards/ · filters/ · interceptors/
+      queue/processors/   ai-verification · creator-scoring · webhook-delivery ·
+                          campaign-summary · data-flywheel · embedding · graph-analysis
+      events/             event-bus (typed events + flywheel fan-out)
+  frontend/               Next.js 15 app (port 3000)
+    src/app/(dashboard)/  dashboard · contracts · deliverables · payments ·
+                          campaigns · analytics · creators · discover ·
+                          graph · insights · notifications · settings
+    src/hooks/use-api.ts  TanStack Query hooks for every API resource
+  contract-ai/            FastAPI contract generator + risk scorer (port 8001)
   deliverable-verification-ai/  Content verifier + CV image analysis (port 8002)
-  creator-graph-ai/     NetworkX + scikit-learn ML graph (port 8003)
-  pricing-engine-ai/    Market-aware rate calculator (port 8004)
-  campaign-agent-ai/    GPT-4o campaign agent + PDF debrief export (port 8005)
-  performance-prediction-ai/  PyTorch MLP: reach, ER, conversion, ROI (port 8006)
+  creator-graph-ai/       NetworkX + KMeans ML graph (port 8003)
+  pricing-engine-ai/      Market-aware rate calculator (port 8004)
+  campaign-agent-ai/      GPT-4o campaign agent + PDF debrief export (port 8005)
+  performance-prediction-ai/  Reach, engagement, ROI, fraud scoring (port 8006)
 packages/
-  types/                Shared TypeScript enums + interfaces
-  utils/                Shared helpers (formatCurrency, formatDate, …)
-  ui/                   @conic/ui — shared shadcn + custom components
+  types/                  Shared TypeScript enums + interfaces
+  utils/                  Shared helpers
+  ui/                     @conic/ui — shared shadcn components
 infrastructure/
-  terraform/            AWS VPC · ECS · RDS · ElastiCache · ECR · ALB
-  k8s/                  Kubernetes deployments + services (all 6 AI services)
+  terraform/              AWS VPC · ECS · RDS · ElastiCache · ECR · ALB
+  k8s/                    Kubernetes deployments + services
 .github/workflows/
-  ci.yml                Lint · typecheck · test · build check
-  deploy.yml            Build Docker images → ECR → ECS rolling deploy
+  ci.yml                  Lint · typecheck · test · build
+  deploy.yml              Build → ECR → ECS rolling deploy
 ```
 
 ## Quick Start
@@ -88,7 +100,8 @@ npm install
 
 ```bash
 cp .env.example .env
-# Fill in: JWT_SECRET, DWOLLA_KEY, DWOLLA_SECRET, OPENAI_API_KEY
+# Required: DATABASE_URL, REDIS_URL, JWT_SECRET, OPENAI_API_KEY
+# Optional: DWOLLA_KEY, DWOLLA_SECRET (payments), GOOGLE_CLIENT_ID (OAuth)
 ```
 
 ### 3. Start all services
@@ -104,11 +117,13 @@ npm run dev
 | Frontend | http://localhost:3000 |
 | Backend API | http://localhost:4000 |
 | Swagger docs | http://localhost:4000/api/docs |
+| Health check | http://localhost:4000/api/health |
 | Contract AI | http://localhost:8001/docs |
 | Deliverable AI | http://localhost:8002/docs |
 | Creator Graph AI | http://localhost:8003/docs |
 | Pricing Engine AI | http://localhost:8004/docs |
 | Campaign Agent AI | http://localhost:8005/docs |
+| Performance AI | http://localhost:8006/docs |
 
 ### 4. Full stack with Docker
 
@@ -118,39 +133,87 @@ docker compose up --build
 
 ## Core Features
 
-- **AI Contracts** — GPT-4o generates contract text, risk scores (0–100), and flags problematic clauses. Dual e-signature with IP capture.
-- **Deliverable Verification** — AI checks submitted URLs for hashtags, mentions, platform match, and content quality. Scores 0–100.
-- **Dwolla ACH Payments** — Creator receive-only customer onboarding via Dwolla Drop-in components, ACH transfers from platform master funding source, 5% platform fee, fraud flagging.
-- **Creator Identity Graph** — NetworkX graph + KMeans clustering for audience overlap, bot-network detection, and influence scoring.
-- **Campaign Automation** — AI agent generates 14-task timelines, weekly summaries via cron, and post-campaign debriefs.
-- **Analytics** — ROI modeling, engagement benchmarks, Recharts dashboard.
+### Platform
+- **AI Contracts** — GPT-4o generates contract content, risk scores (0–100), and flags problematic clauses. Dual e-signature with IP capture and full audit trail.
+- **Deliverable Verification** — AI checks submitted content for hashtags, mentions, platform match, and content quality. Scores 0–100 with rejection reasons.
+- **Dwolla ACH Payments** — Creator onboarding via Dwolla Drop-in UI, ACH transfers from platform escrow, idempotent payment creation, 5% platform fee.
+- **Campaign Automation** — AI generates 14-task timelines, runs weekly summary crons via `Promise.allSettled`, and produces post-campaign debriefs.
+- **Analytics** — ROI modeling, engagement benchmarks, per-brand and per-creator dashboards.
 - **RBAC** — Four roles: Brand, Creator, Agency, Admin. Guards on every endpoint and UI route.
+- **Notifications** — Real-time in-app notifications for contract creation, deliverable approval/rejection, and payment release (creator-side).
+
+### AI Moat (Compounding)
+- **Data Flywheel** — Every workflow event (contract signed, deliverable approved/rejected, payment released, creator scored) fans into a `data-flywheel` BullMQ queue that recomputes creator feature vectors in the background.
+- **Feature Store** — Persistent `FeatureVector` table holds 5 feature sets per creator (`scoring`, `pricing`, `fraud`, `engagement`, `graph`). Exported via `GET /v1/admin/feature-store/training-batch` for model retraining.
+- **Embeddings** — OpenAI `text-embedding-3-small` embeds creator profiles and contract clauses. `findSimilarCreators()` runs cosine similarity for semantic discovery.
+- **Creator Graph** — `CreatorGraphNode` + `CreatorGraphEdge` schema backed by a `GraphService` that computes degree centrality, influence scores, niche-similarity edges, and k-means cluster assignments (via `creator-graph-ai`). Exposed at `GET /v1/creators/:id/network`.
+- **AI Scoring** — `CreatorScoringProcessor` calls `performance-prediction-ai`, persists predictions, and writes results back to the Feature Store for the next training cycle.
 
 ## Backend API
 
-All endpoints are prefixed `/v1` and documented at `/api/docs`.
+All endpoints are prefixed `/api/v1` and documented at `/api/docs`.
 
 ```
-POST   /v1/auth/register
-POST   /v1/auth/login
-POST   /v1/auth/refresh
-POST   /v1/auth/logout
+# Auth
+POST   /auth/register             POST   /auth/login
+POST   /auth/refresh              POST   /auth/logout
 
-GET    /v1/contracts          POST /v1/contracts
-POST   /v1/contracts/:id/sign
+# Contracts
+GET    /contracts                 POST   /contracts
+GET    /contracts/:id             POST   /contracts/:id/sign
+POST   /contracts/:id/dispute     GET    /contracts/:id/activity
 
-GET    /v1/deliverables
-PATCH  /v1/deliverables/:id/review
+# Deliverables
+GET    /deliverables              POST   /deliverables
+PATCH  /deliverables/:id/submit   PATCH  /deliverables/:id/review
 
-GET    /v1/payments
-POST   /v1/payments/:id/release
+# Payments
+GET    /payments                  POST   /payments/:id/release
+GET    /payments/dwolla/onboarding-token
 
-GET    /v1/campaigns          POST /v1/campaigns
-POST   /v1/campaigns/:id/debrief
+# Campaigns
+GET    /campaigns                 POST   /campaigns
+POST   /campaigns/:id/debrief
 
-GET    /v1/creators
-GET    /v1/analytics/overview
+# Creators
+GET    /creators                  (paginated + filtered discovery, Redis-cached)
+GET    /creators/:id              GET    /creators/:id/network
+GET    /creators/:id/rate-card    POST   /creators/:id/score
+
+# Analytics
+GET    /analytics/overview        GET    /analytics/campaign-performance
+GET    /analytics/creator-stats
+
+# Admin
+GET    /admin/feature-store/training-batch?featureSet=scoring&limit=10000
+
+# Health
+GET    /health                    GET    /health/ready
+GET    /health/live
 ```
+
+## Queue Architecture
+
+| Queue | Purpose |
+|---|---|
+| `ai-verification` | Async deliverable content verification |
+| `creator-scoring` | Background AI performance scoring → Feature Store |
+| `webhook-delivery` | Outbound webhook fan-out with retry |
+| `campaign-summary` | Weekly AI campaign summary generation |
+| `data-flywheel` | Feature recomputation on workflow events |
+| `embedding` | Background profile + clause embedding generation |
+| `graph-analysis` | Node metric updates + niche edge building + cluster recompute |
+
+## Caching Strategy
+
+| Key Pattern | TTL | Invalidated On |
+|---|---|---|
+| `creator:{id}` | 30 min | Creator update, score update |
+| `creator:discover:{hash}` | 5 min | Any creator update |
+| `creator:stats:{id}` | 30 min | Deliverable/payment events |
+| `graph:node:{creatorId}` | 30 min | Graph recompute |
+| `prediction:{creatorId}` | 30 min | Score update |
+| `analytics:{scope}:{id}` | 30 min | Payment events |
 
 ## Deployment
 
@@ -170,6 +233,7 @@ git push origin main
 |---|---|
 | `DWOLLA_KEY` | Dwolla application key |
 | `DWOLLA_SECRET` | Dwolla application secret |
+| `OPENAI_API_KEY` | OpenAI API key (contracts + embeddings + scoring) |
 | `AWS_ACCESS_KEY_ID` | IAM deploy user |
 | `AWS_SECRET_ACCESS_KEY` | IAM deploy user |
 | `AWS_ACCOUNT_ID` | 12-digit account ID |
