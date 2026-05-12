@@ -19,6 +19,7 @@ export const VALID_TASK_TYPES: TaskType[] = [
   'CAMPAIGN_TIMELINE',
   'CAMPAIGN_DEBRIEF',
   'CAMPAIGN_INTELLIGENCE',
+  'CREATOR_ROSTER',
 ];
 
 class ExecuteContextDto {

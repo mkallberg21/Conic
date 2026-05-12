@@ -178,6 +178,8 @@ export class OrchestratorService {
     switch (handler) {
       case 'campaignIntelligence':
         return this.executeCampaignIntelligence(taskId, sessionId, startMs, request, payload);
+      case 'creatorRoster':
+        return this.executeCreatorRoster(taskId, sessionId, startMs, request, payload);
       default:
         throw new Error(`[Orchestrator] Unknown compound handler: ${handler}`);
     }
@@ -302,6 +304,283 @@ export class OrchestratorService {
     );
 
     return response;
+  }
+
+  /**
+   * CREATOR_ROSTER — score every candidate creator and return an AI-ranked shortlist.
+   *
+   * Expected payload shape:
+   * {
+   *   brief: {
+   *     objective?: string
+   *     platforms?: string[]
+   *     budget?: number          // total campaign budget in cents
+   *     niche?: string[]         // target content niches
+   *     minFollowers?: number
+   *     maxFollowers?: number
+   *     rosterSize?: number      // how many creators to return (default 10, max 50)
+   *   }
+   *   candidates: Array<{
+   *     creatorId: string
+   *     followers: number
+   *     engagementRate: number
+   *     niche?: string | string[]
+   *     platform?: string
+   *     avgViews?: number
+   *     audienceScore?: number
+   *     fraudScore?: number
+   *     contentType?: string
+   *   }>
+   * }
+   *
+   * Max 100 candidates per call; max rosterSize 50.
+   */
+  private async executeCreatorRoster(
+    taskId: string,
+    sessionId: string,
+    startMs: number,
+    request: OrchestratorRequest,
+    payload: Record<string, unknown>,
+  ): Promise<OrchestratorResponse> {
+    const brief = (payload['brief'] ?? {}) as Record<string, unknown>;
+    const rawCandidates = Array.isArray(payload['candidates']) ? payload['candidates'] : [];
+    const MAX_CANDIDATES = 100;
+    const DEFAULT_ROSTER_SIZE = 10;
+    const MAX_ROSTER_SIZE = 50;
+
+    const candidates = rawCandidates.slice(0, MAX_CANDIDATES) as Array<Record<string, unknown>>;
+    const rosterSize = Math.min(
+      Number(brief['rosterSize'] ?? DEFAULT_ROSTER_SIZE) || DEFAULT_ROSTER_SIZE,
+      MAX_ROSTER_SIZE,
+    );
+
+    this.logger.log(
+      `[${taskId}] CREATOR_ROSTER fan-out: scoring ${candidates.length} candidate(s), roster=${rosterSize}`,
+    );
+
+    // ── Score all candidates in parallel ─────────────────────────────────────
+    const scoredResults = await Promise.all(
+      candidates.map(async (candidate, idx) => {
+        const creatorId = (candidate['creatorId'] ?? `candidate-${idx}`) as string;
+        const { merged: intelligence, conflicts, moduleResults } =
+          await this.executeCreatorIntelligence(candidate, taskId);
+
+        const score = this.computeRosterScore(intelligence, brief);
+        return { creatorId, candidate, intelligence, conflicts, moduleResults, score };
+      }),
+    );
+
+    // ── Rank by composite score descending ────────────────────────────────────
+    const ranked = [...scoredResults].sort((a, b) => b.score.composite - a.score.composite);
+
+    // ── Build shortlist ───────────────────────────────────────────────────────
+    const shortlist = ranked.slice(0, rosterSize).map((entry, rank) => ({
+      rank: rank + 1,
+      creatorId: entry.creatorId,
+      scores: entry.score,
+      intelligence: this.outputNormalizer.applyOutputContract(entry.intelligence),
+      conflicts: entry.conflicts,
+      confidence: entry.conflicts.length === 0
+        ? 0.85
+        : Math.max(0.55, 0.85 - entry.conflicts.length * 0.05),
+      recommendation: this.buildCreatorRecommendation(rank, entry.score, brief),
+    }));
+
+    // ── Budget summary ────────────────────────────────────────────────────────
+    const budgetSummary = this.buildBudgetSummary(shortlist, brief);
+
+    // ── Aggregate module results for response metadata ────────────────────────
+    const allModuleResults = scoredResults.flatMap(r => r.moduleResults);
+    const allConflicts = scoredResults.flatMap(r => r.conflicts);
+
+    const merged: Record<string, unknown> = {
+      shortlist,
+      candidatesEvaluated: candidates.length,
+      rosterSize: shortlist.length,
+      budgetSummary,
+      rankingCriteria: {
+        primary: 'predicted_roi',
+        secondary: 'audience_authenticity',
+        tertiary: 'fraud_score_inverse',
+        briefAlignmentBonus: !!brief['niche'],
+      },
+    };
+
+    const executionMs = Date.now() - startMs;
+    const topCreator = shortlist[0];
+    const reasoning =
+      `Task=CREATOR_ROSTER. Scored ${candidates.length} candidate(s) via ` +
+      `creator-graph-ai + performance-prediction-ai + pricing-engine-ai (parallel). ` +
+      `${allConflicts.length} conflict(s) resolved. ` +
+      `Ranked by composite ROI score. ` +
+      `Top pick=${topCreator?.creatorId ?? 'none'} (score=${topCreator?.scores.composite.toFixed(3) ?? 0}). ` +
+      `Returning ${shortlist.length} of ${candidates.length}.`;
+
+    const response = this.outputNormalizer.normalize(
+      taskId,
+      'CREATOR_ROSTER',
+      allModuleResults.filter(r => !r.error),
+      allConflicts,
+      merged,
+      executionMs,
+      reasoning,
+    );
+
+    this.contextStore.set(sessionId, 'last_CREATOR_ROSTER', merged);
+    this.contextStore.appendDecision(sessionId, {
+      taskId,
+      taskType: 'CREATOR_ROSTER',
+      confidence: response.confidence,
+      timestamp: response.timestamp,
+    });
+    this.decisionLogger.record(request, response);
+
+    this.logger.log(
+      `[${taskId}] END CREATOR_ROSTER → ${response.status} ` +
+        `| ${executionMs}ms | ${candidates.length} candidates → ${shortlist.length} roster`,
+    );
+
+    return response;
+  }
+
+  /**
+   * Composite roster score (0–1 range, higher = better fit).
+   *
+   * Components
+   * ──────────
+   *  40 % predicted ROI
+   *  25 % audience authenticity (inverse of fraud likelihood)
+   *  20 % engagement quality
+   *  15 % brief alignment (niche match + budget fit)
+   */
+  private computeRosterScore(
+    intelligence: Record<string, unknown>,
+    brief: Record<string, unknown>,
+  ): {
+    composite: number;
+    roi: number;
+    authenticity: number;
+    engagement: number;
+    briefAlignment: number;
+    tier: string;
+    estimatedCostCents: number;
+  } {
+    // ROI (normalise to 0–1, cap at 10× ROI = 1.0)
+    const rawRoi =
+      (intelligence['predictedROI'] as number) ??
+      (intelligence['roi_estimate'] as number) ??
+      0;
+    const roi = Math.min(rawRoi / 10, 1.0);
+
+    // Authenticity (1 - fraud_likelihood)
+    const fraudLikelihood =
+      (intelligence['fraudLikelihood'] as number) ??
+      (intelligence['fraud_score'] as number) ??
+      0.1;
+    const authenticity =
+      (intelligence['audienceAuthenticity'] as number) ??
+      (intelligence['audience_score'] as number) ??
+      (1 - fraudLikelihood);
+
+    // Engagement quality (normalise engagement rate: >10% = 1.0)
+    const engRate =
+      (intelligence['predictedEngagement'] as number) ??
+      (intelligence['engagement_rate_predicted'] as number) ??
+      0;
+    const engagement = Math.min(engRate / 10, 1.0);
+
+    // Brief alignment bonus
+    const briefNiches = Array.isArray(brief['niche'])
+      ? (brief['niche'] as string[])
+      : brief['niche']
+        ? [brief['niche'] as string]
+        : [];
+    const creatorNiches = Array.isArray(intelligence['niche'])
+      ? (intelligence['niche'] as string[])
+      : [];
+    const nicheMatch =
+      briefNiches.length === 0 || creatorNiches.length === 0
+        ? 0.5
+        : briefNiches.some(n =>
+              creatorNiches.map(c => c.toLowerCase()).includes(n.toLowerCase()),
+            )
+          ? 1.0
+          : 0.2;
+
+    const pricing = intelligence['pricing'] as Record<string, unknown> | undefined;
+    const estimatedCostCents = (pricing?.['recommended_rate'] as number) ?? 0;
+    const campaignBudget = (brief['budget'] as number) ?? Infinity;
+    const budgetFit = estimatedCostCents <= campaignBudget ? 1.0 : 0.3;
+    const briefAlignment = nicheMatch * 0.6 + budgetFit * 0.4;
+
+    const composite =
+      roi * 0.4 +
+      authenticity * 0.25 +
+      engagement * 0.2 +
+      briefAlignment * 0.15;
+
+    const tier =
+      (intelligence['tier'] as string) ??
+      (pricing?.['tier'] as string) ??
+      'micro';
+
+    return {
+      composite: Math.round(composite * 1000) / 1000,
+      roi: Math.round(roi * 1000) / 1000,
+      authenticity: Math.round(authenticity * 1000) / 1000,
+      engagement: Math.round(engagement * 1000) / 1000,
+      briefAlignment: Math.round(briefAlignment * 1000) / 1000,
+      tier,
+      estimatedCostCents,
+    };
+  }
+
+  private buildCreatorRecommendation(
+    rank: number,
+    score: { composite: number; roi: number; authenticity: number; briefAlignment: number },
+    brief: Record<string, unknown>,
+  ): string {
+    if (rank === 0) {
+      return `Top pick — highest composite score. Strong ROI (${(score.roi * 10).toFixed(1)}×) and brief alignment.`;
+    }
+    if (score.authenticity >= 0.85) {
+      return `Premium authentic audience. Low fraud risk, above-average engagement.`;
+    }
+    if (score.roi >= 0.7) {
+      return `High ROI potential. Recommended for performance-based campaigns.`;
+    }
+    if (score.briefAlignment >= 0.8) {
+      return `Strong brief fit — niche and budget alignment. Good campaign cohesion.`;
+    }
+    const budgetLabel = brief['budget']
+      ? `within $${((brief['budget'] as number) / 100).toFixed(0)} budget`
+      : 'within budget';
+    return `Solid all-round profile. Ranked #${rank + 1} ${budgetLabel}.`;
+  }
+
+  private buildBudgetSummary(
+    shortlist: Array<{ scores: { estimatedCostCents: number; tier: string } }>,
+    brief: Record<string, unknown>,
+  ): Record<string, unknown> {
+    const totalEstimatedCost = shortlist.reduce(
+      (sum, c) => sum + (c.scores.estimatedCostCents ?? 0),
+      0,
+    );
+    const campaignBudget = (brief['budget'] as number) ?? 0;
+    const tierBreakdown: Record<string, number> = {};
+    for (const c of shortlist) {
+      const t = c.scores.tier ?? 'micro';
+      tierBreakdown[t] = (tierBreakdown[t] ?? 0) + 1;
+    }
+    return {
+      totalEstimatedCostCents: totalEstimatedCost,
+      campaignBudgetCents: campaignBudget,
+      budgetUtilisationPct:
+        campaignBudget > 0
+          ? Math.round((totalEstimatedCost / campaignBudget) * 100)
+          : null,
+      tierBreakdown,
+    };
   }
 
   /**

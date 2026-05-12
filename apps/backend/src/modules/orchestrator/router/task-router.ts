@@ -187,6 +187,17 @@ const PLANS: Record<TaskType, ExecutionPlan> = {
       'intelligence (graph-ai + performance-ai + pricing-engine-ai) executed in ' +
       'parallel for all creators; conflict-resolved and merged into one launch plan',
   },
+
+  // ── Compound: AI-ranked creator shortlist from a candidate pool ────────────
+  CREATOR_ROSTER: {
+    steps: [], // fan-out handled directly by OrchestratorService
+    mergeStrategy: 'compound',
+    compoundHandler: 'creatorRoster',
+    description:
+      'Score every candidate creator via creator-graph-ai + performance-prediction-ai ' +
+      '+ pricing-engine-ai, then rank by predicted ROI and return an ordered shortlist ' +
+      'with recommendations, conflict resolution per candidate, and budget summary',
+  },
 };
 
 // ─── Router ───────────────────────────────────────────────────────────────────

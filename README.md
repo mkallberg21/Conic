@@ -66,6 +66,7 @@ The creator partnership operating system — AI-generated contracts, deliverable
 | Auth | Passport JWT (RS256 asymmetric) + Argon2id + refresh token rotation + Google OAuth2 |
 | Encryption | AES-256-GCM field-level encryption + HKDF sub-key derivation + key versioning |
 | ML / Vectors | OpenAI text-embedding-3-small · NetworkX graph · scikit-learn KMeans |
+| AI Orchestration | UnifiedAIOrchestrator — hierarchical multi-agent command layer, 10 task types, conflict resolution, session context, audit log |
 | Infra | Docker Compose → AWS ECS + RDS + ElastiCache |
 | CI/CD | GitHub Actions → ECR → ECS rolling deploy |
 
@@ -80,6 +81,8 @@ apps/
                           deliverables · payments · campaigns · analytics ·
                           ai · notifications · embeddings · feature-store ·
                           graph · health · webhooks
+      orchestrator/       UnifiedAIOrchestrator — router · conflict-resolver ·
+                          output-normalizer · context-store · decision-logger
       common/             cache/ · audit/ · encryption/ · guards/ · filters/ · interceptors/
       queue/processors/   ai-verification · creator-scoring · webhook-delivery ·
                           campaign-summary · data-flywheel · embedding · graph-analysis
@@ -106,6 +109,58 @@ infrastructure/
   ci.yml                  Lint · typecheck · test · build
   deploy.yml              Build → ECR → ECS rolling deploy
 ```
+
+## Unified AI Orchestrator
+
+All AI subsystems are controlled by a single hierarchical command layer.
+
+```
+Level 1  UnifiedAIOrchestrator   absolute authority — routes, merges, decides
+Level 2  AI Modules (AiService)  narrow execution only, no autonomy
+Level 3  Python Microservices    pure inference engines
+```
+
+### Single API endpoint for all AI operations
+
+```
+POST /api/v1/ai/execute
+```
+
+### Supported task types
+
+| Task type | Modules invoked | Execution |
+|---|---|---|
+| `CONTRACT_GENERATE` | contract-ai | Single |
+| `CONTRACT_RISK` | contract-ai | Single |
+| `DELIVERABLE_VERIFY` | deliverable-verification-ai | Single |
+| `PRICING_RECOMMEND` | pricing-engine-ai | Single |
+| `CREATOR_PREDICT` | creator-graph-ai + performance-prediction-ai | Parallel + conflict-resolved |
+| `CREATOR_INTELLIGENCE` | creator-graph-ai + performance-prediction-ai + pricing-engine-ai | Parallel + combined |
+| `CAMPAIGN_TIMELINE` | campaign-agent-ai | Single |
+| `CAMPAIGN_DEBRIEF` | campaign-agent-ai | Single |
+| `CAMPAIGN_INTELLIGENCE` | campaign-agent-ai + per-creator fan-out (all 3 intelligence modules) | Compound parallel |
+| `CREATOR_ROSTER` | per-candidate fan-out (creator-graph-ai + performance-ai + pricing-ai) → ranked shortlist | Compound parallel |
+
+### CREATOR_ROSTER
+
+Accepts a campaign brief + a pool of up to 100 candidate creators. Scores every candidate via three AI modules in parallel, resolves per-candidate conflicts, and returns a roster ranked by predicted ROI.
+
+**Composite scoring weights:** 40 % predicted ROI · 25 % audience authenticity · 20 % engagement quality · 15 % brief alignment (niche + budget fit)
+
+**Response fields:** `shortlist[]` (ranked, with scores + recommendations), `budgetSummary` (total estimated cost, budget utilisation %, tier breakdown), `rankingCriteria`.
+
+### CAMPAIGN_INTELLIGENCE
+
+Runs a full campaign launch plan in a single call — AI timeline from campaign-agent-ai and per-creator intelligence for every creator in the campaign (in parallel), merged into one launch plan with `totalEstimatedReach`, `totalBudgetRequiredCents`, `recommendedLaunchDate`, and `tierBreakdown`.
+
+### Conflict resolution
+
+When two models return numeric outputs for the same field:
+- δ ≤ 15 % → weighted average (not logged)
+- δ > 15 %, confidence gap > 10 pp → dominant module selected
+- δ > 15 %, close confidence → weighted average
+
+All conflicts are logged with both values, confidence scores, and resolution strategy.
 
 ## Quick Start
 
