@@ -1,13 +1,15 @@
 # Conic Platform
 
-> **The creator & athlete partnership operating system** — AI-generated contracts, deliverable verification, Dwolla ACH payments, campaign automation, creator identity graph, NIL compliance engine, compounding ML flywheel, performance prediction, fraud detection, marketplace discovery, and enterprise API — available on web, iOS, and Android.
+> **The creator & athlete partnership operating system** — AI-generated contracts, deliverable verification,
+> Dwolla ACH payments, campaign automation, creator identity graph, NIL compliance engine, compounding ML flywheel,
+> performance prediction, fraud detection, marketplace discovery, and enterprise API — web, iOS, and Android.
 
 ---
 
 ## Platform Readiness
 
 | Layer | Status | Readiness |
-|---|---|---|
+| --- | --- | --- |
 | Backend API (NestJS + Fastify) | ✅ Complete | 100% |
 | AI Microservices (8×) | ✅ Complete | 100% |
 | Web Dashboard (Next.js 15) | ✅ Complete | 100% |
@@ -49,7 +51,7 @@
 ### Original findings
 
 | Severity | ID | Finding | Resolution |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | CRITICAL | F1 | IDOR — `GET /contracts/:id` any auth'd user reads any contract | Ownership check in `ContractsService.findById` |
 | CRITICAL | F2 | IDOR — `GET /contracts/:id/activity` no ownership check | `getActivity` verifies caller is a contract party |
 | CRITICAL | F3 | IDOR — `POST /contracts/:id/sign` brand/creator can sign any contract | `sign` verifies signer owns their side |
@@ -67,7 +69,7 @@
 ### Production hardening pass (May 2026)
 
 | Severity | ID | Finding | Resolution |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | CRITICAL | H1 | OAuth tokens exposed in URL query params (`?accessToken=...`) — logged by servers, proxies, and browser history | Redirects to `#fragment` — never reaches server logs or `Referer` headers |
 | CRITICAL | H2 | All 6 AI services start successfully even when `INTERNAL_API_SECRET` is unset | `_load_secret()` calls `sys.exit(1)` at import time if secret is missing in production |
 | HIGH | H3 | `users.findAll` returned unbounded result set — DoS vector | Paginated with `$transaction([findMany, count])`; max page size 100; returns `{ items, total, page, pageSize, totalPages }` |
@@ -86,7 +88,7 @@
 ## Tech Stack
 
 | Layer | Technology |
-|---|---|
+| --- | --- |
 | Backend API | NestJS 10 + Fastify 5 + Prisma 6 + PostgreSQL 16 |
 | AI Microservices | FastAPI 0.115 + Python 3.12 + OpenAI gpt-4o-mini |
 | Web Dashboard | Next.js 15 + React 19 + TailwindCSS + shadcn/ui |
@@ -114,7 +116,7 @@
 
 ## Architecture
 
-```
+```text
 apps/
   backend/                  NestJS API (port 4000)
     prisma/
@@ -211,7 +213,7 @@ tests/
 ### Mobile Features
 
 | Feature | Implementation |
-|---------|---------------|
+| --- | --- |
 | File-based routing | Expo Router v4 with typed routes |
 | Auth persistence | Expo SecureStore — refresh token survives app restart |
 | Biometric login | Face ID / Touch ID / Fingerprint via `expo-local-authentication` |
@@ -247,7 +249,7 @@ eas submit --platform android
 **Before submitting** — update these values:
 
 | File | Field | Action |
-|------|-------|--------|
+| --- | --- | --- |
 | `app.json` | `extra.eas.projectId` | Replace `YOUR_EAS_PROJECT_ID` with output of `eas init` |
 | `eas.json` | `submit.production.ios.*` | Apple ID, ASC App ID, Apple Team ID |
 | `eas.json` | `submit.production.android.serviceAccountKeyPath` | Path to Google service account JSON |
@@ -307,11 +309,11 @@ open http://localhost:3000
 **Demo credentials** (created by seed):
 
 | Role | Email | Password |
-|------|-------|----------|
-| Brand | brand@demo.conic.io | Demo@Conic2025! |
-| Creator 1 | creator1@demo.conic.io | Demo@Conic2025! |
-| Creator 2 | creator2@demo.conic.io | Demo@Conic2025! |
-| Admin | admin@demo.conic.io | Demo@Conic2025! |
+| --- | --- | --- |
+| Brand | `brand@demo.conic.io` | Demo@Conic2025! |
+| Creator 1 | `creator1@demo.conic.io` | Demo@Conic2025! |
+| Creator 2 | `creator2@demo.conic.io` | Demo@Conic2025! |
+| Admin | `admin@demo.conic.io` | Demo@Conic2025! |
 
 ### Mobile Development
 
@@ -338,7 +340,7 @@ Conic is purpose-built for the post-NIL era. Every participating athlete flows t
 ### Roles
 
 | Role | Description |
-|---|---|
+| --- | --- |
 | `ATHLETE` | College/NAIA athlete — NIL Hub, deals, disclosures, earnings |
 | `GUARDIAN` | Parent/guardian — approval workflow for minors |
 | `AGENT` | Certified agent — athlete representation, multi-client view |
@@ -349,7 +351,7 @@ Conic is purpose-built for the post-NIL era. Every participating athlete flows t
 ### NIL Modules
 
 | Module | Endpoints | Purpose |
-|---|---|---|
+| --- | --- | --- |
 | `nil-compliance` | analyze disclosure, assess risk, check eligibility, FMV | AI-powered compliance review |
 | `university` | manage universities, rosters, caps | School administration |
 | `guardian` | approvals, relationships, notices | Minor athlete oversight |
@@ -360,7 +362,7 @@ Conic is purpose-built for the post-NIL era. Every participating athlete flows t
 ### NIL AI Service (Port 8007)
 
 | Endpoint | Description |
-|---|---|
+| --- | --- |
 | `POST /compliance/analyze-disclosure` | GPT-4o-mini NIL disclosure analysis — flags, violations, suggestions |
 | `POST /compliance/assess-deal-risk` | 0-100 risk score with NCAA/state rule cross-check |
 | `POST /compliance/check-eligibility` | eligible / at_risk / probation / ineligible verdict |
@@ -371,12 +373,14 @@ Conic is purpose-built for the post-NIL era. Every participating athlete flows t
 
 ## Fraud Detection AI (Port 8008)
 
-No competitor has a purpose-built fraud detection service integrated into their payment and partnership flow. Conic's `fraud-detection-ai` runs three independent analysis engines combined into a single 0-100 fraud score.
+No competitor has a purpose-built fraud detection service integrated into their payment and partnership
+flow. Conic's `fraud-detection-ai` runs three independent analysis engines combined into a single 0-100
+fraud score.
 
 ### Endpoints
 
 | Endpoint | Description |
-|---|---|
+| --- | --- |
 | `POST /fraud/analyze` | Composite fraud score — fake followers, engagement manipulation, payment anomalies |
 | `POST /identity/check` | Cross-platform identity consistency, bot pattern detection, impersonation signals |
 | `POST /engagement/analyze` | Statistical time-series analysis — z-score spikes, coefficient of variation, pod detection |
@@ -384,7 +388,7 @@ No competitor has a purpose-built fraud detection service integrated into their 
 ### Signals Detected
 
 | Signal | Method |
-|---|---|
+| --- | --- |
 | Fake followers | Engagement rate vs platform benchmark, following/follower ratio, sudden spikes |
 | Engagement pods | Abnormally low comment/like ratio, suspiciously uniform engagement (CoV < 0.2) |
 | Purchased video views | Like/view ratio outliers on TikTok and YouTube |
@@ -433,7 +437,7 @@ Migrating from competitors is one click. Conic accepts Opendorse exports, Teamwo
 ### Supported Import Types
 
 | Type | Source | Fields |
-|---|---|---|
+| --- | --- | --- |
 | `CREATOR_CSV` | Any | email, first_name, last_name, followers_count, engagement_rate, niche |
 | `ATHLETE_CSV` | Any | email, first_name, last_name, sport, position, followers_count |
 | `OPENDORSE_EXPORT` | Opendorse | Same as ATHLETE_CSV |
@@ -458,7 +462,7 @@ Teams build reusable, AI-enriched contract templates with clause libraries. Temp
 
 All AI subsystems are controlled by a single hierarchical command layer:
 
-```
+```text
 Level 1  UnifiedAIOrchestrator   absolute authority — routes, merges, arbitrates
 Level 2  AiService (NestJS)      narrow execution only — no independent decisions
 Level 3  Python Microservices    pure inference engines
@@ -466,7 +470,7 @@ Level 3  Python Microservices    pure inference engines
 
 **Single API endpoint for all AI operations:**
 
-```
+```text
 POST /api/v1/ai/execute
 { "taskType": "...", "payload": { ... }, "context": { ... } }
 ```
@@ -474,7 +478,7 @@ POST /api/v1/ai/execute
 ### Supported Task Types
 
 | Task | Modules | Execution Mode |
-|------|---------|----------------|
+| --- | --- | --- |
 | `CONTRACT_GENERATE` | contract-ai | Single |
 | `CONTRACT_RISK` | contract-ai | Single |
 | `DELIVERABLE_VERIFY` | deliverable-verification-ai | Single |
@@ -493,7 +497,7 @@ POST /api/v1/ai/execute
 ## Observability
 
 | Signal | Tool | Endpoint |
-|--------|------|------------------------|
+| --- | --- | --- |
 | **Traces** | OTel → Grafana Tempo | `otel-collector:4318` |
 | **Metrics** | Prometheus scrape | `:9464/metrics` (backend) |
 | **Dashboards** | Grafana 11 | `grafana:3000` |
@@ -530,11 +534,13 @@ k6 run tests/load/soak.test.js
 
 ### Docker Compose (Local — 12 services)
 
-`postgres` · `redis` · `backend` · `frontend` · `contract-ai` · `deliverable-verification-ai` · `creator-graph-ai` · `pricing-engine-ai` · `campaign-agent-ai` · `performance-prediction-ai` · `nil-compliance-ai` · `fraud-detection-ai`
+`postgres` · `redis` · `backend` · `frontend` · `contract-ai` · `deliverable-verification-ai` ·
+`creator-graph-ai` · `pricing-engine-ai` · `campaign-agent-ai` · `performance-prediction-ai` ·
+`nil-compliance-ai` · `fraud-detection-ai`
 
 ### AWS Production
 
-```
+```text
 VPC (10.0.0.0/16, 2 AZs)
 ├── ECS Fargate — 8 task definitions
 ├── RDS PostgreSQL 16.3 (Multi-AZ, encrypted, 7-day backups)
@@ -555,7 +561,7 @@ terraform apply
 ## Key Design Decisions
 
 | Decision | Rationale |
-|----------|-----------|
+| --- | --- |
 | **Expo Router v4** | File-based routing, typed routes, single codebase for iOS + Android + Web, OTA updates |
 | **NativeWind** | Tailwind utility classes in React Native — same mental model as the web dashboard |
 | **NestJS + Fastify** | 2× throughput vs Express for the same compute |
@@ -570,7 +576,7 @@ terraform apply
 
 ## Project Status
 
-```
+```text
 ✅  Feature-complete across web, mobile, and NIL/athlete operations
 ✅  Security audit complete (22 findings resolved — 13 original + 9 hardening pass)
 ✅  OAuth tokens secured — hash fragment redirect, never in server logs
