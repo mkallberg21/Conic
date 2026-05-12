@@ -66,7 +66,7 @@ The creator partnership operating system — AI-generated contracts, deliverable
 | Auth | Passport JWT (RS256 asymmetric) + Argon2id + refresh token rotation + Google OAuth2 |
 | Encryption | AES-256-GCM field-level encryption + HKDF sub-key derivation + key versioning |
 | ML / Vectors | OpenAI text-embedding-3-small · NetworkX graph · scikit-learn KMeans |
-| AI Orchestration | UnifiedAIOrchestrator — hierarchical multi-agent command layer, 10 task types, conflict resolution, session context, audit log |
+| AI Orchestration | UnifiedAIOrchestrator — hierarchical multi-agent command layer, 11 task types, conflict resolution, session context, audit log |
 | Infra | Docker Compose → AWS ECS + RDS + ElastiCache |
 | CI/CD | GitHub Actions → ECR → ECS rolling deploy |
 
@@ -141,6 +141,7 @@ POST /api/v1/ai/execute
 | `CAMPAIGN_INTELLIGENCE` | campaign-agent-ai + per-creator fan-out (all 3 intelligence modules) | Compound parallel |
 | `CREATOR_ROSTER` | per-candidate fan-out (creator-graph-ai + performance-ai + pricing-ai) → ranked shortlist | Compound parallel |
 | `CONTRACT_INTELLIGENCE` | contract-ai /generate + /risk (parallel) → /revise loop | Compound self-correcting |
+| `DELIVERABLE_INTELLIGENCE` | deliverable-verification-ai /verify + performance-ai /predict (parallel) → /feedback or /pricing-recommend | Compound conditional |
 
 ### CREATOR_ROSTER
 
@@ -159,6 +160,12 @@ Runs a full campaign launch plan in a single call — AI timeline from campaign-
 Self-correcting contract generation in a single call. Stage 1 runs `/generate` and `/risk` in parallel; if the risk score exceeds the threshold (default 20), a revision loop calls `/revise` with the outstanding flags, iterating up to 3 rounds until the score drops below the threshold.
 
 **Response fields:** `content` (final contract text), `finalRiskScore`, `initialRiskScore`, `flagsResolved[]`, `revisionRounds` (0–3), `revisionHistory[]` (per-round flagsIn, flagsOut, score, notes), `thresholdMet` (boolean), `riskThresholdUsed`, `clauses`, `wordCount`.
+
+### DELIVERABLE_INTELLIGENCE
+
+Full multi-stage deliverable assessment in a single call. Stage 1 runs `/verify` and `/predict` in parallel — compliance check plus audience performance forecast. Stage 2 branches on the outcome: FAILED/FLAGGED deliverables receive a structured remediation plan from `/feedback` (severity-ranked fix instructions + estimated revision time); PASSED deliverables receive a market-rate payment valuation from the pricing engine.
+
+**Response fields:** `verificationStatus` (PASSED / FAILED / FLAGGED), `verificationScore` (0–100), `verificationFlags[]`, `verificationChecks[]`, `complianceScore` (weighted 70 % compliance + 30 % fraud inverse), `remediationRequired` (boolean), `remediationPlan` (if failed — `feedbackItems[]`, `priorityFixes[]`, `estimatedRevisionMinutes`, severity counts), `valuationReport` (if passed — `recommendedRate`, `minRate`, `maxRate`), `performanceForecast` (tier, reach, engagement, ROI, fraud likelihood), `summary`.
 
 ### Conflict resolution
 

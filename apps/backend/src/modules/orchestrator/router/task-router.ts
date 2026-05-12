@@ -209,6 +209,18 @@ const PLANS: Record<TaskType, ExecutionPlan> = {
       'contract-ai /revise endpoint; iterate until risk score < threshold (default 20) ' +
       'or max 3 revision rounds; return final contract with full audit trail',
   },
+
+  // ── Compound: full deliverable assessment (verify + predict + remediate) ───
+  DELIVERABLE_INTELLIGENCE: {
+    steps: [], // fan-out and conditional stages managed directly by OrchestratorService
+    mergeStrategy: 'compound',
+    compoundHandler: 'deliverableIntelligence',
+    description:
+      'Stage 1 (parallel): deliverable-verification-ai /verify + performance-prediction-ai ' +
+      '/predict/creator. Stage 2 (conditional): if FAILED/FLAGGED → /feedback for structured ' +
+      'remediation; if PASSED → pricing-engine-ai /recommend for payment valuation. ' +
+      'Returns full compliance report, performance forecast, remediation plan, and estimated value.',
+  },
 };
 
 // ─── Router ───────────────────────────────────────────────────────────────────

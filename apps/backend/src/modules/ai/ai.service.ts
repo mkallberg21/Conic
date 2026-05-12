@@ -174,6 +174,49 @@ export class AiService {
     return result;
   }
 
+  async getDeliverableFeedback(input: {
+    verificationFlags: string[];
+    platform: string;
+    contentType: string;
+    proofUrl: string;
+    creatorName?: string;
+    campaignName?: string;
+  }) {
+    const fallback = {
+      remediationRequired: input.verificationFlags.length > 0,
+      totalFlags: input.verificationFlags.length,
+      criticalCount: 0,
+      highCount: input.verificationFlags.length,
+      mediumCount: 0,
+      feedbackItems: input.verificationFlags.map(f => ({
+        flag: f,
+        severity: 'high',
+        description: `Compliance issue: ${f}`,
+        fix: 'Review campaign brief and address this requirement.',
+        example: 'Contact your campaign manager for details.',
+      })),
+      priorityFixes: input.verificationFlags.map(
+        () => 'Review campaign brief and address this requirement.',
+      ),
+      estimatedRevisionMinutes: input.verificationFlags.length * 10,
+      summary: `${input.verificationFlags.length} flag(s) require resolution before this deliverable can be approved.`,
+    };
+
+    return this.callAiService(
+      this.deliverableAiUrl!,
+      '/feedback',
+      {
+        verification_flags: input.verificationFlags,
+        platform: input.platform,
+        content_type: input.contentType,
+        proof_url: input.proofUrl,
+        creator_name: input.creatorName,
+        campaign_name: input.campaignName,
+      },
+      fallback,
+    );
+  }
+
   async generateCampaignTimeline(input: CampaignTimelineInput) {
     const fallback = {
       tasks: [

@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import verify, cv
+from app.routers import verify, cv, feedback
 from app.middleware.internal_auth import InternalAuthMiddleware
 
 app = FastAPI(
@@ -24,6 +24,7 @@ app.add_middleware(
 
 app.include_router(verify.router, prefix="/verify", tags=["verify"])
 app.include_router(cv.router, prefix="/cv", tags=["cv"])
+app.include_router(feedback.router, prefix="/feedback", tags=["feedback"])
 
 
 @app.get("/health")

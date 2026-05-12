@@ -21,6 +21,7 @@ export const VALID_TASK_TYPES: TaskType[] = [
   'CAMPAIGN_INTELLIGENCE',
   'CREATOR_ROSTER',
   'CONTRACT_INTELLIGENCE',
+  'DELIVERABLE_INTELLIGENCE',
 ];
 
 class ExecuteContextDto {

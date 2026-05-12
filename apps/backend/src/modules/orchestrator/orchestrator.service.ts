@@ -182,6 +182,8 @@ export class OrchestratorService {
         return this.executeCreatorRoster(taskId, sessionId, startMs, request, payload);
       case 'contractIntelligence':
         return this.executeContractIntelligence(taskId, sessionId, startMs, request, payload);
+      case 'deliverableIntelligence':
+        return this.executeDeliverableIntelligence(taskId, sessionId, startMs, request, payload);
       default:
         throw new Error(`[Orchestrator] Unknown compound handler: ${handler}`);
     }
@@ -387,6 +389,222 @@ export class OrchestratorService {
     this.logger.log(
       `[${taskId}] END CONTRACT_INTELLIGENCE → ${response.status} ` +
         `| ${executionMs}ms | rounds=${revisionHistory.length} | finalScore=${currentScore}`,
+    );
+
+    return response;
+  }
+
+  /**
+   * DELIVERABLE_INTELLIGENCE — multi-stage deliverable assessment.
+   *
+   * Stage 1 (parallel):
+   *   • deliverable-verification-ai /verify  → compliance + brand-safety check
+   *   • performance-prediction-ai /predict   → reach / engagement forecast
+   *
+   * Stage 2 (conditional, sequential — based on Stage 1 outcome):
+   *   • FAILED / FLAGGED → deliverable-verification-ai /feedback
+   *     ↳ Structured remediation plan: severity-ranked fix instructions, estimated
+   *       revision time, priority actions.
+   *   • PASSED → pricing-engine-ai /recommend
+   *     ↳ Market-rate valuation for the deliverable (payment reference price).
+   *
+   * Returns: verificationStatus, performanceForecast, remediationPlan | valuationReport,
+   *          complianceScore (0–100), and a single actionable summary.
+   *
+   * Expected payload:
+   * {
+   *   deliverableId?,          // optional — persisted to DB when present
+   *   proofUrl,                // public content URL
+   *   platform,                // instagram | tiktok | youtube | twitter | linkedin
+   *   contentType,             // post | reel | story | video | image
+   *   requiredHashtags?,
+   *   requiredMentions?,
+   *   caption?,
+   *   // creator context for performance prediction
+   *   followers,
+   *   engagementRate,
+   *   niche?,
+   *   avgViews?,
+   *   audienceScore?,
+   *   fraudScore?,
+   *   // performance context
+   *   creatorName?,
+   *   campaignName?,
+   * }
+   */
+  private async executeDeliverableIntelligence(
+    taskId: string,
+    sessionId: string,
+    startMs: number,
+    request: OrchestratorRequest,
+    payload: Record<string, unknown>,
+  ): Promise<OrchestratorResponse> {
+    this.logger.log(`[${taskId}] DELIVERABLE_INTELLIGENCE start`);
+
+    // ── Stage 1: verify + predict in parallel ─────────────────────────────────
+    const [verifyResult, predictResult] = await Promise.all([
+      this.executeModule(
+        {
+          moduleId: 'deliverable-verification-ai',
+          method: 'runDeliverableVerify',
+          required: true,
+          defaultConfidence: 0.90,
+        },
+        payload,
+        taskId,
+      ),
+      this.executeModule(
+        {
+          moduleId: 'performance-prediction-ai',
+          method: 'runPerformancePredict',
+          required: false,
+          defaultConfidence: 0.83,
+        },
+        payload,
+        taskId,
+      ),
+    ]);
+
+    const verifyData  = (verifyResult.result ?? {}) as Record<string, unknown>;
+    const predictData = (predictResult.result ?? {}) as Record<string, unknown>;
+
+    const verificationStatus = (verifyData['status'] as string | undefined) ?? 'FAILED';
+    const verificationScore  = Number(verifyData['verificationScore'] ?? verifyData['verification_score'] ?? 0);
+    const verificationFlags  = (verifyData['flags'] as string[] | undefined) ?? [];
+    const verificationChecks = (verifyData['checks'] as unknown[] | undefined) ?? [];
+
+    this.logger.log(
+      `[${taskId}] Stage 1 complete | status=${verificationStatus} ` +
+        `score=${verificationScore} flags=[${verificationFlags.join(',')}]`,
+    );
+
+    const allModuleResults: ModuleResult[] = [verifyResult, predictResult];
+
+    // ── Stage 2: conditional branch ───────────────────────────────────────────
+    let remediationPlan: Record<string, unknown> | null = null;
+    let valuationReport: Record<string, unknown> | null = null;
+
+    if (verificationStatus !== 'PASSED' && verificationFlags.length > 0) {
+      // FAILED or FLAGGED → generate remediation feedback
+      this.logger.log(`[${taskId}] Stage 2: deliverable failed — generating remediation plan`);
+
+      const feedbackResult = await this.executeModule(
+        {
+          moduleId: 'deliverable-verification-ai',
+          method: 'runDeliverableFeedback',
+          required: false,
+          defaultConfidence: 0.88,
+        },
+        {
+          verificationFlags,
+          platform: payload['platform'],
+          contentType: payload['contentType'],
+          proofUrl: payload['proofUrl'],
+          creatorName: payload['creatorName'],
+          campaignName: payload['campaignName'],
+        },
+        taskId,
+      );
+      allModuleResults.push(feedbackResult);
+      remediationPlan = (feedbackResult.result ?? {}) as Record<string, unknown>;
+    } else if (verificationStatus === 'PASSED') {
+      // PASSED → value the deliverable for payment
+      this.logger.log(`[${taskId}] Stage 2: deliverable passed — fetching pricing valuation`);
+
+      const pricingResult = await this.executeModule(
+        {
+          moduleId: 'pricing-engine-ai',
+          method: 'runPricingRecommend',
+          required: false,
+          defaultConfidence: 0.82,
+        },
+        {
+          platform: payload['platform'],
+          contentType: payload['contentType'],
+          niche: payload['niche'] ?? [],
+          followersCount: payload['followers'],
+          engagementRate: payload['engagementRate'],
+        },
+        taskId,
+      );
+      allModuleResults.push(pricingResult);
+      valuationReport = (pricingResult.result ?? {}) as Record<string, unknown>;
+    }
+
+    // ── Compute unified compliance score ─────────────────────────────────────
+    // verificationScore (0–100) weighted 70 %; fraud inverse 30 %
+    const fraudScore    = Number(predictData['fraud_likelihood'] ?? predictData['fraudScore'] ?? 0);
+    const complianceScore = Math.round(
+      verificationScore * 0.7 + (1 - Math.min(fraudScore, 1)) * 100 * 0.3,
+    );
+
+    // ── Build merged result ───────────────────────────────────────────────────
+    const merged: Record<string, unknown> = {
+      verificationStatus,
+      verificationScore,
+      verificationFlags,
+      verificationChecks,
+      complianceScore,
+      remediationRequired: verificationStatus !== 'PASSED',
+      remediationPlan,
+      valuationReport,
+      performanceForecast: {
+        tier:                 predictData['tier'],
+        reachEstimate:        predictData['reach_estimate'],
+        engagementPredicted:  predictData['engagement_rate_predicted'],
+        roiEstimate:          predictData['roi_estimate'],
+        fraudLikelihood:      fraudScore,
+        confidenceScore:      predictData['confidence_score'],
+        percentileRank:       predictData['percentile_rank'],
+      },
+      summary:
+        verificationStatus === 'PASSED'
+          ? `Deliverable passed all compliance checks (score ${verificationScore}/100). ` +
+            `Audience fraud likelihood: ${(fraudScore * 100).toFixed(1)}%. ` +
+            (valuationReport
+              ? `Estimated market value: $${((Number(valuationReport['recommendedRate'] ?? valuationReport['recommended_rate'] ?? 0)) / 100).toFixed(2)}.`
+              : '')
+          : `Deliverable requires revision — ${verificationFlags.length} flag(s) detected ` +
+            `(score ${verificationScore}/100). ` +
+            (remediationPlan
+              ? `Remediation plan includes ${Number(remediationPlan['totalFlags'] ?? 0)} fix(es); ` +
+                `estimated revision time ~${Number(remediationPlan['estimatedRevisionMinutes'] ?? 10)} minutes.`
+              : ''),
+    };
+
+    const executionMs = Date.now() - startMs;
+    const reasoning =
+      `Task=DELIVERABLE_INTELLIGENCE. ` +
+      `Stage 1: verify (${verificationStatus}, score=${verificationScore}) + ` +
+      `performance predict (fraudLikelihood=${(fraudScore * 100).toFixed(1)}%) in parallel. ` +
+      `Stage 2: ${
+        verificationStatus !== 'PASSED'
+          ? `feedback remediation (${(remediationPlan?.['totalFlags'] ?? 0)} fix items)`
+          : `pricing valuation ($${((Number(valuationReport?.['recommendedRate'] ?? valuationReport?.['recommended_rate'] ?? 0)) / 100).toFixed(2)} recommended)`
+      }. ComplianceScore=${complianceScore}/100.`;
+
+    const response = this.outputNormalizer.normalize(
+      taskId,
+      'DELIVERABLE_INTELLIGENCE',
+      allModuleResults.filter(r => !r.error),
+      [],
+      merged,
+      executionMs,
+      reasoning,
+    );
+
+    this.contextStore.set(sessionId, 'last_DELIVERABLE_INTELLIGENCE', merged);
+    this.contextStore.appendDecision(sessionId, {
+      taskId,
+      taskType: 'DELIVERABLE_INTELLIGENCE',
+      confidence: response.confidence,
+      timestamp: response.timestamp,
+    });
+    this.decisionLogger.record(request, response);
+
+    this.logger.log(
+      `[${taskId}] END DELIVERABLE_INTELLIGENCE → ${response.status} ` +
+        `| ${executionMs}ms | compliance=${complianceScore} | status=${verificationStatus}`,
     );
 
     return response;
@@ -1011,6 +1229,11 @@ export class OrchestratorService {
       case 'runCampaignDebrief':
         return this.aiService.generateCampaignDebrief(
           payload as unknown as Parameters<AiService['generateCampaignDebrief']>[0],
+        );
+
+      case 'runDeliverableFeedback':
+        return this.aiService.getDeliverableFeedback(
+          payload as unknown as Parameters<AiService['getDeliverableFeedback']>[0],
         );
 
       default:

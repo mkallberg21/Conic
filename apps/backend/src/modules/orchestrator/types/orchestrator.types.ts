@@ -11,7 +11,8 @@ export type TaskType =
   | 'CAMPAIGN_DEBRIEF'
   | 'CAMPAIGN_INTELLIGENCE'
   | 'CREATOR_ROSTER'
-  | 'CONTRACT_INTELLIGENCE';
+  | 'CONTRACT_INTELLIGENCE'
+  | 'DELIVERABLE_INTELLIGENCE';
 
 // ─── Module IDs ───────────────────────────────────────────────────────────────
 
