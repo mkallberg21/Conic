@@ -140,6 +140,7 @@ POST /api/v1/ai/execute
 | `CAMPAIGN_DEBRIEF` | campaign-agent-ai | Single |
 | `CAMPAIGN_INTELLIGENCE` | campaign-agent-ai + per-creator fan-out (all 3 intelligence modules) | Compound parallel |
 | `CREATOR_ROSTER` | per-candidate fan-out (creator-graph-ai + performance-ai + pricing-ai) → ranked shortlist | Compound parallel |
+| `CONTRACT_INTELLIGENCE` | contract-ai /generate + /risk (parallel) → /revise loop | Compound self-correcting |
 
 ### CREATOR_ROSTER
 
@@ -152,6 +153,12 @@ Accepts a campaign brief + a pool of up to 100 candidate creators. Scores every 
 ### CAMPAIGN_INTELLIGENCE
 
 Runs a full campaign launch plan in a single call — AI timeline from campaign-agent-ai and per-creator intelligence for every creator in the campaign (in parallel), merged into one launch plan with `totalEstimatedReach`, `totalBudgetRequiredCents`, `recommendedLaunchDate`, and `tierBreakdown`.
+
+### CONTRACT_INTELLIGENCE
+
+Self-correcting contract generation in a single call. Stage 1 runs `/generate` and `/risk` in parallel; if the risk score exceeds the threshold (default 20), a revision loop calls `/revise` with the outstanding flags, iterating up to 3 rounds until the score drops below the threshold.
+
+**Response fields:** `content` (final contract text), `finalRiskScore`, `initialRiskScore`, `flagsResolved[]`, `revisionRounds` (0–3), `revisionHistory[]` (per-round flagsIn, flagsOut, score, notes), `thresholdMet` (boolean), `riskThresholdUsed`, `clauses`, `wordCount`.
 
 ### Conflict resolution
 

@@ -111,6 +111,40 @@ export class AiService {
     );
   }
 
+  async reviseContractContent(input: {
+    contractText: string;
+    riskFlags: string[];
+    campaignType?: string;
+    platforms?: string[];
+    totalValue?: number;
+    exclusivity?: boolean;
+    exclusivityDays?: number;
+  }) {
+    const fallback = {
+      revisedContent: input.contractText,
+      riskScore: 50,
+      riskFlagsRemaining: input.riskFlags,
+      flagsResolved: [] as string[],
+      revisionNotes: ['Revision service unavailable — original content returned.'],
+      wordCount: input.contractText.split(' ').length,
+      improved: false,
+    };
+    return this.callAiService(
+      this.contractAiUrl!,
+      '/revise',
+      {
+        contract_text: input.contractText,
+        risk_flags: input.riskFlags,
+        campaign_type: input.campaignType,
+        platforms: input.platforms,
+        total_value: input.totalValue,
+        exclusivity: input.exclusivity,
+        exclusivity_days: input.exclusivityDays,
+      },
+      fallback,
+    );
+  }
+
   async verifyDeliverable(deliverableId: string, input: VerifyDeliverableInput) {
     const fallback = {
       verificationScore: 75,

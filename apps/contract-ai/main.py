@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import generate, risk, templates
+from app.routers import generate, risk, templates, revise
 from app.middleware.internal_auth import InternalAuthMiddleware
 
 app = FastAPI(
@@ -27,6 +27,7 @@ app.add_middleware(
 
 app.include_router(generate.router, prefix="/generate", tags=["generate"])
 app.include_router(risk.router, prefix="/risk", tags=["risk"])
+app.include_router(revise.router, prefix="/revise", tags=["revise"])
 app.include_router(templates.router, prefix="/templates", tags=["templates"])
 
 

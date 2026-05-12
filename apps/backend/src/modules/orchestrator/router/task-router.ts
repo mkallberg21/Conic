@@ -198,6 +198,17 @@ const PLANS: Record<TaskType, ExecutionPlan> = {
       '+ pricing-engine-ai, then rank by predicted ROI and return an ordered shortlist ' +
       'with recommendations, conflict resolution per candidate, and budget summary',
   },
+
+  // ── Compound: self-correcting contract generation loop ─────────────────────
+  CONTRACT_INTELLIGENCE: {
+    steps: [], // loop managed directly by OrchestratorService
+    mergeStrategy: 'compound',
+    compoundHandler: 'contractIntelligence',
+    description:
+      'Generate contract and risk-score in parallel; auto-patch flagged clauses via ' +
+      'contract-ai /revise endpoint; iterate until risk score < threshold (default 20) ' +
+      'or max 3 revision rounds; return final contract with full audit trail',
+  },
 };
 
 // ─── Router ───────────────────────────────────────────────────────────────────

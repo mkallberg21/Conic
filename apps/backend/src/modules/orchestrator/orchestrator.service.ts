@@ -180,9 +180,216 @@ export class OrchestratorService {
         return this.executeCampaignIntelligence(taskId, sessionId, startMs, request, payload);
       case 'creatorRoster':
         return this.executeCreatorRoster(taskId, sessionId, startMs, request, payload);
+      case 'contractIntelligence':
+        return this.executeContractIntelligence(taskId, sessionId, startMs, request, payload);
       default:
         throw new Error(`[Orchestrator] Unknown compound handler: ${handler}`);
     }
+  }
+
+  /**
+   * CONTRACT_INTELLIGENCE — self-correcting contract generation loop.
+   *
+   * Stage 1 (parallel):
+   *   • contract-ai /generate   → draft contract text + initial risk flags
+   *   • contract-ai /risk       → independent risk analysis (LLM-powered)
+   *
+   * Orchestrator merges the two risk assessments (union of flags, max score).
+   *
+   * Revision loop (max MAX_REVISION_ROUNDS):
+   *   While riskScore > riskThreshold AND remainingFlags.length > 0:
+   *     • contract-ai /revise   → patched contract + updated risk score
+   *     • if improved           → continue; else break (no progress)
+   *
+   * Returns: final contract, full revision history, all risk rounds.
+   *
+   * Expected payload:
+   * {
+   *   campaignType, platforms[], usageRights, exclusivity, exclusivityDays?,
+   *   totalValue, brandName?, creatorName?, deliverableTypes?,
+   *   riskThreshold?    // 0-100, default 20
+   *   maxRevisions?     // 1-5,   default 3
+   * }
+   */
+  private async executeContractIntelligence(
+    taskId: string,
+    sessionId: string,
+    startMs: number,
+    request: OrchestratorRequest,
+    payload: Record<string, unknown>,
+  ): Promise<OrchestratorResponse> {
+    const MAX_REVISION_ROUNDS = Math.min(Number(payload['maxRevisions'] ?? 3), 5);
+    const RISK_THRESHOLD = Math.min(
+      Math.max(Number(payload['riskThreshold'] ?? 20), 0),
+      100,
+    );
+
+    this.logger.log(
+      `[${taskId}] CONTRACT_INTELLIGENCE start | threshold=${RISK_THRESHOLD} | maxRounds=${MAX_REVISION_ROUNDS}`,
+    );
+
+    // ── Stage 1: generate + risk-score in parallel ────────────────────────────
+    const [generateResult, riskResult] = await Promise.all([
+      this.executeModule(
+        { moduleId: 'contract-ai', method: 'runContractGenerate', required: true, defaultConfidence: 0.85 },
+        payload,
+        taskId,
+      ),
+      this.executeModule(
+        { moduleId: 'contract-ai', method: 'runContractRisk', required: false, defaultConfidence: 0.80 },
+        payload,
+        taskId,
+      ),
+    ]);
+
+    const generateData = (generateResult.result ?? {}) as Record<string, unknown>;
+    const riskData    = (riskResult.result ?? {}) as Record<string, unknown>;
+
+    // Merge risk flags (union) and take the highest score
+    const initialFlags = Array.from(
+      new Set([
+        ...((generateData['risk_flags'] as string[] | undefined) ?? []),
+        ...((riskData['risk_flags'] as string[] | undefined) ?? []),
+      ]),
+    );
+    const initialScore = Math.max(
+      Number(generateData['risk_score'] ?? 100),
+      Number(riskData['risk_score'] ?? 0),
+    );
+
+    this.logger.log(
+      `[${taskId}] Initial: score=${initialScore} flags=[${initialFlags.join(',')}]`,
+    );
+
+    // ── Track revision history ────────────────────────────────────────────────
+    const revisionHistory: Array<{
+      round: number;
+      flagsIn: string[];
+      scoreIn: number;
+      flagsOut: string[];
+      scoreOut: number;
+      improved: boolean;
+      notes: string[];
+    }> = [];
+    const allModuleResults: ModuleResult[] = [generateResult, riskResult];
+
+    let currentContent = (generateData['content'] as string | undefined) ?? '';
+    let currentFlags   = initialFlags;
+    let currentScore   = initialScore;
+
+    // ── Revision loop ─────────────────────────────────────────────────────────
+    for (let round = 1; round <= MAX_REVISION_ROUNDS; round++) {
+      if (currentScore <= RISK_THRESHOLD || currentFlags.length === 0) {
+        this.logger.log(`[${taskId}] Risk threshold met at round ${round - 1}. Stopping.`);
+        break;
+      }
+
+      this.logger.log(
+        `[${taskId}] Revision round ${round}/${MAX_REVISION_ROUNDS} | ` +
+          `score=${currentScore} flags=[${currentFlags.join(',')}]`,
+      );
+
+      const revisePayload = {
+        contractText: currentContent,
+        riskFlags: currentFlags,
+        campaignType: payload['campaignType'] as string | undefined,
+        platforms: payload['platforms'] as string[] | undefined,
+        totalValue: payload['totalValue'] as number | undefined,
+        exclusivity: payload['exclusivity'] as boolean | undefined,
+        exclusivityDays: payload['exclusivityDays'] as number | undefined,
+      };
+
+      const reviseResult = await this.executeModule(
+        { moduleId: 'contract-ai', method: 'runContractRevise', required: false, defaultConfidence: 0.82 },
+        revisePayload as unknown as Record<string, unknown>,
+        taskId,
+      );
+      allModuleResults.push(reviseResult);
+
+      if (reviseResult.error) {
+        this.logger.warn(`[${taskId}] Revision round ${round} failed: ${reviseResult.error}`);
+        break;
+      }
+
+      const reviseData = (reviseResult.result ?? {}) as Record<string, unknown>;
+      const improved   = reviseData['improved'] as boolean | undefined;
+      const newContent = reviseData['revised_content'] as string | undefined;
+      const newFlags   = (reviseData['risk_flags_remaining'] as string[] | undefined) ?? currentFlags;
+      const newScore   = Number(reviseData['risk_score'] ?? currentScore);
+      const notes      = (reviseData['revision_notes'] as string[] | undefined) ?? [];
+
+      revisionHistory.push({
+        round,
+        flagsIn: currentFlags,
+        scoreIn: currentScore,
+        flagsOut: newFlags,
+        scoreOut: newScore,
+        improved: improved ?? newScore < currentScore,
+        notes,
+      });
+
+      if (!improved && newScore >= currentScore) {
+        this.logger.warn(`[${taskId}] Round ${round}: no improvement (${currentScore}→${newScore}). Stopping.`);
+        break;
+      }
+
+      currentContent = newContent ?? currentContent;
+      currentFlags   = newFlags;
+      currentScore   = newScore;
+    }
+
+    // ── Build merged result ───────────────────────────────────────────────────
+    const merged: Record<string, unknown> = {
+      content: currentContent,
+      finalRiskScore: currentScore,
+      finalRiskFlags: currentFlags,
+      initialRiskScore: initialScore,
+      initialRiskFlags: initialFlags,
+      flagsResolved: initialFlags.filter(f => !currentFlags.includes(f)),
+      revisionRounds: revisionHistory.length,
+      revisionHistory,
+      thresholdMet: currentScore <= RISK_THRESHOLD,
+      riskThresholdUsed: RISK_THRESHOLD,
+      // Pass through additional fields from original generate result
+      clauses: generateData['clauses'],
+      suggestions: generateData['suggestions'],
+      wordCount: currentContent.split(' ').length,
+    };
+
+    const executionMs = Date.now() - startMs;
+    const reasoning =
+      `Task=CONTRACT_INTELLIGENCE. ` +
+      `Stage 1: generate + risk in parallel. ` +
+      `Initial risk=${initialScore} (${initialFlags.length} flags). ` +
+      `Revision rounds=${revisionHistory.length}/${MAX_REVISION_ROUNDS}. ` +
+      `Final risk=${currentScore} (${currentFlags.length} flags remaining). ` +
+      `Threshold=${RISK_THRESHOLD} ${currentScore <= RISK_THRESHOLD ? 'MET ✓' : 'NOT MET — max rounds reached'}.`;
+
+    const response = this.outputNormalizer.normalize(
+      taskId,
+      'CONTRACT_INTELLIGENCE',
+      allModuleResults.filter(r => !r.error),
+      [],
+      merged,
+      executionMs,
+      reasoning,
+    );
+
+    this.contextStore.set(sessionId, 'last_CONTRACT_INTELLIGENCE', merged);
+    this.contextStore.appendDecision(sessionId, {
+      taskId,
+      taskType: 'CONTRACT_INTELLIGENCE',
+      confidence: response.confidence,
+      timestamp: response.timestamp,
+    });
+    this.decisionLogger.record(request, response);
+
+    this.logger.log(
+      `[${taskId}] END CONTRACT_INTELLIGENCE → ${response.status} ` +
+        `| ${executionMs}ms | rounds=${revisionHistory.length} | finalScore=${currentScore}`,
+    );
+
+    return response;
   }
 
   /**
@@ -770,6 +977,11 @@ export class OrchestratorService {
       case 'runContractRisk':
         return this.aiService.generateContractContent(
           payload as unknown as Parameters<AiService['generateContractContent']>[0],
+        );
+
+      case 'runContractRevise':
+        return this.aiService.reviseContractContent(
+          payload as unknown as Parameters<AiService['reviseContractContent']>[0],
         );
 
       case 'runDeliverableVerify':
