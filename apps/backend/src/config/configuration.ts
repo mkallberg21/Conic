@@ -59,4 +59,12 @@ export default () => ({
     s3Bucket: process.env.S3_BUCKET,
     s3Region: process.env.AWS_REGION ?? 'us-east-1',
   },
+  email: {
+    sendgridApiKey: process.env.SENDGRID_API_KEY,
+    fromAddress: process.env.EMAIL_FROM_ADDRESS ?? 'noreply@conic.io',
+  },
+  telemetry: {
+    otlpEndpoint: process.env.OTEL_EXPORTER_OTLP_ENDPOINT ?? 'http://localhost:4318',
+    prometheusPort: parseInt(process.env.PROMETHEUS_PORT ?? '9464', 10),
+  },
 });

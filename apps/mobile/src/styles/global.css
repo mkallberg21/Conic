@@ -1,0 +1,4 @@
+/* NativeWind global CSS — imported in app/_layout.tsx */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

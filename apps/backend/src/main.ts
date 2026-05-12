@@ -1,3 +1,6 @@
+// ── OpenTelemetry MUST be imported first — before any other module ────────────
+import './common/telemetry/tracing';
+
 import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
