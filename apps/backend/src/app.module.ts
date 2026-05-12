@@ -22,6 +22,7 @@ import { PaymentsModule } from './modules/payments/payments.module';
 import { CampaignsModule } from './modules/campaigns/campaigns.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { AiModule } from './modules/ai/ai.module';
+import { OrchestratorModule } from './modules/orchestrator/orchestrator.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { EventBusModule } from './events/event-bus.module';
 import { AuditModule } from './common/audit/audit.module';
@@ -83,6 +84,7 @@ import { FeatureStoreModule } from './modules/feature-store/feature-store.module
     CampaignsModule,
     AnalyticsModule,
     AiModule,
+    OrchestratorModule,
     NotificationsModule,
     QueueModule,
     WebhooksModule,
