@@ -99,8 +99,9 @@ export class ContractsService {
 
     if (role === UserRole.BRAND) {
       const brand = await this.prisma.brand.findUnique({ where: { userId } });
+      if (!brand) return [];
       return this.prisma.contract.findMany({
-        where: { brandId: brand?.id },
+        where: { brandId: brand.id },
         include: {
           creator: { include: { user: { select: { firstName: true, lastName: true } } } },
           _count: { select: { deliverables: true, payments: true } },
@@ -113,8 +114,9 @@ export class ContractsService {
 
     if (role === UserRole.CREATOR) {
       const creator = await this.prisma.creator.findUnique({ where: { userId } });
+      if (!creator) return [];
       return this.prisma.contract.findMany({
-        where: { creatorId: creator?.id },
+        where: { creatorId: creator.id },
         include: {
           brand: { include: { user: { select: { firstName: true, lastName: true } } } },
           _count: { select: { deliverables: true, payments: true } },
@@ -230,10 +232,10 @@ export class ContractsService {
       ipAddress,
     });
 
-    this.eventBus.emit(EVENTS.CONTRACT_SIGNED, {
+    this.eventBus.emit(EVENTS.CONTRACT_DISPUTED, {
       contractId,
-      signedBy: 'dispute',
-      fullyExecuted: false,
+      reason,
+      disputedBy: userId,
     });
 
     return updated;

@@ -60,6 +60,7 @@ export const EVENTS = {
   CONTRACT_CREATED: 'contract.created',
   CONTRACT_SIGNED: 'contract.signed',
   CONTRACT_ACTIVATED: 'contract.activated',
+  CONTRACT_DISPUTED: 'contract.disputed',
   DELIVERABLE_SUBMITTED: 'deliverable.submitted',
   DELIVERABLE_VERIFIED: 'deliverable.verified',
   DELIVERABLE_APPROVED: 'deliverable.approved',
@@ -74,14 +75,14 @@ export const EVENTS = {
 } as const;
 
 // Events that should feed into the data flywheel
-const FLYWHEEL_EVENTS = new Set([
-  'contract.signed',
-  'contract.activated',
-  'deliverable.approved',
-  'deliverable.rejected',
-  'payment.released',
-  'creator.score.updated',
-  'creator.registered',
+const FLYWHEEL_EVENTS: ReadonlySet<string> = new Set<string>([
+  EVENTS.CONTRACT_SIGNED,
+  EVENTS.CONTRACT_ACTIVATED,
+  EVENTS.DELIVERABLE_APPROVED,
+  EVENTS.DELIVERABLE_REJECTED,
+  EVENTS.PAYMENT_RELEASED,
+  EVENTS.CREATOR_SCORE_UPDATED,
+  EVENTS.CREATOR_REGISTERED,
 ]);
 
 // ─── Service ──────────────────────────────────────────────────────────────────

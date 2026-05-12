@@ -50,79 +50,74 @@ export class CreatorsService {
       async () => {
         const where: Record<string, unknown> = {};
 
-    // Text search across handle, bio, niche
-    if (filters.q) {
-      where.OR = [
-        { handle: { contains: filters.q, mode: 'insensitive' } },
-        { bio: { contains: filters.q, mode: 'insensitive' } },
-        { niche: { has: filters.q.toLowerCase() } },
-      ];
-    }
+        // Text search across handle, bio, niche
+        if (filters.q) {
+          where.OR = [
+            { handle: { contains: filters.q, mode: 'insensitive' } },
+            { bio: { contains: filters.q, mode: 'insensitive' } },
+            { niche: { has: filters.q.toLowerCase() } },
+          ];
+        }
 
-    if (filters.niche) where.niche = { has: filters.niche };
-    if (filters.isVerified !== undefined) where.isVerified = filters.isVerified;
-    if (filters.pricingTier) where.pricingTier = filters.pricingTier;
+        if (filters.niche) where.niche = { has: filters.niche };
+        if (filters.isVerified !== undefined) where.isVerified = filters.isVerified;
+        if (filters.pricingTier) where.pricingTier = filters.pricingTier;
 
-    if (filters.minFollowers !== undefined || filters.maxFollowers !== undefined) {
-      where.followersCount = {
-        ...(filters.minFollowers !== undefined ? { gte: Number(filters.minFollowers) } : {}),
-        ...(filters.maxFollowers !== undefined ? { lte: Number(filters.maxFollowers) } : {}),
-      };
-    }
+        if (filters.minFollowers !== undefined || filters.maxFollowers !== undefined) {
+          where.followersCount = {
+            ...(filters.minFollowers !== undefined ? { gte: Number(filters.minFollowers) } : {}),
+            ...(filters.maxFollowers !== undefined ? { lte: Number(filters.maxFollowers) } : {}),
+          };
+        }
 
-    if (filters.minEngagement !== undefined || filters.maxEngagement !== undefined) {
-      where.engagementRate = {
-        ...(filters.minEngagement !== undefined ? { gte: Number(filters.minEngagement) } : {}),
-        ...(filters.maxEngagement !== undefined ? { lte: Number(filters.maxEngagement) } : {}),
-      };
-    }
+        if (filters.minEngagement !== undefined || filters.maxEngagement !== undefined) {
+          where.engagementRate = {
+            ...(filters.minEngagement !== undefined ? { gte: Number(filters.minEngagement) } : {}),
+            ...(filters.maxEngagement !== undefined ? { lte: Number(filters.maxEngagement) } : {}),
+          };
+        }
 
-    if (filters.minPerformanceScore !== undefined) {
-      where.performanceScore = { gte: Number(filters.minPerformanceScore) };
-    }
+        if (filters.minPerformanceScore !== undefined) {
+          where.performanceScore = { gte: Number(filters.minPerformanceScore) };
+        }
 
-    if (filters.maxFraudScore !== undefined) {
-      where.fraudScore = { lte: Number(filters.maxFraudScore) };
-    }
+        if (filters.maxFraudScore !== undefined) {
+          where.fraudScore = { lte: Number(filters.maxFraudScore) };
+        }
 
-    if (filters.trending) {
-      where.graphNode = { is: { trending: true } };
-    }
+        if (filters.trending) {
+          where.graphNode = { is: { trending: true } };
+        }
 
-    if (filters.platform) {
-      // Platform stored as JSON { instagram: "handle", ... }
-      // Filter: primaryPlatform OR JSON key presence
-      where.OR = [
-        ...(where.OR as unknown[] ?? []),
-        { primaryPlatform: { equals: filters.platform } },
-      ];
-    }
+        if (filters.platform) {
+          // primaryPlatform is the canonical field; extend existing OR list if q was set
+          const platformClause = { primaryPlatform: { equals: filters.platform } };
+          if (Array.isArray(where.OR)) {
+            (where.OR as unknown[]).push(platformClause);
+          } else {
+            where.primaryPlatform = filters.platform;
+          }
+        }
 
-    const [items, total] = await Promise.all([
-      this.prisma.creator.findMany({
-        where,
-        include: {
-          user: { select: { id: true, firstName: true, lastName: true, avatarUrl: true } },
-          graphNode: { select: { influenceScore: true, trending: true, trendingScore: true, clusterId: true, clusterLabel: true } },
-          predictions: { orderBy: { createdAt: 'desc' }, take: 1, select: { predictedROI: true, predictedReach: true, confidence: true, createdAt: true } },
-          _count: { select: { contracts: true, deliverables: true } },
-        },
-        orderBy: { performanceScore: 'desc' },
-        skip,
-        take,
-      }),
-      this.prisma.creator.count({ where }),
-    ]);
+        const [items, total] = await Promise.all([
+          this.prisma.creator.findMany({
+            where,
+            include: {
+              user: { select: { id: true, firstName: true, lastName: true, avatarUrl: true } },
+              graphNode: { select: { influenceScore: true, trending: true, trendingScore: true, clusterId: true, clusterLabel: true } },
+              predictions: { orderBy: { createdAt: 'desc' }, take: 1, select: { predictedROI: true, predictedReach: true, confidence: true, createdAt: true } },
+              _count: { select: { contracts: true, deliverables: true } },
+            },
+            orderBy: { performanceScore: 'desc' },
+            skip,
+            take,
+          }),
+          this.prisma.creator.count({ where }),
+        ]);
 
-    return {
-        items,
-        total,
-        page,
-        take,
-        totalPages: Math.ceil(total / take),
-      };
-    },
-    TTL.SHORT,
+        return { items, total, page, take, totalPages: Math.ceil(total / take) };
+      },
+      TTL.SHORT,
     );
   }
 
@@ -223,17 +218,13 @@ export class CreatorsService {
     await this.scoringQueue.add(
       'score-creator',
       { creatorId },
-      { jobId: `score-${creatorId}-${Date.now()}` },
+      { jobId: `score-${creatorId}`, removeOnComplete: 50 },
     );
   }
 
-  /** Alias used by tests and controllers */
+  /** Alias kept for backwards compatibility with tests. */
   async scheduleScoring(creatorId: string): Promise<void> {
-    await this.scoringQueue.add(
-      'score',
-      { creatorId },
-      { jobId: `score-${creatorId}`, delay: 500 },
-    );
+    return this.enqueueScoring(creatorId);
   }
 
   /** Upsert creator rate card (cents per content type). */

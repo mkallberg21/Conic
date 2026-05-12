@@ -177,6 +177,16 @@ export class PaymentsService {
     contractId: string;
     paymentAmount: number;
   }) {
+    // Idempotency: skip if a payment already exists for this deliverable
+    const existing = await this.prisma.payment.findFirst({
+      where: { deliverableId: payload.deliverableId },
+      select: { id: true },
+    });
+    if (existing) {
+      this.logger.debug(`Payment already exists for deliverable ${payload.deliverableId}, skipping`);
+      return;
+    }
+
     this.logger.log(`Auto-creating payment for approved deliverable ${payload.deliverableId}`);
     const feeRate = this.configService.get<number>('dwolla.platformFeeRate', 0.05);
     const platformFee = Math.round(payload.paymentAmount * feeRate);

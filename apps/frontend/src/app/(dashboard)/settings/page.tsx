@@ -27,8 +27,8 @@ function ProfileSettings() {
   const { user } = useAuthStore();
   const { register, handleSubmit, formState: { isDirty } } = useForm<ProfileFormData>({
     defaultValues: {
-      firstName: (user as unknown as Record<string, string>)?.firstName ?? '',
-      lastName: (user as unknown as Record<string, string>)?.lastName ?? '',
+      firstName: user?.firstName ?? '',
+      lastName: user?.lastName ?? '',
       avatarUrl: '',
     },
   });

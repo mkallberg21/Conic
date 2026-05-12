@@ -130,10 +130,11 @@ export class CampaignsService {
     this.logger.log('Running weekly campaign summary generation...');
     const activeCampaigns = await this.prisma.campaign.findMany({
       where: { status: 'ACTIVE' },
+      select: { id: true, title: true, objective: true, platforms: true, performanceData: true },
     });
 
-    for (const campaign of activeCampaigns) {
-      try {
+    const results = await Promise.allSettled(
+      activeCampaigns.map(async (campaign) => {
         const summary = await this.aiService.generateCampaignDebrief({
           campaignId: campaign.id,
           title: campaign.title,
@@ -142,7 +143,7 @@ export class CampaignsService {
           performanceData: campaign.performanceData as Record<string, unknown>,
         });
 
-        await this.prisma.campaignSummary.create({
+        return this.prisma.campaignSummary.create({
           data: {
             campaignId: campaign.id,
             period: 'weekly',
@@ -150,9 +151,16 @@ export class CampaignsService {
             metrics: summary.metrics,
           },
         });
-      } catch (err) {
-        this.logger.error(`Weekly summary failed for campaign ${campaign.id}: ${err}`);
-      }
+      }),
+    );
+
+    const failed = results.filter((r) => r.status === 'rejected');
+    if (failed.length) {
+      this.logger.error(
+        `Weekly summaries: ${results.length - failed.length} succeeded, ${failed.length} failed`,
+      );
+    } else {
+      this.logger.log(`Weekly summaries generated for ${results.length} campaigns`);
     }
   }
 }

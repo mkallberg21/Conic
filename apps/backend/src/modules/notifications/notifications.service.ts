@@ -63,6 +63,46 @@ export class NotificationsService {
     });
   }
 
+  @OnEvent(EVENTS.DELIVERABLE_APPROVED)
+  async onDeliverableApproved(payload: { deliverableId: string; contractId: string }) {
+    const deliverable = await this.prisma.deliverable.findUnique({
+      where: { id: payload.deliverableId },
+      select: { title: true, creatorId: true, creator: { select: { userId: true } } },
+    });
+    if (!deliverable) return;
+
+    await this.prisma.notification.create({
+      data: {
+        recipientId: deliverable.creator.userId,
+        type: 'DELIVERABLE_APPROVED',
+        title: 'Deliverable approved',
+        body: `"${deliverable.title}" has been approved. Payment will be released shortly.`,
+        data: { deliverableId: payload.deliverableId, contractId: payload.contractId },
+      },
+    });
+  }
+
+  @OnEvent(EVENTS.DELIVERABLE_REJECTED)
+  async onDeliverableRejected(payload: { deliverableId: string; contractId: string }) {
+    const deliverable = await this.prisma.deliverable.findUnique({
+      where: { id: payload.deliverableId },
+      select: { title: true, rejectionReason: true, creator: { select: { userId: true } } },
+    });
+    if (!deliverable) return;
+
+    await this.prisma.notification.create({
+      data: {
+        recipientId: deliverable.creator.userId,
+        type: 'DELIVERABLE_REJECTED',
+        title: 'Deliverable needs revision',
+        body: deliverable.rejectionReason
+          ? `"${deliverable.title}" was rejected: ${deliverable.rejectionReason}`
+          : `"${deliverable.title}" was rejected. Please review the feedback and resubmit.`,
+        data: { deliverableId: payload.deliverableId, contractId: payload.contractId },
+      },
+    });
+  }
+
   async findForUser(userId: string) {
     return this.prisma.notification.findMany({
       where: { recipientId: userId },

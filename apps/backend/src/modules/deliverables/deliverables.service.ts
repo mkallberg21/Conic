@@ -1,5 +1,6 @@
 import {
   Injectable,
+  Logger,
   NotFoundException,
   ForbiddenException,
   BadRequestException,
@@ -17,6 +18,8 @@ import {
 
 @Injectable()
 export class DeliverablesService {
+  private readonly logger = new Logger(DeliverablesService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly eventBus: EventBusService,
@@ -159,7 +162,7 @@ export class DeliverablesService {
       requiredHashtags: [],
       requiredMentions: [],
       caption: dto.caption,
-    }).catch((err) => console.error('AI verification error:', err));
+    }).catch((err: Error) => this.logger.error(`AI verification failed for deliverable=${deliverableId}: ${err.message}`));
 
     return updated;
   }

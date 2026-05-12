@@ -24,8 +24,6 @@ import { QueueModule } from './queue/queue.module';
 import { WebhooksModule } from './modules/webhooks/webhooks.module';
 import { HealthModule } from './modules/health/health.module';
 import { FeatureStoreModule } from './modules/feature-store/feature-store.module';
-import { EmbeddingsModule } from './modules/embeddings/embeddings.module';
-import { GraphModule } from './modules/graph/graph.module';
 
 @Module({
   imports: [
@@ -68,8 +66,6 @@ import { GraphModule } from './modules/graph/graph.module';
     WebhooksModule,
     HealthModule,
     FeatureStoreModule,
-    EmbeddingsModule,
-    GraphModule,
   ],
 })
 export class AppModule {}
