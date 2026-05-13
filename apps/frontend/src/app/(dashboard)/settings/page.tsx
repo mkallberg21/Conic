@@ -225,8 +225,6 @@ function BillingSettings() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function SettingsPage() {
-  const { user } = useAuthStore();
-
   return (
     <div className="space-y-6 max-w-2xl">
       <div>

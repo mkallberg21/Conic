@@ -1,11 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
-import { PaymentStatus, UserRole } from '@prisma/client';
+import { UserRole } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
 import { PaymentsService } from './payments.service';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService } from '../../events/event-bus.service';
 import { AuditService } from '../../common/audit/audit.service';
+
+const PaymentStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+} as const;
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 

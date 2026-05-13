@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { api } from '@/lib/api';
-import { formatDate } from '@/lib/utils';
 
 type EventType = 'deliverable' | 'payment' | 'appearance' | 'campaign' | 'task' | 'milestone';
 

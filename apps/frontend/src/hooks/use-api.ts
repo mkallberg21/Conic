@@ -128,11 +128,6 @@ async function patch<T>(url: string, body?: unknown): Promise<T> {
   return data.data;
 }
 
-async function del<T>(url: string): Promise<T> {
-  const { data } = await api.delete<ApiResponse<T>>(url);
-  return data.data;
-}
-
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 
 export function useMe(options?: Partial<UseQueryOptions<{ id: string; email: string; role: string; firstName: string; lastName: string }>>) {

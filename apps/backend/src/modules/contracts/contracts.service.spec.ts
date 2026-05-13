@@ -1,11 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, ForbiddenException } from '@nestjs/common';
-import { ContractStatus, UserRole } from '@prisma/client';
+import { UserRole } from '@prisma/client';
 import { ContractsService } from './contracts.service';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService } from '../../events/event-bus.service';
 import { AiService } from '../ai/ai.service';
 import { AuditService } from '../../common/audit/audit.service';
+
+const ContractStatus = {
+  DRAFT: 'DRAFT',
+  PENDING_SIGNATURE: 'PENDING_SIGNATURE',
+  ACTIVE: 'ACTIVE',
+} as const;
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
 

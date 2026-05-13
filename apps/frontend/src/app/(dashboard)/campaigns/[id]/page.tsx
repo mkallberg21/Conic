@@ -8,14 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { api } from '@/lib/api';
 import { formatDate, formatCurrency } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import {
   ArrowLeft, Megaphone, DollarSign, Calendar, CheckCircle2, Circle,
-  Sparkles, TrendingUp, Users, BarChart2, Loader2
+  Sparkles, TrendingUp, BarChart2, Loader2
 } from 'lucide-react';
 
 const STATUS_STYLES: Record<string, string> = {

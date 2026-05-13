@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'next/navigation';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Send, CheckCircle, XCircle, MessageSquare, FileText } from 'lucide-react';
@@ -24,8 +25,9 @@ const proposalSchema = z.object({
 type MessageForm = z.infer<typeof messageSchema>;
 type ProposalForm = z.infer<typeof proposalSchema>;
 
-export default function DealRoomPage({ params }: { params: { contractId: string } }) {
-  const { contractId } = params;
+export default function DealRoomPage() {
+  const params = useParams<{ contractId: string }>();
+  const contractId = params.contractId;
   const qc = useQueryClient();
   const [showProposalForm, setShowProposalForm] = useState(false);
 

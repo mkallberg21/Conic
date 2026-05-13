@@ -5,14 +5,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Users, DollarSign, Heart, BarChart2, Plus, Trash2 } from 'lucide-react';
+import { Users, DollarSign, Heart, Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { api } from '@/lib/api';
-import { formatCurrency, formatDate } from '@/lib/utils';
+import { formatCurrency } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 
 const donationSchema = z.object({
@@ -75,7 +75,6 @@ export default function CollectivesPage() {
   });
 
   const list = collectives?.items ?? collectives ?? [];
-  const selected = selectedId ? list.find((c: { id: string }) => c.id === selectedId) : null;
 
   return (
     <div className="space-y-6">

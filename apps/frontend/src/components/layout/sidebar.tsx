@@ -6,7 +6,7 @@ import {
   LayoutDashboard, FileText, CheckSquare, CreditCard,
   Megaphone, BarChart2, Users, Settings, Zap, Network, Brain,
   ShieldCheck, GraduationCap, UserCircle, Store, Key, Upload,
-  ClipboardList, TrendingUp, Heart, MessageSquare, DollarSign,
+  ClipboardList, TrendingUp, Heart, DollarSign,
   Sparkles, CalendarDays, Building2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';

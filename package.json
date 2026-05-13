@@ -2,6 +2,7 @@
   "name": "conic-platform",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "npm@11.9.0",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -21,6 +22,7 @@
     "@types/node": "^22.10.1",
     "eslint": "^9.17.0",
     "prettier": "^3.4.2",
+    "typescript-eslint": "^8.46.3",
     "turbo": "^2.3.3",
     "typescript": "^5.7.2"
   }
