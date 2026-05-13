@@ -30,6 +30,12 @@ jobs:
             context: ./apps/pricing-engine-ai
           - service: campaign-agent-ai
             context: ./apps/campaign-agent-ai
+          - service: performance-prediction-ai
+            context: ./apps/performance-prediction-ai
+          - service: nil-compliance-ai
+            context: ./apps/nil-compliance-ai
+          - service: fraud-detection-ai
+            context: ./apps/fraud-detection-ai
     steps:
       - uses: actions/checkout@v4
 
@@ -72,7 +78,7 @@ jobs:
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          services=(backend frontend contract-ai deliverable-verification-ai creator-graph-ai pricing-engine-ai campaign-agent-ai)
+          services=(backend frontend contract-ai deliverable-verification-ai creator-graph-ai pricing-engine-ai campaign-agent-ai performance-prediction-ai nil-compliance-ai fraud-detection-ai)
           for service in "${services[@]}"; do
             aws ecs update-service \
               --cluster conic-cluster \

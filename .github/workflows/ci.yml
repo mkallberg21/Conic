@@ -66,7 +66,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [contract-ai, deliverable-verification-ai, creator-graph-ai, pricing-engine-ai, campaign-agent-ai]
+        service:
+          - contract-ai
+          - deliverable-verification-ai
+          - creator-graph-ai
+          - pricing-engine-ai
+          - campaign-agent-ai
+          - performance-prediction-ai
+          - nil-compliance-ai
+          - fraud-detection-ai
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

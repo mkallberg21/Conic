@@ -46,7 +46,7 @@
 
 ---
 
-## Security Audit (22 findings — all resolved)
+## Security Audit (25 findings — all resolved)
 
 ### Original findings
 
@@ -200,8 +200,8 @@ tests/
 
 .github/
   workflows/
-    ci.yml                  lint → typecheck → test-backend → test-ai → build
-    deploy.yml              build → push ECR → ECS rolling deploy (7 services)
+    ci.yml                  lint → typecheck → test-backend → test-all-8-ai-services → build
+    deploy.yml              build → push ECR → ECS rolling deploy (10 services)
 ```
 
 ---
@@ -578,7 +578,7 @@ terraform apply
 
 ```text
 ✅  Feature-complete across web, mobile, and NIL/athlete operations
-✅  Security audit complete (22 findings resolved — 13 original + 9 hardening pass)
+✅  Security audit complete (25 findings resolved — 13 original + 12 hardening pass)
 ✅  OAuth tokens secured — hash fragment redirect, never in server logs
 ✅  AI services fail-fast on missing credentials in production
 ✅  All list endpoints paginated with enforced max page size
@@ -605,6 +605,6 @@ terraform apply
 ⏳  Pending: Dwolla live API keys (payments go live)
 ⏳  Pending: EAS project ID + App Store / Google Play credentials
 ⏳  Pending: Terraform provisioning (cloud infrastructure)
-⏳  Pending: ImportersController (service layer complete, REST controller stub)
+✅  ImportersController complete (create job · list jobs · get job · process CSV)
 ⏳  Pending: SCIM provisioning module (ScimToken model in schema, service not built)
 ```
