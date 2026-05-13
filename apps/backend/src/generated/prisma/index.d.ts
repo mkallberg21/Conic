@@ -273,6 +273,51 @@ export type ScimToken = $Result.DefaultSelection<Prisma.$ScimTokenPayload>
  * 
  */
 export type ImportJob = $Result.DefaultSelection<Prisma.$ImportJobPayload>
+/**
+ * Model DealRoom
+ * 
+ */
+export type DealRoom = $Result.DefaultSelection<Prisma.$DealRoomPayload>
+/**
+ * Model DealRoomMessage
+ * 
+ */
+export type DealRoomMessage = $Result.DefaultSelection<Prisma.$DealRoomMessagePayload>
+/**
+ * Model DealRoomProposal
+ * 
+ */
+export type DealRoomProposal = $Result.DefaultSelection<Prisma.$DealRoomProposalPayload>
+/**
+ * Model CollectiveMember
+ * 
+ */
+export type CollectiveMember = $Result.DefaultSelection<Prisma.$CollectiveMemberPayload>
+/**
+ * Model CollectiveDonor
+ * 
+ */
+export type CollectiveDonor = $Result.DefaultSelection<Prisma.$CollectiveDonorPayload>
+/**
+ * Model CollectiveDonation
+ * 
+ */
+export type CollectiveDonation = $Result.DefaultSelection<Prisma.$CollectiveDonationPayload>
+/**
+ * Model CollectiveDistribution
+ * 
+ */
+export type CollectiveDistribution = $Result.DefaultSelection<Prisma.$CollectiveDistributionPayload>
+/**
+ * Model MatchRequest
+ * 
+ */
+export type MatchRequest = $Result.DefaultSelection<Prisma.$MatchRequestPayload>
+/**
+ * Model MatchResult
+ * 
+ */
+export type MatchResult = $Result.DefaultSelection<Prisma.$MatchResultPayload>
 
 /**
  * Enums
@@ -476,6 +521,59 @@ export const ImportType: {
 
 export type ImportType = (typeof ImportType)[keyof typeof ImportType]
 
+
+export const DealRoomStatus: {
+  OPEN: 'OPEN',
+  AGREED: 'AGREED',
+  CLOSED: 'CLOSED',
+  ABANDONED: 'ABANDONED'
+};
+
+export type DealRoomStatus = (typeof DealRoomStatus)[keyof typeof DealRoomStatus]
+
+
+export const DealRoomMessageType: {
+  COMMENT: 'COMMENT',
+  COUNTEROFFER: 'COUNTEROFFER',
+  ACCEPTANCE: 'ACCEPTANCE',
+  REJECTION: 'REJECTION',
+  AI_SUGGESTION: 'AI_SUGGESTION',
+  SYSTEM: 'SYSTEM'
+};
+
+export type DealRoomMessageType = (typeof DealRoomMessageType)[keyof typeof DealRoomMessageType]
+
+
+export const ProposalStatus: {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  COUNTERED: 'COUNTERED',
+  WITHDRAWN: 'WITHDRAWN'
+};
+
+export type ProposalStatus = (typeof ProposalStatus)[keyof typeof ProposalStatus]
+
+
+export const CollectiveMemberStatus: {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  PENDING: 'PENDING',
+  REMOVED: 'REMOVED'
+};
+
+export type CollectiveMemberStatus = (typeof CollectiveMemberStatus)[keyof typeof CollectiveMemberStatus]
+
+
+export const MatchStatus: {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+export type MatchStatus = (typeof MatchStatus)[keyof typeof MatchStatus]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -545,6 +643,26 @@ export const ImportJobStatus: typeof $Enums.ImportJobStatus
 export type ImportType = $Enums.ImportType
 
 export const ImportType: typeof $Enums.ImportType
+
+export type DealRoomStatus = $Enums.DealRoomStatus
+
+export const DealRoomStatus: typeof $Enums.DealRoomStatus
+
+export type DealRoomMessageType = $Enums.DealRoomMessageType
+
+export const DealRoomMessageType: typeof $Enums.DealRoomMessageType
+
+export type ProposalStatus = $Enums.ProposalStatus
+
+export const ProposalStatus: typeof $Enums.ProposalStatus
+
+export type CollectiveMemberStatus = $Enums.CollectiveMemberStatus
+
+export const CollectiveMemberStatus: typeof $Enums.CollectiveMemberStatus
+
+export type MatchStatus = $Enums.MatchStatus
+
+export const MatchStatus: typeof $Enums.MatchStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1183,6 +1301,96 @@ export class PrismaClient<
     * ```
     */
   get importJob(): Prisma.ImportJobDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dealRoom`: Exposes CRUD operations for the **DealRoom** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DealRooms
+    * const dealRooms = await prisma.dealRoom.findMany()
+    * ```
+    */
+  get dealRoom(): Prisma.DealRoomDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dealRoomMessage`: Exposes CRUD operations for the **DealRoomMessage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DealRoomMessages
+    * const dealRoomMessages = await prisma.dealRoomMessage.findMany()
+    * ```
+    */
+  get dealRoomMessage(): Prisma.DealRoomMessageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dealRoomProposal`: Exposes CRUD operations for the **DealRoomProposal** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DealRoomProposals
+    * const dealRoomProposals = await prisma.dealRoomProposal.findMany()
+    * ```
+    */
+  get dealRoomProposal(): Prisma.DealRoomProposalDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.collectiveMember`: Exposes CRUD operations for the **CollectiveMember** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CollectiveMembers
+    * const collectiveMembers = await prisma.collectiveMember.findMany()
+    * ```
+    */
+  get collectiveMember(): Prisma.CollectiveMemberDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.collectiveDonor`: Exposes CRUD operations for the **CollectiveDonor** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CollectiveDonors
+    * const collectiveDonors = await prisma.collectiveDonor.findMany()
+    * ```
+    */
+  get collectiveDonor(): Prisma.CollectiveDonorDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.collectiveDonation`: Exposes CRUD operations for the **CollectiveDonation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CollectiveDonations
+    * const collectiveDonations = await prisma.collectiveDonation.findMany()
+    * ```
+    */
+  get collectiveDonation(): Prisma.CollectiveDonationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.collectiveDistribution`: Exposes CRUD operations for the **CollectiveDistribution** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CollectiveDistributions
+    * const collectiveDistributions = await prisma.collectiveDistribution.findMany()
+    * ```
+    */
+  get collectiveDistribution(): Prisma.CollectiveDistributionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.matchRequest`: Exposes CRUD operations for the **MatchRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MatchRequests
+    * const matchRequests = await prisma.matchRequest.findMany()
+    * ```
+    */
+  get matchRequest(): Prisma.MatchRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.matchResult`: Exposes CRUD operations for the **MatchResult** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MatchResults
+    * const matchResults = await prisma.matchResult.findMany()
+    * ```
+    */
+  get matchResult(): Prisma.MatchResultDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1675,7 +1883,16 @@ export namespace Prisma {
     ApiKey: 'ApiKey',
     NilMarketplaceListing: 'NilMarketplaceListing',
     ScimToken: 'ScimToken',
-    ImportJob: 'ImportJob'
+    ImportJob: 'ImportJob',
+    DealRoom: 'DealRoom',
+    DealRoomMessage: 'DealRoomMessage',
+    DealRoomProposal: 'DealRoomProposal',
+    CollectiveMember: 'CollectiveMember',
+    CollectiveDonor: 'CollectiveDonor',
+    CollectiveDonation: 'CollectiveDonation',
+    CollectiveDistribution: 'CollectiveDistribution',
+    MatchRequest: 'MatchRequest',
+    MatchResult: 'MatchResult'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1694,7 +1911,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "refreshToken" | "brand" | "creator" | "agency" | "contract" | "contractTemplate" | "contractVersion" | "contractClause" | "deliverable" | "payment" | "paymentMilestone" | "campaign" | "campaignTask" | "campaignSummary" | "creatorGraphNode" | "creatorGraphEdge" | "creatorPrediction" | "aIModel" | "aIRequest" | "featureVector" | "embeddingRecord" | "modelRegistry" | "modelDriftAlert" | "dataFlywheelEvent" | "notification" | "auditLog" | "webhookEndpoint" | "webhookDelivery" | "contactLead" | "university" | "athleticDepartment" | "complianceOfficer" | "athlete" | "guardian" | "guardianRelationship" | "guardianApproval" | "agentProfile" | "agentRepresentation" | "nilCollective" | "nilDeal" | "nilDisclosure" | "appearance" | "taxDocument" | "fmvAssessment" | "complianceReport" | "athleteGraphNode" | "contractNilExtension" | "apiKey" | "nilMarketplaceListing" | "scimToken" | "importJob"
+      modelProps: "user" | "refreshToken" | "brand" | "creator" | "agency" | "contract" | "contractTemplate" | "contractVersion" | "contractClause" | "deliverable" | "payment" | "paymentMilestone" | "campaign" | "campaignTask" | "campaignSummary" | "creatorGraphNode" | "creatorGraphEdge" | "creatorPrediction" | "aIModel" | "aIRequest" | "featureVector" | "embeddingRecord" | "modelRegistry" | "modelDriftAlert" | "dataFlywheelEvent" | "notification" | "auditLog" | "webhookEndpoint" | "webhookDelivery" | "contactLead" | "university" | "athleticDepartment" | "complianceOfficer" | "athlete" | "guardian" | "guardianRelationship" | "guardianApproval" | "agentProfile" | "agentRepresentation" | "nilCollective" | "nilDeal" | "nilDisclosure" | "appearance" | "taxDocument" | "fmvAssessment" | "complianceReport" | "athleteGraphNode" | "contractNilExtension" | "apiKey" | "nilMarketplaceListing" | "scimToken" | "importJob" | "dealRoom" | "dealRoomMessage" | "dealRoomProposal" | "collectiveMember" | "collectiveDonor" | "collectiveDonation" | "collectiveDistribution" | "matchRequest" | "matchResult"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5546,6 +5763,672 @@ export namespace Prisma {
           }
         }
       }
+      DealRoom: {
+        payload: Prisma.$DealRoomPayload<ExtArgs>
+        fields: Prisma.DealRoomFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DealRoomFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DealRoomFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomPayload>
+          }
+          findFirst: {
+            args: Prisma.DealRoomFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DealRoomFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomPayload>
+          }
+          findMany: {
+            args: Prisma.DealRoomFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomPayload>[]
+          }
+          create: {
+            args: Prisma.DealRoomCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomPayload>
+          }
+          createMany: {
+            args: Prisma.DealRoomCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DealRoomCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomPayload>[]
+          }
+          delete: {
+            args: Prisma.DealRoomDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomPayload>
+          }
+          update: {
+            args: Prisma.DealRoomUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomPayload>
+          }
+          deleteMany: {
+            args: Prisma.DealRoomDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DealRoomUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DealRoomUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomPayload>[]
+          }
+          upsert: {
+            args: Prisma.DealRoomUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomPayload>
+          }
+          aggregate: {
+            args: Prisma.DealRoomAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDealRoom>
+          }
+          groupBy: {
+            args: Prisma.DealRoomGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DealRoomGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DealRoomCountArgs<ExtArgs>
+            result: $Utils.Optional<DealRoomCountAggregateOutputType> | number
+          }
+        }
+      }
+      DealRoomMessage: {
+        payload: Prisma.$DealRoomMessagePayload<ExtArgs>
+        fields: Prisma.DealRoomMessageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DealRoomMessageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomMessagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DealRoomMessageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomMessagePayload>
+          }
+          findFirst: {
+            args: Prisma.DealRoomMessageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomMessagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DealRoomMessageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomMessagePayload>
+          }
+          findMany: {
+            args: Prisma.DealRoomMessageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomMessagePayload>[]
+          }
+          create: {
+            args: Prisma.DealRoomMessageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomMessagePayload>
+          }
+          createMany: {
+            args: Prisma.DealRoomMessageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DealRoomMessageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomMessagePayload>[]
+          }
+          delete: {
+            args: Prisma.DealRoomMessageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomMessagePayload>
+          }
+          update: {
+            args: Prisma.DealRoomMessageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomMessagePayload>
+          }
+          deleteMany: {
+            args: Prisma.DealRoomMessageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DealRoomMessageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DealRoomMessageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomMessagePayload>[]
+          }
+          upsert: {
+            args: Prisma.DealRoomMessageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomMessagePayload>
+          }
+          aggregate: {
+            args: Prisma.DealRoomMessageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDealRoomMessage>
+          }
+          groupBy: {
+            args: Prisma.DealRoomMessageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DealRoomMessageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DealRoomMessageCountArgs<ExtArgs>
+            result: $Utils.Optional<DealRoomMessageCountAggregateOutputType> | number
+          }
+        }
+      }
+      DealRoomProposal: {
+        payload: Prisma.$DealRoomProposalPayload<ExtArgs>
+        fields: Prisma.DealRoomProposalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DealRoomProposalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomProposalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DealRoomProposalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomProposalPayload>
+          }
+          findFirst: {
+            args: Prisma.DealRoomProposalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomProposalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DealRoomProposalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomProposalPayload>
+          }
+          findMany: {
+            args: Prisma.DealRoomProposalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomProposalPayload>[]
+          }
+          create: {
+            args: Prisma.DealRoomProposalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomProposalPayload>
+          }
+          createMany: {
+            args: Prisma.DealRoomProposalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DealRoomProposalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomProposalPayload>[]
+          }
+          delete: {
+            args: Prisma.DealRoomProposalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomProposalPayload>
+          }
+          update: {
+            args: Prisma.DealRoomProposalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomProposalPayload>
+          }
+          deleteMany: {
+            args: Prisma.DealRoomProposalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DealRoomProposalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DealRoomProposalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomProposalPayload>[]
+          }
+          upsert: {
+            args: Prisma.DealRoomProposalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealRoomProposalPayload>
+          }
+          aggregate: {
+            args: Prisma.DealRoomProposalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDealRoomProposal>
+          }
+          groupBy: {
+            args: Prisma.DealRoomProposalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DealRoomProposalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DealRoomProposalCountArgs<ExtArgs>
+            result: $Utils.Optional<DealRoomProposalCountAggregateOutputType> | number
+          }
+        }
+      }
+      CollectiveMember: {
+        payload: Prisma.$CollectiveMemberPayload<ExtArgs>
+        fields: Prisma.CollectiveMemberFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CollectiveMemberFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveMemberPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CollectiveMemberFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveMemberPayload>
+          }
+          findFirst: {
+            args: Prisma.CollectiveMemberFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveMemberPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CollectiveMemberFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveMemberPayload>
+          }
+          findMany: {
+            args: Prisma.CollectiveMemberFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveMemberPayload>[]
+          }
+          create: {
+            args: Prisma.CollectiveMemberCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveMemberPayload>
+          }
+          createMany: {
+            args: Prisma.CollectiveMemberCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CollectiveMemberCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveMemberPayload>[]
+          }
+          delete: {
+            args: Prisma.CollectiveMemberDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveMemberPayload>
+          }
+          update: {
+            args: Prisma.CollectiveMemberUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveMemberPayload>
+          }
+          deleteMany: {
+            args: Prisma.CollectiveMemberDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CollectiveMemberUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CollectiveMemberUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveMemberPayload>[]
+          }
+          upsert: {
+            args: Prisma.CollectiveMemberUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveMemberPayload>
+          }
+          aggregate: {
+            args: Prisma.CollectiveMemberAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCollectiveMember>
+          }
+          groupBy: {
+            args: Prisma.CollectiveMemberGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CollectiveMemberGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CollectiveMemberCountArgs<ExtArgs>
+            result: $Utils.Optional<CollectiveMemberCountAggregateOutputType> | number
+          }
+        }
+      }
+      CollectiveDonor: {
+        payload: Prisma.$CollectiveDonorPayload<ExtArgs>
+        fields: Prisma.CollectiveDonorFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CollectiveDonorFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonorPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CollectiveDonorFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonorPayload>
+          }
+          findFirst: {
+            args: Prisma.CollectiveDonorFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonorPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CollectiveDonorFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonorPayload>
+          }
+          findMany: {
+            args: Prisma.CollectiveDonorFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonorPayload>[]
+          }
+          create: {
+            args: Prisma.CollectiveDonorCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonorPayload>
+          }
+          createMany: {
+            args: Prisma.CollectiveDonorCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CollectiveDonorCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonorPayload>[]
+          }
+          delete: {
+            args: Prisma.CollectiveDonorDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonorPayload>
+          }
+          update: {
+            args: Prisma.CollectiveDonorUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonorPayload>
+          }
+          deleteMany: {
+            args: Prisma.CollectiveDonorDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CollectiveDonorUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CollectiveDonorUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonorPayload>[]
+          }
+          upsert: {
+            args: Prisma.CollectiveDonorUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonorPayload>
+          }
+          aggregate: {
+            args: Prisma.CollectiveDonorAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCollectiveDonor>
+          }
+          groupBy: {
+            args: Prisma.CollectiveDonorGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CollectiveDonorGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CollectiveDonorCountArgs<ExtArgs>
+            result: $Utils.Optional<CollectiveDonorCountAggregateOutputType> | number
+          }
+        }
+      }
+      CollectiveDonation: {
+        payload: Prisma.$CollectiveDonationPayload<ExtArgs>
+        fields: Prisma.CollectiveDonationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CollectiveDonationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CollectiveDonationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonationPayload>
+          }
+          findFirst: {
+            args: Prisma.CollectiveDonationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CollectiveDonationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonationPayload>
+          }
+          findMany: {
+            args: Prisma.CollectiveDonationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonationPayload>[]
+          }
+          create: {
+            args: Prisma.CollectiveDonationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonationPayload>
+          }
+          createMany: {
+            args: Prisma.CollectiveDonationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CollectiveDonationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonationPayload>[]
+          }
+          delete: {
+            args: Prisma.CollectiveDonationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonationPayload>
+          }
+          update: {
+            args: Prisma.CollectiveDonationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonationPayload>
+          }
+          deleteMany: {
+            args: Prisma.CollectiveDonationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CollectiveDonationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CollectiveDonationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonationPayload>[]
+          }
+          upsert: {
+            args: Prisma.CollectiveDonationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDonationPayload>
+          }
+          aggregate: {
+            args: Prisma.CollectiveDonationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCollectiveDonation>
+          }
+          groupBy: {
+            args: Prisma.CollectiveDonationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CollectiveDonationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CollectiveDonationCountArgs<ExtArgs>
+            result: $Utils.Optional<CollectiveDonationCountAggregateOutputType> | number
+          }
+        }
+      }
+      CollectiveDistribution: {
+        payload: Prisma.$CollectiveDistributionPayload<ExtArgs>
+        fields: Prisma.CollectiveDistributionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CollectiveDistributionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDistributionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CollectiveDistributionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDistributionPayload>
+          }
+          findFirst: {
+            args: Prisma.CollectiveDistributionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDistributionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CollectiveDistributionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDistributionPayload>
+          }
+          findMany: {
+            args: Prisma.CollectiveDistributionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDistributionPayload>[]
+          }
+          create: {
+            args: Prisma.CollectiveDistributionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDistributionPayload>
+          }
+          createMany: {
+            args: Prisma.CollectiveDistributionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CollectiveDistributionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDistributionPayload>[]
+          }
+          delete: {
+            args: Prisma.CollectiveDistributionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDistributionPayload>
+          }
+          update: {
+            args: Prisma.CollectiveDistributionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDistributionPayload>
+          }
+          deleteMany: {
+            args: Prisma.CollectiveDistributionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CollectiveDistributionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CollectiveDistributionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDistributionPayload>[]
+          }
+          upsert: {
+            args: Prisma.CollectiveDistributionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectiveDistributionPayload>
+          }
+          aggregate: {
+            args: Prisma.CollectiveDistributionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCollectiveDistribution>
+          }
+          groupBy: {
+            args: Prisma.CollectiveDistributionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CollectiveDistributionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CollectiveDistributionCountArgs<ExtArgs>
+            result: $Utils.Optional<CollectiveDistributionCountAggregateOutputType> | number
+          }
+        }
+      }
+      MatchRequest: {
+        payload: Prisma.$MatchRequestPayload<ExtArgs>
+        fields: Prisma.MatchRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MatchRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MatchRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.MatchRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MatchRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchRequestPayload>
+          }
+          findMany: {
+            args: Prisma.MatchRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchRequestPayload>[]
+          }
+          create: {
+            args: Prisma.MatchRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchRequestPayload>
+          }
+          createMany: {
+            args: Prisma.MatchRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MatchRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.MatchRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchRequestPayload>
+          }
+          update: {
+            args: Prisma.MatchRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.MatchRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MatchRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MatchRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.MatchRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.MatchRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMatchRequest>
+          }
+          groupBy: {
+            args: Prisma.MatchRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MatchRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MatchRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<MatchRequestCountAggregateOutputType> | number
+          }
+        }
+      }
+      MatchResult: {
+        payload: Prisma.$MatchResultPayload<ExtArgs>
+        fields: Prisma.MatchResultFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MatchResultFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchResultPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MatchResultFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchResultPayload>
+          }
+          findFirst: {
+            args: Prisma.MatchResultFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchResultPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MatchResultFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchResultPayload>
+          }
+          findMany: {
+            args: Prisma.MatchResultFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchResultPayload>[]
+          }
+          create: {
+            args: Prisma.MatchResultCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchResultPayload>
+          }
+          createMany: {
+            args: Prisma.MatchResultCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MatchResultCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchResultPayload>[]
+          }
+          delete: {
+            args: Prisma.MatchResultDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchResultPayload>
+          }
+          update: {
+            args: Prisma.MatchResultUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchResultPayload>
+          }
+          deleteMany: {
+            args: Prisma.MatchResultDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MatchResultUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MatchResultUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchResultPayload>[]
+          }
+          upsert: {
+            args: Prisma.MatchResultUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatchResultPayload>
+          }
+          aggregate: {
+            args: Prisma.MatchResultAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMatchResult>
+          }
+          groupBy: {
+            args: Prisma.MatchResultGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MatchResultGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MatchResultCountArgs<ExtArgs>
+            result: $Utils.Optional<MatchResultCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -5694,6 +6577,15 @@ export namespace Prisma {
     nilMarketplaceListing?: NilMarketplaceListingOmit
     scimToken?: ScimTokenOmit
     importJob?: ImportJobOmit
+    dealRoom?: DealRoomOmit
+    dealRoomMessage?: DealRoomMessageOmit
+    dealRoomProposal?: DealRoomProposalOmit
+    collectiveMember?: CollectiveMemberOmit
+    collectiveDonor?: CollectiveDonorOmit
+    collectiveDonation?: CollectiveDonationOmit
+    collectiveDistribution?: CollectiveDistributionOmit
+    matchRequest?: MatchRequestOmit
+    matchResult?: MatchResultOmit
   }
 
   /* Types for Logging */
@@ -5780,6 +6672,9 @@ export namespace Prisma {
     refreshTokens: number
     apiKeys: number
     importJobs: number
+    dealRoomMessages: number
+    dealRoomProposals: number
+    matchRequests: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5789,6 +6684,9 @@ export namespace Prisma {
     refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
     apiKeys?: boolean | UserCountOutputTypeCountApiKeysArgs
     importJobs?: boolean | UserCountOutputTypeCountImportJobsArgs
+    dealRoomMessages?: boolean | UserCountOutputTypeCountDealRoomMessagesArgs
+    dealRoomProposals?: boolean | UserCountOutputTypeCountDealRoomProposalsArgs
+    matchRequests?: boolean | UserCountOutputTypeCountMatchRequestsArgs
   }
 
   // Custom InputTypes
@@ -5842,6 +6740,27 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountImportJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ImportJobWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDealRoomMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealRoomMessageWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDealRoomProposalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealRoomProposalWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMatchRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatchRequestWhereInput
   }
 
 
@@ -5915,6 +6834,7 @@ export namespace Prisma {
     embeddings: number
     taxDocuments: number
     fmvAssessments: number
+    matchResults: number
   }
 
   export type CreatorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5925,6 +6845,7 @@ export namespace Prisma {
     embeddings?: boolean | CreatorCountOutputTypeCountEmbeddingsArgs
     taxDocuments?: boolean | CreatorCountOutputTypeCountTaxDocumentsArgs
     fmvAssessments?: boolean | CreatorCountOutputTypeCountFmvAssessmentsArgs
+    matchResults?: boolean | CreatorCountOutputTypeCountMatchResultsArgs
   }
 
   // Custom InputTypes
@@ -5985,6 +6906,13 @@ export namespace Prisma {
    */
   export type CreatorCountOutputTypeCountFmvAssessmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FmvAssessmentWhereInput
+  }
+
+  /**
+   * CreatorCountOutputType without action
+   */
+  export type CreatorCountOutputTypeCountMatchResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatchResultWhereInput
   }
 
 
@@ -6378,6 +7306,8 @@ export namespace Prisma {
     nilDeals: number
     fmvAssessments: number
     taxDocuments: number
+    collectiveMemberships: number
+    matchResults: number
   }
 
   export type AthleteCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6388,6 +7318,8 @@ export namespace Prisma {
     nilDeals?: boolean | AthleteCountOutputTypeCountNilDealsArgs
     fmvAssessments?: boolean | AthleteCountOutputTypeCountFmvAssessmentsArgs
     taxDocuments?: boolean | AthleteCountOutputTypeCountTaxDocumentsArgs
+    collectiveMemberships?: boolean | AthleteCountOutputTypeCountCollectiveMembershipsArgs
+    matchResults?: boolean | AthleteCountOutputTypeCountMatchResultsArgs
   }
 
   // Custom InputTypes
@@ -6448,6 +7380,20 @@ export namespace Prisma {
    */
   export type AthleteCountOutputTypeCountTaxDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TaxDocumentWhereInput
+  }
+
+  /**
+   * AthleteCountOutputType without action
+   */
+  export type AthleteCountOutputTypeCountCollectiveMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectiveMemberWhereInput
+  }
+
+  /**
+   * AthleteCountOutputType without action
+   */
+  export type AthleteCountOutputTypeCountMatchResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatchResultWhereInput
   }
 
 
@@ -6528,10 +7474,18 @@ export namespace Prisma {
 
   export type NilCollectiveCountOutputType = {
     nilDeals: number
+    members: number
+    donors: number
+    donations: number
+    distributions: number
   }
 
   export type NilCollectiveCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     nilDeals?: boolean | NilCollectiveCountOutputTypeCountNilDealsArgs
+    members?: boolean | NilCollectiveCountOutputTypeCountMembersArgs
+    donors?: boolean | NilCollectiveCountOutputTypeCountDonorsArgs
+    donations?: boolean | NilCollectiveCountOutputTypeCountDonationsArgs
+    distributions?: boolean | NilCollectiveCountOutputTypeCountDistributionsArgs
   }
 
   // Custom InputTypes
@@ -6550,6 +7504,34 @@ export namespace Prisma {
    */
   export type NilCollectiveCountOutputTypeCountNilDealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NilDealWhereInput
+  }
+
+  /**
+   * NilCollectiveCountOutputType without action
+   */
+  export type NilCollectiveCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectiveMemberWhereInput
+  }
+
+  /**
+   * NilCollectiveCountOutputType without action
+   */
+  export type NilCollectiveCountOutputTypeCountDonorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectiveDonorWhereInput
+  }
+
+  /**
+   * NilCollectiveCountOutputType without action
+   */
+  export type NilCollectiveCountOutputTypeCountDonationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectiveDonationWhereInput
+  }
+
+  /**
+   * NilCollectiveCountOutputType without action
+   */
+  export type NilCollectiveCountOutputTypeCountDistributionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectiveDistributionWhereInput
   }
 
 
@@ -6621,6 +7603,139 @@ export namespace Prisma {
    */
   export type FmvAssessmentCountOutputTypeCountNilDealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NilDealWhereInput
+  }
+
+
+  /**
+   * Count Type DealRoomCountOutputType
+   */
+
+  export type DealRoomCountOutputType = {
+    messages: number
+    proposals: number
+  }
+
+  export type DealRoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    messages?: boolean | DealRoomCountOutputTypeCountMessagesArgs
+    proposals?: boolean | DealRoomCountOutputTypeCountProposalsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DealRoomCountOutputType without action
+   */
+  export type DealRoomCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomCountOutputType
+     */
+    select?: DealRoomCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DealRoomCountOutputType without action
+   */
+  export type DealRoomCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealRoomMessageWhereInput
+  }
+
+  /**
+   * DealRoomCountOutputType without action
+   */
+  export type DealRoomCountOutputTypeCountProposalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealRoomProposalWhereInput
+  }
+
+
+  /**
+   * Count Type CollectiveMemberCountOutputType
+   */
+
+  export type CollectiveMemberCountOutputType = {
+    distributions: number
+  }
+
+  export type CollectiveMemberCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    distributions?: boolean | CollectiveMemberCountOutputTypeCountDistributionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CollectiveMemberCountOutputType without action
+   */
+  export type CollectiveMemberCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMemberCountOutputType
+     */
+    select?: CollectiveMemberCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CollectiveMemberCountOutputType without action
+   */
+  export type CollectiveMemberCountOutputTypeCountDistributionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectiveDistributionWhereInput
+  }
+
+
+  /**
+   * Count Type CollectiveDonorCountOutputType
+   */
+
+  export type CollectiveDonorCountOutputType = {
+    donations: number
+  }
+
+  export type CollectiveDonorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    donations?: boolean | CollectiveDonorCountOutputTypeCountDonationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CollectiveDonorCountOutputType without action
+   */
+  export type CollectiveDonorCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonorCountOutputType
+     */
+    select?: CollectiveDonorCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CollectiveDonorCountOutputType without action
+   */
+  export type CollectiveDonorCountOutputTypeCountDonationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectiveDonationWhereInput
+  }
+
+
+  /**
+   * Count Type MatchRequestCountOutputType
+   */
+
+  export type MatchRequestCountOutputType = {
+    results: number
+  }
+
+  export type MatchRequestCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    results?: boolean | MatchRequestCountOutputTypeCountResultsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MatchRequestCountOutputType without action
+   */
+  export type MatchRequestCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequestCountOutputType
+     */
+    select?: MatchRequestCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MatchRequestCountOutputType without action
+   */
+  export type MatchRequestCountOutputTypeCountResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatchResultWhereInput
   }
 
 
@@ -6909,6 +8024,9 @@ export namespace Prisma {
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
     apiKeys?: boolean | User$apiKeysArgs<ExtArgs>
     importJobs?: boolean | User$importJobsArgs<ExtArgs>
+    dealRoomMessages?: boolean | User$dealRoomMessagesArgs<ExtArgs>
+    dealRoomProposals?: boolean | User$dealRoomProposalsArgs<ExtArgs>
+    matchRequests?: boolean | User$matchRequestsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -6990,6 +8108,9 @@ export namespace Prisma {
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
     apiKeys?: boolean | User$apiKeysArgs<ExtArgs>
     importJobs?: boolean | User$importJobsArgs<ExtArgs>
+    dealRoomMessages?: boolean | User$dealRoomMessagesArgs<ExtArgs>
+    dealRoomProposals?: boolean | User$dealRoomProposalsArgs<ExtArgs>
+    matchRequests?: boolean | User$matchRequestsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7011,6 +8132,9 @@ export namespace Prisma {
       refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
       apiKeys: Prisma.$ApiKeyPayload<ExtArgs>[]
       importJobs: Prisma.$ImportJobPayload<ExtArgs>[]
+      dealRoomMessages: Prisma.$DealRoomMessagePayload<ExtArgs>[]
+      dealRoomProposals: Prisma.$DealRoomProposalPayload<ExtArgs>[]
+      matchRequests: Prisma.$MatchRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7438,6 +8562,9 @@ export namespace Prisma {
     refreshTokens<T extends User$refreshTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     apiKeys<T extends User$apiKeysArgs<ExtArgs> = {}>(args?: Subset<T, User$apiKeysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     importJobs<T extends User$importJobsArgs<ExtArgs> = {}>(args?: Subset<T, User$importJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImportJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dealRoomMessages<T extends User$dealRoomMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$dealRoomMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dealRoomProposals<T extends User$dealRoomProposalsArgs<ExtArgs> = {}>(args?: Subset<T, User$dealRoomProposalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    matchRequests<T extends User$matchRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$matchRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8147,6 +9274,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ImportJobScalarFieldEnum | ImportJobScalarFieldEnum[]
+  }
+
+  /**
+   * User.dealRoomMessages
+   */
+  export type User$dealRoomMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageInclude<ExtArgs> | null
+    where?: DealRoomMessageWhereInput
+    orderBy?: DealRoomMessageOrderByWithRelationInput | DealRoomMessageOrderByWithRelationInput[]
+    cursor?: DealRoomMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DealRoomMessageScalarFieldEnum | DealRoomMessageScalarFieldEnum[]
+  }
+
+  /**
+   * User.dealRoomProposals
+   */
+  export type User$dealRoomProposalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalInclude<ExtArgs> | null
+    where?: DealRoomProposalWhereInput
+    orderBy?: DealRoomProposalOrderByWithRelationInput | DealRoomProposalOrderByWithRelationInput[]
+    cursor?: DealRoomProposalWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DealRoomProposalScalarFieldEnum | DealRoomProposalScalarFieldEnum[]
+  }
+
+  /**
+   * User.matchRequests
+   */
+  export type User$matchRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestInclude<ExtArgs> | null
+    where?: MatchRequestWhereInput
+    orderBy?: MatchRequestOrderByWithRelationInput | MatchRequestOrderByWithRelationInput[]
+    cursor?: MatchRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MatchRequestScalarFieldEnum | MatchRequestScalarFieldEnum[]
   }
 
   /**
@@ -10887,6 +12086,7 @@ export namespace Prisma {
     embeddings?: boolean | Creator$embeddingsArgs<ExtArgs>
     taxDocuments?: boolean | Creator$taxDocumentsArgs<ExtArgs>
     fmvAssessments?: boolean | Creator$fmvAssessmentsArgs<ExtArgs>
+    matchResults?: boolean | Creator$matchResultsArgs<ExtArgs>
     _count?: boolean | CreatorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["creator"]>
 
@@ -10975,6 +12175,7 @@ export namespace Prisma {
     embeddings?: boolean | Creator$embeddingsArgs<ExtArgs>
     taxDocuments?: boolean | Creator$taxDocumentsArgs<ExtArgs>
     fmvAssessments?: boolean | Creator$fmvAssessmentsArgs<ExtArgs>
+    matchResults?: boolean | Creator$matchResultsArgs<ExtArgs>
     _count?: boolean | CreatorCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CreatorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10996,6 +12197,7 @@ export namespace Prisma {
       embeddings: Prisma.$EmbeddingRecordPayload<ExtArgs>[]
       taxDocuments: Prisma.$TaxDocumentPayload<ExtArgs>[]
       fmvAssessments: Prisma.$FmvAssessmentPayload<ExtArgs>[]
+      matchResults: Prisma.$MatchResultPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11422,6 +12624,7 @@ export namespace Prisma {
     embeddings<T extends Creator$embeddingsArgs<ExtArgs> = {}>(args?: Subset<T, Creator$embeddingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmbeddingRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     taxDocuments<T extends Creator$taxDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, Creator$taxDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaxDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     fmvAssessments<T extends Creator$fmvAssessmentsArgs<ExtArgs> = {}>(args?: Subset<T, Creator$fmvAssessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FmvAssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    matchResults<T extends Creator$matchResultsArgs<ExtArgs> = {}>(args?: Subset<T, Creator$matchResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12052,6 +13255,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FmvAssessmentScalarFieldEnum | FmvAssessmentScalarFieldEnum[]
+  }
+
+  /**
+   * Creator.matchResults
+   */
+  export type Creator$matchResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+    where?: MatchResultWhereInput
+    orderBy?: MatchResultOrderByWithRelationInput | MatchResultOrderByWithRelationInput[]
+    cursor?: MatchResultWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MatchResultScalarFieldEnum | MatchResultScalarFieldEnum[]
   }
 
   /**
@@ -13558,6 +14785,7 @@ export namespace Prisma {
     milestones?: boolean | Contract$milestonesArgs<ExtArgs>
     nilExtension?: boolean | Contract$nilExtensionArgs<ExtArgs>
     nilDeals?: boolean | Contract$nilDealsArgs<ExtArgs>
+    dealRoom?: boolean | Contract$dealRoomArgs<ExtArgs>
     _count?: boolean | ContractCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["contract"]>
 
@@ -13669,6 +14897,7 @@ export namespace Prisma {
     milestones?: boolean | Contract$milestonesArgs<ExtArgs>
     nilExtension?: boolean | Contract$nilExtensionArgs<ExtArgs>
     nilDeals?: boolean | Contract$nilDealsArgs<ExtArgs>
+    dealRoom?: boolean | Contract$dealRoomArgs<ExtArgs>
     _count?: boolean | ContractCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ContractIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13695,6 +14924,7 @@ export namespace Prisma {
       milestones: Prisma.$PaymentMilestonePayload<ExtArgs>[]
       nilExtension: Prisma.$ContractNilExtensionPayload<ExtArgs> | null
       nilDeals: Prisma.$NilDealPayload<ExtArgs>[]
+      dealRoom: Prisma.$DealRoomPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14128,6 +15358,7 @@ export namespace Prisma {
     milestones<T extends Contract$milestonesArgs<ExtArgs> = {}>(args?: Subset<T, Contract$milestonesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentMilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     nilExtension<T extends Contract$nilExtensionArgs<ExtArgs> = {}>(args?: Subset<T, Contract$nilExtensionArgs<ExtArgs>>): Prisma__ContractNilExtensionClient<$Result.GetResult<Prisma.$ContractNilExtensionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     nilDeals<T extends Contract$nilDealsArgs<ExtArgs> = {}>(args?: Subset<T, Contract$nilDealsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NilDealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dealRoom<T extends Contract$dealRoomArgs<ExtArgs> = {}>(args?: Subset<T, Contract$dealRoomArgs<ExtArgs>>): Prisma__DealRoomClient<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14759,6 +15990,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NilDealScalarFieldEnum | NilDealScalarFieldEnum[]
+  }
+
+  /**
+   * Contract.dealRoom
+   */
+  export type Contract$dealRoomArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomInclude<ExtArgs> | null
+    where?: DealRoomWhereInput
   }
 
   /**
@@ -47130,6 +48380,8 @@ export namespace Prisma {
     taxDocuments?: boolean | Athlete$taxDocumentsArgs<ExtArgs>
     graphNode?: boolean | Athlete$graphNodeArgs<ExtArgs>
     marketplaceListing?: boolean | Athlete$marketplaceListingArgs<ExtArgs>
+    collectiveMemberships?: boolean | Athlete$collectiveMembershipsArgs<ExtArgs>
+    matchResults?: boolean | Athlete$matchResultsArgs<ExtArgs>
     _count?: boolean | AthleteCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["athlete"]>
 
@@ -47261,6 +48513,8 @@ export namespace Prisma {
     taxDocuments?: boolean | Athlete$taxDocumentsArgs<ExtArgs>
     graphNode?: boolean | Athlete$graphNodeArgs<ExtArgs>
     marketplaceListing?: boolean | Athlete$marketplaceListingArgs<ExtArgs>
+    collectiveMemberships?: boolean | Athlete$collectiveMembershipsArgs<ExtArgs>
+    matchResults?: boolean | Athlete$matchResultsArgs<ExtArgs>
     _count?: boolean | AthleteCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AthleteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -47289,6 +48543,8 @@ export namespace Prisma {
       taxDocuments: Prisma.$TaxDocumentPayload<ExtArgs>[]
       graphNode: Prisma.$AthleteGraphNodePayload<ExtArgs> | null
       marketplaceListing: Prisma.$NilMarketplaceListingPayload<ExtArgs> | null
+      collectiveMemberships: Prisma.$CollectiveMemberPayload<ExtArgs>[]
+      matchResults: Prisma.$MatchResultPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -47730,6 +48986,8 @@ export namespace Prisma {
     taxDocuments<T extends Athlete$taxDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, Athlete$taxDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaxDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     graphNode<T extends Athlete$graphNodeArgs<ExtArgs> = {}>(args?: Subset<T, Athlete$graphNodeArgs<ExtArgs>>): Prisma__AthleteGraphNodeClient<$Result.GetResult<Prisma.$AthleteGraphNodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     marketplaceListing<T extends Athlete$marketplaceListingArgs<ExtArgs> = {}>(args?: Subset<T, Athlete$marketplaceListingArgs<ExtArgs>>): Prisma__NilMarketplaceListingClient<$Result.GetResult<Prisma.$NilMarketplaceListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    collectiveMemberships<T extends Athlete$collectiveMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, Athlete$collectiveMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    matchResults<T extends Athlete$matchResultsArgs<ExtArgs> = {}>(args?: Subset<T, Athlete$matchResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -48429,6 +49687,54 @@ export namespace Prisma {
      */
     include?: NilMarketplaceListingInclude<ExtArgs> | null
     where?: NilMarketplaceListingWhereInput
+  }
+
+  /**
+   * Athlete.collectiveMemberships
+   */
+  export type Athlete$collectiveMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberInclude<ExtArgs> | null
+    where?: CollectiveMemberWhereInput
+    orderBy?: CollectiveMemberOrderByWithRelationInput | CollectiveMemberOrderByWithRelationInput[]
+    cursor?: CollectiveMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollectiveMemberScalarFieldEnum | CollectiveMemberScalarFieldEnum[]
+  }
+
+  /**
+   * Athlete.matchResults
+   */
+  export type Athlete$matchResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+    where?: MatchResultWhereInput
+    orderBy?: MatchResultOrderByWithRelationInput | MatchResultOrderByWithRelationInput[]
+    cursor?: MatchResultWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MatchResultScalarFieldEnum | MatchResultScalarFieldEnum[]
   }
 
   /**
@@ -54470,6 +55776,10 @@ export namespace Prisma {
     updatedAt?: boolean
     university?: boolean | NilCollective$universityArgs<ExtArgs>
     nilDeals?: boolean | NilCollective$nilDealsArgs<ExtArgs>
+    members?: boolean | NilCollective$membersArgs<ExtArgs>
+    donors?: boolean | NilCollective$donorsArgs<ExtArgs>
+    donations?: boolean | NilCollective$donationsArgs<ExtArgs>
+    distributions?: boolean | NilCollective$distributionsArgs<ExtArgs>
     _count?: boolean | NilCollectiveCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["nilCollective"]>
 
@@ -54533,6 +55843,10 @@ export namespace Prisma {
   export type NilCollectiveInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     university?: boolean | NilCollective$universityArgs<ExtArgs>
     nilDeals?: boolean | NilCollective$nilDealsArgs<ExtArgs>
+    members?: boolean | NilCollective$membersArgs<ExtArgs>
+    donors?: boolean | NilCollective$donorsArgs<ExtArgs>
+    donations?: boolean | NilCollective$donationsArgs<ExtArgs>
+    distributions?: boolean | NilCollective$distributionsArgs<ExtArgs>
     _count?: boolean | NilCollectiveCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type NilCollectiveIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -54547,6 +55861,10 @@ export namespace Prisma {
     objects: {
       university: Prisma.$UniversityPayload<ExtArgs> | null
       nilDeals: Prisma.$NilDealPayload<ExtArgs>[]
+      members: Prisma.$CollectiveMemberPayload<ExtArgs>[]
+      donors: Prisma.$CollectiveDonorPayload<ExtArgs>[]
+      donations: Prisma.$CollectiveDonationPayload<ExtArgs>[]
+      distributions: Prisma.$CollectiveDistributionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -54960,6 +56278,10 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     university<T extends NilCollective$universityArgs<ExtArgs> = {}>(args?: Subset<T, NilCollective$universityArgs<ExtArgs>>): Prisma__UniversityClient<$Result.GetResult<Prisma.$UniversityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     nilDeals<T extends NilCollective$nilDealsArgs<ExtArgs> = {}>(args?: Subset<T, NilCollective$nilDealsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NilDealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    members<T extends NilCollective$membersArgs<ExtArgs> = {}>(args?: Subset<T, NilCollective$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    donors<T extends NilCollective$donorsArgs<ExtArgs> = {}>(args?: Subset<T, NilCollective$donorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    donations<T extends NilCollective$donationsArgs<ExtArgs> = {}>(args?: Subset<T, NilCollective$donationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    distributions<T extends NilCollective$distributionsArgs<ExtArgs> = {}>(args?: Subset<T, NilCollective$distributionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -55440,6 +56762,102 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NilDealScalarFieldEnum | NilDealScalarFieldEnum[]
+  }
+
+  /**
+   * NilCollective.members
+   */
+  export type NilCollective$membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberInclude<ExtArgs> | null
+    where?: CollectiveMemberWhereInput
+    orderBy?: CollectiveMemberOrderByWithRelationInput | CollectiveMemberOrderByWithRelationInput[]
+    cursor?: CollectiveMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollectiveMemberScalarFieldEnum | CollectiveMemberScalarFieldEnum[]
+  }
+
+  /**
+   * NilCollective.donors
+   */
+  export type NilCollective$donorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorInclude<ExtArgs> | null
+    where?: CollectiveDonorWhereInput
+    orderBy?: CollectiveDonorOrderByWithRelationInput | CollectiveDonorOrderByWithRelationInput[]
+    cursor?: CollectiveDonorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollectiveDonorScalarFieldEnum | CollectiveDonorScalarFieldEnum[]
+  }
+
+  /**
+   * NilCollective.donations
+   */
+  export type NilCollective$donationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationInclude<ExtArgs> | null
+    where?: CollectiveDonationWhereInput
+    orderBy?: CollectiveDonationOrderByWithRelationInput | CollectiveDonationOrderByWithRelationInput[]
+    cursor?: CollectiveDonationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollectiveDonationScalarFieldEnum | CollectiveDonationScalarFieldEnum[]
+  }
+
+  /**
+   * NilCollective.distributions
+   */
+  export type NilCollective$distributionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionInclude<ExtArgs> | null
+    where?: CollectiveDistributionWhereInput
+    orderBy?: CollectiveDistributionOrderByWithRelationInput | CollectiveDistributionOrderByWithRelationInput[]
+    cursor?: CollectiveDistributionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollectiveDistributionScalarFieldEnum | CollectiveDistributionScalarFieldEnum[]
   }
 
   /**
@@ -70929,6 +72347,10833 @@ export namespace Prisma {
 
 
   /**
+   * Model DealRoom
+   */
+
+  export type AggregateDealRoom = {
+    _count: DealRoomCountAggregateOutputType | null
+    _min: DealRoomMinAggregateOutputType | null
+    _max: DealRoomMaxAggregateOutputType | null
+  }
+
+  export type DealRoomMinAggregateOutputType = {
+    id: string | null
+    contractId: string | null
+    status: $Enums.DealRoomStatus | null
+    openedAt: Date | null
+    agreedAt: Date | null
+    closedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DealRoomMaxAggregateOutputType = {
+    id: string | null
+    contractId: string | null
+    status: $Enums.DealRoomStatus | null
+    openedAt: Date | null
+    agreedAt: Date | null
+    closedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DealRoomCountAggregateOutputType = {
+    id: number
+    contractId: number
+    status: number
+    openedAt: number
+    agreedAt: number
+    closedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DealRoomMinAggregateInputType = {
+    id?: true
+    contractId?: true
+    status?: true
+    openedAt?: true
+    agreedAt?: true
+    closedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DealRoomMaxAggregateInputType = {
+    id?: true
+    contractId?: true
+    status?: true
+    openedAt?: true
+    agreedAt?: true
+    closedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DealRoomCountAggregateInputType = {
+    id?: true
+    contractId?: true
+    status?: true
+    openedAt?: true
+    agreedAt?: true
+    closedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DealRoomAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DealRoom to aggregate.
+     */
+    where?: DealRoomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealRooms to fetch.
+     */
+    orderBy?: DealRoomOrderByWithRelationInput | DealRoomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DealRoomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealRooms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealRooms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DealRooms
+    **/
+    _count?: true | DealRoomCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DealRoomMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DealRoomMaxAggregateInputType
+  }
+
+  export type GetDealRoomAggregateType<T extends DealRoomAggregateArgs> = {
+        [P in keyof T & keyof AggregateDealRoom]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDealRoom[P]>
+      : GetScalarType<T[P], AggregateDealRoom[P]>
+  }
+
+
+
+
+  export type DealRoomGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealRoomWhereInput
+    orderBy?: DealRoomOrderByWithAggregationInput | DealRoomOrderByWithAggregationInput[]
+    by: DealRoomScalarFieldEnum[] | DealRoomScalarFieldEnum
+    having?: DealRoomScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DealRoomCountAggregateInputType | true
+    _min?: DealRoomMinAggregateInputType
+    _max?: DealRoomMaxAggregateInputType
+  }
+
+  export type DealRoomGroupByOutputType = {
+    id: string
+    contractId: string
+    status: $Enums.DealRoomStatus
+    openedAt: Date
+    agreedAt: Date | null
+    closedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: DealRoomCountAggregateOutputType | null
+    _min: DealRoomMinAggregateOutputType | null
+    _max: DealRoomMaxAggregateOutputType | null
+  }
+
+  type GetDealRoomGroupByPayload<T extends DealRoomGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DealRoomGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DealRoomGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DealRoomGroupByOutputType[P]>
+            : GetScalarType<T[P], DealRoomGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DealRoomSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contractId?: boolean
+    status?: boolean
+    openedAt?: boolean
+    agreedAt?: boolean
+    closedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contract?: boolean | ContractDefaultArgs<ExtArgs>
+    messages?: boolean | DealRoom$messagesArgs<ExtArgs>
+    proposals?: boolean | DealRoom$proposalsArgs<ExtArgs>
+    _count?: boolean | DealRoomCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealRoom"]>
+
+  export type DealRoomSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contractId?: boolean
+    status?: boolean
+    openedAt?: boolean
+    agreedAt?: boolean
+    closedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contract?: boolean | ContractDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealRoom"]>
+
+  export type DealRoomSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contractId?: boolean
+    status?: boolean
+    openedAt?: boolean
+    agreedAt?: boolean
+    closedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contract?: boolean | ContractDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealRoom"]>
+
+  export type DealRoomSelectScalar = {
+    id?: boolean
+    contractId?: boolean
+    status?: boolean
+    openedAt?: boolean
+    agreedAt?: boolean
+    closedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DealRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contractId" | "status" | "openedAt" | "agreedAt" | "closedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["dealRoom"]>
+  export type DealRoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contract?: boolean | ContractDefaultArgs<ExtArgs>
+    messages?: boolean | DealRoom$messagesArgs<ExtArgs>
+    proposals?: boolean | DealRoom$proposalsArgs<ExtArgs>
+    _count?: boolean | DealRoomCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DealRoomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contract?: boolean | ContractDefaultArgs<ExtArgs>
+  }
+  export type DealRoomIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contract?: boolean | ContractDefaultArgs<ExtArgs>
+  }
+
+  export type $DealRoomPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DealRoom"
+    objects: {
+      contract: Prisma.$ContractPayload<ExtArgs>
+      messages: Prisma.$DealRoomMessagePayload<ExtArgs>[]
+      proposals: Prisma.$DealRoomProposalPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contractId: string
+      status: $Enums.DealRoomStatus
+      openedAt: Date
+      agreedAt: Date | null
+      closedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["dealRoom"]>
+    composites: {}
+  }
+
+  type DealRoomGetPayload<S extends boolean | null | undefined | DealRoomDefaultArgs> = $Result.GetResult<Prisma.$DealRoomPayload, S>
+
+  type DealRoomCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DealRoomFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DealRoomCountAggregateInputType | true
+    }
+
+  export interface DealRoomDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DealRoom'], meta: { name: 'DealRoom' } }
+    /**
+     * Find zero or one DealRoom that matches the filter.
+     * @param {DealRoomFindUniqueArgs} args - Arguments to find a DealRoom
+     * @example
+     * // Get one DealRoom
+     * const dealRoom = await prisma.dealRoom.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DealRoomFindUniqueArgs>(args: SelectSubset<T, DealRoomFindUniqueArgs<ExtArgs>>): Prisma__DealRoomClient<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DealRoom that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DealRoomFindUniqueOrThrowArgs} args - Arguments to find a DealRoom
+     * @example
+     * // Get one DealRoom
+     * const dealRoom = await prisma.dealRoom.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DealRoomFindUniqueOrThrowArgs>(args: SelectSubset<T, DealRoomFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DealRoomClient<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DealRoom that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomFindFirstArgs} args - Arguments to find a DealRoom
+     * @example
+     * // Get one DealRoom
+     * const dealRoom = await prisma.dealRoom.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DealRoomFindFirstArgs>(args?: SelectSubset<T, DealRoomFindFirstArgs<ExtArgs>>): Prisma__DealRoomClient<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DealRoom that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomFindFirstOrThrowArgs} args - Arguments to find a DealRoom
+     * @example
+     * // Get one DealRoom
+     * const dealRoom = await prisma.dealRoom.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DealRoomFindFirstOrThrowArgs>(args?: SelectSubset<T, DealRoomFindFirstOrThrowArgs<ExtArgs>>): Prisma__DealRoomClient<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DealRooms that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DealRooms
+     * const dealRooms = await prisma.dealRoom.findMany()
+     * 
+     * // Get first 10 DealRooms
+     * const dealRooms = await prisma.dealRoom.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dealRoomWithIdOnly = await prisma.dealRoom.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DealRoomFindManyArgs>(args?: SelectSubset<T, DealRoomFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DealRoom.
+     * @param {DealRoomCreateArgs} args - Arguments to create a DealRoom.
+     * @example
+     * // Create one DealRoom
+     * const DealRoom = await prisma.dealRoom.create({
+     *   data: {
+     *     // ... data to create a DealRoom
+     *   }
+     * })
+     * 
+     */
+    create<T extends DealRoomCreateArgs>(args: SelectSubset<T, DealRoomCreateArgs<ExtArgs>>): Prisma__DealRoomClient<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DealRooms.
+     * @param {DealRoomCreateManyArgs} args - Arguments to create many DealRooms.
+     * @example
+     * // Create many DealRooms
+     * const dealRoom = await prisma.dealRoom.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DealRoomCreateManyArgs>(args?: SelectSubset<T, DealRoomCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DealRooms and returns the data saved in the database.
+     * @param {DealRoomCreateManyAndReturnArgs} args - Arguments to create many DealRooms.
+     * @example
+     * // Create many DealRooms
+     * const dealRoom = await prisma.dealRoom.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DealRooms and only return the `id`
+     * const dealRoomWithIdOnly = await prisma.dealRoom.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DealRoomCreateManyAndReturnArgs>(args?: SelectSubset<T, DealRoomCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DealRoom.
+     * @param {DealRoomDeleteArgs} args - Arguments to delete one DealRoom.
+     * @example
+     * // Delete one DealRoom
+     * const DealRoom = await prisma.dealRoom.delete({
+     *   where: {
+     *     // ... filter to delete one DealRoom
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DealRoomDeleteArgs>(args: SelectSubset<T, DealRoomDeleteArgs<ExtArgs>>): Prisma__DealRoomClient<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DealRoom.
+     * @param {DealRoomUpdateArgs} args - Arguments to update one DealRoom.
+     * @example
+     * // Update one DealRoom
+     * const dealRoom = await prisma.dealRoom.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DealRoomUpdateArgs>(args: SelectSubset<T, DealRoomUpdateArgs<ExtArgs>>): Prisma__DealRoomClient<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DealRooms.
+     * @param {DealRoomDeleteManyArgs} args - Arguments to filter DealRooms to delete.
+     * @example
+     * // Delete a few DealRooms
+     * const { count } = await prisma.dealRoom.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DealRoomDeleteManyArgs>(args?: SelectSubset<T, DealRoomDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DealRooms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DealRooms
+     * const dealRoom = await prisma.dealRoom.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DealRoomUpdateManyArgs>(args: SelectSubset<T, DealRoomUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DealRooms and returns the data updated in the database.
+     * @param {DealRoomUpdateManyAndReturnArgs} args - Arguments to update many DealRooms.
+     * @example
+     * // Update many DealRooms
+     * const dealRoom = await prisma.dealRoom.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DealRooms and only return the `id`
+     * const dealRoomWithIdOnly = await prisma.dealRoom.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DealRoomUpdateManyAndReturnArgs>(args: SelectSubset<T, DealRoomUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DealRoom.
+     * @param {DealRoomUpsertArgs} args - Arguments to update or create a DealRoom.
+     * @example
+     * // Update or create a DealRoom
+     * const dealRoom = await prisma.dealRoom.upsert({
+     *   create: {
+     *     // ... data to create a DealRoom
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DealRoom we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DealRoomUpsertArgs>(args: SelectSubset<T, DealRoomUpsertArgs<ExtArgs>>): Prisma__DealRoomClient<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DealRooms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomCountArgs} args - Arguments to filter DealRooms to count.
+     * @example
+     * // Count the number of DealRooms
+     * const count = await prisma.dealRoom.count({
+     *   where: {
+     *     // ... the filter for the DealRooms we want to count
+     *   }
+     * })
+    **/
+    count<T extends DealRoomCountArgs>(
+      args?: Subset<T, DealRoomCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DealRoomCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DealRoom.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DealRoomAggregateArgs>(args: Subset<T, DealRoomAggregateArgs>): Prisma.PrismaPromise<GetDealRoomAggregateType<T>>
+
+    /**
+     * Group by DealRoom.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DealRoomGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DealRoomGroupByArgs['orderBy'] }
+        : { orderBy?: DealRoomGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DealRoomGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDealRoomGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DealRoom model
+   */
+  readonly fields: DealRoomFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DealRoom.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DealRoomClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    contract<T extends ContractDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContractDefaultArgs<ExtArgs>>): Prisma__ContractClient<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    messages<T extends DealRoom$messagesArgs<ExtArgs> = {}>(args?: Subset<T, DealRoom$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    proposals<T extends DealRoom$proposalsArgs<ExtArgs> = {}>(args?: Subset<T, DealRoom$proposalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DealRoom model
+   */
+  interface DealRoomFieldRefs {
+    readonly id: FieldRef<"DealRoom", 'String'>
+    readonly contractId: FieldRef<"DealRoom", 'String'>
+    readonly status: FieldRef<"DealRoom", 'DealRoomStatus'>
+    readonly openedAt: FieldRef<"DealRoom", 'DateTime'>
+    readonly agreedAt: FieldRef<"DealRoom", 'DateTime'>
+    readonly closedAt: FieldRef<"DealRoom", 'DateTime'>
+    readonly createdAt: FieldRef<"DealRoom", 'DateTime'>
+    readonly updatedAt: FieldRef<"DealRoom", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DealRoom findUnique
+   */
+  export type DealRoomFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoom to fetch.
+     */
+    where: DealRoomWhereUniqueInput
+  }
+
+  /**
+   * DealRoom findUniqueOrThrow
+   */
+  export type DealRoomFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoom to fetch.
+     */
+    where: DealRoomWhereUniqueInput
+  }
+
+  /**
+   * DealRoom findFirst
+   */
+  export type DealRoomFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoom to fetch.
+     */
+    where?: DealRoomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealRooms to fetch.
+     */
+    orderBy?: DealRoomOrderByWithRelationInput | DealRoomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DealRooms.
+     */
+    cursor?: DealRoomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealRooms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealRooms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DealRooms.
+     */
+    distinct?: DealRoomScalarFieldEnum | DealRoomScalarFieldEnum[]
+  }
+
+  /**
+   * DealRoom findFirstOrThrow
+   */
+  export type DealRoomFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoom to fetch.
+     */
+    where?: DealRoomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealRooms to fetch.
+     */
+    orderBy?: DealRoomOrderByWithRelationInput | DealRoomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DealRooms.
+     */
+    cursor?: DealRoomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealRooms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealRooms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DealRooms.
+     */
+    distinct?: DealRoomScalarFieldEnum | DealRoomScalarFieldEnum[]
+  }
+
+  /**
+   * DealRoom findMany
+   */
+  export type DealRoomFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRooms to fetch.
+     */
+    where?: DealRoomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealRooms to fetch.
+     */
+    orderBy?: DealRoomOrderByWithRelationInput | DealRoomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DealRooms.
+     */
+    cursor?: DealRoomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealRooms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealRooms.
+     */
+    skip?: number
+    distinct?: DealRoomScalarFieldEnum | DealRoomScalarFieldEnum[]
+  }
+
+  /**
+   * DealRoom create
+   */
+  export type DealRoomCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DealRoom.
+     */
+    data: XOR<DealRoomCreateInput, DealRoomUncheckedCreateInput>
+  }
+
+  /**
+   * DealRoom createMany
+   */
+  export type DealRoomCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DealRooms.
+     */
+    data: DealRoomCreateManyInput | DealRoomCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DealRoom createManyAndReturn
+   */
+  export type DealRoomCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * The data used to create many DealRooms.
+     */
+    data: DealRoomCreateManyInput | DealRoomCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DealRoom update
+   */
+  export type DealRoomUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DealRoom.
+     */
+    data: XOR<DealRoomUpdateInput, DealRoomUncheckedUpdateInput>
+    /**
+     * Choose, which DealRoom to update.
+     */
+    where: DealRoomWhereUniqueInput
+  }
+
+  /**
+   * DealRoom updateMany
+   */
+  export type DealRoomUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DealRooms.
+     */
+    data: XOR<DealRoomUpdateManyMutationInput, DealRoomUncheckedUpdateManyInput>
+    /**
+     * Filter which DealRooms to update
+     */
+    where?: DealRoomWhereInput
+    /**
+     * Limit how many DealRooms to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DealRoom updateManyAndReturn
+   */
+  export type DealRoomUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * The data used to update DealRooms.
+     */
+    data: XOR<DealRoomUpdateManyMutationInput, DealRoomUncheckedUpdateManyInput>
+    /**
+     * Filter which DealRooms to update
+     */
+    where?: DealRoomWhereInput
+    /**
+     * Limit how many DealRooms to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DealRoom upsert
+   */
+  export type DealRoomUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DealRoom to update in case it exists.
+     */
+    where: DealRoomWhereUniqueInput
+    /**
+     * In case the DealRoom found by the `where` argument doesn't exist, create a new DealRoom with this data.
+     */
+    create: XOR<DealRoomCreateInput, DealRoomUncheckedCreateInput>
+    /**
+     * In case the DealRoom was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DealRoomUpdateInput, DealRoomUncheckedUpdateInput>
+  }
+
+  /**
+   * DealRoom delete
+   */
+  export type DealRoomDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomInclude<ExtArgs> | null
+    /**
+     * Filter which DealRoom to delete.
+     */
+    where: DealRoomWhereUniqueInput
+  }
+
+  /**
+   * DealRoom deleteMany
+   */
+  export type DealRoomDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DealRooms to delete
+     */
+    where?: DealRoomWhereInput
+    /**
+     * Limit how many DealRooms to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DealRoom.messages
+   */
+  export type DealRoom$messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageInclude<ExtArgs> | null
+    where?: DealRoomMessageWhereInput
+    orderBy?: DealRoomMessageOrderByWithRelationInput | DealRoomMessageOrderByWithRelationInput[]
+    cursor?: DealRoomMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DealRoomMessageScalarFieldEnum | DealRoomMessageScalarFieldEnum[]
+  }
+
+  /**
+   * DealRoom.proposals
+   */
+  export type DealRoom$proposalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalInclude<ExtArgs> | null
+    where?: DealRoomProposalWhereInput
+    orderBy?: DealRoomProposalOrderByWithRelationInput | DealRoomProposalOrderByWithRelationInput[]
+    cursor?: DealRoomProposalWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DealRoomProposalScalarFieldEnum | DealRoomProposalScalarFieldEnum[]
+  }
+
+  /**
+   * DealRoom without action
+   */
+  export type DealRoomDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoom
+     */
+    select?: DealRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoom
+     */
+    omit?: DealRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DealRoomMessage
+   */
+
+  export type AggregateDealRoomMessage = {
+    _count: DealRoomMessageCountAggregateOutputType | null
+    _min: DealRoomMessageMinAggregateOutputType | null
+    _max: DealRoomMessageMaxAggregateOutputType | null
+  }
+
+  export type DealRoomMessageMinAggregateOutputType = {
+    id: string | null
+    dealRoomId: string | null
+    authorId: string | null
+    content: string | null
+    clauseRef: string | null
+    type: $Enums.DealRoomMessageType | null
+    createdAt: Date | null
+  }
+
+  export type DealRoomMessageMaxAggregateOutputType = {
+    id: string | null
+    dealRoomId: string | null
+    authorId: string | null
+    content: string | null
+    clauseRef: string | null
+    type: $Enums.DealRoomMessageType | null
+    createdAt: Date | null
+  }
+
+  export type DealRoomMessageCountAggregateOutputType = {
+    id: number
+    dealRoomId: number
+    authorId: number
+    content: number
+    clauseRef: number
+    type: number
+    metadata: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type DealRoomMessageMinAggregateInputType = {
+    id?: true
+    dealRoomId?: true
+    authorId?: true
+    content?: true
+    clauseRef?: true
+    type?: true
+    createdAt?: true
+  }
+
+  export type DealRoomMessageMaxAggregateInputType = {
+    id?: true
+    dealRoomId?: true
+    authorId?: true
+    content?: true
+    clauseRef?: true
+    type?: true
+    createdAt?: true
+  }
+
+  export type DealRoomMessageCountAggregateInputType = {
+    id?: true
+    dealRoomId?: true
+    authorId?: true
+    content?: true
+    clauseRef?: true
+    type?: true
+    metadata?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type DealRoomMessageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DealRoomMessage to aggregate.
+     */
+    where?: DealRoomMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealRoomMessages to fetch.
+     */
+    orderBy?: DealRoomMessageOrderByWithRelationInput | DealRoomMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DealRoomMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealRoomMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealRoomMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DealRoomMessages
+    **/
+    _count?: true | DealRoomMessageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DealRoomMessageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DealRoomMessageMaxAggregateInputType
+  }
+
+  export type GetDealRoomMessageAggregateType<T extends DealRoomMessageAggregateArgs> = {
+        [P in keyof T & keyof AggregateDealRoomMessage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDealRoomMessage[P]>
+      : GetScalarType<T[P], AggregateDealRoomMessage[P]>
+  }
+
+
+
+
+  export type DealRoomMessageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealRoomMessageWhereInput
+    orderBy?: DealRoomMessageOrderByWithAggregationInput | DealRoomMessageOrderByWithAggregationInput[]
+    by: DealRoomMessageScalarFieldEnum[] | DealRoomMessageScalarFieldEnum
+    having?: DealRoomMessageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DealRoomMessageCountAggregateInputType | true
+    _min?: DealRoomMessageMinAggregateInputType
+    _max?: DealRoomMessageMaxAggregateInputType
+  }
+
+  export type DealRoomMessageGroupByOutputType = {
+    id: string
+    dealRoomId: string
+    authorId: string
+    content: string
+    clauseRef: string | null
+    type: $Enums.DealRoomMessageType
+    metadata: JsonValue | null
+    createdAt: Date
+    _count: DealRoomMessageCountAggregateOutputType | null
+    _min: DealRoomMessageMinAggregateOutputType | null
+    _max: DealRoomMessageMaxAggregateOutputType | null
+  }
+
+  type GetDealRoomMessageGroupByPayload<T extends DealRoomMessageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DealRoomMessageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DealRoomMessageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DealRoomMessageGroupByOutputType[P]>
+            : GetScalarType<T[P], DealRoomMessageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DealRoomMessageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dealRoomId?: boolean
+    authorId?: boolean
+    content?: boolean
+    clauseRef?: boolean
+    type?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    dealRoom?: boolean | DealRoomDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealRoomMessage"]>
+
+  export type DealRoomMessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dealRoomId?: boolean
+    authorId?: boolean
+    content?: boolean
+    clauseRef?: boolean
+    type?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    dealRoom?: boolean | DealRoomDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealRoomMessage"]>
+
+  export type DealRoomMessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dealRoomId?: boolean
+    authorId?: boolean
+    content?: boolean
+    clauseRef?: boolean
+    type?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    dealRoom?: boolean | DealRoomDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealRoomMessage"]>
+
+  export type DealRoomMessageSelectScalar = {
+    id?: boolean
+    dealRoomId?: boolean
+    authorId?: boolean
+    content?: boolean
+    clauseRef?: boolean
+    type?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }
+
+  export type DealRoomMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dealRoomId" | "authorId" | "content" | "clauseRef" | "type" | "metadata" | "createdAt", ExtArgs["result"]["dealRoomMessage"]>
+  export type DealRoomMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    dealRoom?: boolean | DealRoomDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DealRoomMessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    dealRoom?: boolean | DealRoomDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DealRoomMessageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    dealRoom?: boolean | DealRoomDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $DealRoomMessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DealRoomMessage"
+    objects: {
+      dealRoom: Prisma.$DealRoomPayload<ExtArgs>
+      author: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      dealRoomId: string
+      authorId: string
+      content: string
+      clauseRef: string | null
+      type: $Enums.DealRoomMessageType
+      metadata: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["dealRoomMessage"]>
+    composites: {}
+  }
+
+  type DealRoomMessageGetPayload<S extends boolean | null | undefined | DealRoomMessageDefaultArgs> = $Result.GetResult<Prisma.$DealRoomMessagePayload, S>
+
+  type DealRoomMessageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DealRoomMessageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DealRoomMessageCountAggregateInputType | true
+    }
+
+  export interface DealRoomMessageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DealRoomMessage'], meta: { name: 'DealRoomMessage' } }
+    /**
+     * Find zero or one DealRoomMessage that matches the filter.
+     * @param {DealRoomMessageFindUniqueArgs} args - Arguments to find a DealRoomMessage
+     * @example
+     * // Get one DealRoomMessage
+     * const dealRoomMessage = await prisma.dealRoomMessage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DealRoomMessageFindUniqueArgs>(args: SelectSubset<T, DealRoomMessageFindUniqueArgs<ExtArgs>>): Prisma__DealRoomMessageClient<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DealRoomMessage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DealRoomMessageFindUniqueOrThrowArgs} args - Arguments to find a DealRoomMessage
+     * @example
+     * // Get one DealRoomMessage
+     * const dealRoomMessage = await prisma.dealRoomMessage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DealRoomMessageFindUniqueOrThrowArgs>(args: SelectSubset<T, DealRoomMessageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DealRoomMessageClient<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DealRoomMessage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomMessageFindFirstArgs} args - Arguments to find a DealRoomMessage
+     * @example
+     * // Get one DealRoomMessage
+     * const dealRoomMessage = await prisma.dealRoomMessage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DealRoomMessageFindFirstArgs>(args?: SelectSubset<T, DealRoomMessageFindFirstArgs<ExtArgs>>): Prisma__DealRoomMessageClient<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DealRoomMessage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomMessageFindFirstOrThrowArgs} args - Arguments to find a DealRoomMessage
+     * @example
+     * // Get one DealRoomMessage
+     * const dealRoomMessage = await prisma.dealRoomMessage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DealRoomMessageFindFirstOrThrowArgs>(args?: SelectSubset<T, DealRoomMessageFindFirstOrThrowArgs<ExtArgs>>): Prisma__DealRoomMessageClient<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DealRoomMessages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomMessageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DealRoomMessages
+     * const dealRoomMessages = await prisma.dealRoomMessage.findMany()
+     * 
+     * // Get first 10 DealRoomMessages
+     * const dealRoomMessages = await prisma.dealRoomMessage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dealRoomMessageWithIdOnly = await prisma.dealRoomMessage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DealRoomMessageFindManyArgs>(args?: SelectSubset<T, DealRoomMessageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DealRoomMessage.
+     * @param {DealRoomMessageCreateArgs} args - Arguments to create a DealRoomMessage.
+     * @example
+     * // Create one DealRoomMessage
+     * const DealRoomMessage = await prisma.dealRoomMessage.create({
+     *   data: {
+     *     // ... data to create a DealRoomMessage
+     *   }
+     * })
+     * 
+     */
+    create<T extends DealRoomMessageCreateArgs>(args: SelectSubset<T, DealRoomMessageCreateArgs<ExtArgs>>): Prisma__DealRoomMessageClient<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DealRoomMessages.
+     * @param {DealRoomMessageCreateManyArgs} args - Arguments to create many DealRoomMessages.
+     * @example
+     * // Create many DealRoomMessages
+     * const dealRoomMessage = await prisma.dealRoomMessage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DealRoomMessageCreateManyArgs>(args?: SelectSubset<T, DealRoomMessageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DealRoomMessages and returns the data saved in the database.
+     * @param {DealRoomMessageCreateManyAndReturnArgs} args - Arguments to create many DealRoomMessages.
+     * @example
+     * // Create many DealRoomMessages
+     * const dealRoomMessage = await prisma.dealRoomMessage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DealRoomMessages and only return the `id`
+     * const dealRoomMessageWithIdOnly = await prisma.dealRoomMessage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DealRoomMessageCreateManyAndReturnArgs>(args?: SelectSubset<T, DealRoomMessageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DealRoomMessage.
+     * @param {DealRoomMessageDeleteArgs} args - Arguments to delete one DealRoomMessage.
+     * @example
+     * // Delete one DealRoomMessage
+     * const DealRoomMessage = await prisma.dealRoomMessage.delete({
+     *   where: {
+     *     // ... filter to delete one DealRoomMessage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DealRoomMessageDeleteArgs>(args: SelectSubset<T, DealRoomMessageDeleteArgs<ExtArgs>>): Prisma__DealRoomMessageClient<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DealRoomMessage.
+     * @param {DealRoomMessageUpdateArgs} args - Arguments to update one DealRoomMessage.
+     * @example
+     * // Update one DealRoomMessage
+     * const dealRoomMessage = await prisma.dealRoomMessage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DealRoomMessageUpdateArgs>(args: SelectSubset<T, DealRoomMessageUpdateArgs<ExtArgs>>): Prisma__DealRoomMessageClient<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DealRoomMessages.
+     * @param {DealRoomMessageDeleteManyArgs} args - Arguments to filter DealRoomMessages to delete.
+     * @example
+     * // Delete a few DealRoomMessages
+     * const { count } = await prisma.dealRoomMessage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DealRoomMessageDeleteManyArgs>(args?: SelectSubset<T, DealRoomMessageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DealRoomMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomMessageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DealRoomMessages
+     * const dealRoomMessage = await prisma.dealRoomMessage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DealRoomMessageUpdateManyArgs>(args: SelectSubset<T, DealRoomMessageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DealRoomMessages and returns the data updated in the database.
+     * @param {DealRoomMessageUpdateManyAndReturnArgs} args - Arguments to update many DealRoomMessages.
+     * @example
+     * // Update many DealRoomMessages
+     * const dealRoomMessage = await prisma.dealRoomMessage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DealRoomMessages and only return the `id`
+     * const dealRoomMessageWithIdOnly = await prisma.dealRoomMessage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DealRoomMessageUpdateManyAndReturnArgs>(args: SelectSubset<T, DealRoomMessageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DealRoomMessage.
+     * @param {DealRoomMessageUpsertArgs} args - Arguments to update or create a DealRoomMessage.
+     * @example
+     * // Update or create a DealRoomMessage
+     * const dealRoomMessage = await prisma.dealRoomMessage.upsert({
+     *   create: {
+     *     // ... data to create a DealRoomMessage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DealRoomMessage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DealRoomMessageUpsertArgs>(args: SelectSubset<T, DealRoomMessageUpsertArgs<ExtArgs>>): Prisma__DealRoomMessageClient<$Result.GetResult<Prisma.$DealRoomMessagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DealRoomMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomMessageCountArgs} args - Arguments to filter DealRoomMessages to count.
+     * @example
+     * // Count the number of DealRoomMessages
+     * const count = await prisma.dealRoomMessage.count({
+     *   where: {
+     *     // ... the filter for the DealRoomMessages we want to count
+     *   }
+     * })
+    **/
+    count<T extends DealRoomMessageCountArgs>(
+      args?: Subset<T, DealRoomMessageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DealRoomMessageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DealRoomMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomMessageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DealRoomMessageAggregateArgs>(args: Subset<T, DealRoomMessageAggregateArgs>): Prisma.PrismaPromise<GetDealRoomMessageAggregateType<T>>
+
+    /**
+     * Group by DealRoomMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomMessageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DealRoomMessageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DealRoomMessageGroupByArgs['orderBy'] }
+        : { orderBy?: DealRoomMessageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DealRoomMessageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDealRoomMessageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DealRoomMessage model
+   */
+  readonly fields: DealRoomMessageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DealRoomMessage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DealRoomMessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    dealRoom<T extends DealRoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DealRoomDefaultArgs<ExtArgs>>): Prisma__DealRoomClient<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DealRoomMessage model
+   */
+  interface DealRoomMessageFieldRefs {
+    readonly id: FieldRef<"DealRoomMessage", 'String'>
+    readonly dealRoomId: FieldRef<"DealRoomMessage", 'String'>
+    readonly authorId: FieldRef<"DealRoomMessage", 'String'>
+    readonly content: FieldRef<"DealRoomMessage", 'String'>
+    readonly clauseRef: FieldRef<"DealRoomMessage", 'String'>
+    readonly type: FieldRef<"DealRoomMessage", 'DealRoomMessageType'>
+    readonly metadata: FieldRef<"DealRoomMessage", 'Json'>
+    readonly createdAt: FieldRef<"DealRoomMessage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DealRoomMessage findUnique
+   */
+  export type DealRoomMessageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoomMessage to fetch.
+     */
+    where: DealRoomMessageWhereUniqueInput
+  }
+
+  /**
+   * DealRoomMessage findUniqueOrThrow
+   */
+  export type DealRoomMessageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoomMessage to fetch.
+     */
+    where: DealRoomMessageWhereUniqueInput
+  }
+
+  /**
+   * DealRoomMessage findFirst
+   */
+  export type DealRoomMessageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoomMessage to fetch.
+     */
+    where?: DealRoomMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealRoomMessages to fetch.
+     */
+    orderBy?: DealRoomMessageOrderByWithRelationInput | DealRoomMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DealRoomMessages.
+     */
+    cursor?: DealRoomMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealRoomMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealRoomMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DealRoomMessages.
+     */
+    distinct?: DealRoomMessageScalarFieldEnum | DealRoomMessageScalarFieldEnum[]
+  }
+
+  /**
+   * DealRoomMessage findFirstOrThrow
+   */
+  export type DealRoomMessageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoomMessage to fetch.
+     */
+    where?: DealRoomMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealRoomMessages to fetch.
+     */
+    orderBy?: DealRoomMessageOrderByWithRelationInput | DealRoomMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DealRoomMessages.
+     */
+    cursor?: DealRoomMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealRoomMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealRoomMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DealRoomMessages.
+     */
+    distinct?: DealRoomMessageScalarFieldEnum | DealRoomMessageScalarFieldEnum[]
+  }
+
+  /**
+   * DealRoomMessage findMany
+   */
+  export type DealRoomMessageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoomMessages to fetch.
+     */
+    where?: DealRoomMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealRoomMessages to fetch.
+     */
+    orderBy?: DealRoomMessageOrderByWithRelationInput | DealRoomMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DealRoomMessages.
+     */
+    cursor?: DealRoomMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealRoomMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealRoomMessages.
+     */
+    skip?: number
+    distinct?: DealRoomMessageScalarFieldEnum | DealRoomMessageScalarFieldEnum[]
+  }
+
+  /**
+   * DealRoomMessage create
+   */
+  export type DealRoomMessageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DealRoomMessage.
+     */
+    data: XOR<DealRoomMessageCreateInput, DealRoomMessageUncheckedCreateInput>
+  }
+
+  /**
+   * DealRoomMessage createMany
+   */
+  export type DealRoomMessageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DealRoomMessages.
+     */
+    data: DealRoomMessageCreateManyInput | DealRoomMessageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DealRoomMessage createManyAndReturn
+   */
+  export type DealRoomMessageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * The data used to create many DealRoomMessages.
+     */
+    data: DealRoomMessageCreateManyInput | DealRoomMessageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DealRoomMessage update
+   */
+  export type DealRoomMessageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DealRoomMessage.
+     */
+    data: XOR<DealRoomMessageUpdateInput, DealRoomMessageUncheckedUpdateInput>
+    /**
+     * Choose, which DealRoomMessage to update.
+     */
+    where: DealRoomMessageWhereUniqueInput
+  }
+
+  /**
+   * DealRoomMessage updateMany
+   */
+  export type DealRoomMessageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DealRoomMessages.
+     */
+    data: XOR<DealRoomMessageUpdateManyMutationInput, DealRoomMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which DealRoomMessages to update
+     */
+    where?: DealRoomMessageWhereInput
+    /**
+     * Limit how many DealRoomMessages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DealRoomMessage updateManyAndReturn
+   */
+  export type DealRoomMessageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * The data used to update DealRoomMessages.
+     */
+    data: XOR<DealRoomMessageUpdateManyMutationInput, DealRoomMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which DealRoomMessages to update
+     */
+    where?: DealRoomMessageWhereInput
+    /**
+     * Limit how many DealRoomMessages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DealRoomMessage upsert
+   */
+  export type DealRoomMessageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DealRoomMessage to update in case it exists.
+     */
+    where: DealRoomMessageWhereUniqueInput
+    /**
+     * In case the DealRoomMessage found by the `where` argument doesn't exist, create a new DealRoomMessage with this data.
+     */
+    create: XOR<DealRoomMessageCreateInput, DealRoomMessageUncheckedCreateInput>
+    /**
+     * In case the DealRoomMessage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DealRoomMessageUpdateInput, DealRoomMessageUncheckedUpdateInput>
+  }
+
+  /**
+   * DealRoomMessage delete
+   */
+  export type DealRoomMessageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageInclude<ExtArgs> | null
+    /**
+     * Filter which DealRoomMessage to delete.
+     */
+    where: DealRoomMessageWhereUniqueInput
+  }
+
+  /**
+   * DealRoomMessage deleteMany
+   */
+  export type DealRoomMessageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DealRoomMessages to delete
+     */
+    where?: DealRoomMessageWhereInput
+    /**
+     * Limit how many DealRoomMessages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DealRoomMessage without action
+   */
+  export type DealRoomMessageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomMessage
+     */
+    select?: DealRoomMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomMessage
+     */
+    omit?: DealRoomMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomMessageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DealRoomProposal
+   */
+
+  export type AggregateDealRoomProposal = {
+    _count: DealRoomProposalCountAggregateOutputType | null
+    _avg: DealRoomProposalAvgAggregateOutputType | null
+    _sum: DealRoomProposalSumAggregateOutputType | null
+    _min: DealRoomProposalMinAggregateOutputType | null
+    _max: DealRoomProposalMaxAggregateOutputType | null
+  }
+
+  export type DealRoomProposalAvgAggregateOutputType = {
+    aiRiskDelta: number | null
+  }
+
+  export type DealRoomProposalSumAggregateOutputType = {
+    aiRiskDelta: number | null
+  }
+
+  export type DealRoomProposalMinAggregateOutputType = {
+    id: string | null
+    dealRoomId: string | null
+    proposedById: string | null
+    title: string | null
+    aiRiskDelta: number | null
+    aiSummary: string | null
+    status: $Enums.ProposalStatus | null
+    resolvedById: string | null
+    resolvedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DealRoomProposalMaxAggregateOutputType = {
+    id: string | null
+    dealRoomId: string | null
+    proposedById: string | null
+    title: string | null
+    aiRiskDelta: number | null
+    aiSummary: string | null
+    status: $Enums.ProposalStatus | null
+    resolvedById: string | null
+    resolvedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DealRoomProposalCountAggregateOutputType = {
+    id: number
+    dealRoomId: number
+    proposedById: number
+    title: number
+    changes: number
+    aiRiskDelta: number
+    aiSummary: number
+    status: number
+    resolvedById: number
+    resolvedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DealRoomProposalAvgAggregateInputType = {
+    aiRiskDelta?: true
+  }
+
+  export type DealRoomProposalSumAggregateInputType = {
+    aiRiskDelta?: true
+  }
+
+  export type DealRoomProposalMinAggregateInputType = {
+    id?: true
+    dealRoomId?: true
+    proposedById?: true
+    title?: true
+    aiRiskDelta?: true
+    aiSummary?: true
+    status?: true
+    resolvedById?: true
+    resolvedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DealRoomProposalMaxAggregateInputType = {
+    id?: true
+    dealRoomId?: true
+    proposedById?: true
+    title?: true
+    aiRiskDelta?: true
+    aiSummary?: true
+    status?: true
+    resolvedById?: true
+    resolvedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DealRoomProposalCountAggregateInputType = {
+    id?: true
+    dealRoomId?: true
+    proposedById?: true
+    title?: true
+    changes?: true
+    aiRiskDelta?: true
+    aiSummary?: true
+    status?: true
+    resolvedById?: true
+    resolvedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DealRoomProposalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DealRoomProposal to aggregate.
+     */
+    where?: DealRoomProposalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealRoomProposals to fetch.
+     */
+    orderBy?: DealRoomProposalOrderByWithRelationInput | DealRoomProposalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DealRoomProposalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealRoomProposals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealRoomProposals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DealRoomProposals
+    **/
+    _count?: true | DealRoomProposalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DealRoomProposalAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DealRoomProposalSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DealRoomProposalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DealRoomProposalMaxAggregateInputType
+  }
+
+  export type GetDealRoomProposalAggregateType<T extends DealRoomProposalAggregateArgs> = {
+        [P in keyof T & keyof AggregateDealRoomProposal]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDealRoomProposal[P]>
+      : GetScalarType<T[P], AggregateDealRoomProposal[P]>
+  }
+
+
+
+
+  export type DealRoomProposalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealRoomProposalWhereInput
+    orderBy?: DealRoomProposalOrderByWithAggregationInput | DealRoomProposalOrderByWithAggregationInput[]
+    by: DealRoomProposalScalarFieldEnum[] | DealRoomProposalScalarFieldEnum
+    having?: DealRoomProposalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DealRoomProposalCountAggregateInputType | true
+    _avg?: DealRoomProposalAvgAggregateInputType
+    _sum?: DealRoomProposalSumAggregateInputType
+    _min?: DealRoomProposalMinAggregateInputType
+    _max?: DealRoomProposalMaxAggregateInputType
+  }
+
+  export type DealRoomProposalGroupByOutputType = {
+    id: string
+    dealRoomId: string
+    proposedById: string
+    title: string
+    changes: JsonValue
+    aiRiskDelta: number | null
+    aiSummary: string | null
+    status: $Enums.ProposalStatus
+    resolvedById: string | null
+    resolvedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: DealRoomProposalCountAggregateOutputType | null
+    _avg: DealRoomProposalAvgAggregateOutputType | null
+    _sum: DealRoomProposalSumAggregateOutputType | null
+    _min: DealRoomProposalMinAggregateOutputType | null
+    _max: DealRoomProposalMaxAggregateOutputType | null
+  }
+
+  type GetDealRoomProposalGroupByPayload<T extends DealRoomProposalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DealRoomProposalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DealRoomProposalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DealRoomProposalGroupByOutputType[P]>
+            : GetScalarType<T[P], DealRoomProposalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DealRoomProposalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dealRoomId?: boolean
+    proposedById?: boolean
+    title?: boolean
+    changes?: boolean
+    aiRiskDelta?: boolean
+    aiSummary?: boolean
+    status?: boolean
+    resolvedById?: boolean
+    resolvedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    dealRoom?: boolean | DealRoomDefaultArgs<ExtArgs>
+    proposedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealRoomProposal"]>
+
+  export type DealRoomProposalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dealRoomId?: boolean
+    proposedById?: boolean
+    title?: boolean
+    changes?: boolean
+    aiRiskDelta?: boolean
+    aiSummary?: boolean
+    status?: boolean
+    resolvedById?: boolean
+    resolvedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    dealRoom?: boolean | DealRoomDefaultArgs<ExtArgs>
+    proposedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealRoomProposal"]>
+
+  export type DealRoomProposalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dealRoomId?: boolean
+    proposedById?: boolean
+    title?: boolean
+    changes?: boolean
+    aiRiskDelta?: boolean
+    aiSummary?: boolean
+    status?: boolean
+    resolvedById?: boolean
+    resolvedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    dealRoom?: boolean | DealRoomDefaultArgs<ExtArgs>
+    proposedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealRoomProposal"]>
+
+  export type DealRoomProposalSelectScalar = {
+    id?: boolean
+    dealRoomId?: boolean
+    proposedById?: boolean
+    title?: boolean
+    changes?: boolean
+    aiRiskDelta?: boolean
+    aiSummary?: boolean
+    status?: boolean
+    resolvedById?: boolean
+    resolvedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DealRoomProposalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dealRoomId" | "proposedById" | "title" | "changes" | "aiRiskDelta" | "aiSummary" | "status" | "resolvedById" | "resolvedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["dealRoomProposal"]>
+  export type DealRoomProposalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    dealRoom?: boolean | DealRoomDefaultArgs<ExtArgs>
+    proposedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DealRoomProposalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    dealRoom?: boolean | DealRoomDefaultArgs<ExtArgs>
+    proposedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DealRoomProposalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    dealRoom?: boolean | DealRoomDefaultArgs<ExtArgs>
+    proposedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $DealRoomProposalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DealRoomProposal"
+    objects: {
+      dealRoom: Prisma.$DealRoomPayload<ExtArgs>
+      proposedBy: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      dealRoomId: string
+      proposedById: string
+      title: string
+      changes: Prisma.JsonValue
+      aiRiskDelta: number | null
+      aiSummary: string | null
+      status: $Enums.ProposalStatus
+      resolvedById: string | null
+      resolvedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["dealRoomProposal"]>
+    composites: {}
+  }
+
+  type DealRoomProposalGetPayload<S extends boolean | null | undefined | DealRoomProposalDefaultArgs> = $Result.GetResult<Prisma.$DealRoomProposalPayload, S>
+
+  type DealRoomProposalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DealRoomProposalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DealRoomProposalCountAggregateInputType | true
+    }
+
+  export interface DealRoomProposalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DealRoomProposal'], meta: { name: 'DealRoomProposal' } }
+    /**
+     * Find zero or one DealRoomProposal that matches the filter.
+     * @param {DealRoomProposalFindUniqueArgs} args - Arguments to find a DealRoomProposal
+     * @example
+     * // Get one DealRoomProposal
+     * const dealRoomProposal = await prisma.dealRoomProposal.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DealRoomProposalFindUniqueArgs>(args: SelectSubset<T, DealRoomProposalFindUniqueArgs<ExtArgs>>): Prisma__DealRoomProposalClient<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DealRoomProposal that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DealRoomProposalFindUniqueOrThrowArgs} args - Arguments to find a DealRoomProposal
+     * @example
+     * // Get one DealRoomProposal
+     * const dealRoomProposal = await prisma.dealRoomProposal.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DealRoomProposalFindUniqueOrThrowArgs>(args: SelectSubset<T, DealRoomProposalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DealRoomProposalClient<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DealRoomProposal that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomProposalFindFirstArgs} args - Arguments to find a DealRoomProposal
+     * @example
+     * // Get one DealRoomProposal
+     * const dealRoomProposal = await prisma.dealRoomProposal.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DealRoomProposalFindFirstArgs>(args?: SelectSubset<T, DealRoomProposalFindFirstArgs<ExtArgs>>): Prisma__DealRoomProposalClient<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DealRoomProposal that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomProposalFindFirstOrThrowArgs} args - Arguments to find a DealRoomProposal
+     * @example
+     * // Get one DealRoomProposal
+     * const dealRoomProposal = await prisma.dealRoomProposal.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DealRoomProposalFindFirstOrThrowArgs>(args?: SelectSubset<T, DealRoomProposalFindFirstOrThrowArgs<ExtArgs>>): Prisma__DealRoomProposalClient<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DealRoomProposals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomProposalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DealRoomProposals
+     * const dealRoomProposals = await prisma.dealRoomProposal.findMany()
+     * 
+     * // Get first 10 DealRoomProposals
+     * const dealRoomProposals = await prisma.dealRoomProposal.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dealRoomProposalWithIdOnly = await prisma.dealRoomProposal.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DealRoomProposalFindManyArgs>(args?: SelectSubset<T, DealRoomProposalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DealRoomProposal.
+     * @param {DealRoomProposalCreateArgs} args - Arguments to create a DealRoomProposal.
+     * @example
+     * // Create one DealRoomProposal
+     * const DealRoomProposal = await prisma.dealRoomProposal.create({
+     *   data: {
+     *     // ... data to create a DealRoomProposal
+     *   }
+     * })
+     * 
+     */
+    create<T extends DealRoomProposalCreateArgs>(args: SelectSubset<T, DealRoomProposalCreateArgs<ExtArgs>>): Prisma__DealRoomProposalClient<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DealRoomProposals.
+     * @param {DealRoomProposalCreateManyArgs} args - Arguments to create many DealRoomProposals.
+     * @example
+     * // Create many DealRoomProposals
+     * const dealRoomProposal = await prisma.dealRoomProposal.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DealRoomProposalCreateManyArgs>(args?: SelectSubset<T, DealRoomProposalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DealRoomProposals and returns the data saved in the database.
+     * @param {DealRoomProposalCreateManyAndReturnArgs} args - Arguments to create many DealRoomProposals.
+     * @example
+     * // Create many DealRoomProposals
+     * const dealRoomProposal = await prisma.dealRoomProposal.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DealRoomProposals and only return the `id`
+     * const dealRoomProposalWithIdOnly = await prisma.dealRoomProposal.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DealRoomProposalCreateManyAndReturnArgs>(args?: SelectSubset<T, DealRoomProposalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DealRoomProposal.
+     * @param {DealRoomProposalDeleteArgs} args - Arguments to delete one DealRoomProposal.
+     * @example
+     * // Delete one DealRoomProposal
+     * const DealRoomProposal = await prisma.dealRoomProposal.delete({
+     *   where: {
+     *     // ... filter to delete one DealRoomProposal
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DealRoomProposalDeleteArgs>(args: SelectSubset<T, DealRoomProposalDeleteArgs<ExtArgs>>): Prisma__DealRoomProposalClient<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DealRoomProposal.
+     * @param {DealRoomProposalUpdateArgs} args - Arguments to update one DealRoomProposal.
+     * @example
+     * // Update one DealRoomProposal
+     * const dealRoomProposal = await prisma.dealRoomProposal.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DealRoomProposalUpdateArgs>(args: SelectSubset<T, DealRoomProposalUpdateArgs<ExtArgs>>): Prisma__DealRoomProposalClient<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DealRoomProposals.
+     * @param {DealRoomProposalDeleteManyArgs} args - Arguments to filter DealRoomProposals to delete.
+     * @example
+     * // Delete a few DealRoomProposals
+     * const { count } = await prisma.dealRoomProposal.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DealRoomProposalDeleteManyArgs>(args?: SelectSubset<T, DealRoomProposalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DealRoomProposals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomProposalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DealRoomProposals
+     * const dealRoomProposal = await prisma.dealRoomProposal.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DealRoomProposalUpdateManyArgs>(args: SelectSubset<T, DealRoomProposalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DealRoomProposals and returns the data updated in the database.
+     * @param {DealRoomProposalUpdateManyAndReturnArgs} args - Arguments to update many DealRoomProposals.
+     * @example
+     * // Update many DealRoomProposals
+     * const dealRoomProposal = await prisma.dealRoomProposal.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DealRoomProposals and only return the `id`
+     * const dealRoomProposalWithIdOnly = await prisma.dealRoomProposal.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DealRoomProposalUpdateManyAndReturnArgs>(args: SelectSubset<T, DealRoomProposalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DealRoomProposal.
+     * @param {DealRoomProposalUpsertArgs} args - Arguments to update or create a DealRoomProposal.
+     * @example
+     * // Update or create a DealRoomProposal
+     * const dealRoomProposal = await prisma.dealRoomProposal.upsert({
+     *   create: {
+     *     // ... data to create a DealRoomProposal
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DealRoomProposal we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DealRoomProposalUpsertArgs>(args: SelectSubset<T, DealRoomProposalUpsertArgs<ExtArgs>>): Prisma__DealRoomProposalClient<$Result.GetResult<Prisma.$DealRoomProposalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DealRoomProposals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomProposalCountArgs} args - Arguments to filter DealRoomProposals to count.
+     * @example
+     * // Count the number of DealRoomProposals
+     * const count = await prisma.dealRoomProposal.count({
+     *   where: {
+     *     // ... the filter for the DealRoomProposals we want to count
+     *   }
+     * })
+    **/
+    count<T extends DealRoomProposalCountArgs>(
+      args?: Subset<T, DealRoomProposalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DealRoomProposalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DealRoomProposal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomProposalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DealRoomProposalAggregateArgs>(args: Subset<T, DealRoomProposalAggregateArgs>): Prisma.PrismaPromise<GetDealRoomProposalAggregateType<T>>
+
+    /**
+     * Group by DealRoomProposal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealRoomProposalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DealRoomProposalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DealRoomProposalGroupByArgs['orderBy'] }
+        : { orderBy?: DealRoomProposalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DealRoomProposalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDealRoomProposalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DealRoomProposal model
+   */
+  readonly fields: DealRoomProposalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DealRoomProposal.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DealRoomProposalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    dealRoom<T extends DealRoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DealRoomDefaultArgs<ExtArgs>>): Prisma__DealRoomClient<$Result.GetResult<Prisma.$DealRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    proposedBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DealRoomProposal model
+   */
+  interface DealRoomProposalFieldRefs {
+    readonly id: FieldRef<"DealRoomProposal", 'String'>
+    readonly dealRoomId: FieldRef<"DealRoomProposal", 'String'>
+    readonly proposedById: FieldRef<"DealRoomProposal", 'String'>
+    readonly title: FieldRef<"DealRoomProposal", 'String'>
+    readonly changes: FieldRef<"DealRoomProposal", 'Json'>
+    readonly aiRiskDelta: FieldRef<"DealRoomProposal", 'Int'>
+    readonly aiSummary: FieldRef<"DealRoomProposal", 'String'>
+    readonly status: FieldRef<"DealRoomProposal", 'ProposalStatus'>
+    readonly resolvedById: FieldRef<"DealRoomProposal", 'String'>
+    readonly resolvedAt: FieldRef<"DealRoomProposal", 'DateTime'>
+    readonly createdAt: FieldRef<"DealRoomProposal", 'DateTime'>
+    readonly updatedAt: FieldRef<"DealRoomProposal", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DealRoomProposal findUnique
+   */
+  export type DealRoomProposalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoomProposal to fetch.
+     */
+    where: DealRoomProposalWhereUniqueInput
+  }
+
+  /**
+   * DealRoomProposal findUniqueOrThrow
+   */
+  export type DealRoomProposalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoomProposal to fetch.
+     */
+    where: DealRoomProposalWhereUniqueInput
+  }
+
+  /**
+   * DealRoomProposal findFirst
+   */
+  export type DealRoomProposalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoomProposal to fetch.
+     */
+    where?: DealRoomProposalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealRoomProposals to fetch.
+     */
+    orderBy?: DealRoomProposalOrderByWithRelationInput | DealRoomProposalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DealRoomProposals.
+     */
+    cursor?: DealRoomProposalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealRoomProposals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealRoomProposals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DealRoomProposals.
+     */
+    distinct?: DealRoomProposalScalarFieldEnum | DealRoomProposalScalarFieldEnum[]
+  }
+
+  /**
+   * DealRoomProposal findFirstOrThrow
+   */
+  export type DealRoomProposalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoomProposal to fetch.
+     */
+    where?: DealRoomProposalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealRoomProposals to fetch.
+     */
+    orderBy?: DealRoomProposalOrderByWithRelationInput | DealRoomProposalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DealRoomProposals.
+     */
+    cursor?: DealRoomProposalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealRoomProposals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealRoomProposals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DealRoomProposals.
+     */
+    distinct?: DealRoomProposalScalarFieldEnum | DealRoomProposalScalarFieldEnum[]
+  }
+
+  /**
+   * DealRoomProposal findMany
+   */
+  export type DealRoomProposalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalInclude<ExtArgs> | null
+    /**
+     * Filter, which DealRoomProposals to fetch.
+     */
+    where?: DealRoomProposalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealRoomProposals to fetch.
+     */
+    orderBy?: DealRoomProposalOrderByWithRelationInput | DealRoomProposalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DealRoomProposals.
+     */
+    cursor?: DealRoomProposalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealRoomProposals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealRoomProposals.
+     */
+    skip?: number
+    distinct?: DealRoomProposalScalarFieldEnum | DealRoomProposalScalarFieldEnum[]
+  }
+
+  /**
+   * DealRoomProposal create
+   */
+  export type DealRoomProposalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DealRoomProposal.
+     */
+    data: XOR<DealRoomProposalCreateInput, DealRoomProposalUncheckedCreateInput>
+  }
+
+  /**
+   * DealRoomProposal createMany
+   */
+  export type DealRoomProposalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DealRoomProposals.
+     */
+    data: DealRoomProposalCreateManyInput | DealRoomProposalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DealRoomProposal createManyAndReturn
+   */
+  export type DealRoomProposalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * The data used to create many DealRoomProposals.
+     */
+    data: DealRoomProposalCreateManyInput | DealRoomProposalCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DealRoomProposal update
+   */
+  export type DealRoomProposalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DealRoomProposal.
+     */
+    data: XOR<DealRoomProposalUpdateInput, DealRoomProposalUncheckedUpdateInput>
+    /**
+     * Choose, which DealRoomProposal to update.
+     */
+    where: DealRoomProposalWhereUniqueInput
+  }
+
+  /**
+   * DealRoomProposal updateMany
+   */
+  export type DealRoomProposalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DealRoomProposals.
+     */
+    data: XOR<DealRoomProposalUpdateManyMutationInput, DealRoomProposalUncheckedUpdateManyInput>
+    /**
+     * Filter which DealRoomProposals to update
+     */
+    where?: DealRoomProposalWhereInput
+    /**
+     * Limit how many DealRoomProposals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DealRoomProposal updateManyAndReturn
+   */
+  export type DealRoomProposalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * The data used to update DealRoomProposals.
+     */
+    data: XOR<DealRoomProposalUpdateManyMutationInput, DealRoomProposalUncheckedUpdateManyInput>
+    /**
+     * Filter which DealRoomProposals to update
+     */
+    where?: DealRoomProposalWhereInput
+    /**
+     * Limit how many DealRoomProposals to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DealRoomProposal upsert
+   */
+  export type DealRoomProposalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DealRoomProposal to update in case it exists.
+     */
+    where: DealRoomProposalWhereUniqueInput
+    /**
+     * In case the DealRoomProposal found by the `where` argument doesn't exist, create a new DealRoomProposal with this data.
+     */
+    create: XOR<DealRoomProposalCreateInput, DealRoomProposalUncheckedCreateInput>
+    /**
+     * In case the DealRoomProposal was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DealRoomProposalUpdateInput, DealRoomProposalUncheckedUpdateInput>
+  }
+
+  /**
+   * DealRoomProposal delete
+   */
+  export type DealRoomProposalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalInclude<ExtArgs> | null
+    /**
+     * Filter which DealRoomProposal to delete.
+     */
+    where: DealRoomProposalWhereUniqueInput
+  }
+
+  /**
+   * DealRoomProposal deleteMany
+   */
+  export type DealRoomProposalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DealRoomProposals to delete
+     */
+    where?: DealRoomProposalWhereInput
+    /**
+     * Limit how many DealRoomProposals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DealRoomProposal without action
+   */
+  export type DealRoomProposalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealRoomProposal
+     */
+    select?: DealRoomProposalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealRoomProposal
+     */
+    omit?: DealRoomProposalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealRoomProposalInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CollectiveMember
+   */
+
+  export type AggregateCollectiveMember = {
+    _count: CollectiveMemberCountAggregateOutputType | null
+    _avg: CollectiveMemberAvgAggregateOutputType | null
+    _sum: CollectiveMemberSumAggregateOutputType | null
+    _min: CollectiveMemberMinAggregateOutputType | null
+    _max: CollectiveMemberMaxAggregateOutputType | null
+  }
+
+  export type CollectiveMemberAvgAggregateOutputType = {
+    sharePercent: number | null
+  }
+
+  export type CollectiveMemberSumAggregateOutputType = {
+    sharePercent: number | null
+  }
+
+  export type CollectiveMemberMinAggregateOutputType = {
+    id: string | null
+    collectiveId: string | null
+    athleteId: string | null
+    sharePercent: number | null
+    joinedAt: Date | null
+    leftAt: Date | null
+    status: $Enums.CollectiveMemberStatus | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CollectiveMemberMaxAggregateOutputType = {
+    id: string | null
+    collectiveId: string | null
+    athleteId: string | null
+    sharePercent: number | null
+    joinedAt: Date | null
+    leftAt: Date | null
+    status: $Enums.CollectiveMemberStatus | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CollectiveMemberCountAggregateOutputType = {
+    id: number
+    collectiveId: number
+    athleteId: number
+    sharePercent: number
+    joinedAt: number
+    leftAt: number
+    status: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CollectiveMemberAvgAggregateInputType = {
+    sharePercent?: true
+  }
+
+  export type CollectiveMemberSumAggregateInputType = {
+    sharePercent?: true
+  }
+
+  export type CollectiveMemberMinAggregateInputType = {
+    id?: true
+    collectiveId?: true
+    athleteId?: true
+    sharePercent?: true
+    joinedAt?: true
+    leftAt?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CollectiveMemberMaxAggregateInputType = {
+    id?: true
+    collectiveId?: true
+    athleteId?: true
+    sharePercent?: true
+    joinedAt?: true
+    leftAt?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CollectiveMemberCountAggregateInputType = {
+    id?: true
+    collectiveId?: true
+    athleteId?: true
+    sharePercent?: true
+    joinedAt?: true
+    leftAt?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CollectiveMemberAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CollectiveMember to aggregate.
+     */
+    where?: CollectiveMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveMembers to fetch.
+     */
+    orderBy?: CollectiveMemberOrderByWithRelationInput | CollectiveMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CollectiveMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CollectiveMembers
+    **/
+    _count?: true | CollectiveMemberCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CollectiveMemberAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CollectiveMemberSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CollectiveMemberMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CollectiveMemberMaxAggregateInputType
+  }
+
+  export type GetCollectiveMemberAggregateType<T extends CollectiveMemberAggregateArgs> = {
+        [P in keyof T & keyof AggregateCollectiveMember]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCollectiveMember[P]>
+      : GetScalarType<T[P], AggregateCollectiveMember[P]>
+  }
+
+
+
+
+  export type CollectiveMemberGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectiveMemberWhereInput
+    orderBy?: CollectiveMemberOrderByWithAggregationInput | CollectiveMemberOrderByWithAggregationInput[]
+    by: CollectiveMemberScalarFieldEnum[] | CollectiveMemberScalarFieldEnum
+    having?: CollectiveMemberScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CollectiveMemberCountAggregateInputType | true
+    _avg?: CollectiveMemberAvgAggregateInputType
+    _sum?: CollectiveMemberSumAggregateInputType
+    _min?: CollectiveMemberMinAggregateInputType
+    _max?: CollectiveMemberMaxAggregateInputType
+  }
+
+  export type CollectiveMemberGroupByOutputType = {
+    id: string
+    collectiveId: string
+    athleteId: string
+    sharePercent: number
+    joinedAt: Date
+    leftAt: Date | null
+    status: $Enums.CollectiveMemberStatus
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CollectiveMemberCountAggregateOutputType | null
+    _avg: CollectiveMemberAvgAggregateOutputType | null
+    _sum: CollectiveMemberSumAggregateOutputType | null
+    _min: CollectiveMemberMinAggregateOutputType | null
+    _max: CollectiveMemberMaxAggregateOutputType | null
+  }
+
+  type GetCollectiveMemberGroupByPayload<T extends CollectiveMemberGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CollectiveMemberGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CollectiveMemberGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CollectiveMemberGroupByOutputType[P]>
+            : GetScalarType<T[P], CollectiveMemberGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CollectiveMemberSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    collectiveId?: boolean
+    athleteId?: boolean
+    sharePercent?: boolean
+    joinedAt?: boolean
+    leftAt?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    athlete?: boolean | AthleteDefaultArgs<ExtArgs>
+    distributions?: boolean | CollectiveMember$distributionsArgs<ExtArgs>
+    _count?: boolean | CollectiveMemberCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectiveMember"]>
+
+  export type CollectiveMemberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    collectiveId?: boolean
+    athleteId?: boolean
+    sharePercent?: boolean
+    joinedAt?: boolean
+    leftAt?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    athlete?: boolean | AthleteDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectiveMember"]>
+
+  export type CollectiveMemberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    collectiveId?: boolean
+    athleteId?: boolean
+    sharePercent?: boolean
+    joinedAt?: boolean
+    leftAt?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    athlete?: boolean | AthleteDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectiveMember"]>
+
+  export type CollectiveMemberSelectScalar = {
+    id?: boolean
+    collectiveId?: boolean
+    athleteId?: boolean
+    sharePercent?: boolean
+    joinedAt?: boolean
+    leftAt?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CollectiveMemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "collectiveId" | "athleteId" | "sharePercent" | "joinedAt" | "leftAt" | "status" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["collectiveMember"]>
+  export type CollectiveMemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    athlete?: boolean | AthleteDefaultArgs<ExtArgs>
+    distributions?: boolean | CollectiveMember$distributionsArgs<ExtArgs>
+    _count?: boolean | CollectiveMemberCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CollectiveMemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    athlete?: boolean | AthleteDefaultArgs<ExtArgs>
+  }
+  export type CollectiveMemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    athlete?: boolean | AthleteDefaultArgs<ExtArgs>
+  }
+
+  export type $CollectiveMemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CollectiveMember"
+    objects: {
+      collective: Prisma.$NilCollectivePayload<ExtArgs>
+      athlete: Prisma.$AthletePayload<ExtArgs>
+      distributions: Prisma.$CollectiveDistributionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      collectiveId: string
+      athleteId: string
+      sharePercent: number
+      joinedAt: Date
+      leftAt: Date | null
+      status: $Enums.CollectiveMemberStatus
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["collectiveMember"]>
+    composites: {}
+  }
+
+  type CollectiveMemberGetPayload<S extends boolean | null | undefined | CollectiveMemberDefaultArgs> = $Result.GetResult<Prisma.$CollectiveMemberPayload, S>
+
+  type CollectiveMemberCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CollectiveMemberFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CollectiveMemberCountAggregateInputType | true
+    }
+
+  export interface CollectiveMemberDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CollectiveMember'], meta: { name: 'CollectiveMember' } }
+    /**
+     * Find zero or one CollectiveMember that matches the filter.
+     * @param {CollectiveMemberFindUniqueArgs} args - Arguments to find a CollectiveMember
+     * @example
+     * // Get one CollectiveMember
+     * const collectiveMember = await prisma.collectiveMember.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CollectiveMemberFindUniqueArgs>(args: SelectSubset<T, CollectiveMemberFindUniqueArgs<ExtArgs>>): Prisma__CollectiveMemberClient<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CollectiveMember that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CollectiveMemberFindUniqueOrThrowArgs} args - Arguments to find a CollectiveMember
+     * @example
+     * // Get one CollectiveMember
+     * const collectiveMember = await prisma.collectiveMember.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CollectiveMemberFindUniqueOrThrowArgs>(args: SelectSubset<T, CollectiveMemberFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CollectiveMemberClient<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CollectiveMember that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveMemberFindFirstArgs} args - Arguments to find a CollectiveMember
+     * @example
+     * // Get one CollectiveMember
+     * const collectiveMember = await prisma.collectiveMember.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CollectiveMemberFindFirstArgs>(args?: SelectSubset<T, CollectiveMemberFindFirstArgs<ExtArgs>>): Prisma__CollectiveMemberClient<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CollectiveMember that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveMemberFindFirstOrThrowArgs} args - Arguments to find a CollectiveMember
+     * @example
+     * // Get one CollectiveMember
+     * const collectiveMember = await prisma.collectiveMember.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CollectiveMemberFindFirstOrThrowArgs>(args?: SelectSubset<T, CollectiveMemberFindFirstOrThrowArgs<ExtArgs>>): Prisma__CollectiveMemberClient<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CollectiveMembers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveMemberFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CollectiveMembers
+     * const collectiveMembers = await prisma.collectiveMember.findMany()
+     * 
+     * // Get first 10 CollectiveMembers
+     * const collectiveMembers = await prisma.collectiveMember.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const collectiveMemberWithIdOnly = await prisma.collectiveMember.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CollectiveMemberFindManyArgs>(args?: SelectSubset<T, CollectiveMemberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CollectiveMember.
+     * @param {CollectiveMemberCreateArgs} args - Arguments to create a CollectiveMember.
+     * @example
+     * // Create one CollectiveMember
+     * const CollectiveMember = await prisma.collectiveMember.create({
+     *   data: {
+     *     // ... data to create a CollectiveMember
+     *   }
+     * })
+     * 
+     */
+    create<T extends CollectiveMemberCreateArgs>(args: SelectSubset<T, CollectiveMemberCreateArgs<ExtArgs>>): Prisma__CollectiveMemberClient<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CollectiveMembers.
+     * @param {CollectiveMemberCreateManyArgs} args - Arguments to create many CollectiveMembers.
+     * @example
+     * // Create many CollectiveMembers
+     * const collectiveMember = await prisma.collectiveMember.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CollectiveMemberCreateManyArgs>(args?: SelectSubset<T, CollectiveMemberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CollectiveMembers and returns the data saved in the database.
+     * @param {CollectiveMemberCreateManyAndReturnArgs} args - Arguments to create many CollectiveMembers.
+     * @example
+     * // Create many CollectiveMembers
+     * const collectiveMember = await prisma.collectiveMember.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CollectiveMembers and only return the `id`
+     * const collectiveMemberWithIdOnly = await prisma.collectiveMember.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CollectiveMemberCreateManyAndReturnArgs>(args?: SelectSubset<T, CollectiveMemberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CollectiveMember.
+     * @param {CollectiveMemberDeleteArgs} args - Arguments to delete one CollectiveMember.
+     * @example
+     * // Delete one CollectiveMember
+     * const CollectiveMember = await prisma.collectiveMember.delete({
+     *   where: {
+     *     // ... filter to delete one CollectiveMember
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CollectiveMemberDeleteArgs>(args: SelectSubset<T, CollectiveMemberDeleteArgs<ExtArgs>>): Prisma__CollectiveMemberClient<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CollectiveMember.
+     * @param {CollectiveMemberUpdateArgs} args - Arguments to update one CollectiveMember.
+     * @example
+     * // Update one CollectiveMember
+     * const collectiveMember = await prisma.collectiveMember.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CollectiveMemberUpdateArgs>(args: SelectSubset<T, CollectiveMemberUpdateArgs<ExtArgs>>): Prisma__CollectiveMemberClient<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CollectiveMembers.
+     * @param {CollectiveMemberDeleteManyArgs} args - Arguments to filter CollectiveMembers to delete.
+     * @example
+     * // Delete a few CollectiveMembers
+     * const { count } = await prisma.collectiveMember.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CollectiveMemberDeleteManyArgs>(args?: SelectSubset<T, CollectiveMemberDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CollectiveMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveMemberUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CollectiveMembers
+     * const collectiveMember = await prisma.collectiveMember.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CollectiveMemberUpdateManyArgs>(args: SelectSubset<T, CollectiveMemberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CollectiveMembers and returns the data updated in the database.
+     * @param {CollectiveMemberUpdateManyAndReturnArgs} args - Arguments to update many CollectiveMembers.
+     * @example
+     * // Update many CollectiveMembers
+     * const collectiveMember = await prisma.collectiveMember.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CollectiveMembers and only return the `id`
+     * const collectiveMemberWithIdOnly = await prisma.collectiveMember.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CollectiveMemberUpdateManyAndReturnArgs>(args: SelectSubset<T, CollectiveMemberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CollectiveMember.
+     * @param {CollectiveMemberUpsertArgs} args - Arguments to update or create a CollectiveMember.
+     * @example
+     * // Update or create a CollectiveMember
+     * const collectiveMember = await prisma.collectiveMember.upsert({
+     *   create: {
+     *     // ... data to create a CollectiveMember
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CollectiveMember we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CollectiveMemberUpsertArgs>(args: SelectSubset<T, CollectiveMemberUpsertArgs<ExtArgs>>): Prisma__CollectiveMemberClient<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CollectiveMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveMemberCountArgs} args - Arguments to filter CollectiveMembers to count.
+     * @example
+     * // Count the number of CollectiveMembers
+     * const count = await prisma.collectiveMember.count({
+     *   where: {
+     *     // ... the filter for the CollectiveMembers we want to count
+     *   }
+     * })
+    **/
+    count<T extends CollectiveMemberCountArgs>(
+      args?: Subset<T, CollectiveMemberCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CollectiveMemberCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CollectiveMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveMemberAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CollectiveMemberAggregateArgs>(args: Subset<T, CollectiveMemberAggregateArgs>): Prisma.PrismaPromise<GetCollectiveMemberAggregateType<T>>
+
+    /**
+     * Group by CollectiveMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveMemberGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CollectiveMemberGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CollectiveMemberGroupByArgs['orderBy'] }
+        : { orderBy?: CollectiveMemberGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CollectiveMemberGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCollectiveMemberGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CollectiveMember model
+   */
+  readonly fields: CollectiveMemberFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CollectiveMember.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CollectiveMemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    collective<T extends NilCollectiveDefaultArgs<ExtArgs> = {}>(args?: Subset<T, NilCollectiveDefaultArgs<ExtArgs>>): Prisma__NilCollectiveClient<$Result.GetResult<Prisma.$NilCollectivePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    athlete<T extends AthleteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AthleteDefaultArgs<ExtArgs>>): Prisma__AthleteClient<$Result.GetResult<Prisma.$AthletePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    distributions<T extends CollectiveMember$distributionsArgs<ExtArgs> = {}>(args?: Subset<T, CollectiveMember$distributionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CollectiveMember model
+   */
+  interface CollectiveMemberFieldRefs {
+    readonly id: FieldRef<"CollectiveMember", 'String'>
+    readonly collectiveId: FieldRef<"CollectiveMember", 'String'>
+    readonly athleteId: FieldRef<"CollectiveMember", 'String'>
+    readonly sharePercent: FieldRef<"CollectiveMember", 'Float'>
+    readonly joinedAt: FieldRef<"CollectiveMember", 'DateTime'>
+    readonly leftAt: FieldRef<"CollectiveMember", 'DateTime'>
+    readonly status: FieldRef<"CollectiveMember", 'CollectiveMemberStatus'>
+    readonly notes: FieldRef<"CollectiveMember", 'String'>
+    readonly createdAt: FieldRef<"CollectiveMember", 'DateTime'>
+    readonly updatedAt: FieldRef<"CollectiveMember", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CollectiveMember findUnique
+   */
+  export type CollectiveMemberFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveMember to fetch.
+     */
+    where: CollectiveMemberWhereUniqueInput
+  }
+
+  /**
+   * CollectiveMember findUniqueOrThrow
+   */
+  export type CollectiveMemberFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveMember to fetch.
+     */
+    where: CollectiveMemberWhereUniqueInput
+  }
+
+  /**
+   * CollectiveMember findFirst
+   */
+  export type CollectiveMemberFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveMember to fetch.
+     */
+    where?: CollectiveMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveMembers to fetch.
+     */
+    orderBy?: CollectiveMemberOrderByWithRelationInput | CollectiveMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CollectiveMembers.
+     */
+    cursor?: CollectiveMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CollectiveMembers.
+     */
+    distinct?: CollectiveMemberScalarFieldEnum | CollectiveMemberScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveMember findFirstOrThrow
+   */
+  export type CollectiveMemberFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveMember to fetch.
+     */
+    where?: CollectiveMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveMembers to fetch.
+     */
+    orderBy?: CollectiveMemberOrderByWithRelationInput | CollectiveMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CollectiveMembers.
+     */
+    cursor?: CollectiveMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CollectiveMembers.
+     */
+    distinct?: CollectiveMemberScalarFieldEnum | CollectiveMemberScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveMember findMany
+   */
+  export type CollectiveMemberFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveMembers to fetch.
+     */
+    where?: CollectiveMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveMembers to fetch.
+     */
+    orderBy?: CollectiveMemberOrderByWithRelationInput | CollectiveMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CollectiveMembers.
+     */
+    cursor?: CollectiveMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveMembers.
+     */
+    skip?: number
+    distinct?: CollectiveMemberScalarFieldEnum | CollectiveMemberScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveMember create
+   */
+  export type CollectiveMemberCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CollectiveMember.
+     */
+    data: XOR<CollectiveMemberCreateInput, CollectiveMemberUncheckedCreateInput>
+  }
+
+  /**
+   * CollectiveMember createMany
+   */
+  export type CollectiveMemberCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CollectiveMembers.
+     */
+    data: CollectiveMemberCreateManyInput | CollectiveMemberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CollectiveMember createManyAndReturn
+   */
+  export type CollectiveMemberCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * The data used to create many CollectiveMembers.
+     */
+    data: CollectiveMemberCreateManyInput | CollectiveMemberCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CollectiveMember update
+   */
+  export type CollectiveMemberUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CollectiveMember.
+     */
+    data: XOR<CollectiveMemberUpdateInput, CollectiveMemberUncheckedUpdateInput>
+    /**
+     * Choose, which CollectiveMember to update.
+     */
+    where: CollectiveMemberWhereUniqueInput
+  }
+
+  /**
+   * CollectiveMember updateMany
+   */
+  export type CollectiveMemberUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CollectiveMembers.
+     */
+    data: XOR<CollectiveMemberUpdateManyMutationInput, CollectiveMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which CollectiveMembers to update
+     */
+    where?: CollectiveMemberWhereInput
+    /**
+     * Limit how many CollectiveMembers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CollectiveMember updateManyAndReturn
+   */
+  export type CollectiveMemberUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * The data used to update CollectiveMembers.
+     */
+    data: XOR<CollectiveMemberUpdateManyMutationInput, CollectiveMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which CollectiveMembers to update
+     */
+    where?: CollectiveMemberWhereInput
+    /**
+     * Limit how many CollectiveMembers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CollectiveMember upsert
+   */
+  export type CollectiveMemberUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CollectiveMember to update in case it exists.
+     */
+    where: CollectiveMemberWhereUniqueInput
+    /**
+     * In case the CollectiveMember found by the `where` argument doesn't exist, create a new CollectiveMember with this data.
+     */
+    create: XOR<CollectiveMemberCreateInput, CollectiveMemberUncheckedCreateInput>
+    /**
+     * In case the CollectiveMember was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CollectiveMemberUpdateInput, CollectiveMemberUncheckedUpdateInput>
+  }
+
+  /**
+   * CollectiveMember delete
+   */
+  export type CollectiveMemberDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberInclude<ExtArgs> | null
+    /**
+     * Filter which CollectiveMember to delete.
+     */
+    where: CollectiveMemberWhereUniqueInput
+  }
+
+  /**
+   * CollectiveMember deleteMany
+   */
+  export type CollectiveMemberDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CollectiveMembers to delete
+     */
+    where?: CollectiveMemberWhereInput
+    /**
+     * Limit how many CollectiveMembers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CollectiveMember.distributions
+   */
+  export type CollectiveMember$distributionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionInclude<ExtArgs> | null
+    where?: CollectiveDistributionWhereInput
+    orderBy?: CollectiveDistributionOrderByWithRelationInput | CollectiveDistributionOrderByWithRelationInput[]
+    cursor?: CollectiveDistributionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollectiveDistributionScalarFieldEnum | CollectiveDistributionScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveMember without action
+   */
+  export type CollectiveMemberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveMember
+     */
+    select?: CollectiveMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveMember
+     */
+    omit?: CollectiveMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveMemberInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CollectiveDonor
+   */
+
+  export type AggregateCollectiveDonor = {
+    _count: CollectiveDonorCountAggregateOutputType | null
+    _avg: CollectiveDonorAvgAggregateOutputType | null
+    _sum: CollectiveDonorSumAggregateOutputType | null
+    _min: CollectiveDonorMinAggregateOutputType | null
+    _max: CollectiveDonorMaxAggregateOutputType | null
+  }
+
+  export type CollectiveDonorAvgAggregateOutputType = {
+    totalDonatedCents: number | null
+    donationCount: number | null
+  }
+
+  export type CollectiveDonorSumAggregateOutputType = {
+    totalDonatedCents: number | null
+    donationCount: number | null
+  }
+
+  export type CollectiveDonorMinAggregateOutputType = {
+    id: string | null
+    collectiveId: string | null
+    displayName: string | null
+    email: string | null
+    isAnonymous: boolean | null
+    totalDonatedCents: number | null
+    donationCount: number | null
+    lastDonatedAt: Date | null
+    dwollaCustomerId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CollectiveDonorMaxAggregateOutputType = {
+    id: string | null
+    collectiveId: string | null
+    displayName: string | null
+    email: string | null
+    isAnonymous: boolean | null
+    totalDonatedCents: number | null
+    donationCount: number | null
+    lastDonatedAt: Date | null
+    dwollaCustomerId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CollectiveDonorCountAggregateOutputType = {
+    id: number
+    collectiveId: number
+    displayName: number
+    email: number
+    isAnonymous: number
+    totalDonatedCents: number
+    donationCount: number
+    lastDonatedAt: number
+    dwollaCustomerId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CollectiveDonorAvgAggregateInputType = {
+    totalDonatedCents?: true
+    donationCount?: true
+  }
+
+  export type CollectiveDonorSumAggregateInputType = {
+    totalDonatedCents?: true
+    donationCount?: true
+  }
+
+  export type CollectiveDonorMinAggregateInputType = {
+    id?: true
+    collectiveId?: true
+    displayName?: true
+    email?: true
+    isAnonymous?: true
+    totalDonatedCents?: true
+    donationCount?: true
+    lastDonatedAt?: true
+    dwollaCustomerId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CollectiveDonorMaxAggregateInputType = {
+    id?: true
+    collectiveId?: true
+    displayName?: true
+    email?: true
+    isAnonymous?: true
+    totalDonatedCents?: true
+    donationCount?: true
+    lastDonatedAt?: true
+    dwollaCustomerId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CollectiveDonorCountAggregateInputType = {
+    id?: true
+    collectiveId?: true
+    displayName?: true
+    email?: true
+    isAnonymous?: true
+    totalDonatedCents?: true
+    donationCount?: true
+    lastDonatedAt?: true
+    dwollaCustomerId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CollectiveDonorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CollectiveDonor to aggregate.
+     */
+    where?: CollectiveDonorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveDonors to fetch.
+     */
+    orderBy?: CollectiveDonorOrderByWithRelationInput | CollectiveDonorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CollectiveDonorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveDonors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveDonors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CollectiveDonors
+    **/
+    _count?: true | CollectiveDonorCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CollectiveDonorAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CollectiveDonorSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CollectiveDonorMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CollectiveDonorMaxAggregateInputType
+  }
+
+  export type GetCollectiveDonorAggregateType<T extends CollectiveDonorAggregateArgs> = {
+        [P in keyof T & keyof AggregateCollectiveDonor]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCollectiveDonor[P]>
+      : GetScalarType<T[P], AggregateCollectiveDonor[P]>
+  }
+
+
+
+
+  export type CollectiveDonorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectiveDonorWhereInput
+    orderBy?: CollectiveDonorOrderByWithAggregationInput | CollectiveDonorOrderByWithAggregationInput[]
+    by: CollectiveDonorScalarFieldEnum[] | CollectiveDonorScalarFieldEnum
+    having?: CollectiveDonorScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CollectiveDonorCountAggregateInputType | true
+    _avg?: CollectiveDonorAvgAggregateInputType
+    _sum?: CollectiveDonorSumAggregateInputType
+    _min?: CollectiveDonorMinAggregateInputType
+    _max?: CollectiveDonorMaxAggregateInputType
+  }
+
+  export type CollectiveDonorGroupByOutputType = {
+    id: string
+    collectiveId: string
+    displayName: string
+    email: string
+    isAnonymous: boolean
+    totalDonatedCents: number
+    donationCount: number
+    lastDonatedAt: Date | null
+    dwollaCustomerId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CollectiveDonorCountAggregateOutputType | null
+    _avg: CollectiveDonorAvgAggregateOutputType | null
+    _sum: CollectiveDonorSumAggregateOutputType | null
+    _min: CollectiveDonorMinAggregateOutputType | null
+    _max: CollectiveDonorMaxAggregateOutputType | null
+  }
+
+  type GetCollectiveDonorGroupByPayload<T extends CollectiveDonorGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CollectiveDonorGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CollectiveDonorGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CollectiveDonorGroupByOutputType[P]>
+            : GetScalarType<T[P], CollectiveDonorGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CollectiveDonorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    collectiveId?: boolean
+    displayName?: boolean
+    email?: boolean
+    isAnonymous?: boolean
+    totalDonatedCents?: boolean
+    donationCount?: boolean
+    lastDonatedAt?: boolean
+    dwollaCustomerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    donations?: boolean | CollectiveDonor$donationsArgs<ExtArgs>
+    _count?: boolean | CollectiveDonorCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectiveDonor"]>
+
+  export type CollectiveDonorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    collectiveId?: boolean
+    displayName?: boolean
+    email?: boolean
+    isAnonymous?: boolean
+    totalDonatedCents?: boolean
+    donationCount?: boolean
+    lastDonatedAt?: boolean
+    dwollaCustomerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectiveDonor"]>
+
+  export type CollectiveDonorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    collectiveId?: boolean
+    displayName?: boolean
+    email?: boolean
+    isAnonymous?: boolean
+    totalDonatedCents?: boolean
+    donationCount?: boolean
+    lastDonatedAt?: boolean
+    dwollaCustomerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectiveDonor"]>
+
+  export type CollectiveDonorSelectScalar = {
+    id?: boolean
+    collectiveId?: boolean
+    displayName?: boolean
+    email?: boolean
+    isAnonymous?: boolean
+    totalDonatedCents?: boolean
+    donationCount?: boolean
+    lastDonatedAt?: boolean
+    dwollaCustomerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CollectiveDonorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "collectiveId" | "displayName" | "email" | "isAnonymous" | "totalDonatedCents" | "donationCount" | "lastDonatedAt" | "dwollaCustomerId" | "createdAt" | "updatedAt", ExtArgs["result"]["collectiveDonor"]>
+  export type CollectiveDonorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    donations?: boolean | CollectiveDonor$donationsArgs<ExtArgs>
+    _count?: boolean | CollectiveDonorCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CollectiveDonorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+  }
+  export type CollectiveDonorIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+  }
+
+  export type $CollectiveDonorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CollectiveDonor"
+    objects: {
+      collective: Prisma.$NilCollectivePayload<ExtArgs>
+      donations: Prisma.$CollectiveDonationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      collectiveId: string
+      displayName: string
+      email: string
+      isAnonymous: boolean
+      totalDonatedCents: number
+      donationCount: number
+      lastDonatedAt: Date | null
+      dwollaCustomerId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["collectiveDonor"]>
+    composites: {}
+  }
+
+  type CollectiveDonorGetPayload<S extends boolean | null | undefined | CollectiveDonorDefaultArgs> = $Result.GetResult<Prisma.$CollectiveDonorPayload, S>
+
+  type CollectiveDonorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CollectiveDonorFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CollectiveDonorCountAggregateInputType | true
+    }
+
+  export interface CollectiveDonorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CollectiveDonor'], meta: { name: 'CollectiveDonor' } }
+    /**
+     * Find zero or one CollectiveDonor that matches the filter.
+     * @param {CollectiveDonorFindUniqueArgs} args - Arguments to find a CollectiveDonor
+     * @example
+     * // Get one CollectiveDonor
+     * const collectiveDonor = await prisma.collectiveDonor.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CollectiveDonorFindUniqueArgs>(args: SelectSubset<T, CollectiveDonorFindUniqueArgs<ExtArgs>>): Prisma__CollectiveDonorClient<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CollectiveDonor that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CollectiveDonorFindUniqueOrThrowArgs} args - Arguments to find a CollectiveDonor
+     * @example
+     * // Get one CollectiveDonor
+     * const collectiveDonor = await prisma.collectiveDonor.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CollectiveDonorFindUniqueOrThrowArgs>(args: SelectSubset<T, CollectiveDonorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CollectiveDonorClient<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CollectiveDonor that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonorFindFirstArgs} args - Arguments to find a CollectiveDonor
+     * @example
+     * // Get one CollectiveDonor
+     * const collectiveDonor = await prisma.collectiveDonor.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CollectiveDonorFindFirstArgs>(args?: SelectSubset<T, CollectiveDonorFindFirstArgs<ExtArgs>>): Prisma__CollectiveDonorClient<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CollectiveDonor that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonorFindFirstOrThrowArgs} args - Arguments to find a CollectiveDonor
+     * @example
+     * // Get one CollectiveDonor
+     * const collectiveDonor = await prisma.collectiveDonor.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CollectiveDonorFindFirstOrThrowArgs>(args?: SelectSubset<T, CollectiveDonorFindFirstOrThrowArgs<ExtArgs>>): Prisma__CollectiveDonorClient<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CollectiveDonors that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonorFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CollectiveDonors
+     * const collectiveDonors = await prisma.collectiveDonor.findMany()
+     * 
+     * // Get first 10 CollectiveDonors
+     * const collectiveDonors = await prisma.collectiveDonor.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const collectiveDonorWithIdOnly = await prisma.collectiveDonor.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CollectiveDonorFindManyArgs>(args?: SelectSubset<T, CollectiveDonorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CollectiveDonor.
+     * @param {CollectiveDonorCreateArgs} args - Arguments to create a CollectiveDonor.
+     * @example
+     * // Create one CollectiveDonor
+     * const CollectiveDonor = await prisma.collectiveDonor.create({
+     *   data: {
+     *     // ... data to create a CollectiveDonor
+     *   }
+     * })
+     * 
+     */
+    create<T extends CollectiveDonorCreateArgs>(args: SelectSubset<T, CollectiveDonorCreateArgs<ExtArgs>>): Prisma__CollectiveDonorClient<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CollectiveDonors.
+     * @param {CollectiveDonorCreateManyArgs} args - Arguments to create many CollectiveDonors.
+     * @example
+     * // Create many CollectiveDonors
+     * const collectiveDonor = await prisma.collectiveDonor.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CollectiveDonorCreateManyArgs>(args?: SelectSubset<T, CollectiveDonorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CollectiveDonors and returns the data saved in the database.
+     * @param {CollectiveDonorCreateManyAndReturnArgs} args - Arguments to create many CollectiveDonors.
+     * @example
+     * // Create many CollectiveDonors
+     * const collectiveDonor = await prisma.collectiveDonor.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CollectiveDonors and only return the `id`
+     * const collectiveDonorWithIdOnly = await prisma.collectiveDonor.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CollectiveDonorCreateManyAndReturnArgs>(args?: SelectSubset<T, CollectiveDonorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CollectiveDonor.
+     * @param {CollectiveDonorDeleteArgs} args - Arguments to delete one CollectiveDonor.
+     * @example
+     * // Delete one CollectiveDonor
+     * const CollectiveDonor = await prisma.collectiveDonor.delete({
+     *   where: {
+     *     // ... filter to delete one CollectiveDonor
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CollectiveDonorDeleteArgs>(args: SelectSubset<T, CollectiveDonorDeleteArgs<ExtArgs>>): Prisma__CollectiveDonorClient<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CollectiveDonor.
+     * @param {CollectiveDonorUpdateArgs} args - Arguments to update one CollectiveDonor.
+     * @example
+     * // Update one CollectiveDonor
+     * const collectiveDonor = await prisma.collectiveDonor.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CollectiveDonorUpdateArgs>(args: SelectSubset<T, CollectiveDonorUpdateArgs<ExtArgs>>): Prisma__CollectiveDonorClient<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CollectiveDonors.
+     * @param {CollectiveDonorDeleteManyArgs} args - Arguments to filter CollectiveDonors to delete.
+     * @example
+     * // Delete a few CollectiveDonors
+     * const { count } = await prisma.collectiveDonor.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CollectiveDonorDeleteManyArgs>(args?: SelectSubset<T, CollectiveDonorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CollectiveDonors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonorUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CollectiveDonors
+     * const collectiveDonor = await prisma.collectiveDonor.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CollectiveDonorUpdateManyArgs>(args: SelectSubset<T, CollectiveDonorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CollectiveDonors and returns the data updated in the database.
+     * @param {CollectiveDonorUpdateManyAndReturnArgs} args - Arguments to update many CollectiveDonors.
+     * @example
+     * // Update many CollectiveDonors
+     * const collectiveDonor = await prisma.collectiveDonor.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CollectiveDonors and only return the `id`
+     * const collectiveDonorWithIdOnly = await prisma.collectiveDonor.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CollectiveDonorUpdateManyAndReturnArgs>(args: SelectSubset<T, CollectiveDonorUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CollectiveDonor.
+     * @param {CollectiveDonorUpsertArgs} args - Arguments to update or create a CollectiveDonor.
+     * @example
+     * // Update or create a CollectiveDonor
+     * const collectiveDonor = await prisma.collectiveDonor.upsert({
+     *   create: {
+     *     // ... data to create a CollectiveDonor
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CollectiveDonor we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CollectiveDonorUpsertArgs>(args: SelectSubset<T, CollectiveDonorUpsertArgs<ExtArgs>>): Prisma__CollectiveDonorClient<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CollectiveDonors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonorCountArgs} args - Arguments to filter CollectiveDonors to count.
+     * @example
+     * // Count the number of CollectiveDonors
+     * const count = await prisma.collectiveDonor.count({
+     *   where: {
+     *     // ... the filter for the CollectiveDonors we want to count
+     *   }
+     * })
+    **/
+    count<T extends CollectiveDonorCountArgs>(
+      args?: Subset<T, CollectiveDonorCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CollectiveDonorCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CollectiveDonor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CollectiveDonorAggregateArgs>(args: Subset<T, CollectiveDonorAggregateArgs>): Prisma.PrismaPromise<GetCollectiveDonorAggregateType<T>>
+
+    /**
+     * Group by CollectiveDonor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonorGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CollectiveDonorGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CollectiveDonorGroupByArgs['orderBy'] }
+        : { orderBy?: CollectiveDonorGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CollectiveDonorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCollectiveDonorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CollectiveDonor model
+   */
+  readonly fields: CollectiveDonorFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CollectiveDonor.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CollectiveDonorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    collective<T extends NilCollectiveDefaultArgs<ExtArgs> = {}>(args?: Subset<T, NilCollectiveDefaultArgs<ExtArgs>>): Prisma__NilCollectiveClient<$Result.GetResult<Prisma.$NilCollectivePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    donations<T extends CollectiveDonor$donationsArgs<ExtArgs> = {}>(args?: Subset<T, CollectiveDonor$donationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CollectiveDonor model
+   */
+  interface CollectiveDonorFieldRefs {
+    readonly id: FieldRef<"CollectiveDonor", 'String'>
+    readonly collectiveId: FieldRef<"CollectiveDonor", 'String'>
+    readonly displayName: FieldRef<"CollectiveDonor", 'String'>
+    readonly email: FieldRef<"CollectiveDonor", 'String'>
+    readonly isAnonymous: FieldRef<"CollectiveDonor", 'Boolean'>
+    readonly totalDonatedCents: FieldRef<"CollectiveDonor", 'Int'>
+    readonly donationCount: FieldRef<"CollectiveDonor", 'Int'>
+    readonly lastDonatedAt: FieldRef<"CollectiveDonor", 'DateTime'>
+    readonly dwollaCustomerId: FieldRef<"CollectiveDonor", 'String'>
+    readonly createdAt: FieldRef<"CollectiveDonor", 'DateTime'>
+    readonly updatedAt: FieldRef<"CollectiveDonor", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CollectiveDonor findUnique
+   */
+  export type CollectiveDonorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDonor to fetch.
+     */
+    where: CollectiveDonorWhereUniqueInput
+  }
+
+  /**
+   * CollectiveDonor findUniqueOrThrow
+   */
+  export type CollectiveDonorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDonor to fetch.
+     */
+    where: CollectiveDonorWhereUniqueInput
+  }
+
+  /**
+   * CollectiveDonor findFirst
+   */
+  export type CollectiveDonorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDonor to fetch.
+     */
+    where?: CollectiveDonorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveDonors to fetch.
+     */
+    orderBy?: CollectiveDonorOrderByWithRelationInput | CollectiveDonorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CollectiveDonors.
+     */
+    cursor?: CollectiveDonorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveDonors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveDonors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CollectiveDonors.
+     */
+    distinct?: CollectiveDonorScalarFieldEnum | CollectiveDonorScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveDonor findFirstOrThrow
+   */
+  export type CollectiveDonorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDonor to fetch.
+     */
+    where?: CollectiveDonorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveDonors to fetch.
+     */
+    orderBy?: CollectiveDonorOrderByWithRelationInput | CollectiveDonorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CollectiveDonors.
+     */
+    cursor?: CollectiveDonorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveDonors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveDonors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CollectiveDonors.
+     */
+    distinct?: CollectiveDonorScalarFieldEnum | CollectiveDonorScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveDonor findMany
+   */
+  export type CollectiveDonorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDonors to fetch.
+     */
+    where?: CollectiveDonorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveDonors to fetch.
+     */
+    orderBy?: CollectiveDonorOrderByWithRelationInput | CollectiveDonorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CollectiveDonors.
+     */
+    cursor?: CollectiveDonorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveDonors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveDonors.
+     */
+    skip?: number
+    distinct?: CollectiveDonorScalarFieldEnum | CollectiveDonorScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveDonor create
+   */
+  export type CollectiveDonorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CollectiveDonor.
+     */
+    data: XOR<CollectiveDonorCreateInput, CollectiveDonorUncheckedCreateInput>
+  }
+
+  /**
+   * CollectiveDonor createMany
+   */
+  export type CollectiveDonorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CollectiveDonors.
+     */
+    data: CollectiveDonorCreateManyInput | CollectiveDonorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CollectiveDonor createManyAndReturn
+   */
+  export type CollectiveDonorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * The data used to create many CollectiveDonors.
+     */
+    data: CollectiveDonorCreateManyInput | CollectiveDonorCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CollectiveDonor update
+   */
+  export type CollectiveDonorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CollectiveDonor.
+     */
+    data: XOR<CollectiveDonorUpdateInput, CollectiveDonorUncheckedUpdateInput>
+    /**
+     * Choose, which CollectiveDonor to update.
+     */
+    where: CollectiveDonorWhereUniqueInput
+  }
+
+  /**
+   * CollectiveDonor updateMany
+   */
+  export type CollectiveDonorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CollectiveDonors.
+     */
+    data: XOR<CollectiveDonorUpdateManyMutationInput, CollectiveDonorUncheckedUpdateManyInput>
+    /**
+     * Filter which CollectiveDonors to update
+     */
+    where?: CollectiveDonorWhereInput
+    /**
+     * Limit how many CollectiveDonors to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CollectiveDonor updateManyAndReturn
+   */
+  export type CollectiveDonorUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * The data used to update CollectiveDonors.
+     */
+    data: XOR<CollectiveDonorUpdateManyMutationInput, CollectiveDonorUncheckedUpdateManyInput>
+    /**
+     * Filter which CollectiveDonors to update
+     */
+    where?: CollectiveDonorWhereInput
+    /**
+     * Limit how many CollectiveDonors to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CollectiveDonor upsert
+   */
+  export type CollectiveDonorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CollectiveDonor to update in case it exists.
+     */
+    where: CollectiveDonorWhereUniqueInput
+    /**
+     * In case the CollectiveDonor found by the `where` argument doesn't exist, create a new CollectiveDonor with this data.
+     */
+    create: XOR<CollectiveDonorCreateInput, CollectiveDonorUncheckedCreateInput>
+    /**
+     * In case the CollectiveDonor was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CollectiveDonorUpdateInput, CollectiveDonorUncheckedUpdateInput>
+  }
+
+  /**
+   * CollectiveDonor delete
+   */
+  export type CollectiveDonorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorInclude<ExtArgs> | null
+    /**
+     * Filter which CollectiveDonor to delete.
+     */
+    where: CollectiveDonorWhereUniqueInput
+  }
+
+  /**
+   * CollectiveDonor deleteMany
+   */
+  export type CollectiveDonorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CollectiveDonors to delete
+     */
+    where?: CollectiveDonorWhereInput
+    /**
+     * Limit how many CollectiveDonors to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CollectiveDonor.donations
+   */
+  export type CollectiveDonor$donationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationInclude<ExtArgs> | null
+    where?: CollectiveDonationWhereInput
+    orderBy?: CollectiveDonationOrderByWithRelationInput | CollectiveDonationOrderByWithRelationInput[]
+    cursor?: CollectiveDonationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollectiveDonationScalarFieldEnum | CollectiveDonationScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveDonor without action
+   */
+  export type CollectiveDonorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonor
+     */
+    select?: CollectiveDonorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonor
+     */
+    omit?: CollectiveDonorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonorInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CollectiveDonation
+   */
+
+  export type AggregateCollectiveDonation = {
+    _count: CollectiveDonationCountAggregateOutputType | null
+    _avg: CollectiveDonationAvgAggregateOutputType | null
+    _sum: CollectiveDonationSumAggregateOutputType | null
+    _min: CollectiveDonationMinAggregateOutputType | null
+    _max: CollectiveDonationMaxAggregateOutputType | null
+  }
+
+  export type CollectiveDonationAvgAggregateOutputType = {
+    amountCents: number | null
+  }
+
+  export type CollectiveDonationSumAggregateOutputType = {
+    amountCents: number | null
+  }
+
+  export type CollectiveDonationMinAggregateOutputType = {
+    id: string | null
+    donorId: string | null
+    collectiveId: string | null
+    amountCents: number | null
+    currency: string | null
+    dwollaTransferId: string | null
+    status: string | null
+    note: string | null
+    isRecurring: boolean | null
+    donatedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type CollectiveDonationMaxAggregateOutputType = {
+    id: string | null
+    donorId: string | null
+    collectiveId: string | null
+    amountCents: number | null
+    currency: string | null
+    dwollaTransferId: string | null
+    status: string | null
+    note: string | null
+    isRecurring: boolean | null
+    donatedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type CollectiveDonationCountAggregateOutputType = {
+    id: number
+    donorId: number
+    collectiveId: number
+    amountCents: number
+    currency: number
+    dwollaTransferId: number
+    status: number
+    note: number
+    isRecurring: number
+    donatedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CollectiveDonationAvgAggregateInputType = {
+    amountCents?: true
+  }
+
+  export type CollectiveDonationSumAggregateInputType = {
+    amountCents?: true
+  }
+
+  export type CollectiveDonationMinAggregateInputType = {
+    id?: true
+    donorId?: true
+    collectiveId?: true
+    amountCents?: true
+    currency?: true
+    dwollaTransferId?: true
+    status?: true
+    note?: true
+    isRecurring?: true
+    donatedAt?: true
+    createdAt?: true
+  }
+
+  export type CollectiveDonationMaxAggregateInputType = {
+    id?: true
+    donorId?: true
+    collectiveId?: true
+    amountCents?: true
+    currency?: true
+    dwollaTransferId?: true
+    status?: true
+    note?: true
+    isRecurring?: true
+    donatedAt?: true
+    createdAt?: true
+  }
+
+  export type CollectiveDonationCountAggregateInputType = {
+    id?: true
+    donorId?: true
+    collectiveId?: true
+    amountCents?: true
+    currency?: true
+    dwollaTransferId?: true
+    status?: true
+    note?: true
+    isRecurring?: true
+    donatedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CollectiveDonationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CollectiveDonation to aggregate.
+     */
+    where?: CollectiveDonationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveDonations to fetch.
+     */
+    orderBy?: CollectiveDonationOrderByWithRelationInput | CollectiveDonationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CollectiveDonationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveDonations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveDonations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CollectiveDonations
+    **/
+    _count?: true | CollectiveDonationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CollectiveDonationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CollectiveDonationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CollectiveDonationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CollectiveDonationMaxAggregateInputType
+  }
+
+  export type GetCollectiveDonationAggregateType<T extends CollectiveDonationAggregateArgs> = {
+        [P in keyof T & keyof AggregateCollectiveDonation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCollectiveDonation[P]>
+      : GetScalarType<T[P], AggregateCollectiveDonation[P]>
+  }
+
+
+
+
+  export type CollectiveDonationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectiveDonationWhereInput
+    orderBy?: CollectiveDonationOrderByWithAggregationInput | CollectiveDonationOrderByWithAggregationInput[]
+    by: CollectiveDonationScalarFieldEnum[] | CollectiveDonationScalarFieldEnum
+    having?: CollectiveDonationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CollectiveDonationCountAggregateInputType | true
+    _avg?: CollectiveDonationAvgAggregateInputType
+    _sum?: CollectiveDonationSumAggregateInputType
+    _min?: CollectiveDonationMinAggregateInputType
+    _max?: CollectiveDonationMaxAggregateInputType
+  }
+
+  export type CollectiveDonationGroupByOutputType = {
+    id: string
+    donorId: string
+    collectiveId: string
+    amountCents: number
+    currency: string
+    dwollaTransferId: string | null
+    status: string
+    note: string | null
+    isRecurring: boolean
+    donatedAt: Date
+    createdAt: Date
+    _count: CollectiveDonationCountAggregateOutputType | null
+    _avg: CollectiveDonationAvgAggregateOutputType | null
+    _sum: CollectiveDonationSumAggregateOutputType | null
+    _min: CollectiveDonationMinAggregateOutputType | null
+    _max: CollectiveDonationMaxAggregateOutputType | null
+  }
+
+  type GetCollectiveDonationGroupByPayload<T extends CollectiveDonationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CollectiveDonationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CollectiveDonationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CollectiveDonationGroupByOutputType[P]>
+            : GetScalarType<T[P], CollectiveDonationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CollectiveDonationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    donorId?: boolean
+    collectiveId?: boolean
+    amountCents?: boolean
+    currency?: boolean
+    dwollaTransferId?: boolean
+    status?: boolean
+    note?: boolean
+    isRecurring?: boolean
+    donatedAt?: boolean
+    createdAt?: boolean
+    donor?: boolean | CollectiveDonorDefaultArgs<ExtArgs>
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectiveDonation"]>
+
+  export type CollectiveDonationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    donorId?: boolean
+    collectiveId?: boolean
+    amountCents?: boolean
+    currency?: boolean
+    dwollaTransferId?: boolean
+    status?: boolean
+    note?: boolean
+    isRecurring?: boolean
+    donatedAt?: boolean
+    createdAt?: boolean
+    donor?: boolean | CollectiveDonorDefaultArgs<ExtArgs>
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectiveDonation"]>
+
+  export type CollectiveDonationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    donorId?: boolean
+    collectiveId?: boolean
+    amountCents?: boolean
+    currency?: boolean
+    dwollaTransferId?: boolean
+    status?: boolean
+    note?: boolean
+    isRecurring?: boolean
+    donatedAt?: boolean
+    createdAt?: boolean
+    donor?: boolean | CollectiveDonorDefaultArgs<ExtArgs>
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectiveDonation"]>
+
+  export type CollectiveDonationSelectScalar = {
+    id?: boolean
+    donorId?: boolean
+    collectiveId?: boolean
+    amountCents?: boolean
+    currency?: boolean
+    dwollaTransferId?: boolean
+    status?: boolean
+    note?: boolean
+    isRecurring?: boolean
+    donatedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type CollectiveDonationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "donorId" | "collectiveId" | "amountCents" | "currency" | "dwollaTransferId" | "status" | "note" | "isRecurring" | "donatedAt" | "createdAt", ExtArgs["result"]["collectiveDonation"]>
+  export type CollectiveDonationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    donor?: boolean | CollectiveDonorDefaultArgs<ExtArgs>
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+  }
+  export type CollectiveDonationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    donor?: boolean | CollectiveDonorDefaultArgs<ExtArgs>
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+  }
+  export type CollectiveDonationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    donor?: boolean | CollectiveDonorDefaultArgs<ExtArgs>
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+  }
+
+  export type $CollectiveDonationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CollectiveDonation"
+    objects: {
+      donor: Prisma.$CollectiveDonorPayload<ExtArgs>
+      collective: Prisma.$NilCollectivePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      donorId: string
+      collectiveId: string
+      amountCents: number
+      currency: string
+      dwollaTransferId: string | null
+      status: string
+      note: string | null
+      isRecurring: boolean
+      donatedAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["collectiveDonation"]>
+    composites: {}
+  }
+
+  type CollectiveDonationGetPayload<S extends boolean | null | undefined | CollectiveDonationDefaultArgs> = $Result.GetResult<Prisma.$CollectiveDonationPayload, S>
+
+  type CollectiveDonationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CollectiveDonationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CollectiveDonationCountAggregateInputType | true
+    }
+
+  export interface CollectiveDonationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CollectiveDonation'], meta: { name: 'CollectiveDonation' } }
+    /**
+     * Find zero or one CollectiveDonation that matches the filter.
+     * @param {CollectiveDonationFindUniqueArgs} args - Arguments to find a CollectiveDonation
+     * @example
+     * // Get one CollectiveDonation
+     * const collectiveDonation = await prisma.collectiveDonation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CollectiveDonationFindUniqueArgs>(args: SelectSubset<T, CollectiveDonationFindUniqueArgs<ExtArgs>>): Prisma__CollectiveDonationClient<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CollectiveDonation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CollectiveDonationFindUniqueOrThrowArgs} args - Arguments to find a CollectiveDonation
+     * @example
+     * // Get one CollectiveDonation
+     * const collectiveDonation = await prisma.collectiveDonation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CollectiveDonationFindUniqueOrThrowArgs>(args: SelectSubset<T, CollectiveDonationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CollectiveDonationClient<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CollectiveDonation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonationFindFirstArgs} args - Arguments to find a CollectiveDonation
+     * @example
+     * // Get one CollectiveDonation
+     * const collectiveDonation = await prisma.collectiveDonation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CollectiveDonationFindFirstArgs>(args?: SelectSubset<T, CollectiveDonationFindFirstArgs<ExtArgs>>): Prisma__CollectiveDonationClient<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CollectiveDonation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonationFindFirstOrThrowArgs} args - Arguments to find a CollectiveDonation
+     * @example
+     * // Get one CollectiveDonation
+     * const collectiveDonation = await prisma.collectiveDonation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CollectiveDonationFindFirstOrThrowArgs>(args?: SelectSubset<T, CollectiveDonationFindFirstOrThrowArgs<ExtArgs>>): Prisma__CollectiveDonationClient<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CollectiveDonations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CollectiveDonations
+     * const collectiveDonations = await prisma.collectiveDonation.findMany()
+     * 
+     * // Get first 10 CollectiveDonations
+     * const collectiveDonations = await prisma.collectiveDonation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const collectiveDonationWithIdOnly = await prisma.collectiveDonation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CollectiveDonationFindManyArgs>(args?: SelectSubset<T, CollectiveDonationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CollectiveDonation.
+     * @param {CollectiveDonationCreateArgs} args - Arguments to create a CollectiveDonation.
+     * @example
+     * // Create one CollectiveDonation
+     * const CollectiveDonation = await prisma.collectiveDonation.create({
+     *   data: {
+     *     // ... data to create a CollectiveDonation
+     *   }
+     * })
+     * 
+     */
+    create<T extends CollectiveDonationCreateArgs>(args: SelectSubset<T, CollectiveDonationCreateArgs<ExtArgs>>): Prisma__CollectiveDonationClient<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CollectiveDonations.
+     * @param {CollectiveDonationCreateManyArgs} args - Arguments to create many CollectiveDonations.
+     * @example
+     * // Create many CollectiveDonations
+     * const collectiveDonation = await prisma.collectiveDonation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CollectiveDonationCreateManyArgs>(args?: SelectSubset<T, CollectiveDonationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CollectiveDonations and returns the data saved in the database.
+     * @param {CollectiveDonationCreateManyAndReturnArgs} args - Arguments to create many CollectiveDonations.
+     * @example
+     * // Create many CollectiveDonations
+     * const collectiveDonation = await prisma.collectiveDonation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CollectiveDonations and only return the `id`
+     * const collectiveDonationWithIdOnly = await prisma.collectiveDonation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CollectiveDonationCreateManyAndReturnArgs>(args?: SelectSubset<T, CollectiveDonationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CollectiveDonation.
+     * @param {CollectiveDonationDeleteArgs} args - Arguments to delete one CollectiveDonation.
+     * @example
+     * // Delete one CollectiveDonation
+     * const CollectiveDonation = await prisma.collectiveDonation.delete({
+     *   where: {
+     *     // ... filter to delete one CollectiveDonation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CollectiveDonationDeleteArgs>(args: SelectSubset<T, CollectiveDonationDeleteArgs<ExtArgs>>): Prisma__CollectiveDonationClient<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CollectiveDonation.
+     * @param {CollectiveDonationUpdateArgs} args - Arguments to update one CollectiveDonation.
+     * @example
+     * // Update one CollectiveDonation
+     * const collectiveDonation = await prisma.collectiveDonation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CollectiveDonationUpdateArgs>(args: SelectSubset<T, CollectiveDonationUpdateArgs<ExtArgs>>): Prisma__CollectiveDonationClient<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CollectiveDonations.
+     * @param {CollectiveDonationDeleteManyArgs} args - Arguments to filter CollectiveDonations to delete.
+     * @example
+     * // Delete a few CollectiveDonations
+     * const { count } = await prisma.collectiveDonation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CollectiveDonationDeleteManyArgs>(args?: SelectSubset<T, CollectiveDonationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CollectiveDonations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CollectiveDonations
+     * const collectiveDonation = await prisma.collectiveDonation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CollectiveDonationUpdateManyArgs>(args: SelectSubset<T, CollectiveDonationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CollectiveDonations and returns the data updated in the database.
+     * @param {CollectiveDonationUpdateManyAndReturnArgs} args - Arguments to update many CollectiveDonations.
+     * @example
+     * // Update many CollectiveDonations
+     * const collectiveDonation = await prisma.collectiveDonation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CollectiveDonations and only return the `id`
+     * const collectiveDonationWithIdOnly = await prisma.collectiveDonation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CollectiveDonationUpdateManyAndReturnArgs>(args: SelectSubset<T, CollectiveDonationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CollectiveDonation.
+     * @param {CollectiveDonationUpsertArgs} args - Arguments to update or create a CollectiveDonation.
+     * @example
+     * // Update or create a CollectiveDonation
+     * const collectiveDonation = await prisma.collectiveDonation.upsert({
+     *   create: {
+     *     // ... data to create a CollectiveDonation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CollectiveDonation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CollectiveDonationUpsertArgs>(args: SelectSubset<T, CollectiveDonationUpsertArgs<ExtArgs>>): Prisma__CollectiveDonationClient<$Result.GetResult<Prisma.$CollectiveDonationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CollectiveDonations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonationCountArgs} args - Arguments to filter CollectiveDonations to count.
+     * @example
+     * // Count the number of CollectiveDonations
+     * const count = await prisma.collectiveDonation.count({
+     *   where: {
+     *     // ... the filter for the CollectiveDonations we want to count
+     *   }
+     * })
+    **/
+    count<T extends CollectiveDonationCountArgs>(
+      args?: Subset<T, CollectiveDonationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CollectiveDonationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CollectiveDonation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CollectiveDonationAggregateArgs>(args: Subset<T, CollectiveDonationAggregateArgs>): Prisma.PrismaPromise<GetCollectiveDonationAggregateType<T>>
+
+    /**
+     * Group by CollectiveDonation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDonationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CollectiveDonationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CollectiveDonationGroupByArgs['orderBy'] }
+        : { orderBy?: CollectiveDonationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CollectiveDonationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCollectiveDonationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CollectiveDonation model
+   */
+  readonly fields: CollectiveDonationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CollectiveDonation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CollectiveDonationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    donor<T extends CollectiveDonorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CollectiveDonorDefaultArgs<ExtArgs>>): Prisma__CollectiveDonorClient<$Result.GetResult<Prisma.$CollectiveDonorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    collective<T extends NilCollectiveDefaultArgs<ExtArgs> = {}>(args?: Subset<T, NilCollectiveDefaultArgs<ExtArgs>>): Prisma__NilCollectiveClient<$Result.GetResult<Prisma.$NilCollectivePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CollectiveDonation model
+   */
+  interface CollectiveDonationFieldRefs {
+    readonly id: FieldRef<"CollectiveDonation", 'String'>
+    readonly donorId: FieldRef<"CollectiveDonation", 'String'>
+    readonly collectiveId: FieldRef<"CollectiveDonation", 'String'>
+    readonly amountCents: FieldRef<"CollectiveDonation", 'Int'>
+    readonly currency: FieldRef<"CollectiveDonation", 'String'>
+    readonly dwollaTransferId: FieldRef<"CollectiveDonation", 'String'>
+    readonly status: FieldRef<"CollectiveDonation", 'String'>
+    readonly note: FieldRef<"CollectiveDonation", 'String'>
+    readonly isRecurring: FieldRef<"CollectiveDonation", 'Boolean'>
+    readonly donatedAt: FieldRef<"CollectiveDonation", 'DateTime'>
+    readonly createdAt: FieldRef<"CollectiveDonation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CollectiveDonation findUnique
+   */
+  export type CollectiveDonationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDonation to fetch.
+     */
+    where: CollectiveDonationWhereUniqueInput
+  }
+
+  /**
+   * CollectiveDonation findUniqueOrThrow
+   */
+  export type CollectiveDonationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDonation to fetch.
+     */
+    where: CollectiveDonationWhereUniqueInput
+  }
+
+  /**
+   * CollectiveDonation findFirst
+   */
+  export type CollectiveDonationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDonation to fetch.
+     */
+    where?: CollectiveDonationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveDonations to fetch.
+     */
+    orderBy?: CollectiveDonationOrderByWithRelationInput | CollectiveDonationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CollectiveDonations.
+     */
+    cursor?: CollectiveDonationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveDonations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveDonations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CollectiveDonations.
+     */
+    distinct?: CollectiveDonationScalarFieldEnum | CollectiveDonationScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveDonation findFirstOrThrow
+   */
+  export type CollectiveDonationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDonation to fetch.
+     */
+    where?: CollectiveDonationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveDonations to fetch.
+     */
+    orderBy?: CollectiveDonationOrderByWithRelationInput | CollectiveDonationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CollectiveDonations.
+     */
+    cursor?: CollectiveDonationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveDonations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveDonations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CollectiveDonations.
+     */
+    distinct?: CollectiveDonationScalarFieldEnum | CollectiveDonationScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveDonation findMany
+   */
+  export type CollectiveDonationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDonations to fetch.
+     */
+    where?: CollectiveDonationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveDonations to fetch.
+     */
+    orderBy?: CollectiveDonationOrderByWithRelationInput | CollectiveDonationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CollectiveDonations.
+     */
+    cursor?: CollectiveDonationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveDonations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveDonations.
+     */
+    skip?: number
+    distinct?: CollectiveDonationScalarFieldEnum | CollectiveDonationScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveDonation create
+   */
+  export type CollectiveDonationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CollectiveDonation.
+     */
+    data: XOR<CollectiveDonationCreateInput, CollectiveDonationUncheckedCreateInput>
+  }
+
+  /**
+   * CollectiveDonation createMany
+   */
+  export type CollectiveDonationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CollectiveDonations.
+     */
+    data: CollectiveDonationCreateManyInput | CollectiveDonationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CollectiveDonation createManyAndReturn
+   */
+  export type CollectiveDonationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * The data used to create many CollectiveDonations.
+     */
+    data: CollectiveDonationCreateManyInput | CollectiveDonationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CollectiveDonation update
+   */
+  export type CollectiveDonationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CollectiveDonation.
+     */
+    data: XOR<CollectiveDonationUpdateInput, CollectiveDonationUncheckedUpdateInput>
+    /**
+     * Choose, which CollectiveDonation to update.
+     */
+    where: CollectiveDonationWhereUniqueInput
+  }
+
+  /**
+   * CollectiveDonation updateMany
+   */
+  export type CollectiveDonationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CollectiveDonations.
+     */
+    data: XOR<CollectiveDonationUpdateManyMutationInput, CollectiveDonationUncheckedUpdateManyInput>
+    /**
+     * Filter which CollectiveDonations to update
+     */
+    where?: CollectiveDonationWhereInput
+    /**
+     * Limit how many CollectiveDonations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CollectiveDonation updateManyAndReturn
+   */
+  export type CollectiveDonationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * The data used to update CollectiveDonations.
+     */
+    data: XOR<CollectiveDonationUpdateManyMutationInput, CollectiveDonationUncheckedUpdateManyInput>
+    /**
+     * Filter which CollectiveDonations to update
+     */
+    where?: CollectiveDonationWhereInput
+    /**
+     * Limit how many CollectiveDonations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CollectiveDonation upsert
+   */
+  export type CollectiveDonationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CollectiveDonation to update in case it exists.
+     */
+    where: CollectiveDonationWhereUniqueInput
+    /**
+     * In case the CollectiveDonation found by the `where` argument doesn't exist, create a new CollectiveDonation with this data.
+     */
+    create: XOR<CollectiveDonationCreateInput, CollectiveDonationUncheckedCreateInput>
+    /**
+     * In case the CollectiveDonation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CollectiveDonationUpdateInput, CollectiveDonationUncheckedUpdateInput>
+  }
+
+  /**
+   * CollectiveDonation delete
+   */
+  export type CollectiveDonationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationInclude<ExtArgs> | null
+    /**
+     * Filter which CollectiveDonation to delete.
+     */
+    where: CollectiveDonationWhereUniqueInput
+  }
+
+  /**
+   * CollectiveDonation deleteMany
+   */
+  export type CollectiveDonationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CollectiveDonations to delete
+     */
+    where?: CollectiveDonationWhereInput
+    /**
+     * Limit how many CollectiveDonations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CollectiveDonation without action
+   */
+  export type CollectiveDonationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDonation
+     */
+    select?: CollectiveDonationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDonation
+     */
+    omit?: CollectiveDonationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDonationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CollectiveDistribution
+   */
+
+  export type AggregateCollectiveDistribution = {
+    _count: CollectiveDistributionCountAggregateOutputType | null
+    _avg: CollectiveDistributionAvgAggregateOutputType | null
+    _sum: CollectiveDistributionSumAggregateOutputType | null
+    _min: CollectiveDistributionMinAggregateOutputType | null
+    _max: CollectiveDistributionMaxAggregateOutputType | null
+  }
+
+  export type CollectiveDistributionAvgAggregateOutputType = {
+    amountCents: number | null
+    taxYear: number | null
+  }
+
+  export type CollectiveDistributionSumAggregateOutputType = {
+    amountCents: number | null
+    taxYear: number | null
+  }
+
+  export type CollectiveDistributionMinAggregateOutputType = {
+    id: string | null
+    collectiveId: string | null
+    memberId: string | null
+    athleteId: string | null
+    amountCents: number | null
+    currency: string | null
+    reason: string | null
+    periodStart: Date | null
+    periodEnd: Date | null
+    dwollaTransferId: string | null
+    paidAt: Date | null
+    status: string | null
+    taxYear: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CollectiveDistributionMaxAggregateOutputType = {
+    id: string | null
+    collectiveId: string | null
+    memberId: string | null
+    athleteId: string | null
+    amountCents: number | null
+    currency: string | null
+    reason: string | null
+    periodStart: Date | null
+    periodEnd: Date | null
+    dwollaTransferId: string | null
+    paidAt: Date | null
+    status: string | null
+    taxYear: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CollectiveDistributionCountAggregateOutputType = {
+    id: number
+    collectiveId: number
+    memberId: number
+    athleteId: number
+    amountCents: number
+    currency: number
+    reason: number
+    periodStart: number
+    periodEnd: number
+    dwollaTransferId: number
+    paidAt: number
+    status: number
+    taxYear: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CollectiveDistributionAvgAggregateInputType = {
+    amountCents?: true
+    taxYear?: true
+  }
+
+  export type CollectiveDistributionSumAggregateInputType = {
+    amountCents?: true
+    taxYear?: true
+  }
+
+  export type CollectiveDistributionMinAggregateInputType = {
+    id?: true
+    collectiveId?: true
+    memberId?: true
+    athleteId?: true
+    amountCents?: true
+    currency?: true
+    reason?: true
+    periodStart?: true
+    periodEnd?: true
+    dwollaTransferId?: true
+    paidAt?: true
+    status?: true
+    taxYear?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CollectiveDistributionMaxAggregateInputType = {
+    id?: true
+    collectiveId?: true
+    memberId?: true
+    athleteId?: true
+    amountCents?: true
+    currency?: true
+    reason?: true
+    periodStart?: true
+    periodEnd?: true
+    dwollaTransferId?: true
+    paidAt?: true
+    status?: true
+    taxYear?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CollectiveDistributionCountAggregateInputType = {
+    id?: true
+    collectiveId?: true
+    memberId?: true
+    athleteId?: true
+    amountCents?: true
+    currency?: true
+    reason?: true
+    periodStart?: true
+    periodEnd?: true
+    dwollaTransferId?: true
+    paidAt?: true
+    status?: true
+    taxYear?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CollectiveDistributionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CollectiveDistribution to aggregate.
+     */
+    where?: CollectiveDistributionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveDistributions to fetch.
+     */
+    orderBy?: CollectiveDistributionOrderByWithRelationInput | CollectiveDistributionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CollectiveDistributionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveDistributions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveDistributions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CollectiveDistributions
+    **/
+    _count?: true | CollectiveDistributionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CollectiveDistributionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CollectiveDistributionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CollectiveDistributionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CollectiveDistributionMaxAggregateInputType
+  }
+
+  export type GetCollectiveDistributionAggregateType<T extends CollectiveDistributionAggregateArgs> = {
+        [P in keyof T & keyof AggregateCollectiveDistribution]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCollectiveDistribution[P]>
+      : GetScalarType<T[P], AggregateCollectiveDistribution[P]>
+  }
+
+
+
+
+  export type CollectiveDistributionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectiveDistributionWhereInput
+    orderBy?: CollectiveDistributionOrderByWithAggregationInput | CollectiveDistributionOrderByWithAggregationInput[]
+    by: CollectiveDistributionScalarFieldEnum[] | CollectiveDistributionScalarFieldEnum
+    having?: CollectiveDistributionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CollectiveDistributionCountAggregateInputType | true
+    _avg?: CollectiveDistributionAvgAggregateInputType
+    _sum?: CollectiveDistributionSumAggregateInputType
+    _min?: CollectiveDistributionMinAggregateInputType
+    _max?: CollectiveDistributionMaxAggregateInputType
+  }
+
+  export type CollectiveDistributionGroupByOutputType = {
+    id: string
+    collectiveId: string
+    memberId: string
+    athleteId: string
+    amountCents: number
+    currency: string
+    reason: string
+    periodStart: Date
+    periodEnd: Date
+    dwollaTransferId: string | null
+    paidAt: Date | null
+    status: string
+    taxYear: number
+    createdAt: Date
+    updatedAt: Date
+    _count: CollectiveDistributionCountAggregateOutputType | null
+    _avg: CollectiveDistributionAvgAggregateOutputType | null
+    _sum: CollectiveDistributionSumAggregateOutputType | null
+    _min: CollectiveDistributionMinAggregateOutputType | null
+    _max: CollectiveDistributionMaxAggregateOutputType | null
+  }
+
+  type GetCollectiveDistributionGroupByPayload<T extends CollectiveDistributionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CollectiveDistributionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CollectiveDistributionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CollectiveDistributionGroupByOutputType[P]>
+            : GetScalarType<T[P], CollectiveDistributionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CollectiveDistributionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    collectiveId?: boolean
+    memberId?: boolean
+    athleteId?: boolean
+    amountCents?: boolean
+    currency?: boolean
+    reason?: boolean
+    periodStart?: boolean
+    periodEnd?: boolean
+    dwollaTransferId?: boolean
+    paidAt?: boolean
+    status?: boolean
+    taxYear?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    member?: boolean | CollectiveMemberDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectiveDistribution"]>
+
+  export type CollectiveDistributionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    collectiveId?: boolean
+    memberId?: boolean
+    athleteId?: boolean
+    amountCents?: boolean
+    currency?: boolean
+    reason?: boolean
+    periodStart?: boolean
+    periodEnd?: boolean
+    dwollaTransferId?: boolean
+    paidAt?: boolean
+    status?: boolean
+    taxYear?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    member?: boolean | CollectiveMemberDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectiveDistribution"]>
+
+  export type CollectiveDistributionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    collectiveId?: boolean
+    memberId?: boolean
+    athleteId?: boolean
+    amountCents?: boolean
+    currency?: boolean
+    reason?: boolean
+    periodStart?: boolean
+    periodEnd?: boolean
+    dwollaTransferId?: boolean
+    paidAt?: boolean
+    status?: boolean
+    taxYear?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    member?: boolean | CollectiveMemberDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectiveDistribution"]>
+
+  export type CollectiveDistributionSelectScalar = {
+    id?: boolean
+    collectiveId?: boolean
+    memberId?: boolean
+    athleteId?: boolean
+    amountCents?: boolean
+    currency?: boolean
+    reason?: boolean
+    periodStart?: boolean
+    periodEnd?: boolean
+    dwollaTransferId?: boolean
+    paidAt?: boolean
+    status?: boolean
+    taxYear?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CollectiveDistributionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "collectiveId" | "memberId" | "athleteId" | "amountCents" | "currency" | "reason" | "periodStart" | "periodEnd" | "dwollaTransferId" | "paidAt" | "status" | "taxYear" | "createdAt" | "updatedAt", ExtArgs["result"]["collectiveDistribution"]>
+  export type CollectiveDistributionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    member?: boolean | CollectiveMemberDefaultArgs<ExtArgs>
+  }
+  export type CollectiveDistributionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    member?: boolean | CollectiveMemberDefaultArgs<ExtArgs>
+  }
+  export type CollectiveDistributionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    collective?: boolean | NilCollectiveDefaultArgs<ExtArgs>
+    member?: boolean | CollectiveMemberDefaultArgs<ExtArgs>
+  }
+
+  export type $CollectiveDistributionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CollectiveDistribution"
+    objects: {
+      collective: Prisma.$NilCollectivePayload<ExtArgs>
+      member: Prisma.$CollectiveMemberPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      collectiveId: string
+      memberId: string
+      athleteId: string
+      amountCents: number
+      currency: string
+      reason: string
+      periodStart: Date
+      periodEnd: Date
+      dwollaTransferId: string | null
+      paidAt: Date | null
+      status: string
+      taxYear: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["collectiveDistribution"]>
+    composites: {}
+  }
+
+  type CollectiveDistributionGetPayload<S extends boolean | null | undefined | CollectiveDistributionDefaultArgs> = $Result.GetResult<Prisma.$CollectiveDistributionPayload, S>
+
+  type CollectiveDistributionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CollectiveDistributionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CollectiveDistributionCountAggregateInputType | true
+    }
+
+  export interface CollectiveDistributionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CollectiveDistribution'], meta: { name: 'CollectiveDistribution' } }
+    /**
+     * Find zero or one CollectiveDistribution that matches the filter.
+     * @param {CollectiveDistributionFindUniqueArgs} args - Arguments to find a CollectiveDistribution
+     * @example
+     * // Get one CollectiveDistribution
+     * const collectiveDistribution = await prisma.collectiveDistribution.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CollectiveDistributionFindUniqueArgs>(args: SelectSubset<T, CollectiveDistributionFindUniqueArgs<ExtArgs>>): Prisma__CollectiveDistributionClient<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CollectiveDistribution that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CollectiveDistributionFindUniqueOrThrowArgs} args - Arguments to find a CollectiveDistribution
+     * @example
+     * // Get one CollectiveDistribution
+     * const collectiveDistribution = await prisma.collectiveDistribution.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CollectiveDistributionFindUniqueOrThrowArgs>(args: SelectSubset<T, CollectiveDistributionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CollectiveDistributionClient<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CollectiveDistribution that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDistributionFindFirstArgs} args - Arguments to find a CollectiveDistribution
+     * @example
+     * // Get one CollectiveDistribution
+     * const collectiveDistribution = await prisma.collectiveDistribution.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CollectiveDistributionFindFirstArgs>(args?: SelectSubset<T, CollectiveDistributionFindFirstArgs<ExtArgs>>): Prisma__CollectiveDistributionClient<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CollectiveDistribution that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDistributionFindFirstOrThrowArgs} args - Arguments to find a CollectiveDistribution
+     * @example
+     * // Get one CollectiveDistribution
+     * const collectiveDistribution = await prisma.collectiveDistribution.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CollectiveDistributionFindFirstOrThrowArgs>(args?: SelectSubset<T, CollectiveDistributionFindFirstOrThrowArgs<ExtArgs>>): Prisma__CollectiveDistributionClient<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CollectiveDistributions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDistributionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CollectiveDistributions
+     * const collectiveDistributions = await prisma.collectiveDistribution.findMany()
+     * 
+     * // Get first 10 CollectiveDistributions
+     * const collectiveDistributions = await prisma.collectiveDistribution.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const collectiveDistributionWithIdOnly = await prisma.collectiveDistribution.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CollectiveDistributionFindManyArgs>(args?: SelectSubset<T, CollectiveDistributionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CollectiveDistribution.
+     * @param {CollectiveDistributionCreateArgs} args - Arguments to create a CollectiveDistribution.
+     * @example
+     * // Create one CollectiveDistribution
+     * const CollectiveDistribution = await prisma.collectiveDistribution.create({
+     *   data: {
+     *     // ... data to create a CollectiveDistribution
+     *   }
+     * })
+     * 
+     */
+    create<T extends CollectiveDistributionCreateArgs>(args: SelectSubset<T, CollectiveDistributionCreateArgs<ExtArgs>>): Prisma__CollectiveDistributionClient<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CollectiveDistributions.
+     * @param {CollectiveDistributionCreateManyArgs} args - Arguments to create many CollectiveDistributions.
+     * @example
+     * // Create many CollectiveDistributions
+     * const collectiveDistribution = await prisma.collectiveDistribution.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CollectiveDistributionCreateManyArgs>(args?: SelectSubset<T, CollectiveDistributionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CollectiveDistributions and returns the data saved in the database.
+     * @param {CollectiveDistributionCreateManyAndReturnArgs} args - Arguments to create many CollectiveDistributions.
+     * @example
+     * // Create many CollectiveDistributions
+     * const collectiveDistribution = await prisma.collectiveDistribution.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CollectiveDistributions and only return the `id`
+     * const collectiveDistributionWithIdOnly = await prisma.collectiveDistribution.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CollectiveDistributionCreateManyAndReturnArgs>(args?: SelectSubset<T, CollectiveDistributionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CollectiveDistribution.
+     * @param {CollectiveDistributionDeleteArgs} args - Arguments to delete one CollectiveDistribution.
+     * @example
+     * // Delete one CollectiveDistribution
+     * const CollectiveDistribution = await prisma.collectiveDistribution.delete({
+     *   where: {
+     *     // ... filter to delete one CollectiveDistribution
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CollectiveDistributionDeleteArgs>(args: SelectSubset<T, CollectiveDistributionDeleteArgs<ExtArgs>>): Prisma__CollectiveDistributionClient<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CollectiveDistribution.
+     * @param {CollectiveDistributionUpdateArgs} args - Arguments to update one CollectiveDistribution.
+     * @example
+     * // Update one CollectiveDistribution
+     * const collectiveDistribution = await prisma.collectiveDistribution.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CollectiveDistributionUpdateArgs>(args: SelectSubset<T, CollectiveDistributionUpdateArgs<ExtArgs>>): Prisma__CollectiveDistributionClient<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CollectiveDistributions.
+     * @param {CollectiveDistributionDeleteManyArgs} args - Arguments to filter CollectiveDistributions to delete.
+     * @example
+     * // Delete a few CollectiveDistributions
+     * const { count } = await prisma.collectiveDistribution.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CollectiveDistributionDeleteManyArgs>(args?: SelectSubset<T, CollectiveDistributionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CollectiveDistributions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDistributionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CollectiveDistributions
+     * const collectiveDistribution = await prisma.collectiveDistribution.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CollectiveDistributionUpdateManyArgs>(args: SelectSubset<T, CollectiveDistributionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CollectiveDistributions and returns the data updated in the database.
+     * @param {CollectiveDistributionUpdateManyAndReturnArgs} args - Arguments to update many CollectiveDistributions.
+     * @example
+     * // Update many CollectiveDistributions
+     * const collectiveDistribution = await prisma.collectiveDistribution.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CollectiveDistributions and only return the `id`
+     * const collectiveDistributionWithIdOnly = await prisma.collectiveDistribution.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CollectiveDistributionUpdateManyAndReturnArgs>(args: SelectSubset<T, CollectiveDistributionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CollectiveDistribution.
+     * @param {CollectiveDistributionUpsertArgs} args - Arguments to update or create a CollectiveDistribution.
+     * @example
+     * // Update or create a CollectiveDistribution
+     * const collectiveDistribution = await prisma.collectiveDistribution.upsert({
+     *   create: {
+     *     // ... data to create a CollectiveDistribution
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CollectiveDistribution we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CollectiveDistributionUpsertArgs>(args: SelectSubset<T, CollectiveDistributionUpsertArgs<ExtArgs>>): Prisma__CollectiveDistributionClient<$Result.GetResult<Prisma.$CollectiveDistributionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CollectiveDistributions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDistributionCountArgs} args - Arguments to filter CollectiveDistributions to count.
+     * @example
+     * // Count the number of CollectiveDistributions
+     * const count = await prisma.collectiveDistribution.count({
+     *   where: {
+     *     // ... the filter for the CollectiveDistributions we want to count
+     *   }
+     * })
+    **/
+    count<T extends CollectiveDistributionCountArgs>(
+      args?: Subset<T, CollectiveDistributionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CollectiveDistributionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CollectiveDistribution.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDistributionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CollectiveDistributionAggregateArgs>(args: Subset<T, CollectiveDistributionAggregateArgs>): Prisma.PrismaPromise<GetCollectiveDistributionAggregateType<T>>
+
+    /**
+     * Group by CollectiveDistribution.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectiveDistributionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CollectiveDistributionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CollectiveDistributionGroupByArgs['orderBy'] }
+        : { orderBy?: CollectiveDistributionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CollectiveDistributionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCollectiveDistributionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CollectiveDistribution model
+   */
+  readonly fields: CollectiveDistributionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CollectiveDistribution.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CollectiveDistributionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    collective<T extends NilCollectiveDefaultArgs<ExtArgs> = {}>(args?: Subset<T, NilCollectiveDefaultArgs<ExtArgs>>): Prisma__NilCollectiveClient<$Result.GetResult<Prisma.$NilCollectivePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    member<T extends CollectiveMemberDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CollectiveMemberDefaultArgs<ExtArgs>>): Prisma__CollectiveMemberClient<$Result.GetResult<Prisma.$CollectiveMemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CollectiveDistribution model
+   */
+  interface CollectiveDistributionFieldRefs {
+    readonly id: FieldRef<"CollectiveDistribution", 'String'>
+    readonly collectiveId: FieldRef<"CollectiveDistribution", 'String'>
+    readonly memberId: FieldRef<"CollectiveDistribution", 'String'>
+    readonly athleteId: FieldRef<"CollectiveDistribution", 'String'>
+    readonly amountCents: FieldRef<"CollectiveDistribution", 'Int'>
+    readonly currency: FieldRef<"CollectiveDistribution", 'String'>
+    readonly reason: FieldRef<"CollectiveDistribution", 'String'>
+    readonly periodStart: FieldRef<"CollectiveDistribution", 'DateTime'>
+    readonly periodEnd: FieldRef<"CollectiveDistribution", 'DateTime'>
+    readonly dwollaTransferId: FieldRef<"CollectiveDistribution", 'String'>
+    readonly paidAt: FieldRef<"CollectiveDistribution", 'DateTime'>
+    readonly status: FieldRef<"CollectiveDistribution", 'String'>
+    readonly taxYear: FieldRef<"CollectiveDistribution", 'Int'>
+    readonly createdAt: FieldRef<"CollectiveDistribution", 'DateTime'>
+    readonly updatedAt: FieldRef<"CollectiveDistribution", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CollectiveDistribution findUnique
+   */
+  export type CollectiveDistributionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDistribution to fetch.
+     */
+    where: CollectiveDistributionWhereUniqueInput
+  }
+
+  /**
+   * CollectiveDistribution findUniqueOrThrow
+   */
+  export type CollectiveDistributionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDistribution to fetch.
+     */
+    where: CollectiveDistributionWhereUniqueInput
+  }
+
+  /**
+   * CollectiveDistribution findFirst
+   */
+  export type CollectiveDistributionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDistribution to fetch.
+     */
+    where?: CollectiveDistributionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveDistributions to fetch.
+     */
+    orderBy?: CollectiveDistributionOrderByWithRelationInput | CollectiveDistributionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CollectiveDistributions.
+     */
+    cursor?: CollectiveDistributionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveDistributions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveDistributions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CollectiveDistributions.
+     */
+    distinct?: CollectiveDistributionScalarFieldEnum | CollectiveDistributionScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveDistribution findFirstOrThrow
+   */
+  export type CollectiveDistributionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDistribution to fetch.
+     */
+    where?: CollectiveDistributionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveDistributions to fetch.
+     */
+    orderBy?: CollectiveDistributionOrderByWithRelationInput | CollectiveDistributionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CollectiveDistributions.
+     */
+    cursor?: CollectiveDistributionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveDistributions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveDistributions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CollectiveDistributions.
+     */
+    distinct?: CollectiveDistributionScalarFieldEnum | CollectiveDistributionScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveDistribution findMany
+   */
+  export type CollectiveDistributionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectiveDistributions to fetch.
+     */
+    where?: CollectiveDistributionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectiveDistributions to fetch.
+     */
+    orderBy?: CollectiveDistributionOrderByWithRelationInput | CollectiveDistributionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CollectiveDistributions.
+     */
+    cursor?: CollectiveDistributionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectiveDistributions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectiveDistributions.
+     */
+    skip?: number
+    distinct?: CollectiveDistributionScalarFieldEnum | CollectiveDistributionScalarFieldEnum[]
+  }
+
+  /**
+   * CollectiveDistribution create
+   */
+  export type CollectiveDistributionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CollectiveDistribution.
+     */
+    data: XOR<CollectiveDistributionCreateInput, CollectiveDistributionUncheckedCreateInput>
+  }
+
+  /**
+   * CollectiveDistribution createMany
+   */
+  export type CollectiveDistributionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CollectiveDistributions.
+     */
+    data: CollectiveDistributionCreateManyInput | CollectiveDistributionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CollectiveDistribution createManyAndReturn
+   */
+  export type CollectiveDistributionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * The data used to create many CollectiveDistributions.
+     */
+    data: CollectiveDistributionCreateManyInput | CollectiveDistributionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CollectiveDistribution update
+   */
+  export type CollectiveDistributionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CollectiveDistribution.
+     */
+    data: XOR<CollectiveDistributionUpdateInput, CollectiveDistributionUncheckedUpdateInput>
+    /**
+     * Choose, which CollectiveDistribution to update.
+     */
+    where: CollectiveDistributionWhereUniqueInput
+  }
+
+  /**
+   * CollectiveDistribution updateMany
+   */
+  export type CollectiveDistributionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CollectiveDistributions.
+     */
+    data: XOR<CollectiveDistributionUpdateManyMutationInput, CollectiveDistributionUncheckedUpdateManyInput>
+    /**
+     * Filter which CollectiveDistributions to update
+     */
+    where?: CollectiveDistributionWhereInput
+    /**
+     * Limit how many CollectiveDistributions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CollectiveDistribution updateManyAndReturn
+   */
+  export type CollectiveDistributionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * The data used to update CollectiveDistributions.
+     */
+    data: XOR<CollectiveDistributionUpdateManyMutationInput, CollectiveDistributionUncheckedUpdateManyInput>
+    /**
+     * Filter which CollectiveDistributions to update
+     */
+    where?: CollectiveDistributionWhereInput
+    /**
+     * Limit how many CollectiveDistributions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CollectiveDistribution upsert
+   */
+  export type CollectiveDistributionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CollectiveDistribution to update in case it exists.
+     */
+    where: CollectiveDistributionWhereUniqueInput
+    /**
+     * In case the CollectiveDistribution found by the `where` argument doesn't exist, create a new CollectiveDistribution with this data.
+     */
+    create: XOR<CollectiveDistributionCreateInput, CollectiveDistributionUncheckedCreateInput>
+    /**
+     * In case the CollectiveDistribution was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CollectiveDistributionUpdateInput, CollectiveDistributionUncheckedUpdateInput>
+  }
+
+  /**
+   * CollectiveDistribution delete
+   */
+  export type CollectiveDistributionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionInclude<ExtArgs> | null
+    /**
+     * Filter which CollectiveDistribution to delete.
+     */
+    where: CollectiveDistributionWhereUniqueInput
+  }
+
+  /**
+   * CollectiveDistribution deleteMany
+   */
+  export type CollectiveDistributionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CollectiveDistributions to delete
+     */
+    where?: CollectiveDistributionWhereInput
+    /**
+     * Limit how many CollectiveDistributions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CollectiveDistribution without action
+   */
+  export type CollectiveDistributionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectiveDistribution
+     */
+    select?: CollectiveDistributionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectiveDistribution
+     */
+    omit?: CollectiveDistributionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectiveDistributionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MatchRequest
+   */
+
+  export type AggregateMatchRequest = {
+    _count: MatchRequestCountAggregateOutputType | null
+    _avg: MatchRequestAvgAggregateOutputType | null
+    _sum: MatchRequestSumAggregateOutputType | null
+    _min: MatchRequestMinAggregateOutputType | null
+    _max: MatchRequestMaxAggregateOutputType | null
+  }
+
+  export type MatchRequestAvgAggregateOutputType = {
+    budgetCents: number | null
+    targetMinFollowers: number | null
+    targetMaxFollowers: number | null
+    targetMinEngagement: number | null
+    maxResults: number | null
+  }
+
+  export type MatchRequestSumAggregateOutputType = {
+    budgetCents: number | null
+    targetMinFollowers: number | null
+    targetMaxFollowers: number | null
+    targetMinEngagement: number | null
+    maxResults: number | null
+  }
+
+  export type MatchRequestMinAggregateOutputType = {
+    id: string | null
+    requestedById: string | null
+    campaignId: string | null
+    brief: string | null
+    budgetCents: number | null
+    targetMinFollowers: number | null
+    targetMaxFollowers: number | null
+    targetMinEngagement: number | null
+    targetEntityType: string | null
+    targetSport: string | null
+    maxResults: number | null
+    status: $Enums.MatchStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MatchRequestMaxAggregateOutputType = {
+    id: string | null
+    requestedById: string | null
+    campaignId: string | null
+    brief: string | null
+    budgetCents: number | null
+    targetMinFollowers: number | null
+    targetMaxFollowers: number | null
+    targetMinEngagement: number | null
+    targetEntityType: string | null
+    targetSport: string | null
+    maxResults: number | null
+    status: $Enums.MatchStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MatchRequestCountAggregateOutputType = {
+    id: number
+    requestedById: number
+    campaignId: number
+    brief: number
+    budgetCents: number
+    targetNiche: number
+    targetPlatforms: number
+    targetMinFollowers: number
+    targetMaxFollowers: number
+    targetMinEngagement: number
+    targetEntityType: number
+    targetSport: number
+    maxResults: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MatchRequestAvgAggregateInputType = {
+    budgetCents?: true
+    targetMinFollowers?: true
+    targetMaxFollowers?: true
+    targetMinEngagement?: true
+    maxResults?: true
+  }
+
+  export type MatchRequestSumAggregateInputType = {
+    budgetCents?: true
+    targetMinFollowers?: true
+    targetMaxFollowers?: true
+    targetMinEngagement?: true
+    maxResults?: true
+  }
+
+  export type MatchRequestMinAggregateInputType = {
+    id?: true
+    requestedById?: true
+    campaignId?: true
+    brief?: true
+    budgetCents?: true
+    targetMinFollowers?: true
+    targetMaxFollowers?: true
+    targetMinEngagement?: true
+    targetEntityType?: true
+    targetSport?: true
+    maxResults?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MatchRequestMaxAggregateInputType = {
+    id?: true
+    requestedById?: true
+    campaignId?: true
+    brief?: true
+    budgetCents?: true
+    targetMinFollowers?: true
+    targetMaxFollowers?: true
+    targetMinEngagement?: true
+    targetEntityType?: true
+    targetSport?: true
+    maxResults?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MatchRequestCountAggregateInputType = {
+    id?: true
+    requestedById?: true
+    campaignId?: true
+    brief?: true
+    budgetCents?: true
+    targetNiche?: true
+    targetPlatforms?: true
+    targetMinFollowers?: true
+    targetMaxFollowers?: true
+    targetMinEngagement?: true
+    targetEntityType?: true
+    targetSport?: true
+    maxResults?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MatchRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MatchRequest to aggregate.
+     */
+    where?: MatchRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MatchRequests to fetch.
+     */
+    orderBy?: MatchRequestOrderByWithRelationInput | MatchRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MatchRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MatchRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MatchRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MatchRequests
+    **/
+    _count?: true | MatchRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MatchRequestAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MatchRequestSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MatchRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MatchRequestMaxAggregateInputType
+  }
+
+  export type GetMatchRequestAggregateType<T extends MatchRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateMatchRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMatchRequest[P]>
+      : GetScalarType<T[P], AggregateMatchRequest[P]>
+  }
+
+
+
+
+  export type MatchRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatchRequestWhereInput
+    orderBy?: MatchRequestOrderByWithAggregationInput | MatchRequestOrderByWithAggregationInput[]
+    by: MatchRequestScalarFieldEnum[] | MatchRequestScalarFieldEnum
+    having?: MatchRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MatchRequestCountAggregateInputType | true
+    _avg?: MatchRequestAvgAggregateInputType
+    _sum?: MatchRequestSumAggregateInputType
+    _min?: MatchRequestMinAggregateInputType
+    _max?: MatchRequestMaxAggregateInputType
+  }
+
+  export type MatchRequestGroupByOutputType = {
+    id: string
+    requestedById: string
+    campaignId: string | null
+    brief: string
+    budgetCents: number | null
+    targetNiche: string[]
+    targetPlatforms: string[]
+    targetMinFollowers: number | null
+    targetMaxFollowers: number | null
+    targetMinEngagement: number | null
+    targetEntityType: string
+    targetSport: string | null
+    maxResults: number
+    status: $Enums.MatchStatus
+    createdAt: Date
+    updatedAt: Date
+    _count: MatchRequestCountAggregateOutputType | null
+    _avg: MatchRequestAvgAggregateOutputType | null
+    _sum: MatchRequestSumAggregateOutputType | null
+    _min: MatchRequestMinAggregateOutputType | null
+    _max: MatchRequestMaxAggregateOutputType | null
+  }
+
+  type GetMatchRequestGroupByPayload<T extends MatchRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MatchRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MatchRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MatchRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], MatchRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MatchRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requestedById?: boolean
+    campaignId?: boolean
+    brief?: boolean
+    budgetCents?: boolean
+    targetNiche?: boolean
+    targetPlatforms?: boolean
+    targetMinFollowers?: boolean
+    targetMaxFollowers?: boolean
+    targetMinEngagement?: boolean
+    targetEntityType?: boolean
+    targetSport?: boolean
+    maxResults?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    results?: boolean | MatchRequest$resultsArgs<ExtArgs>
+    _count?: boolean | MatchRequestCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["matchRequest"]>
+
+  export type MatchRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requestedById?: boolean
+    campaignId?: boolean
+    brief?: boolean
+    budgetCents?: boolean
+    targetNiche?: boolean
+    targetPlatforms?: boolean
+    targetMinFollowers?: boolean
+    targetMaxFollowers?: boolean
+    targetMinEngagement?: boolean
+    targetEntityType?: boolean
+    targetSport?: boolean
+    maxResults?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["matchRequest"]>
+
+  export type MatchRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requestedById?: boolean
+    campaignId?: boolean
+    brief?: boolean
+    budgetCents?: boolean
+    targetNiche?: boolean
+    targetPlatforms?: boolean
+    targetMinFollowers?: boolean
+    targetMaxFollowers?: boolean
+    targetMinEngagement?: boolean
+    targetEntityType?: boolean
+    targetSport?: boolean
+    maxResults?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["matchRequest"]>
+
+  export type MatchRequestSelectScalar = {
+    id?: boolean
+    requestedById?: boolean
+    campaignId?: boolean
+    brief?: boolean
+    budgetCents?: boolean
+    targetNiche?: boolean
+    targetPlatforms?: boolean
+    targetMinFollowers?: boolean
+    targetMaxFollowers?: boolean
+    targetMinEngagement?: boolean
+    targetEntityType?: boolean
+    targetSport?: boolean
+    maxResults?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MatchRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "requestedById" | "campaignId" | "brief" | "budgetCents" | "targetNiche" | "targetPlatforms" | "targetMinFollowers" | "targetMaxFollowers" | "targetMinEngagement" | "targetEntityType" | "targetSport" | "maxResults" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["matchRequest"]>
+  export type MatchRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    results?: boolean | MatchRequest$resultsArgs<ExtArgs>
+    _count?: boolean | MatchRequestCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type MatchRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type MatchRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $MatchRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MatchRequest"
+    objects: {
+      requestedBy: Prisma.$UserPayload<ExtArgs>
+      results: Prisma.$MatchResultPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      requestedById: string
+      campaignId: string | null
+      brief: string
+      budgetCents: number | null
+      targetNiche: string[]
+      targetPlatforms: string[]
+      targetMinFollowers: number | null
+      targetMaxFollowers: number | null
+      targetMinEngagement: number | null
+      targetEntityType: string
+      targetSport: string | null
+      maxResults: number
+      status: $Enums.MatchStatus
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["matchRequest"]>
+    composites: {}
+  }
+
+  type MatchRequestGetPayload<S extends boolean | null | undefined | MatchRequestDefaultArgs> = $Result.GetResult<Prisma.$MatchRequestPayload, S>
+
+  type MatchRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MatchRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MatchRequestCountAggregateInputType | true
+    }
+
+  export interface MatchRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MatchRequest'], meta: { name: 'MatchRequest' } }
+    /**
+     * Find zero or one MatchRequest that matches the filter.
+     * @param {MatchRequestFindUniqueArgs} args - Arguments to find a MatchRequest
+     * @example
+     * // Get one MatchRequest
+     * const matchRequest = await prisma.matchRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MatchRequestFindUniqueArgs>(args: SelectSubset<T, MatchRequestFindUniqueArgs<ExtArgs>>): Prisma__MatchRequestClient<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MatchRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MatchRequestFindUniqueOrThrowArgs} args - Arguments to find a MatchRequest
+     * @example
+     * // Get one MatchRequest
+     * const matchRequest = await prisma.matchRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MatchRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, MatchRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MatchRequestClient<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MatchRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchRequestFindFirstArgs} args - Arguments to find a MatchRequest
+     * @example
+     * // Get one MatchRequest
+     * const matchRequest = await prisma.matchRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MatchRequestFindFirstArgs>(args?: SelectSubset<T, MatchRequestFindFirstArgs<ExtArgs>>): Prisma__MatchRequestClient<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MatchRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchRequestFindFirstOrThrowArgs} args - Arguments to find a MatchRequest
+     * @example
+     * // Get one MatchRequest
+     * const matchRequest = await prisma.matchRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MatchRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, MatchRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__MatchRequestClient<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MatchRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MatchRequests
+     * const matchRequests = await prisma.matchRequest.findMany()
+     * 
+     * // Get first 10 MatchRequests
+     * const matchRequests = await prisma.matchRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const matchRequestWithIdOnly = await prisma.matchRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MatchRequestFindManyArgs>(args?: SelectSubset<T, MatchRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MatchRequest.
+     * @param {MatchRequestCreateArgs} args - Arguments to create a MatchRequest.
+     * @example
+     * // Create one MatchRequest
+     * const MatchRequest = await prisma.matchRequest.create({
+     *   data: {
+     *     // ... data to create a MatchRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends MatchRequestCreateArgs>(args: SelectSubset<T, MatchRequestCreateArgs<ExtArgs>>): Prisma__MatchRequestClient<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MatchRequests.
+     * @param {MatchRequestCreateManyArgs} args - Arguments to create many MatchRequests.
+     * @example
+     * // Create many MatchRequests
+     * const matchRequest = await prisma.matchRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MatchRequestCreateManyArgs>(args?: SelectSubset<T, MatchRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MatchRequests and returns the data saved in the database.
+     * @param {MatchRequestCreateManyAndReturnArgs} args - Arguments to create many MatchRequests.
+     * @example
+     * // Create many MatchRequests
+     * const matchRequest = await prisma.matchRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MatchRequests and only return the `id`
+     * const matchRequestWithIdOnly = await prisma.matchRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MatchRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, MatchRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MatchRequest.
+     * @param {MatchRequestDeleteArgs} args - Arguments to delete one MatchRequest.
+     * @example
+     * // Delete one MatchRequest
+     * const MatchRequest = await prisma.matchRequest.delete({
+     *   where: {
+     *     // ... filter to delete one MatchRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MatchRequestDeleteArgs>(args: SelectSubset<T, MatchRequestDeleteArgs<ExtArgs>>): Prisma__MatchRequestClient<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MatchRequest.
+     * @param {MatchRequestUpdateArgs} args - Arguments to update one MatchRequest.
+     * @example
+     * // Update one MatchRequest
+     * const matchRequest = await prisma.matchRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MatchRequestUpdateArgs>(args: SelectSubset<T, MatchRequestUpdateArgs<ExtArgs>>): Prisma__MatchRequestClient<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MatchRequests.
+     * @param {MatchRequestDeleteManyArgs} args - Arguments to filter MatchRequests to delete.
+     * @example
+     * // Delete a few MatchRequests
+     * const { count } = await prisma.matchRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MatchRequestDeleteManyArgs>(args?: SelectSubset<T, MatchRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MatchRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MatchRequests
+     * const matchRequest = await prisma.matchRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MatchRequestUpdateManyArgs>(args: SelectSubset<T, MatchRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MatchRequests and returns the data updated in the database.
+     * @param {MatchRequestUpdateManyAndReturnArgs} args - Arguments to update many MatchRequests.
+     * @example
+     * // Update many MatchRequests
+     * const matchRequest = await prisma.matchRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MatchRequests and only return the `id`
+     * const matchRequestWithIdOnly = await prisma.matchRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MatchRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, MatchRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MatchRequest.
+     * @param {MatchRequestUpsertArgs} args - Arguments to update or create a MatchRequest.
+     * @example
+     * // Update or create a MatchRequest
+     * const matchRequest = await prisma.matchRequest.upsert({
+     *   create: {
+     *     // ... data to create a MatchRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MatchRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MatchRequestUpsertArgs>(args: SelectSubset<T, MatchRequestUpsertArgs<ExtArgs>>): Prisma__MatchRequestClient<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MatchRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchRequestCountArgs} args - Arguments to filter MatchRequests to count.
+     * @example
+     * // Count the number of MatchRequests
+     * const count = await prisma.matchRequest.count({
+     *   where: {
+     *     // ... the filter for the MatchRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends MatchRequestCountArgs>(
+      args?: Subset<T, MatchRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MatchRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MatchRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MatchRequestAggregateArgs>(args: Subset<T, MatchRequestAggregateArgs>): Prisma.PrismaPromise<GetMatchRequestAggregateType<T>>
+
+    /**
+     * Group by MatchRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MatchRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MatchRequestGroupByArgs['orderBy'] }
+        : { orderBy?: MatchRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MatchRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMatchRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MatchRequest model
+   */
+  readonly fields: MatchRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MatchRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MatchRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    requestedBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    results<T extends MatchRequest$resultsArgs<ExtArgs> = {}>(args?: Subset<T, MatchRequest$resultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MatchRequest model
+   */
+  interface MatchRequestFieldRefs {
+    readonly id: FieldRef<"MatchRequest", 'String'>
+    readonly requestedById: FieldRef<"MatchRequest", 'String'>
+    readonly campaignId: FieldRef<"MatchRequest", 'String'>
+    readonly brief: FieldRef<"MatchRequest", 'String'>
+    readonly budgetCents: FieldRef<"MatchRequest", 'Int'>
+    readonly targetNiche: FieldRef<"MatchRequest", 'String[]'>
+    readonly targetPlatforms: FieldRef<"MatchRequest", 'String[]'>
+    readonly targetMinFollowers: FieldRef<"MatchRequest", 'Int'>
+    readonly targetMaxFollowers: FieldRef<"MatchRequest", 'Int'>
+    readonly targetMinEngagement: FieldRef<"MatchRequest", 'Float'>
+    readonly targetEntityType: FieldRef<"MatchRequest", 'String'>
+    readonly targetSport: FieldRef<"MatchRequest", 'String'>
+    readonly maxResults: FieldRef<"MatchRequest", 'Int'>
+    readonly status: FieldRef<"MatchRequest", 'MatchStatus'>
+    readonly createdAt: FieldRef<"MatchRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"MatchRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MatchRequest findUnique
+   */
+  export type MatchRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which MatchRequest to fetch.
+     */
+    where: MatchRequestWhereUniqueInput
+  }
+
+  /**
+   * MatchRequest findUniqueOrThrow
+   */
+  export type MatchRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which MatchRequest to fetch.
+     */
+    where: MatchRequestWhereUniqueInput
+  }
+
+  /**
+   * MatchRequest findFirst
+   */
+  export type MatchRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which MatchRequest to fetch.
+     */
+    where?: MatchRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MatchRequests to fetch.
+     */
+    orderBy?: MatchRequestOrderByWithRelationInput | MatchRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MatchRequests.
+     */
+    cursor?: MatchRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MatchRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MatchRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MatchRequests.
+     */
+    distinct?: MatchRequestScalarFieldEnum | MatchRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MatchRequest findFirstOrThrow
+   */
+  export type MatchRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which MatchRequest to fetch.
+     */
+    where?: MatchRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MatchRequests to fetch.
+     */
+    orderBy?: MatchRequestOrderByWithRelationInput | MatchRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MatchRequests.
+     */
+    cursor?: MatchRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MatchRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MatchRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MatchRequests.
+     */
+    distinct?: MatchRequestScalarFieldEnum | MatchRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MatchRequest findMany
+   */
+  export type MatchRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which MatchRequests to fetch.
+     */
+    where?: MatchRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MatchRequests to fetch.
+     */
+    orderBy?: MatchRequestOrderByWithRelationInput | MatchRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MatchRequests.
+     */
+    cursor?: MatchRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MatchRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MatchRequests.
+     */
+    skip?: number
+    distinct?: MatchRequestScalarFieldEnum | MatchRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MatchRequest create
+   */
+  export type MatchRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MatchRequest.
+     */
+    data: XOR<MatchRequestCreateInput, MatchRequestUncheckedCreateInput>
+  }
+
+  /**
+   * MatchRequest createMany
+   */
+  export type MatchRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MatchRequests.
+     */
+    data: MatchRequestCreateManyInput | MatchRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MatchRequest createManyAndReturn
+   */
+  export type MatchRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many MatchRequests.
+     */
+    data: MatchRequestCreateManyInput | MatchRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MatchRequest update
+   */
+  export type MatchRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MatchRequest.
+     */
+    data: XOR<MatchRequestUpdateInput, MatchRequestUncheckedUpdateInput>
+    /**
+     * Choose, which MatchRequest to update.
+     */
+    where: MatchRequestWhereUniqueInput
+  }
+
+  /**
+   * MatchRequest updateMany
+   */
+  export type MatchRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MatchRequests.
+     */
+    data: XOR<MatchRequestUpdateManyMutationInput, MatchRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which MatchRequests to update
+     */
+    where?: MatchRequestWhereInput
+    /**
+     * Limit how many MatchRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MatchRequest updateManyAndReturn
+   */
+  export type MatchRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update MatchRequests.
+     */
+    data: XOR<MatchRequestUpdateManyMutationInput, MatchRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which MatchRequests to update
+     */
+    where?: MatchRequestWhereInput
+    /**
+     * Limit how many MatchRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MatchRequest upsert
+   */
+  export type MatchRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MatchRequest to update in case it exists.
+     */
+    where: MatchRequestWhereUniqueInput
+    /**
+     * In case the MatchRequest found by the `where` argument doesn't exist, create a new MatchRequest with this data.
+     */
+    create: XOR<MatchRequestCreateInput, MatchRequestUncheckedCreateInput>
+    /**
+     * In case the MatchRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MatchRequestUpdateInput, MatchRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * MatchRequest delete
+   */
+  export type MatchRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestInclude<ExtArgs> | null
+    /**
+     * Filter which MatchRequest to delete.
+     */
+    where: MatchRequestWhereUniqueInput
+  }
+
+  /**
+   * MatchRequest deleteMany
+   */
+  export type MatchRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MatchRequests to delete
+     */
+    where?: MatchRequestWhereInput
+    /**
+     * Limit how many MatchRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MatchRequest.results
+   */
+  export type MatchRequest$resultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+    where?: MatchResultWhereInput
+    orderBy?: MatchResultOrderByWithRelationInput | MatchResultOrderByWithRelationInput[]
+    cursor?: MatchResultWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MatchResultScalarFieldEnum | MatchResultScalarFieldEnum[]
+  }
+
+  /**
+   * MatchRequest without action
+   */
+  export type MatchRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchRequest
+     */
+    select?: MatchRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchRequest
+     */
+    omit?: MatchRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MatchResult
+   */
+
+  export type AggregateMatchResult = {
+    _count: MatchResultCountAggregateOutputType | null
+    _avg: MatchResultAvgAggregateOutputType | null
+    _sum: MatchResultSumAggregateOutputType | null
+    _min: MatchResultMinAggregateOutputType | null
+    _max: MatchResultMaxAggregateOutputType | null
+  }
+
+  export type MatchResultAvgAggregateOutputType = {
+    rank: number | null
+    matchScore: number | null
+    audienceAlignScore: number | null
+    performanceScore: number | null
+    fraudScore: number | null
+    suggestedRateCents: number | null
+    estimatedReach: number | null
+    estimatedRoi: number | null
+  }
+
+  export type MatchResultSumAggregateOutputType = {
+    rank: number | null
+    matchScore: number | null
+    audienceAlignScore: number | null
+    performanceScore: number | null
+    fraudScore: number | null
+    suggestedRateCents: number | null
+    estimatedReach: number | null
+    estimatedRoi: number | null
+  }
+
+  export type MatchResultMinAggregateOutputType = {
+    id: string | null
+    requestId: string | null
+    creatorId: string | null
+    athleteId: string | null
+    rank: number | null
+    matchScore: number | null
+    audienceAlignScore: number | null
+    performanceScore: number | null
+    fraudScore: number | null
+    suggestedRateCents: number | null
+    estimatedReach: number | null
+    estimatedRoi: number | null
+    reasoning: string | null
+    createdAt: Date | null
+  }
+
+  export type MatchResultMaxAggregateOutputType = {
+    id: string | null
+    requestId: string | null
+    creatorId: string | null
+    athleteId: string | null
+    rank: number | null
+    matchScore: number | null
+    audienceAlignScore: number | null
+    performanceScore: number | null
+    fraudScore: number | null
+    suggestedRateCents: number | null
+    estimatedReach: number | null
+    estimatedRoi: number | null
+    reasoning: string | null
+    createdAt: Date | null
+  }
+
+  export type MatchResultCountAggregateOutputType = {
+    id: number
+    requestId: number
+    creatorId: number
+    athleteId: number
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents: number
+    estimatedReach: number
+    estimatedRoi: number
+    reasoning: number
+    aiFlags: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type MatchResultAvgAggregateInputType = {
+    rank?: true
+    matchScore?: true
+    audienceAlignScore?: true
+    performanceScore?: true
+    fraudScore?: true
+    suggestedRateCents?: true
+    estimatedReach?: true
+    estimatedRoi?: true
+  }
+
+  export type MatchResultSumAggregateInputType = {
+    rank?: true
+    matchScore?: true
+    audienceAlignScore?: true
+    performanceScore?: true
+    fraudScore?: true
+    suggestedRateCents?: true
+    estimatedReach?: true
+    estimatedRoi?: true
+  }
+
+  export type MatchResultMinAggregateInputType = {
+    id?: true
+    requestId?: true
+    creatorId?: true
+    athleteId?: true
+    rank?: true
+    matchScore?: true
+    audienceAlignScore?: true
+    performanceScore?: true
+    fraudScore?: true
+    suggestedRateCents?: true
+    estimatedReach?: true
+    estimatedRoi?: true
+    reasoning?: true
+    createdAt?: true
+  }
+
+  export type MatchResultMaxAggregateInputType = {
+    id?: true
+    requestId?: true
+    creatorId?: true
+    athleteId?: true
+    rank?: true
+    matchScore?: true
+    audienceAlignScore?: true
+    performanceScore?: true
+    fraudScore?: true
+    suggestedRateCents?: true
+    estimatedReach?: true
+    estimatedRoi?: true
+    reasoning?: true
+    createdAt?: true
+  }
+
+  export type MatchResultCountAggregateInputType = {
+    id?: true
+    requestId?: true
+    creatorId?: true
+    athleteId?: true
+    rank?: true
+    matchScore?: true
+    audienceAlignScore?: true
+    performanceScore?: true
+    fraudScore?: true
+    suggestedRateCents?: true
+    estimatedReach?: true
+    estimatedRoi?: true
+    reasoning?: true
+    aiFlags?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type MatchResultAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MatchResult to aggregate.
+     */
+    where?: MatchResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MatchResults to fetch.
+     */
+    orderBy?: MatchResultOrderByWithRelationInput | MatchResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MatchResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MatchResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MatchResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MatchResults
+    **/
+    _count?: true | MatchResultCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MatchResultAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MatchResultSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MatchResultMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MatchResultMaxAggregateInputType
+  }
+
+  export type GetMatchResultAggregateType<T extends MatchResultAggregateArgs> = {
+        [P in keyof T & keyof AggregateMatchResult]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMatchResult[P]>
+      : GetScalarType<T[P], AggregateMatchResult[P]>
+  }
+
+
+
+
+  export type MatchResultGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatchResultWhereInput
+    orderBy?: MatchResultOrderByWithAggregationInput | MatchResultOrderByWithAggregationInput[]
+    by: MatchResultScalarFieldEnum[] | MatchResultScalarFieldEnum
+    having?: MatchResultScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MatchResultCountAggregateInputType | true
+    _avg?: MatchResultAvgAggregateInputType
+    _sum?: MatchResultSumAggregateInputType
+    _min?: MatchResultMinAggregateInputType
+    _max?: MatchResultMaxAggregateInputType
+  }
+
+  export type MatchResultGroupByOutputType = {
+    id: string
+    requestId: string
+    creatorId: string | null
+    athleteId: string | null
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents: number | null
+    estimatedReach: number | null
+    estimatedRoi: number | null
+    reasoning: string
+    aiFlags: JsonValue | null
+    createdAt: Date
+    _count: MatchResultCountAggregateOutputType | null
+    _avg: MatchResultAvgAggregateOutputType | null
+    _sum: MatchResultSumAggregateOutputType | null
+    _min: MatchResultMinAggregateOutputType | null
+    _max: MatchResultMaxAggregateOutputType | null
+  }
+
+  type GetMatchResultGroupByPayload<T extends MatchResultGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MatchResultGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MatchResultGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MatchResultGroupByOutputType[P]>
+            : GetScalarType<T[P], MatchResultGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MatchResultSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requestId?: boolean
+    creatorId?: boolean
+    athleteId?: boolean
+    rank?: boolean
+    matchScore?: boolean
+    audienceAlignScore?: boolean
+    performanceScore?: boolean
+    fraudScore?: boolean
+    suggestedRateCents?: boolean
+    estimatedReach?: boolean
+    estimatedRoi?: boolean
+    reasoning?: boolean
+    aiFlags?: boolean
+    createdAt?: boolean
+    request?: boolean | MatchRequestDefaultArgs<ExtArgs>
+    creator?: boolean | MatchResult$creatorArgs<ExtArgs>
+    athlete?: boolean | MatchResult$athleteArgs<ExtArgs>
+  }, ExtArgs["result"]["matchResult"]>
+
+  export type MatchResultSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requestId?: boolean
+    creatorId?: boolean
+    athleteId?: boolean
+    rank?: boolean
+    matchScore?: boolean
+    audienceAlignScore?: boolean
+    performanceScore?: boolean
+    fraudScore?: boolean
+    suggestedRateCents?: boolean
+    estimatedReach?: boolean
+    estimatedRoi?: boolean
+    reasoning?: boolean
+    aiFlags?: boolean
+    createdAt?: boolean
+    request?: boolean | MatchRequestDefaultArgs<ExtArgs>
+    creator?: boolean | MatchResult$creatorArgs<ExtArgs>
+    athlete?: boolean | MatchResult$athleteArgs<ExtArgs>
+  }, ExtArgs["result"]["matchResult"]>
+
+  export type MatchResultSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requestId?: boolean
+    creatorId?: boolean
+    athleteId?: boolean
+    rank?: boolean
+    matchScore?: boolean
+    audienceAlignScore?: boolean
+    performanceScore?: boolean
+    fraudScore?: boolean
+    suggestedRateCents?: boolean
+    estimatedReach?: boolean
+    estimatedRoi?: boolean
+    reasoning?: boolean
+    aiFlags?: boolean
+    createdAt?: boolean
+    request?: boolean | MatchRequestDefaultArgs<ExtArgs>
+    creator?: boolean | MatchResult$creatorArgs<ExtArgs>
+    athlete?: boolean | MatchResult$athleteArgs<ExtArgs>
+  }, ExtArgs["result"]["matchResult"]>
+
+  export type MatchResultSelectScalar = {
+    id?: boolean
+    requestId?: boolean
+    creatorId?: boolean
+    athleteId?: boolean
+    rank?: boolean
+    matchScore?: boolean
+    audienceAlignScore?: boolean
+    performanceScore?: boolean
+    fraudScore?: boolean
+    suggestedRateCents?: boolean
+    estimatedReach?: boolean
+    estimatedRoi?: boolean
+    reasoning?: boolean
+    aiFlags?: boolean
+    createdAt?: boolean
+  }
+
+  export type MatchResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "requestId" | "creatorId" | "athleteId" | "rank" | "matchScore" | "audienceAlignScore" | "performanceScore" | "fraudScore" | "suggestedRateCents" | "estimatedReach" | "estimatedRoi" | "reasoning" | "aiFlags" | "createdAt", ExtArgs["result"]["matchResult"]>
+  export type MatchResultInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    request?: boolean | MatchRequestDefaultArgs<ExtArgs>
+    creator?: boolean | MatchResult$creatorArgs<ExtArgs>
+    athlete?: boolean | MatchResult$athleteArgs<ExtArgs>
+  }
+  export type MatchResultIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    request?: boolean | MatchRequestDefaultArgs<ExtArgs>
+    creator?: boolean | MatchResult$creatorArgs<ExtArgs>
+    athlete?: boolean | MatchResult$athleteArgs<ExtArgs>
+  }
+  export type MatchResultIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    request?: boolean | MatchRequestDefaultArgs<ExtArgs>
+    creator?: boolean | MatchResult$creatorArgs<ExtArgs>
+    athlete?: boolean | MatchResult$athleteArgs<ExtArgs>
+  }
+
+  export type $MatchResultPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MatchResult"
+    objects: {
+      request: Prisma.$MatchRequestPayload<ExtArgs>
+      creator: Prisma.$CreatorPayload<ExtArgs> | null
+      athlete: Prisma.$AthletePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      requestId: string
+      creatorId: string | null
+      athleteId: string | null
+      rank: number
+      matchScore: number
+      audienceAlignScore: number
+      performanceScore: number
+      fraudScore: number
+      suggestedRateCents: number | null
+      estimatedReach: number | null
+      estimatedRoi: number | null
+      reasoning: string
+      aiFlags: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["matchResult"]>
+    composites: {}
+  }
+
+  type MatchResultGetPayload<S extends boolean | null | undefined | MatchResultDefaultArgs> = $Result.GetResult<Prisma.$MatchResultPayload, S>
+
+  type MatchResultCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MatchResultFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MatchResultCountAggregateInputType | true
+    }
+
+  export interface MatchResultDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MatchResult'], meta: { name: 'MatchResult' } }
+    /**
+     * Find zero or one MatchResult that matches the filter.
+     * @param {MatchResultFindUniqueArgs} args - Arguments to find a MatchResult
+     * @example
+     * // Get one MatchResult
+     * const matchResult = await prisma.matchResult.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MatchResultFindUniqueArgs>(args: SelectSubset<T, MatchResultFindUniqueArgs<ExtArgs>>): Prisma__MatchResultClient<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MatchResult that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MatchResultFindUniqueOrThrowArgs} args - Arguments to find a MatchResult
+     * @example
+     * // Get one MatchResult
+     * const matchResult = await prisma.matchResult.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MatchResultFindUniqueOrThrowArgs>(args: SelectSubset<T, MatchResultFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MatchResultClient<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MatchResult that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchResultFindFirstArgs} args - Arguments to find a MatchResult
+     * @example
+     * // Get one MatchResult
+     * const matchResult = await prisma.matchResult.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MatchResultFindFirstArgs>(args?: SelectSubset<T, MatchResultFindFirstArgs<ExtArgs>>): Prisma__MatchResultClient<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MatchResult that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchResultFindFirstOrThrowArgs} args - Arguments to find a MatchResult
+     * @example
+     * // Get one MatchResult
+     * const matchResult = await prisma.matchResult.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MatchResultFindFirstOrThrowArgs>(args?: SelectSubset<T, MatchResultFindFirstOrThrowArgs<ExtArgs>>): Prisma__MatchResultClient<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MatchResults that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchResultFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MatchResults
+     * const matchResults = await prisma.matchResult.findMany()
+     * 
+     * // Get first 10 MatchResults
+     * const matchResults = await prisma.matchResult.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const matchResultWithIdOnly = await prisma.matchResult.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MatchResultFindManyArgs>(args?: SelectSubset<T, MatchResultFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MatchResult.
+     * @param {MatchResultCreateArgs} args - Arguments to create a MatchResult.
+     * @example
+     * // Create one MatchResult
+     * const MatchResult = await prisma.matchResult.create({
+     *   data: {
+     *     // ... data to create a MatchResult
+     *   }
+     * })
+     * 
+     */
+    create<T extends MatchResultCreateArgs>(args: SelectSubset<T, MatchResultCreateArgs<ExtArgs>>): Prisma__MatchResultClient<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MatchResults.
+     * @param {MatchResultCreateManyArgs} args - Arguments to create many MatchResults.
+     * @example
+     * // Create many MatchResults
+     * const matchResult = await prisma.matchResult.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MatchResultCreateManyArgs>(args?: SelectSubset<T, MatchResultCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MatchResults and returns the data saved in the database.
+     * @param {MatchResultCreateManyAndReturnArgs} args - Arguments to create many MatchResults.
+     * @example
+     * // Create many MatchResults
+     * const matchResult = await prisma.matchResult.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MatchResults and only return the `id`
+     * const matchResultWithIdOnly = await prisma.matchResult.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MatchResultCreateManyAndReturnArgs>(args?: SelectSubset<T, MatchResultCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MatchResult.
+     * @param {MatchResultDeleteArgs} args - Arguments to delete one MatchResult.
+     * @example
+     * // Delete one MatchResult
+     * const MatchResult = await prisma.matchResult.delete({
+     *   where: {
+     *     // ... filter to delete one MatchResult
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MatchResultDeleteArgs>(args: SelectSubset<T, MatchResultDeleteArgs<ExtArgs>>): Prisma__MatchResultClient<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MatchResult.
+     * @param {MatchResultUpdateArgs} args - Arguments to update one MatchResult.
+     * @example
+     * // Update one MatchResult
+     * const matchResult = await prisma.matchResult.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MatchResultUpdateArgs>(args: SelectSubset<T, MatchResultUpdateArgs<ExtArgs>>): Prisma__MatchResultClient<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MatchResults.
+     * @param {MatchResultDeleteManyArgs} args - Arguments to filter MatchResults to delete.
+     * @example
+     * // Delete a few MatchResults
+     * const { count } = await prisma.matchResult.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MatchResultDeleteManyArgs>(args?: SelectSubset<T, MatchResultDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MatchResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchResultUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MatchResults
+     * const matchResult = await prisma.matchResult.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MatchResultUpdateManyArgs>(args: SelectSubset<T, MatchResultUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MatchResults and returns the data updated in the database.
+     * @param {MatchResultUpdateManyAndReturnArgs} args - Arguments to update many MatchResults.
+     * @example
+     * // Update many MatchResults
+     * const matchResult = await prisma.matchResult.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MatchResults and only return the `id`
+     * const matchResultWithIdOnly = await prisma.matchResult.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MatchResultUpdateManyAndReturnArgs>(args: SelectSubset<T, MatchResultUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MatchResult.
+     * @param {MatchResultUpsertArgs} args - Arguments to update or create a MatchResult.
+     * @example
+     * // Update or create a MatchResult
+     * const matchResult = await prisma.matchResult.upsert({
+     *   create: {
+     *     // ... data to create a MatchResult
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MatchResult we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MatchResultUpsertArgs>(args: SelectSubset<T, MatchResultUpsertArgs<ExtArgs>>): Prisma__MatchResultClient<$Result.GetResult<Prisma.$MatchResultPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MatchResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchResultCountArgs} args - Arguments to filter MatchResults to count.
+     * @example
+     * // Count the number of MatchResults
+     * const count = await prisma.matchResult.count({
+     *   where: {
+     *     // ... the filter for the MatchResults we want to count
+     *   }
+     * })
+    **/
+    count<T extends MatchResultCountArgs>(
+      args?: Subset<T, MatchResultCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MatchResultCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MatchResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchResultAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MatchResultAggregateArgs>(args: Subset<T, MatchResultAggregateArgs>): Prisma.PrismaPromise<GetMatchResultAggregateType<T>>
+
+    /**
+     * Group by MatchResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchResultGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MatchResultGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MatchResultGroupByArgs['orderBy'] }
+        : { orderBy?: MatchResultGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MatchResultGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMatchResultGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MatchResult model
+   */
+  readonly fields: MatchResultFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MatchResult.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MatchResultClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    request<T extends MatchRequestDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MatchRequestDefaultArgs<ExtArgs>>): Prisma__MatchRequestClient<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    creator<T extends MatchResult$creatorArgs<ExtArgs> = {}>(args?: Subset<T, MatchResult$creatorArgs<ExtArgs>>): Prisma__CreatorClient<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    athlete<T extends MatchResult$athleteArgs<ExtArgs> = {}>(args?: Subset<T, MatchResult$athleteArgs<ExtArgs>>): Prisma__AthleteClient<$Result.GetResult<Prisma.$AthletePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MatchResult model
+   */
+  interface MatchResultFieldRefs {
+    readonly id: FieldRef<"MatchResult", 'String'>
+    readonly requestId: FieldRef<"MatchResult", 'String'>
+    readonly creatorId: FieldRef<"MatchResult", 'String'>
+    readonly athleteId: FieldRef<"MatchResult", 'String'>
+    readonly rank: FieldRef<"MatchResult", 'Int'>
+    readonly matchScore: FieldRef<"MatchResult", 'Float'>
+    readonly audienceAlignScore: FieldRef<"MatchResult", 'Float'>
+    readonly performanceScore: FieldRef<"MatchResult", 'Float'>
+    readonly fraudScore: FieldRef<"MatchResult", 'Float'>
+    readonly suggestedRateCents: FieldRef<"MatchResult", 'Int'>
+    readonly estimatedReach: FieldRef<"MatchResult", 'Int'>
+    readonly estimatedRoi: FieldRef<"MatchResult", 'Float'>
+    readonly reasoning: FieldRef<"MatchResult", 'String'>
+    readonly aiFlags: FieldRef<"MatchResult", 'Json'>
+    readonly createdAt: FieldRef<"MatchResult", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MatchResult findUnique
+   */
+  export type MatchResultFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+    /**
+     * Filter, which MatchResult to fetch.
+     */
+    where: MatchResultWhereUniqueInput
+  }
+
+  /**
+   * MatchResult findUniqueOrThrow
+   */
+  export type MatchResultFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+    /**
+     * Filter, which MatchResult to fetch.
+     */
+    where: MatchResultWhereUniqueInput
+  }
+
+  /**
+   * MatchResult findFirst
+   */
+  export type MatchResultFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+    /**
+     * Filter, which MatchResult to fetch.
+     */
+    where?: MatchResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MatchResults to fetch.
+     */
+    orderBy?: MatchResultOrderByWithRelationInput | MatchResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MatchResults.
+     */
+    cursor?: MatchResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MatchResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MatchResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MatchResults.
+     */
+    distinct?: MatchResultScalarFieldEnum | MatchResultScalarFieldEnum[]
+  }
+
+  /**
+   * MatchResult findFirstOrThrow
+   */
+  export type MatchResultFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+    /**
+     * Filter, which MatchResult to fetch.
+     */
+    where?: MatchResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MatchResults to fetch.
+     */
+    orderBy?: MatchResultOrderByWithRelationInput | MatchResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MatchResults.
+     */
+    cursor?: MatchResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MatchResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MatchResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MatchResults.
+     */
+    distinct?: MatchResultScalarFieldEnum | MatchResultScalarFieldEnum[]
+  }
+
+  /**
+   * MatchResult findMany
+   */
+  export type MatchResultFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+    /**
+     * Filter, which MatchResults to fetch.
+     */
+    where?: MatchResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MatchResults to fetch.
+     */
+    orderBy?: MatchResultOrderByWithRelationInput | MatchResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MatchResults.
+     */
+    cursor?: MatchResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MatchResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MatchResults.
+     */
+    skip?: number
+    distinct?: MatchResultScalarFieldEnum | MatchResultScalarFieldEnum[]
+  }
+
+  /**
+   * MatchResult create
+   */
+  export type MatchResultCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MatchResult.
+     */
+    data: XOR<MatchResultCreateInput, MatchResultUncheckedCreateInput>
+  }
+
+  /**
+   * MatchResult createMany
+   */
+  export type MatchResultCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MatchResults.
+     */
+    data: MatchResultCreateManyInput | MatchResultCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MatchResult createManyAndReturn
+   */
+  export type MatchResultCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * The data used to create many MatchResults.
+     */
+    data: MatchResultCreateManyInput | MatchResultCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MatchResult update
+   */
+  export type MatchResultUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MatchResult.
+     */
+    data: XOR<MatchResultUpdateInput, MatchResultUncheckedUpdateInput>
+    /**
+     * Choose, which MatchResult to update.
+     */
+    where: MatchResultWhereUniqueInput
+  }
+
+  /**
+   * MatchResult updateMany
+   */
+  export type MatchResultUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MatchResults.
+     */
+    data: XOR<MatchResultUpdateManyMutationInput, MatchResultUncheckedUpdateManyInput>
+    /**
+     * Filter which MatchResults to update
+     */
+    where?: MatchResultWhereInput
+    /**
+     * Limit how many MatchResults to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MatchResult updateManyAndReturn
+   */
+  export type MatchResultUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * The data used to update MatchResults.
+     */
+    data: XOR<MatchResultUpdateManyMutationInput, MatchResultUncheckedUpdateManyInput>
+    /**
+     * Filter which MatchResults to update
+     */
+    where?: MatchResultWhereInput
+    /**
+     * Limit how many MatchResults to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MatchResult upsert
+   */
+  export type MatchResultUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MatchResult to update in case it exists.
+     */
+    where: MatchResultWhereUniqueInput
+    /**
+     * In case the MatchResult found by the `where` argument doesn't exist, create a new MatchResult with this data.
+     */
+    create: XOR<MatchResultCreateInput, MatchResultUncheckedCreateInput>
+    /**
+     * In case the MatchResult was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MatchResultUpdateInput, MatchResultUncheckedUpdateInput>
+  }
+
+  /**
+   * MatchResult delete
+   */
+  export type MatchResultDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+    /**
+     * Filter which MatchResult to delete.
+     */
+    where: MatchResultWhereUniqueInput
+  }
+
+  /**
+   * MatchResult deleteMany
+   */
+  export type MatchResultDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MatchResults to delete
+     */
+    where?: MatchResultWhereInput
+    /**
+     * Limit how many MatchResults to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MatchResult.creator
+   */
+  export type MatchResult$creatorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorInclude<ExtArgs> | null
+    where?: CreatorWhereInput
+  }
+
+  /**
+   * MatchResult.athlete
+   */
+  export type MatchResult$athleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Athlete
+     */
+    select?: AthleteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Athlete
+     */
+    omit?: AthleteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AthleteInclude<ExtArgs> | null
+    where?: AthleteWhereInput
+  }
+
+  /**
+   * MatchResult without action
+   */
+  export type MatchResultDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MatchResult
+     */
+    select?: MatchResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MatchResult
+     */
+    omit?: MatchResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchResultInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -71992,6 +84237,166 @@ export namespace Prisma {
   export type ImportJobScalarFieldEnum = (typeof ImportJobScalarFieldEnum)[keyof typeof ImportJobScalarFieldEnum]
 
 
+  export const DealRoomScalarFieldEnum: {
+    id: 'id',
+    contractId: 'contractId',
+    status: 'status',
+    openedAt: 'openedAt',
+    agreedAt: 'agreedAt',
+    closedAt: 'closedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DealRoomScalarFieldEnum = (typeof DealRoomScalarFieldEnum)[keyof typeof DealRoomScalarFieldEnum]
+
+
+  export const DealRoomMessageScalarFieldEnum: {
+    id: 'id',
+    dealRoomId: 'dealRoomId',
+    authorId: 'authorId',
+    content: 'content',
+    clauseRef: 'clauseRef',
+    type: 'type',
+    metadata: 'metadata',
+    createdAt: 'createdAt'
+  };
+
+  export type DealRoomMessageScalarFieldEnum = (typeof DealRoomMessageScalarFieldEnum)[keyof typeof DealRoomMessageScalarFieldEnum]
+
+
+  export const DealRoomProposalScalarFieldEnum: {
+    id: 'id',
+    dealRoomId: 'dealRoomId',
+    proposedById: 'proposedById',
+    title: 'title',
+    changes: 'changes',
+    aiRiskDelta: 'aiRiskDelta',
+    aiSummary: 'aiSummary',
+    status: 'status',
+    resolvedById: 'resolvedById',
+    resolvedAt: 'resolvedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DealRoomProposalScalarFieldEnum = (typeof DealRoomProposalScalarFieldEnum)[keyof typeof DealRoomProposalScalarFieldEnum]
+
+
+  export const CollectiveMemberScalarFieldEnum: {
+    id: 'id',
+    collectiveId: 'collectiveId',
+    athleteId: 'athleteId',
+    sharePercent: 'sharePercent',
+    joinedAt: 'joinedAt',
+    leftAt: 'leftAt',
+    status: 'status',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CollectiveMemberScalarFieldEnum = (typeof CollectiveMemberScalarFieldEnum)[keyof typeof CollectiveMemberScalarFieldEnum]
+
+
+  export const CollectiveDonorScalarFieldEnum: {
+    id: 'id',
+    collectiveId: 'collectiveId',
+    displayName: 'displayName',
+    email: 'email',
+    isAnonymous: 'isAnonymous',
+    totalDonatedCents: 'totalDonatedCents',
+    donationCount: 'donationCount',
+    lastDonatedAt: 'lastDonatedAt',
+    dwollaCustomerId: 'dwollaCustomerId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CollectiveDonorScalarFieldEnum = (typeof CollectiveDonorScalarFieldEnum)[keyof typeof CollectiveDonorScalarFieldEnum]
+
+
+  export const CollectiveDonationScalarFieldEnum: {
+    id: 'id',
+    donorId: 'donorId',
+    collectiveId: 'collectiveId',
+    amountCents: 'amountCents',
+    currency: 'currency',
+    dwollaTransferId: 'dwollaTransferId',
+    status: 'status',
+    note: 'note',
+    isRecurring: 'isRecurring',
+    donatedAt: 'donatedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type CollectiveDonationScalarFieldEnum = (typeof CollectiveDonationScalarFieldEnum)[keyof typeof CollectiveDonationScalarFieldEnum]
+
+
+  export const CollectiveDistributionScalarFieldEnum: {
+    id: 'id',
+    collectiveId: 'collectiveId',
+    memberId: 'memberId',
+    athleteId: 'athleteId',
+    amountCents: 'amountCents',
+    currency: 'currency',
+    reason: 'reason',
+    periodStart: 'periodStart',
+    periodEnd: 'periodEnd',
+    dwollaTransferId: 'dwollaTransferId',
+    paidAt: 'paidAt',
+    status: 'status',
+    taxYear: 'taxYear',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CollectiveDistributionScalarFieldEnum = (typeof CollectiveDistributionScalarFieldEnum)[keyof typeof CollectiveDistributionScalarFieldEnum]
+
+
+  export const MatchRequestScalarFieldEnum: {
+    id: 'id',
+    requestedById: 'requestedById',
+    campaignId: 'campaignId',
+    brief: 'brief',
+    budgetCents: 'budgetCents',
+    targetNiche: 'targetNiche',
+    targetPlatforms: 'targetPlatforms',
+    targetMinFollowers: 'targetMinFollowers',
+    targetMaxFollowers: 'targetMaxFollowers',
+    targetMinEngagement: 'targetMinEngagement',
+    targetEntityType: 'targetEntityType',
+    targetSport: 'targetSport',
+    maxResults: 'maxResults',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MatchRequestScalarFieldEnum = (typeof MatchRequestScalarFieldEnum)[keyof typeof MatchRequestScalarFieldEnum]
+
+
+  export const MatchResultScalarFieldEnum: {
+    id: 'id',
+    requestId: 'requestId',
+    creatorId: 'creatorId',
+    athleteId: 'athleteId',
+    rank: 'rank',
+    matchScore: 'matchScore',
+    audienceAlignScore: 'audienceAlignScore',
+    performanceScore: 'performanceScore',
+    fraudScore: 'fraudScore',
+    suggestedRateCents: 'suggestedRateCents',
+    estimatedReach: 'estimatedReach',
+    estimatedRoi: 'estimatedRoi',
+    reasoning: 'reasoning',
+    aiFlags: 'aiFlags',
+    createdAt: 'createdAt'
+  };
+
+  export type MatchResultScalarFieldEnum = (typeof MatchResultScalarFieldEnum)[keyof typeof MatchResultScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -72372,6 +84777,76 @@ export namespace Prisma {
    */
   export type ListEnumImportJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ImportJobStatus[]'>
     
+
+
+  /**
+   * Reference to a field of type 'DealRoomStatus'
+   */
+  export type EnumDealRoomStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealRoomStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'DealRoomStatus[]'
+   */
+  export type ListEnumDealRoomStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealRoomStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DealRoomMessageType'
+   */
+  export type EnumDealRoomMessageTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealRoomMessageType'>
+    
+
+
+  /**
+   * Reference to a field of type 'DealRoomMessageType[]'
+   */
+  export type ListEnumDealRoomMessageTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealRoomMessageType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProposalStatus'
+   */
+  export type EnumProposalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProposalStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProposalStatus[]'
+   */
+  export type ListEnumProposalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProposalStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CollectiveMemberStatus'
+   */
+  export type EnumCollectiveMemberStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CollectiveMemberStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'CollectiveMemberStatus[]'
+   */
+  export type ListEnumCollectiveMemberStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CollectiveMemberStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'MatchStatus'
+   */
+  export type EnumMatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MatchStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'MatchStatus[]'
+   */
+  export type ListEnumMatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MatchStatus[]'>
+    
   /**
    * Deep Input Types
    */
@@ -72412,6 +84887,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenListRelationFilter
     apiKeys?: ApiKeyListRelationFilter
     importJobs?: ImportJobListRelationFilter
+    dealRoomMessages?: DealRoomMessageListRelationFilter
+    dealRoomProposals?: DealRoomProposalListRelationFilter
+    matchRequests?: MatchRequestListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -72446,6 +84924,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
     apiKeys?: ApiKeyOrderByRelationAggregateInput
     importJobs?: ImportJobOrderByRelationAggregateInput
+    dealRoomMessages?: DealRoomMessageOrderByRelationAggregateInput
+    dealRoomProposals?: DealRoomProposalOrderByRelationAggregateInput
+    matchRequests?: MatchRequestOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -72483,6 +84964,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenListRelationFilter
     apiKeys?: ApiKeyListRelationFilter
     importJobs?: ImportJobListRelationFilter
+    dealRoomMessages?: DealRoomMessageListRelationFilter
+    dealRoomProposals?: DealRoomProposalListRelationFilter
+    matchRequests?: MatchRequestListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -72731,6 +85215,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordListRelationFilter
     taxDocuments?: TaxDocumentListRelationFilter
     fmvAssessments?: FmvAssessmentListRelationFilter
+    matchResults?: MatchResultListRelationFilter
   }
 
   export type CreatorOrderByWithRelationInput = {
@@ -72764,6 +85249,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordOrderByRelationAggregateInput
     taxDocuments?: TaxDocumentOrderByRelationAggregateInput
     fmvAssessments?: FmvAssessmentOrderByRelationAggregateInput
+    matchResults?: MatchResultOrderByRelationAggregateInput
   }
 
   export type CreatorWhereUniqueInput = Prisma.AtLeast<{
@@ -72800,6 +85286,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordListRelationFilter
     taxDocuments?: TaxDocumentListRelationFilter
     fmvAssessments?: FmvAssessmentListRelationFilter
+    matchResults?: MatchResultListRelationFilter
   }, "id" | "userId">
 
   export type CreatorOrderByWithAggregationInput = {
@@ -72969,6 +85456,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneListRelationFilter
     nilExtension?: XOR<ContractNilExtensionNullableScalarRelationFilter, ContractNilExtensionWhereInput> | null
     nilDeals?: NilDealListRelationFilter
+    dealRoom?: XOR<DealRoomNullableScalarRelationFilter, DealRoomWhereInput> | null
   }
 
   export type ContractOrderByWithRelationInput = {
@@ -73009,6 +85497,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneOrderByRelationAggregateInput
     nilExtension?: ContractNilExtensionOrderByWithRelationInput
     nilDeals?: NilDealOrderByRelationAggregateInput
+    dealRoom?: DealRoomOrderByWithRelationInput
   }
 
   export type ContractWhereUniqueInput = Prisma.AtLeast<{
@@ -73052,6 +85541,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneListRelationFilter
     nilExtension?: XOR<ContractNilExtensionNullableScalarRelationFilter, ContractNilExtensionWhereInput> | null
     nilDeals?: NilDealListRelationFilter
+    dealRoom?: XOR<DealRoomNullableScalarRelationFilter, DealRoomWhereInput> | null
   }, "id">
 
   export type ContractOrderByWithAggregationInput = {
@@ -75681,6 +88171,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentListRelationFilter
     graphNode?: XOR<AthleteGraphNodeNullableScalarRelationFilter, AthleteGraphNodeWhereInput> | null
     marketplaceListing?: XOR<NilMarketplaceListingNullableScalarRelationFilter, NilMarketplaceListingWhereInput> | null
+    collectiveMemberships?: CollectiveMemberListRelationFilter
+    matchResults?: MatchResultListRelationFilter
   }
 
   export type AthleteOrderByWithRelationInput = {
@@ -75729,6 +88221,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentOrderByRelationAggregateInput
     graphNode?: AthleteGraphNodeOrderByWithRelationInput
     marketplaceListing?: NilMarketplaceListingOrderByWithRelationInput
+    collectiveMemberships?: CollectiveMemberOrderByRelationAggregateInput
+    matchResults?: MatchResultOrderByRelationAggregateInput
   }
 
   export type AthleteWhereUniqueInput = Prisma.AtLeast<{
@@ -75780,6 +88274,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentListRelationFilter
     graphNode?: XOR<AthleteGraphNodeNullableScalarRelationFilter, AthleteGraphNodeWhereInput> | null
     marketplaceListing?: XOR<NilMarketplaceListingNullableScalarRelationFilter, NilMarketplaceListingWhereInput> | null
+    collectiveMemberships?: CollectiveMemberListRelationFilter
+    matchResults?: MatchResultListRelationFilter
   }, "id" | "userId" | "ncaaId">
 
   export type AthleteOrderByWithAggregationInput = {
@@ -76297,6 +88793,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"NilCollective"> | Date | string
     university?: XOR<UniversityNullableScalarRelationFilter, UniversityWhereInput> | null
     nilDeals?: NilDealListRelationFilter
+    members?: CollectiveMemberListRelationFilter
+    donors?: CollectiveDonorListRelationFilter
+    donations?: CollectiveDonationListRelationFilter
+    distributions?: CollectiveDistributionListRelationFilter
   }
 
   export type NilCollectiveOrderByWithRelationInput = {
@@ -76317,6 +88817,10 @@ export namespace Prisma {
     updatedAt?: SortOrder
     university?: UniversityOrderByWithRelationInput
     nilDeals?: NilDealOrderByRelationAggregateInput
+    members?: CollectiveMemberOrderByRelationAggregateInput
+    donors?: CollectiveDonorOrderByRelationAggregateInput
+    donations?: CollectiveDonationOrderByRelationAggregateInput
+    distributions?: CollectiveDistributionOrderByRelationAggregateInput
   }
 
   export type NilCollectiveWhereUniqueInput = Prisma.AtLeast<{
@@ -76340,6 +88844,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"NilCollective"> | Date | string
     university?: XOR<UniversityNullableScalarRelationFilter, UniversityWhereInput> | null
     nilDeals?: NilDealListRelationFilter
+    members?: CollectiveMemberListRelationFilter
+    donors?: CollectiveDonorListRelationFilter
+    donations?: CollectiveDonationListRelationFilter
+    distributions?: CollectiveDistributionListRelationFilter
   }, "id" | "slug">
 
   export type NilCollectiveOrderByWithAggregationInput = {
@@ -77924,6 +90432,858 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ImportJob"> | Date | string
   }
 
+  export type DealRoomWhereInput = {
+    AND?: DealRoomWhereInput | DealRoomWhereInput[]
+    OR?: DealRoomWhereInput[]
+    NOT?: DealRoomWhereInput | DealRoomWhereInput[]
+    id?: StringFilter<"DealRoom"> | string
+    contractId?: StringFilter<"DealRoom"> | string
+    status?: EnumDealRoomStatusFilter<"DealRoom"> | $Enums.DealRoomStatus
+    openedAt?: DateTimeFilter<"DealRoom"> | Date | string
+    agreedAt?: DateTimeNullableFilter<"DealRoom"> | Date | string | null
+    closedAt?: DateTimeNullableFilter<"DealRoom"> | Date | string | null
+    createdAt?: DateTimeFilter<"DealRoom"> | Date | string
+    updatedAt?: DateTimeFilter<"DealRoom"> | Date | string
+    contract?: XOR<ContractScalarRelationFilter, ContractWhereInput>
+    messages?: DealRoomMessageListRelationFilter
+    proposals?: DealRoomProposalListRelationFilter
+  }
+
+  export type DealRoomOrderByWithRelationInput = {
+    id?: SortOrder
+    contractId?: SortOrder
+    status?: SortOrder
+    openedAt?: SortOrder
+    agreedAt?: SortOrderInput | SortOrder
+    closedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contract?: ContractOrderByWithRelationInput
+    messages?: DealRoomMessageOrderByRelationAggregateInput
+    proposals?: DealRoomProposalOrderByRelationAggregateInput
+  }
+
+  export type DealRoomWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contractId?: string
+    AND?: DealRoomWhereInput | DealRoomWhereInput[]
+    OR?: DealRoomWhereInput[]
+    NOT?: DealRoomWhereInput | DealRoomWhereInput[]
+    status?: EnumDealRoomStatusFilter<"DealRoom"> | $Enums.DealRoomStatus
+    openedAt?: DateTimeFilter<"DealRoom"> | Date | string
+    agreedAt?: DateTimeNullableFilter<"DealRoom"> | Date | string | null
+    closedAt?: DateTimeNullableFilter<"DealRoom"> | Date | string | null
+    createdAt?: DateTimeFilter<"DealRoom"> | Date | string
+    updatedAt?: DateTimeFilter<"DealRoom"> | Date | string
+    contract?: XOR<ContractScalarRelationFilter, ContractWhereInput>
+    messages?: DealRoomMessageListRelationFilter
+    proposals?: DealRoomProposalListRelationFilter
+  }, "id" | "contractId">
+
+  export type DealRoomOrderByWithAggregationInput = {
+    id?: SortOrder
+    contractId?: SortOrder
+    status?: SortOrder
+    openedAt?: SortOrder
+    agreedAt?: SortOrderInput | SortOrder
+    closedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DealRoomCountOrderByAggregateInput
+    _max?: DealRoomMaxOrderByAggregateInput
+    _min?: DealRoomMinOrderByAggregateInput
+  }
+
+  export type DealRoomScalarWhereWithAggregatesInput = {
+    AND?: DealRoomScalarWhereWithAggregatesInput | DealRoomScalarWhereWithAggregatesInput[]
+    OR?: DealRoomScalarWhereWithAggregatesInput[]
+    NOT?: DealRoomScalarWhereWithAggregatesInput | DealRoomScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DealRoom"> | string
+    contractId?: StringWithAggregatesFilter<"DealRoom"> | string
+    status?: EnumDealRoomStatusWithAggregatesFilter<"DealRoom"> | $Enums.DealRoomStatus
+    openedAt?: DateTimeWithAggregatesFilter<"DealRoom"> | Date | string
+    agreedAt?: DateTimeNullableWithAggregatesFilter<"DealRoom"> | Date | string | null
+    closedAt?: DateTimeNullableWithAggregatesFilter<"DealRoom"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"DealRoom"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DealRoom"> | Date | string
+  }
+
+  export type DealRoomMessageWhereInput = {
+    AND?: DealRoomMessageWhereInput | DealRoomMessageWhereInput[]
+    OR?: DealRoomMessageWhereInput[]
+    NOT?: DealRoomMessageWhereInput | DealRoomMessageWhereInput[]
+    id?: StringFilter<"DealRoomMessage"> | string
+    dealRoomId?: StringFilter<"DealRoomMessage"> | string
+    authorId?: StringFilter<"DealRoomMessage"> | string
+    content?: StringFilter<"DealRoomMessage"> | string
+    clauseRef?: StringNullableFilter<"DealRoomMessage"> | string | null
+    type?: EnumDealRoomMessageTypeFilter<"DealRoomMessage"> | $Enums.DealRoomMessageType
+    metadata?: JsonNullableFilter<"DealRoomMessage">
+    createdAt?: DateTimeFilter<"DealRoomMessage"> | Date | string
+    dealRoom?: XOR<DealRoomScalarRelationFilter, DealRoomWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type DealRoomMessageOrderByWithRelationInput = {
+    id?: SortOrder
+    dealRoomId?: SortOrder
+    authorId?: SortOrder
+    content?: SortOrder
+    clauseRef?: SortOrderInput | SortOrder
+    type?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    dealRoom?: DealRoomOrderByWithRelationInput
+    author?: UserOrderByWithRelationInput
+  }
+
+  export type DealRoomMessageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DealRoomMessageWhereInput | DealRoomMessageWhereInput[]
+    OR?: DealRoomMessageWhereInput[]
+    NOT?: DealRoomMessageWhereInput | DealRoomMessageWhereInput[]
+    dealRoomId?: StringFilter<"DealRoomMessage"> | string
+    authorId?: StringFilter<"DealRoomMessage"> | string
+    content?: StringFilter<"DealRoomMessage"> | string
+    clauseRef?: StringNullableFilter<"DealRoomMessage"> | string | null
+    type?: EnumDealRoomMessageTypeFilter<"DealRoomMessage"> | $Enums.DealRoomMessageType
+    metadata?: JsonNullableFilter<"DealRoomMessage">
+    createdAt?: DateTimeFilter<"DealRoomMessage"> | Date | string
+    dealRoom?: XOR<DealRoomScalarRelationFilter, DealRoomWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type DealRoomMessageOrderByWithAggregationInput = {
+    id?: SortOrder
+    dealRoomId?: SortOrder
+    authorId?: SortOrder
+    content?: SortOrder
+    clauseRef?: SortOrderInput | SortOrder
+    type?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: DealRoomMessageCountOrderByAggregateInput
+    _max?: DealRoomMessageMaxOrderByAggregateInput
+    _min?: DealRoomMessageMinOrderByAggregateInput
+  }
+
+  export type DealRoomMessageScalarWhereWithAggregatesInput = {
+    AND?: DealRoomMessageScalarWhereWithAggregatesInput | DealRoomMessageScalarWhereWithAggregatesInput[]
+    OR?: DealRoomMessageScalarWhereWithAggregatesInput[]
+    NOT?: DealRoomMessageScalarWhereWithAggregatesInput | DealRoomMessageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DealRoomMessage"> | string
+    dealRoomId?: StringWithAggregatesFilter<"DealRoomMessage"> | string
+    authorId?: StringWithAggregatesFilter<"DealRoomMessage"> | string
+    content?: StringWithAggregatesFilter<"DealRoomMessage"> | string
+    clauseRef?: StringNullableWithAggregatesFilter<"DealRoomMessage"> | string | null
+    type?: EnumDealRoomMessageTypeWithAggregatesFilter<"DealRoomMessage"> | $Enums.DealRoomMessageType
+    metadata?: JsonNullableWithAggregatesFilter<"DealRoomMessage">
+    createdAt?: DateTimeWithAggregatesFilter<"DealRoomMessage"> | Date | string
+  }
+
+  export type DealRoomProposalWhereInput = {
+    AND?: DealRoomProposalWhereInput | DealRoomProposalWhereInput[]
+    OR?: DealRoomProposalWhereInput[]
+    NOT?: DealRoomProposalWhereInput | DealRoomProposalWhereInput[]
+    id?: StringFilter<"DealRoomProposal"> | string
+    dealRoomId?: StringFilter<"DealRoomProposal"> | string
+    proposedById?: StringFilter<"DealRoomProposal"> | string
+    title?: StringFilter<"DealRoomProposal"> | string
+    changes?: JsonFilter<"DealRoomProposal">
+    aiRiskDelta?: IntNullableFilter<"DealRoomProposal"> | number | null
+    aiSummary?: StringNullableFilter<"DealRoomProposal"> | string | null
+    status?: EnumProposalStatusFilter<"DealRoomProposal"> | $Enums.ProposalStatus
+    resolvedById?: StringNullableFilter<"DealRoomProposal"> | string | null
+    resolvedAt?: DateTimeNullableFilter<"DealRoomProposal"> | Date | string | null
+    createdAt?: DateTimeFilter<"DealRoomProposal"> | Date | string
+    updatedAt?: DateTimeFilter<"DealRoomProposal"> | Date | string
+    dealRoom?: XOR<DealRoomScalarRelationFilter, DealRoomWhereInput>
+    proposedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type DealRoomProposalOrderByWithRelationInput = {
+    id?: SortOrder
+    dealRoomId?: SortOrder
+    proposedById?: SortOrder
+    title?: SortOrder
+    changes?: SortOrder
+    aiRiskDelta?: SortOrderInput | SortOrder
+    aiSummary?: SortOrderInput | SortOrder
+    status?: SortOrder
+    resolvedById?: SortOrderInput | SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    dealRoom?: DealRoomOrderByWithRelationInput
+    proposedBy?: UserOrderByWithRelationInput
+  }
+
+  export type DealRoomProposalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DealRoomProposalWhereInput | DealRoomProposalWhereInput[]
+    OR?: DealRoomProposalWhereInput[]
+    NOT?: DealRoomProposalWhereInput | DealRoomProposalWhereInput[]
+    dealRoomId?: StringFilter<"DealRoomProposal"> | string
+    proposedById?: StringFilter<"DealRoomProposal"> | string
+    title?: StringFilter<"DealRoomProposal"> | string
+    changes?: JsonFilter<"DealRoomProposal">
+    aiRiskDelta?: IntNullableFilter<"DealRoomProposal"> | number | null
+    aiSummary?: StringNullableFilter<"DealRoomProposal"> | string | null
+    status?: EnumProposalStatusFilter<"DealRoomProposal"> | $Enums.ProposalStatus
+    resolvedById?: StringNullableFilter<"DealRoomProposal"> | string | null
+    resolvedAt?: DateTimeNullableFilter<"DealRoomProposal"> | Date | string | null
+    createdAt?: DateTimeFilter<"DealRoomProposal"> | Date | string
+    updatedAt?: DateTimeFilter<"DealRoomProposal"> | Date | string
+    dealRoom?: XOR<DealRoomScalarRelationFilter, DealRoomWhereInput>
+    proposedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type DealRoomProposalOrderByWithAggregationInput = {
+    id?: SortOrder
+    dealRoomId?: SortOrder
+    proposedById?: SortOrder
+    title?: SortOrder
+    changes?: SortOrder
+    aiRiskDelta?: SortOrderInput | SortOrder
+    aiSummary?: SortOrderInput | SortOrder
+    status?: SortOrder
+    resolvedById?: SortOrderInput | SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DealRoomProposalCountOrderByAggregateInput
+    _avg?: DealRoomProposalAvgOrderByAggregateInput
+    _max?: DealRoomProposalMaxOrderByAggregateInput
+    _min?: DealRoomProposalMinOrderByAggregateInput
+    _sum?: DealRoomProposalSumOrderByAggregateInput
+  }
+
+  export type DealRoomProposalScalarWhereWithAggregatesInput = {
+    AND?: DealRoomProposalScalarWhereWithAggregatesInput | DealRoomProposalScalarWhereWithAggregatesInput[]
+    OR?: DealRoomProposalScalarWhereWithAggregatesInput[]
+    NOT?: DealRoomProposalScalarWhereWithAggregatesInput | DealRoomProposalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DealRoomProposal"> | string
+    dealRoomId?: StringWithAggregatesFilter<"DealRoomProposal"> | string
+    proposedById?: StringWithAggregatesFilter<"DealRoomProposal"> | string
+    title?: StringWithAggregatesFilter<"DealRoomProposal"> | string
+    changes?: JsonWithAggregatesFilter<"DealRoomProposal">
+    aiRiskDelta?: IntNullableWithAggregatesFilter<"DealRoomProposal"> | number | null
+    aiSummary?: StringNullableWithAggregatesFilter<"DealRoomProposal"> | string | null
+    status?: EnumProposalStatusWithAggregatesFilter<"DealRoomProposal"> | $Enums.ProposalStatus
+    resolvedById?: StringNullableWithAggregatesFilter<"DealRoomProposal"> | string | null
+    resolvedAt?: DateTimeNullableWithAggregatesFilter<"DealRoomProposal"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"DealRoomProposal"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DealRoomProposal"> | Date | string
+  }
+
+  export type CollectiveMemberWhereInput = {
+    AND?: CollectiveMemberWhereInput | CollectiveMemberWhereInput[]
+    OR?: CollectiveMemberWhereInput[]
+    NOT?: CollectiveMemberWhereInput | CollectiveMemberWhereInput[]
+    id?: StringFilter<"CollectiveMember"> | string
+    collectiveId?: StringFilter<"CollectiveMember"> | string
+    athleteId?: StringFilter<"CollectiveMember"> | string
+    sharePercent?: FloatFilter<"CollectiveMember"> | number
+    joinedAt?: DateTimeFilter<"CollectiveMember"> | Date | string
+    leftAt?: DateTimeNullableFilter<"CollectiveMember"> | Date | string | null
+    status?: EnumCollectiveMemberStatusFilter<"CollectiveMember"> | $Enums.CollectiveMemberStatus
+    notes?: StringNullableFilter<"CollectiveMember"> | string | null
+    createdAt?: DateTimeFilter<"CollectiveMember"> | Date | string
+    updatedAt?: DateTimeFilter<"CollectiveMember"> | Date | string
+    collective?: XOR<NilCollectiveScalarRelationFilter, NilCollectiveWhereInput>
+    athlete?: XOR<AthleteScalarRelationFilter, AthleteWhereInput>
+    distributions?: CollectiveDistributionListRelationFilter
+  }
+
+  export type CollectiveMemberOrderByWithRelationInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    athleteId?: SortOrder
+    sharePercent?: SortOrder
+    joinedAt?: SortOrder
+    leftAt?: SortOrderInput | SortOrder
+    status?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    collective?: NilCollectiveOrderByWithRelationInput
+    athlete?: AthleteOrderByWithRelationInput
+    distributions?: CollectiveDistributionOrderByRelationAggregateInput
+  }
+
+  export type CollectiveMemberWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    collectiveId_athleteId?: CollectiveMemberCollectiveIdAthleteIdCompoundUniqueInput
+    AND?: CollectiveMemberWhereInput | CollectiveMemberWhereInput[]
+    OR?: CollectiveMemberWhereInput[]
+    NOT?: CollectiveMemberWhereInput | CollectiveMemberWhereInput[]
+    collectiveId?: StringFilter<"CollectiveMember"> | string
+    athleteId?: StringFilter<"CollectiveMember"> | string
+    sharePercent?: FloatFilter<"CollectiveMember"> | number
+    joinedAt?: DateTimeFilter<"CollectiveMember"> | Date | string
+    leftAt?: DateTimeNullableFilter<"CollectiveMember"> | Date | string | null
+    status?: EnumCollectiveMemberStatusFilter<"CollectiveMember"> | $Enums.CollectiveMemberStatus
+    notes?: StringNullableFilter<"CollectiveMember"> | string | null
+    createdAt?: DateTimeFilter<"CollectiveMember"> | Date | string
+    updatedAt?: DateTimeFilter<"CollectiveMember"> | Date | string
+    collective?: XOR<NilCollectiveScalarRelationFilter, NilCollectiveWhereInput>
+    athlete?: XOR<AthleteScalarRelationFilter, AthleteWhereInput>
+    distributions?: CollectiveDistributionListRelationFilter
+  }, "id" | "collectiveId_athleteId">
+
+  export type CollectiveMemberOrderByWithAggregationInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    athleteId?: SortOrder
+    sharePercent?: SortOrder
+    joinedAt?: SortOrder
+    leftAt?: SortOrderInput | SortOrder
+    status?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CollectiveMemberCountOrderByAggregateInput
+    _avg?: CollectiveMemberAvgOrderByAggregateInput
+    _max?: CollectiveMemberMaxOrderByAggregateInput
+    _min?: CollectiveMemberMinOrderByAggregateInput
+    _sum?: CollectiveMemberSumOrderByAggregateInput
+  }
+
+  export type CollectiveMemberScalarWhereWithAggregatesInput = {
+    AND?: CollectiveMemberScalarWhereWithAggregatesInput | CollectiveMemberScalarWhereWithAggregatesInput[]
+    OR?: CollectiveMemberScalarWhereWithAggregatesInput[]
+    NOT?: CollectiveMemberScalarWhereWithAggregatesInput | CollectiveMemberScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CollectiveMember"> | string
+    collectiveId?: StringWithAggregatesFilter<"CollectiveMember"> | string
+    athleteId?: StringWithAggregatesFilter<"CollectiveMember"> | string
+    sharePercent?: FloatWithAggregatesFilter<"CollectiveMember"> | number
+    joinedAt?: DateTimeWithAggregatesFilter<"CollectiveMember"> | Date | string
+    leftAt?: DateTimeNullableWithAggregatesFilter<"CollectiveMember"> | Date | string | null
+    status?: EnumCollectiveMemberStatusWithAggregatesFilter<"CollectiveMember"> | $Enums.CollectiveMemberStatus
+    notes?: StringNullableWithAggregatesFilter<"CollectiveMember"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CollectiveMember"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CollectiveMember"> | Date | string
+  }
+
+  export type CollectiveDonorWhereInput = {
+    AND?: CollectiveDonorWhereInput | CollectiveDonorWhereInput[]
+    OR?: CollectiveDonorWhereInput[]
+    NOT?: CollectiveDonorWhereInput | CollectiveDonorWhereInput[]
+    id?: StringFilter<"CollectiveDonor"> | string
+    collectiveId?: StringFilter<"CollectiveDonor"> | string
+    displayName?: StringFilter<"CollectiveDonor"> | string
+    email?: StringFilter<"CollectiveDonor"> | string
+    isAnonymous?: BoolFilter<"CollectiveDonor"> | boolean
+    totalDonatedCents?: IntFilter<"CollectiveDonor"> | number
+    donationCount?: IntFilter<"CollectiveDonor"> | number
+    lastDonatedAt?: DateTimeNullableFilter<"CollectiveDonor"> | Date | string | null
+    dwollaCustomerId?: StringNullableFilter<"CollectiveDonor"> | string | null
+    createdAt?: DateTimeFilter<"CollectiveDonor"> | Date | string
+    updatedAt?: DateTimeFilter<"CollectiveDonor"> | Date | string
+    collective?: XOR<NilCollectiveScalarRelationFilter, NilCollectiveWhereInput>
+    donations?: CollectiveDonationListRelationFilter
+  }
+
+  export type CollectiveDonorOrderByWithRelationInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    displayName?: SortOrder
+    email?: SortOrder
+    isAnonymous?: SortOrder
+    totalDonatedCents?: SortOrder
+    donationCount?: SortOrder
+    lastDonatedAt?: SortOrderInput | SortOrder
+    dwollaCustomerId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    collective?: NilCollectiveOrderByWithRelationInput
+    donations?: CollectiveDonationOrderByRelationAggregateInput
+  }
+
+  export type CollectiveDonorWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    collectiveId_email?: CollectiveDonorCollectiveIdEmailCompoundUniqueInput
+    AND?: CollectiveDonorWhereInput | CollectiveDonorWhereInput[]
+    OR?: CollectiveDonorWhereInput[]
+    NOT?: CollectiveDonorWhereInput | CollectiveDonorWhereInput[]
+    collectiveId?: StringFilter<"CollectiveDonor"> | string
+    displayName?: StringFilter<"CollectiveDonor"> | string
+    email?: StringFilter<"CollectiveDonor"> | string
+    isAnonymous?: BoolFilter<"CollectiveDonor"> | boolean
+    totalDonatedCents?: IntFilter<"CollectiveDonor"> | number
+    donationCount?: IntFilter<"CollectiveDonor"> | number
+    lastDonatedAt?: DateTimeNullableFilter<"CollectiveDonor"> | Date | string | null
+    dwollaCustomerId?: StringNullableFilter<"CollectiveDonor"> | string | null
+    createdAt?: DateTimeFilter<"CollectiveDonor"> | Date | string
+    updatedAt?: DateTimeFilter<"CollectiveDonor"> | Date | string
+    collective?: XOR<NilCollectiveScalarRelationFilter, NilCollectiveWhereInput>
+    donations?: CollectiveDonationListRelationFilter
+  }, "id" | "collectiveId_email">
+
+  export type CollectiveDonorOrderByWithAggregationInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    displayName?: SortOrder
+    email?: SortOrder
+    isAnonymous?: SortOrder
+    totalDonatedCents?: SortOrder
+    donationCount?: SortOrder
+    lastDonatedAt?: SortOrderInput | SortOrder
+    dwollaCustomerId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CollectiveDonorCountOrderByAggregateInput
+    _avg?: CollectiveDonorAvgOrderByAggregateInput
+    _max?: CollectiveDonorMaxOrderByAggregateInput
+    _min?: CollectiveDonorMinOrderByAggregateInput
+    _sum?: CollectiveDonorSumOrderByAggregateInput
+  }
+
+  export type CollectiveDonorScalarWhereWithAggregatesInput = {
+    AND?: CollectiveDonorScalarWhereWithAggregatesInput | CollectiveDonorScalarWhereWithAggregatesInput[]
+    OR?: CollectiveDonorScalarWhereWithAggregatesInput[]
+    NOT?: CollectiveDonorScalarWhereWithAggregatesInput | CollectiveDonorScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CollectiveDonor"> | string
+    collectiveId?: StringWithAggregatesFilter<"CollectiveDonor"> | string
+    displayName?: StringWithAggregatesFilter<"CollectiveDonor"> | string
+    email?: StringWithAggregatesFilter<"CollectiveDonor"> | string
+    isAnonymous?: BoolWithAggregatesFilter<"CollectiveDonor"> | boolean
+    totalDonatedCents?: IntWithAggregatesFilter<"CollectiveDonor"> | number
+    donationCount?: IntWithAggregatesFilter<"CollectiveDonor"> | number
+    lastDonatedAt?: DateTimeNullableWithAggregatesFilter<"CollectiveDonor"> | Date | string | null
+    dwollaCustomerId?: StringNullableWithAggregatesFilter<"CollectiveDonor"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CollectiveDonor"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CollectiveDonor"> | Date | string
+  }
+
+  export type CollectiveDonationWhereInput = {
+    AND?: CollectiveDonationWhereInput | CollectiveDonationWhereInput[]
+    OR?: CollectiveDonationWhereInput[]
+    NOT?: CollectiveDonationWhereInput | CollectiveDonationWhereInput[]
+    id?: StringFilter<"CollectiveDonation"> | string
+    donorId?: StringFilter<"CollectiveDonation"> | string
+    collectiveId?: StringFilter<"CollectiveDonation"> | string
+    amountCents?: IntFilter<"CollectiveDonation"> | number
+    currency?: StringFilter<"CollectiveDonation"> | string
+    dwollaTransferId?: StringNullableFilter<"CollectiveDonation"> | string | null
+    status?: StringFilter<"CollectiveDonation"> | string
+    note?: StringNullableFilter<"CollectiveDonation"> | string | null
+    isRecurring?: BoolFilter<"CollectiveDonation"> | boolean
+    donatedAt?: DateTimeFilter<"CollectiveDonation"> | Date | string
+    createdAt?: DateTimeFilter<"CollectiveDonation"> | Date | string
+    donor?: XOR<CollectiveDonorScalarRelationFilter, CollectiveDonorWhereInput>
+    collective?: XOR<NilCollectiveScalarRelationFilter, NilCollectiveWhereInput>
+  }
+
+  export type CollectiveDonationOrderByWithRelationInput = {
+    id?: SortOrder
+    donorId?: SortOrder
+    collectiveId?: SortOrder
+    amountCents?: SortOrder
+    currency?: SortOrder
+    dwollaTransferId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    isRecurring?: SortOrder
+    donatedAt?: SortOrder
+    createdAt?: SortOrder
+    donor?: CollectiveDonorOrderByWithRelationInput
+    collective?: NilCollectiveOrderByWithRelationInput
+  }
+
+  export type CollectiveDonationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CollectiveDonationWhereInput | CollectiveDonationWhereInput[]
+    OR?: CollectiveDonationWhereInput[]
+    NOT?: CollectiveDonationWhereInput | CollectiveDonationWhereInput[]
+    donorId?: StringFilter<"CollectiveDonation"> | string
+    collectiveId?: StringFilter<"CollectiveDonation"> | string
+    amountCents?: IntFilter<"CollectiveDonation"> | number
+    currency?: StringFilter<"CollectiveDonation"> | string
+    dwollaTransferId?: StringNullableFilter<"CollectiveDonation"> | string | null
+    status?: StringFilter<"CollectiveDonation"> | string
+    note?: StringNullableFilter<"CollectiveDonation"> | string | null
+    isRecurring?: BoolFilter<"CollectiveDonation"> | boolean
+    donatedAt?: DateTimeFilter<"CollectiveDonation"> | Date | string
+    createdAt?: DateTimeFilter<"CollectiveDonation"> | Date | string
+    donor?: XOR<CollectiveDonorScalarRelationFilter, CollectiveDonorWhereInput>
+    collective?: XOR<NilCollectiveScalarRelationFilter, NilCollectiveWhereInput>
+  }, "id">
+
+  export type CollectiveDonationOrderByWithAggregationInput = {
+    id?: SortOrder
+    donorId?: SortOrder
+    collectiveId?: SortOrder
+    amountCents?: SortOrder
+    currency?: SortOrder
+    dwollaTransferId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    isRecurring?: SortOrder
+    donatedAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: CollectiveDonationCountOrderByAggregateInput
+    _avg?: CollectiveDonationAvgOrderByAggregateInput
+    _max?: CollectiveDonationMaxOrderByAggregateInput
+    _min?: CollectiveDonationMinOrderByAggregateInput
+    _sum?: CollectiveDonationSumOrderByAggregateInput
+  }
+
+  export type CollectiveDonationScalarWhereWithAggregatesInput = {
+    AND?: CollectiveDonationScalarWhereWithAggregatesInput | CollectiveDonationScalarWhereWithAggregatesInput[]
+    OR?: CollectiveDonationScalarWhereWithAggregatesInput[]
+    NOT?: CollectiveDonationScalarWhereWithAggregatesInput | CollectiveDonationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CollectiveDonation"> | string
+    donorId?: StringWithAggregatesFilter<"CollectiveDonation"> | string
+    collectiveId?: StringWithAggregatesFilter<"CollectiveDonation"> | string
+    amountCents?: IntWithAggregatesFilter<"CollectiveDonation"> | number
+    currency?: StringWithAggregatesFilter<"CollectiveDonation"> | string
+    dwollaTransferId?: StringNullableWithAggregatesFilter<"CollectiveDonation"> | string | null
+    status?: StringWithAggregatesFilter<"CollectiveDonation"> | string
+    note?: StringNullableWithAggregatesFilter<"CollectiveDonation"> | string | null
+    isRecurring?: BoolWithAggregatesFilter<"CollectiveDonation"> | boolean
+    donatedAt?: DateTimeWithAggregatesFilter<"CollectiveDonation"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"CollectiveDonation"> | Date | string
+  }
+
+  export type CollectiveDistributionWhereInput = {
+    AND?: CollectiveDistributionWhereInput | CollectiveDistributionWhereInput[]
+    OR?: CollectiveDistributionWhereInput[]
+    NOT?: CollectiveDistributionWhereInput | CollectiveDistributionWhereInput[]
+    id?: StringFilter<"CollectiveDistribution"> | string
+    collectiveId?: StringFilter<"CollectiveDistribution"> | string
+    memberId?: StringFilter<"CollectiveDistribution"> | string
+    athleteId?: StringFilter<"CollectiveDistribution"> | string
+    amountCents?: IntFilter<"CollectiveDistribution"> | number
+    currency?: StringFilter<"CollectiveDistribution"> | string
+    reason?: StringFilter<"CollectiveDistribution"> | string
+    periodStart?: DateTimeFilter<"CollectiveDistribution"> | Date | string
+    periodEnd?: DateTimeFilter<"CollectiveDistribution"> | Date | string
+    dwollaTransferId?: StringNullableFilter<"CollectiveDistribution"> | string | null
+    paidAt?: DateTimeNullableFilter<"CollectiveDistribution"> | Date | string | null
+    status?: StringFilter<"CollectiveDistribution"> | string
+    taxYear?: IntFilter<"CollectiveDistribution"> | number
+    createdAt?: DateTimeFilter<"CollectiveDistribution"> | Date | string
+    updatedAt?: DateTimeFilter<"CollectiveDistribution"> | Date | string
+    collective?: XOR<NilCollectiveScalarRelationFilter, NilCollectiveWhereInput>
+    member?: XOR<CollectiveMemberScalarRelationFilter, CollectiveMemberWhereInput>
+  }
+
+  export type CollectiveDistributionOrderByWithRelationInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    memberId?: SortOrder
+    athleteId?: SortOrder
+    amountCents?: SortOrder
+    currency?: SortOrder
+    reason?: SortOrder
+    periodStart?: SortOrder
+    periodEnd?: SortOrder
+    dwollaTransferId?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    status?: SortOrder
+    taxYear?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    collective?: NilCollectiveOrderByWithRelationInput
+    member?: CollectiveMemberOrderByWithRelationInput
+  }
+
+  export type CollectiveDistributionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CollectiveDistributionWhereInput | CollectiveDistributionWhereInput[]
+    OR?: CollectiveDistributionWhereInput[]
+    NOT?: CollectiveDistributionWhereInput | CollectiveDistributionWhereInput[]
+    collectiveId?: StringFilter<"CollectiveDistribution"> | string
+    memberId?: StringFilter<"CollectiveDistribution"> | string
+    athleteId?: StringFilter<"CollectiveDistribution"> | string
+    amountCents?: IntFilter<"CollectiveDistribution"> | number
+    currency?: StringFilter<"CollectiveDistribution"> | string
+    reason?: StringFilter<"CollectiveDistribution"> | string
+    periodStart?: DateTimeFilter<"CollectiveDistribution"> | Date | string
+    periodEnd?: DateTimeFilter<"CollectiveDistribution"> | Date | string
+    dwollaTransferId?: StringNullableFilter<"CollectiveDistribution"> | string | null
+    paidAt?: DateTimeNullableFilter<"CollectiveDistribution"> | Date | string | null
+    status?: StringFilter<"CollectiveDistribution"> | string
+    taxYear?: IntFilter<"CollectiveDistribution"> | number
+    createdAt?: DateTimeFilter<"CollectiveDistribution"> | Date | string
+    updatedAt?: DateTimeFilter<"CollectiveDistribution"> | Date | string
+    collective?: XOR<NilCollectiveScalarRelationFilter, NilCollectiveWhereInput>
+    member?: XOR<CollectiveMemberScalarRelationFilter, CollectiveMemberWhereInput>
+  }, "id">
+
+  export type CollectiveDistributionOrderByWithAggregationInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    memberId?: SortOrder
+    athleteId?: SortOrder
+    amountCents?: SortOrder
+    currency?: SortOrder
+    reason?: SortOrder
+    periodStart?: SortOrder
+    periodEnd?: SortOrder
+    dwollaTransferId?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    status?: SortOrder
+    taxYear?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CollectiveDistributionCountOrderByAggregateInput
+    _avg?: CollectiveDistributionAvgOrderByAggregateInput
+    _max?: CollectiveDistributionMaxOrderByAggregateInput
+    _min?: CollectiveDistributionMinOrderByAggregateInput
+    _sum?: CollectiveDistributionSumOrderByAggregateInput
+  }
+
+  export type CollectiveDistributionScalarWhereWithAggregatesInput = {
+    AND?: CollectiveDistributionScalarWhereWithAggregatesInput | CollectiveDistributionScalarWhereWithAggregatesInput[]
+    OR?: CollectiveDistributionScalarWhereWithAggregatesInput[]
+    NOT?: CollectiveDistributionScalarWhereWithAggregatesInput | CollectiveDistributionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CollectiveDistribution"> | string
+    collectiveId?: StringWithAggregatesFilter<"CollectiveDistribution"> | string
+    memberId?: StringWithAggregatesFilter<"CollectiveDistribution"> | string
+    athleteId?: StringWithAggregatesFilter<"CollectiveDistribution"> | string
+    amountCents?: IntWithAggregatesFilter<"CollectiveDistribution"> | number
+    currency?: StringWithAggregatesFilter<"CollectiveDistribution"> | string
+    reason?: StringWithAggregatesFilter<"CollectiveDistribution"> | string
+    periodStart?: DateTimeWithAggregatesFilter<"CollectiveDistribution"> | Date | string
+    periodEnd?: DateTimeWithAggregatesFilter<"CollectiveDistribution"> | Date | string
+    dwollaTransferId?: StringNullableWithAggregatesFilter<"CollectiveDistribution"> | string | null
+    paidAt?: DateTimeNullableWithAggregatesFilter<"CollectiveDistribution"> | Date | string | null
+    status?: StringWithAggregatesFilter<"CollectiveDistribution"> | string
+    taxYear?: IntWithAggregatesFilter<"CollectiveDistribution"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"CollectiveDistribution"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CollectiveDistribution"> | Date | string
+  }
+
+  export type MatchRequestWhereInput = {
+    AND?: MatchRequestWhereInput | MatchRequestWhereInput[]
+    OR?: MatchRequestWhereInput[]
+    NOT?: MatchRequestWhereInput | MatchRequestWhereInput[]
+    id?: StringFilter<"MatchRequest"> | string
+    requestedById?: StringFilter<"MatchRequest"> | string
+    campaignId?: StringNullableFilter<"MatchRequest"> | string | null
+    brief?: StringFilter<"MatchRequest"> | string
+    budgetCents?: IntNullableFilter<"MatchRequest"> | number | null
+    targetNiche?: StringNullableListFilter<"MatchRequest">
+    targetPlatforms?: StringNullableListFilter<"MatchRequest">
+    targetMinFollowers?: IntNullableFilter<"MatchRequest"> | number | null
+    targetMaxFollowers?: IntNullableFilter<"MatchRequest"> | number | null
+    targetMinEngagement?: FloatNullableFilter<"MatchRequest"> | number | null
+    targetEntityType?: StringFilter<"MatchRequest"> | string
+    targetSport?: StringNullableFilter<"MatchRequest"> | string | null
+    maxResults?: IntFilter<"MatchRequest"> | number
+    status?: EnumMatchStatusFilter<"MatchRequest"> | $Enums.MatchStatus
+    createdAt?: DateTimeFilter<"MatchRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"MatchRequest"> | Date | string
+    requestedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    results?: MatchResultListRelationFilter
+  }
+
+  export type MatchRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    requestedById?: SortOrder
+    campaignId?: SortOrderInput | SortOrder
+    brief?: SortOrder
+    budgetCents?: SortOrderInput | SortOrder
+    targetNiche?: SortOrder
+    targetPlatforms?: SortOrder
+    targetMinFollowers?: SortOrderInput | SortOrder
+    targetMaxFollowers?: SortOrderInput | SortOrder
+    targetMinEngagement?: SortOrderInput | SortOrder
+    targetEntityType?: SortOrder
+    targetSport?: SortOrderInput | SortOrder
+    maxResults?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    requestedBy?: UserOrderByWithRelationInput
+    results?: MatchResultOrderByRelationAggregateInput
+  }
+
+  export type MatchRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MatchRequestWhereInput | MatchRequestWhereInput[]
+    OR?: MatchRequestWhereInput[]
+    NOT?: MatchRequestWhereInput | MatchRequestWhereInput[]
+    requestedById?: StringFilter<"MatchRequest"> | string
+    campaignId?: StringNullableFilter<"MatchRequest"> | string | null
+    brief?: StringFilter<"MatchRequest"> | string
+    budgetCents?: IntNullableFilter<"MatchRequest"> | number | null
+    targetNiche?: StringNullableListFilter<"MatchRequest">
+    targetPlatforms?: StringNullableListFilter<"MatchRequest">
+    targetMinFollowers?: IntNullableFilter<"MatchRequest"> | number | null
+    targetMaxFollowers?: IntNullableFilter<"MatchRequest"> | number | null
+    targetMinEngagement?: FloatNullableFilter<"MatchRequest"> | number | null
+    targetEntityType?: StringFilter<"MatchRequest"> | string
+    targetSport?: StringNullableFilter<"MatchRequest"> | string | null
+    maxResults?: IntFilter<"MatchRequest"> | number
+    status?: EnumMatchStatusFilter<"MatchRequest"> | $Enums.MatchStatus
+    createdAt?: DateTimeFilter<"MatchRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"MatchRequest"> | Date | string
+    requestedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    results?: MatchResultListRelationFilter
+  }, "id">
+
+  export type MatchRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    requestedById?: SortOrder
+    campaignId?: SortOrderInput | SortOrder
+    brief?: SortOrder
+    budgetCents?: SortOrderInput | SortOrder
+    targetNiche?: SortOrder
+    targetPlatforms?: SortOrder
+    targetMinFollowers?: SortOrderInput | SortOrder
+    targetMaxFollowers?: SortOrderInput | SortOrder
+    targetMinEngagement?: SortOrderInput | SortOrder
+    targetEntityType?: SortOrder
+    targetSport?: SortOrderInput | SortOrder
+    maxResults?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MatchRequestCountOrderByAggregateInput
+    _avg?: MatchRequestAvgOrderByAggregateInput
+    _max?: MatchRequestMaxOrderByAggregateInput
+    _min?: MatchRequestMinOrderByAggregateInput
+    _sum?: MatchRequestSumOrderByAggregateInput
+  }
+
+  export type MatchRequestScalarWhereWithAggregatesInput = {
+    AND?: MatchRequestScalarWhereWithAggregatesInput | MatchRequestScalarWhereWithAggregatesInput[]
+    OR?: MatchRequestScalarWhereWithAggregatesInput[]
+    NOT?: MatchRequestScalarWhereWithAggregatesInput | MatchRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MatchRequest"> | string
+    requestedById?: StringWithAggregatesFilter<"MatchRequest"> | string
+    campaignId?: StringNullableWithAggregatesFilter<"MatchRequest"> | string | null
+    brief?: StringWithAggregatesFilter<"MatchRequest"> | string
+    budgetCents?: IntNullableWithAggregatesFilter<"MatchRequest"> | number | null
+    targetNiche?: StringNullableListFilter<"MatchRequest">
+    targetPlatforms?: StringNullableListFilter<"MatchRequest">
+    targetMinFollowers?: IntNullableWithAggregatesFilter<"MatchRequest"> | number | null
+    targetMaxFollowers?: IntNullableWithAggregatesFilter<"MatchRequest"> | number | null
+    targetMinEngagement?: FloatNullableWithAggregatesFilter<"MatchRequest"> | number | null
+    targetEntityType?: StringWithAggregatesFilter<"MatchRequest"> | string
+    targetSport?: StringNullableWithAggregatesFilter<"MatchRequest"> | string | null
+    maxResults?: IntWithAggregatesFilter<"MatchRequest"> | number
+    status?: EnumMatchStatusWithAggregatesFilter<"MatchRequest"> | $Enums.MatchStatus
+    createdAt?: DateTimeWithAggregatesFilter<"MatchRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MatchRequest"> | Date | string
+  }
+
+  export type MatchResultWhereInput = {
+    AND?: MatchResultWhereInput | MatchResultWhereInput[]
+    OR?: MatchResultWhereInput[]
+    NOT?: MatchResultWhereInput | MatchResultWhereInput[]
+    id?: StringFilter<"MatchResult"> | string
+    requestId?: StringFilter<"MatchResult"> | string
+    creatorId?: StringNullableFilter<"MatchResult"> | string | null
+    athleteId?: StringNullableFilter<"MatchResult"> | string | null
+    rank?: IntFilter<"MatchResult"> | number
+    matchScore?: FloatFilter<"MatchResult"> | number
+    audienceAlignScore?: FloatFilter<"MatchResult"> | number
+    performanceScore?: FloatFilter<"MatchResult"> | number
+    fraudScore?: FloatFilter<"MatchResult"> | number
+    suggestedRateCents?: IntNullableFilter<"MatchResult"> | number | null
+    estimatedReach?: IntNullableFilter<"MatchResult"> | number | null
+    estimatedRoi?: FloatNullableFilter<"MatchResult"> | number | null
+    reasoning?: StringFilter<"MatchResult"> | string
+    aiFlags?: JsonNullableFilter<"MatchResult">
+    createdAt?: DateTimeFilter<"MatchResult"> | Date | string
+    request?: XOR<MatchRequestScalarRelationFilter, MatchRequestWhereInput>
+    creator?: XOR<CreatorNullableScalarRelationFilter, CreatorWhereInput> | null
+    athlete?: XOR<AthleteNullableScalarRelationFilter, AthleteWhereInput> | null
+  }
+
+  export type MatchResultOrderByWithRelationInput = {
+    id?: SortOrder
+    requestId?: SortOrder
+    creatorId?: SortOrderInput | SortOrder
+    athleteId?: SortOrderInput | SortOrder
+    rank?: SortOrder
+    matchScore?: SortOrder
+    audienceAlignScore?: SortOrder
+    performanceScore?: SortOrder
+    fraudScore?: SortOrder
+    suggestedRateCents?: SortOrderInput | SortOrder
+    estimatedReach?: SortOrderInput | SortOrder
+    estimatedRoi?: SortOrderInput | SortOrder
+    reasoning?: SortOrder
+    aiFlags?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    request?: MatchRequestOrderByWithRelationInput
+    creator?: CreatorOrderByWithRelationInput
+    athlete?: AthleteOrderByWithRelationInput
+  }
+
+  export type MatchResultWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MatchResultWhereInput | MatchResultWhereInput[]
+    OR?: MatchResultWhereInput[]
+    NOT?: MatchResultWhereInput | MatchResultWhereInput[]
+    requestId?: StringFilter<"MatchResult"> | string
+    creatorId?: StringNullableFilter<"MatchResult"> | string | null
+    athleteId?: StringNullableFilter<"MatchResult"> | string | null
+    rank?: IntFilter<"MatchResult"> | number
+    matchScore?: FloatFilter<"MatchResult"> | number
+    audienceAlignScore?: FloatFilter<"MatchResult"> | number
+    performanceScore?: FloatFilter<"MatchResult"> | number
+    fraudScore?: FloatFilter<"MatchResult"> | number
+    suggestedRateCents?: IntNullableFilter<"MatchResult"> | number | null
+    estimatedReach?: IntNullableFilter<"MatchResult"> | number | null
+    estimatedRoi?: FloatNullableFilter<"MatchResult"> | number | null
+    reasoning?: StringFilter<"MatchResult"> | string
+    aiFlags?: JsonNullableFilter<"MatchResult">
+    createdAt?: DateTimeFilter<"MatchResult"> | Date | string
+    request?: XOR<MatchRequestScalarRelationFilter, MatchRequestWhereInput>
+    creator?: XOR<CreatorNullableScalarRelationFilter, CreatorWhereInput> | null
+    athlete?: XOR<AthleteNullableScalarRelationFilter, AthleteWhereInput> | null
+  }, "id">
+
+  export type MatchResultOrderByWithAggregationInput = {
+    id?: SortOrder
+    requestId?: SortOrder
+    creatorId?: SortOrderInput | SortOrder
+    athleteId?: SortOrderInput | SortOrder
+    rank?: SortOrder
+    matchScore?: SortOrder
+    audienceAlignScore?: SortOrder
+    performanceScore?: SortOrder
+    fraudScore?: SortOrder
+    suggestedRateCents?: SortOrderInput | SortOrder
+    estimatedReach?: SortOrderInput | SortOrder
+    estimatedRoi?: SortOrderInput | SortOrder
+    reasoning?: SortOrder
+    aiFlags?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: MatchResultCountOrderByAggregateInput
+    _avg?: MatchResultAvgOrderByAggregateInput
+    _max?: MatchResultMaxOrderByAggregateInput
+    _min?: MatchResultMinOrderByAggregateInput
+    _sum?: MatchResultSumOrderByAggregateInput
+  }
+
+  export type MatchResultScalarWhereWithAggregatesInput = {
+    AND?: MatchResultScalarWhereWithAggregatesInput | MatchResultScalarWhereWithAggregatesInput[]
+    OR?: MatchResultScalarWhereWithAggregatesInput[]
+    NOT?: MatchResultScalarWhereWithAggregatesInput | MatchResultScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MatchResult"> | string
+    requestId?: StringWithAggregatesFilter<"MatchResult"> | string
+    creatorId?: StringNullableWithAggregatesFilter<"MatchResult"> | string | null
+    athleteId?: StringNullableWithAggregatesFilter<"MatchResult"> | string | null
+    rank?: IntWithAggregatesFilter<"MatchResult"> | number
+    matchScore?: FloatWithAggregatesFilter<"MatchResult"> | number
+    audienceAlignScore?: FloatWithAggregatesFilter<"MatchResult"> | number
+    performanceScore?: FloatWithAggregatesFilter<"MatchResult"> | number
+    fraudScore?: FloatWithAggregatesFilter<"MatchResult"> | number
+    suggestedRateCents?: IntNullableWithAggregatesFilter<"MatchResult"> | number | null
+    estimatedReach?: IntNullableWithAggregatesFilter<"MatchResult"> | number | null
+    estimatedRoi?: FloatNullableWithAggregatesFilter<"MatchResult"> | number | null
+    reasoning?: StringWithAggregatesFilter<"MatchResult"> | string
+    aiFlags?: JsonNullableWithAggregatesFilter<"MatchResult">
+    createdAt?: DateTimeWithAggregatesFilter<"MatchResult"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -77956,6 +91316,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -77990,6 +91353,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUpdateInput = {
@@ -78024,6 +91390,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -78058,6 +91427,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -78335,6 +91707,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorUncheckedCreateInput = {
@@ -78367,6 +91740,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorUpdateInput = {
@@ -78399,6 +91773,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorUncheckedUpdateInput = {
@@ -78431,6 +91806,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorCreateManyInput = {
@@ -78615,6 +91991,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionCreateNestedOneWithoutContractInput
     nilDeals?: NilDealCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomCreateNestedOneWithoutContractInput
   }
 
   export type ContractUncheckedCreateInput = {
@@ -78652,6 +92029,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionUncheckedCreateNestedOneWithoutContractInput
     nilDeals?: NilDealUncheckedCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomUncheckedCreateNestedOneWithoutContractInput
   }
 
   export type ContractUpdateInput = {
@@ -78689,6 +92067,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateInput = {
@@ -78726,6 +92105,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUncheckedUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUncheckedUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUncheckedUpdateOneWithoutContractNestedInput
   }
 
   export type ContractCreateManyInput = {
@@ -81728,6 +95108,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateInput = {
@@ -81773,6 +95155,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUpdateInput = {
@@ -81818,6 +95202,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateInput = {
@@ -81863,6 +95249,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteCreateManyInput = {
@@ -82440,6 +95828,10 @@ export namespace Prisma {
     updatedAt?: Date | string
     university?: UniversityCreateNestedOneWithoutNilCollectivesInput
     nilDeals?: NilDealCreateNestedManyWithoutCollectiveInput
+    members?: CollectiveMemberCreateNestedManyWithoutCollectiveInput
+    donors?: CollectiveDonorCreateNestedManyWithoutCollectiveInput
+    donations?: CollectiveDonationCreateNestedManyWithoutCollectiveInput
+    distributions?: CollectiveDistributionCreateNestedManyWithoutCollectiveInput
   }
 
   export type NilCollectiveUncheckedCreateInput = {
@@ -82459,6 +95851,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     nilDeals?: NilDealUncheckedCreateNestedManyWithoutCollectiveInput
+    members?: CollectiveMemberUncheckedCreateNestedManyWithoutCollectiveInput
+    donors?: CollectiveDonorUncheckedCreateNestedManyWithoutCollectiveInput
+    donations?: CollectiveDonationUncheckedCreateNestedManyWithoutCollectiveInput
+    distributions?: CollectiveDistributionUncheckedCreateNestedManyWithoutCollectiveInput
   }
 
   export type NilCollectiveUpdateInput = {
@@ -82478,6 +95874,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     university?: UniversityUpdateOneWithoutNilCollectivesNestedInput
     nilDeals?: NilDealUpdateManyWithoutCollectiveNestedInput
+    members?: CollectiveMemberUpdateManyWithoutCollectiveNestedInput
+    donors?: CollectiveDonorUpdateManyWithoutCollectiveNestedInput
+    donations?: CollectiveDonationUpdateManyWithoutCollectiveNestedInput
+    distributions?: CollectiveDistributionUpdateManyWithoutCollectiveNestedInput
   }
 
   export type NilCollectiveUncheckedUpdateInput = {
@@ -82497,6 +95897,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     nilDeals?: NilDealUncheckedUpdateManyWithoutCollectiveNestedInput
+    members?: CollectiveMemberUncheckedUpdateManyWithoutCollectiveNestedInput
+    donors?: CollectiveDonorUncheckedUpdateManyWithoutCollectiveNestedInput
+    donations?: CollectiveDonationUncheckedUpdateManyWithoutCollectiveNestedInput
+    distributions?: CollectiveDistributionUncheckedUpdateManyWithoutCollectiveNestedInput
   }
 
   export type NilCollectiveCreateManyInput = {
@@ -84371,6 +97775,941 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DealRoomCreateInput = {
+    id?: string
+    status?: $Enums.DealRoomStatus
+    openedAt?: Date | string
+    agreedAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contract: ContractCreateNestedOneWithoutDealRoomInput
+    messages?: DealRoomMessageCreateNestedManyWithoutDealRoomInput
+    proposals?: DealRoomProposalCreateNestedManyWithoutDealRoomInput
+  }
+
+  export type DealRoomUncheckedCreateInput = {
+    id?: string
+    contractId: string
+    status?: $Enums.DealRoomStatus
+    openedAt?: Date | string
+    agreedAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: DealRoomMessageUncheckedCreateNestedManyWithoutDealRoomInput
+    proposals?: DealRoomProposalUncheckedCreateNestedManyWithoutDealRoomInput
+  }
+
+  export type DealRoomUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumDealRoomStatusFieldUpdateOperationsInput | $Enums.DealRoomStatus
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contract?: ContractUpdateOneRequiredWithoutDealRoomNestedInput
+    messages?: DealRoomMessageUpdateManyWithoutDealRoomNestedInput
+    proposals?: DealRoomProposalUpdateManyWithoutDealRoomNestedInput
+  }
+
+  export type DealRoomUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contractId?: StringFieldUpdateOperationsInput | string
+    status?: EnumDealRoomStatusFieldUpdateOperationsInput | $Enums.DealRoomStatus
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: DealRoomMessageUncheckedUpdateManyWithoutDealRoomNestedInput
+    proposals?: DealRoomProposalUncheckedUpdateManyWithoutDealRoomNestedInput
+  }
+
+  export type DealRoomCreateManyInput = {
+    id?: string
+    contractId: string
+    status?: $Enums.DealRoomStatus
+    openedAt?: Date | string
+    agreedAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealRoomUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumDealRoomStatusFieldUpdateOperationsInput | $Enums.DealRoomStatus
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contractId?: StringFieldUpdateOperationsInput | string
+    status?: EnumDealRoomStatusFieldUpdateOperationsInput | $Enums.DealRoomStatus
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomMessageCreateInput = {
+    id?: string
+    content: string
+    clauseRef?: string | null
+    type?: $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    dealRoom: DealRoomCreateNestedOneWithoutMessagesInput
+    author: UserCreateNestedOneWithoutDealRoomMessagesInput
+  }
+
+  export type DealRoomMessageUncheckedCreateInput = {
+    id?: string
+    dealRoomId: string
+    authorId: string
+    content: string
+    clauseRef?: string | null
+    type?: $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type DealRoomMessageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    clauseRef?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumDealRoomMessageTypeFieldUpdateOperationsInput | $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dealRoom?: DealRoomUpdateOneRequiredWithoutMessagesNestedInput
+    author?: UserUpdateOneRequiredWithoutDealRoomMessagesNestedInput
+  }
+
+  export type DealRoomMessageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dealRoomId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    clauseRef?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumDealRoomMessageTypeFieldUpdateOperationsInput | $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomMessageCreateManyInput = {
+    id?: string
+    dealRoomId: string
+    authorId: string
+    content: string
+    clauseRef?: string | null
+    type?: $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type DealRoomMessageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    clauseRef?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumDealRoomMessageTypeFieldUpdateOperationsInput | $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomMessageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dealRoomId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    clauseRef?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumDealRoomMessageTypeFieldUpdateOperationsInput | $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomProposalCreateInput = {
+    id?: string
+    title: string
+    changes: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: number | null
+    aiSummary?: string | null
+    status?: $Enums.ProposalStatus
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    dealRoom: DealRoomCreateNestedOneWithoutProposalsInput
+    proposedBy: UserCreateNestedOneWithoutDealRoomProposalsInput
+  }
+
+  export type DealRoomProposalUncheckedCreateInput = {
+    id?: string
+    dealRoomId: string
+    proposedById: string
+    title: string
+    changes: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: number | null
+    aiSummary?: string | null
+    status?: $Enums.ProposalStatus
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealRoomProposalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    changes?: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: NullableIntFieldUpdateOperationsInput | number | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProposalStatusFieldUpdateOperationsInput | $Enums.ProposalStatus
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dealRoom?: DealRoomUpdateOneRequiredWithoutProposalsNestedInput
+    proposedBy?: UserUpdateOneRequiredWithoutDealRoomProposalsNestedInput
+  }
+
+  export type DealRoomProposalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dealRoomId?: StringFieldUpdateOperationsInput | string
+    proposedById?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    changes?: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: NullableIntFieldUpdateOperationsInput | number | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProposalStatusFieldUpdateOperationsInput | $Enums.ProposalStatus
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomProposalCreateManyInput = {
+    id?: string
+    dealRoomId: string
+    proposedById: string
+    title: string
+    changes: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: number | null
+    aiSummary?: string | null
+    status?: $Enums.ProposalStatus
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealRoomProposalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    changes?: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: NullableIntFieldUpdateOperationsInput | number | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProposalStatusFieldUpdateOperationsInput | $Enums.ProposalStatus
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomProposalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dealRoomId?: StringFieldUpdateOperationsInput | string
+    proposedById?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    changes?: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: NullableIntFieldUpdateOperationsInput | number | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProposalStatusFieldUpdateOperationsInput | $Enums.ProposalStatus
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveMemberCreateInput = {
+    id?: string
+    sharePercent?: number
+    joinedAt?: Date | string
+    leftAt?: Date | string | null
+    status?: $Enums.CollectiveMemberStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    collective: NilCollectiveCreateNestedOneWithoutMembersInput
+    athlete: AthleteCreateNestedOneWithoutCollectiveMembershipsInput
+    distributions?: CollectiveDistributionCreateNestedManyWithoutMemberInput
+  }
+
+  export type CollectiveMemberUncheckedCreateInput = {
+    id?: string
+    collectiveId: string
+    athleteId: string
+    sharePercent?: number
+    joinedAt?: Date | string
+    leftAt?: Date | string | null
+    status?: $Enums.CollectiveMemberStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    distributions?: CollectiveDistributionUncheckedCreateNestedManyWithoutMemberInput
+  }
+
+  export type CollectiveMemberUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sharePercent?: FloatFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leftAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCollectiveMemberStatusFieldUpdateOperationsInput | $Enums.CollectiveMemberStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    collective?: NilCollectiveUpdateOneRequiredWithoutMembersNestedInput
+    athlete?: AthleteUpdateOneRequiredWithoutCollectiveMembershipsNestedInput
+    distributions?: CollectiveDistributionUpdateManyWithoutMemberNestedInput
+  }
+
+  export type CollectiveMemberUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    sharePercent?: FloatFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leftAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCollectiveMemberStatusFieldUpdateOperationsInput | $Enums.CollectiveMemberStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    distributions?: CollectiveDistributionUncheckedUpdateManyWithoutMemberNestedInput
+  }
+
+  export type CollectiveMemberCreateManyInput = {
+    id?: string
+    collectiveId: string
+    athleteId: string
+    sharePercent?: number
+    joinedAt?: Date | string
+    leftAt?: Date | string | null
+    status?: $Enums.CollectiveMemberStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CollectiveMemberUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sharePercent?: FloatFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leftAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCollectiveMemberStatusFieldUpdateOperationsInput | $Enums.CollectiveMemberStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveMemberUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    sharePercent?: FloatFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leftAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCollectiveMemberStatusFieldUpdateOperationsInput | $Enums.CollectiveMemberStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDonorCreateInput = {
+    id?: string
+    displayName: string
+    email: string
+    isAnonymous?: boolean
+    totalDonatedCents?: number
+    donationCount?: number
+    lastDonatedAt?: Date | string | null
+    dwollaCustomerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    collective: NilCollectiveCreateNestedOneWithoutDonorsInput
+    donations?: CollectiveDonationCreateNestedManyWithoutDonorInput
+  }
+
+  export type CollectiveDonorUncheckedCreateInput = {
+    id?: string
+    collectiveId: string
+    displayName: string
+    email: string
+    isAnonymous?: boolean
+    totalDonatedCents?: number
+    donationCount?: number
+    lastDonatedAt?: Date | string | null
+    dwollaCustomerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    donations?: CollectiveDonationUncheckedCreateNestedManyWithoutDonorInput
+  }
+
+  export type CollectiveDonorUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    totalDonatedCents?: IntFieldUpdateOperationsInput | number
+    donationCount?: IntFieldUpdateOperationsInput | number
+    lastDonatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    collective?: NilCollectiveUpdateOneRequiredWithoutDonorsNestedInput
+    donations?: CollectiveDonationUpdateManyWithoutDonorNestedInput
+  }
+
+  export type CollectiveDonorUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    totalDonatedCents?: IntFieldUpdateOperationsInput | number
+    donationCount?: IntFieldUpdateOperationsInput | number
+    lastDonatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    donations?: CollectiveDonationUncheckedUpdateManyWithoutDonorNestedInput
+  }
+
+  export type CollectiveDonorCreateManyInput = {
+    id?: string
+    collectiveId: string
+    displayName: string
+    email: string
+    isAnonymous?: boolean
+    totalDonatedCents?: number
+    donationCount?: number
+    lastDonatedAt?: Date | string | null
+    dwollaCustomerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CollectiveDonorUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    totalDonatedCents?: IntFieldUpdateOperationsInput | number
+    donationCount?: IntFieldUpdateOperationsInput | number
+    lastDonatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDonorUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    totalDonatedCents?: IntFieldUpdateOperationsInput | number
+    donationCount?: IntFieldUpdateOperationsInput | number
+    lastDonatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDonationCreateInput = {
+    id?: string
+    amountCents: number
+    currency?: string
+    dwollaTransferId?: string | null
+    status?: string
+    note?: string | null
+    isRecurring?: boolean
+    donatedAt?: Date | string
+    createdAt?: Date | string
+    donor: CollectiveDonorCreateNestedOneWithoutDonationsInput
+    collective: NilCollectiveCreateNestedOneWithoutDonationsInput
+  }
+
+  export type CollectiveDonationUncheckedCreateInput = {
+    id?: string
+    donorId: string
+    collectiveId: string
+    amountCents: number
+    currency?: string
+    dwollaTransferId?: string | null
+    status?: string
+    note?: string | null
+    isRecurring?: boolean
+    donatedAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type CollectiveDonationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    donatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    donor?: CollectiveDonorUpdateOneRequiredWithoutDonationsNestedInput
+    collective?: NilCollectiveUpdateOneRequiredWithoutDonationsNestedInput
+  }
+
+  export type CollectiveDonationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    donorId?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    donatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDonationCreateManyInput = {
+    id?: string
+    donorId: string
+    collectiveId: string
+    amountCents: number
+    currency?: string
+    dwollaTransferId?: string | null
+    status?: string
+    note?: string | null
+    isRecurring?: boolean
+    donatedAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type CollectiveDonationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    donatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDonationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    donorId?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    donatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDistributionCreateInput = {
+    id?: string
+    athleteId: string
+    amountCents: number
+    currency?: string
+    reason: string
+    periodStart: Date | string
+    periodEnd: Date | string
+    dwollaTransferId?: string | null
+    paidAt?: Date | string | null
+    status?: string
+    taxYear: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    collective: NilCollectiveCreateNestedOneWithoutDistributionsInput
+    member: CollectiveMemberCreateNestedOneWithoutDistributionsInput
+  }
+
+  export type CollectiveDistributionUncheckedCreateInput = {
+    id?: string
+    collectiveId: string
+    memberId: string
+    athleteId: string
+    amountCents: number
+    currency?: string
+    reason: string
+    periodStart: Date | string
+    periodEnd: Date | string
+    dwollaTransferId?: string | null
+    paidAt?: Date | string | null
+    status?: string
+    taxYear: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CollectiveDistributionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    periodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    taxYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    collective?: NilCollectiveUpdateOneRequiredWithoutDistributionsNestedInput
+    member?: CollectiveMemberUpdateOneRequiredWithoutDistributionsNestedInput
+  }
+
+  export type CollectiveDistributionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    memberId?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    periodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    taxYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDistributionCreateManyInput = {
+    id?: string
+    collectiveId: string
+    memberId: string
+    athleteId: string
+    amountCents: number
+    currency?: string
+    reason: string
+    periodStart: Date | string
+    periodEnd: Date | string
+    dwollaTransferId?: string | null
+    paidAt?: Date | string | null
+    status?: string
+    taxYear: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CollectiveDistributionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    periodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    taxYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDistributionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    memberId?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    periodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    taxYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchRequestCreateInput = {
+    id?: string
+    campaignId?: string | null
+    brief: string
+    budgetCents?: number | null
+    targetNiche?: MatchRequestCreatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestCreatetargetPlatformsInput | string[]
+    targetMinFollowers?: number | null
+    targetMaxFollowers?: number | null
+    targetMinEngagement?: number | null
+    targetEntityType?: string
+    targetSport?: string | null
+    maxResults?: number
+    status?: $Enums.MatchStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requestedBy: UserCreateNestedOneWithoutMatchRequestsInput
+    results?: MatchResultCreateNestedManyWithoutRequestInput
+  }
+
+  export type MatchRequestUncheckedCreateInput = {
+    id?: string
+    requestedById: string
+    campaignId?: string | null
+    brief: string
+    budgetCents?: number | null
+    targetNiche?: MatchRequestCreatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestCreatetargetPlatformsInput | string[]
+    targetMinFollowers?: number | null
+    targetMaxFollowers?: number | null
+    targetMinEngagement?: number | null
+    targetEntityType?: string
+    targetSport?: string | null
+    maxResults?: number
+    status?: $Enums.MatchStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    results?: MatchResultUncheckedCreateNestedManyWithoutRequestInput
+  }
+
+  export type MatchRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    brief?: StringFieldUpdateOperationsInput | string
+    budgetCents?: NullableIntFieldUpdateOperationsInput | number | null
+    targetNiche?: MatchRequestUpdatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestUpdatetargetPlatformsInput | string[]
+    targetMinFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMaxFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMinEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetEntityType?: StringFieldUpdateOperationsInput | string
+    targetSport?: NullableStringFieldUpdateOperationsInput | string | null
+    maxResults?: IntFieldUpdateOperationsInput | number
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requestedBy?: UserUpdateOneRequiredWithoutMatchRequestsNestedInput
+    results?: MatchResultUpdateManyWithoutRequestNestedInput
+  }
+
+  export type MatchRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedById?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    brief?: StringFieldUpdateOperationsInput | string
+    budgetCents?: NullableIntFieldUpdateOperationsInput | number | null
+    targetNiche?: MatchRequestUpdatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestUpdatetargetPlatformsInput | string[]
+    targetMinFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMaxFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMinEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetEntityType?: StringFieldUpdateOperationsInput | string
+    targetSport?: NullableStringFieldUpdateOperationsInput | string | null
+    maxResults?: IntFieldUpdateOperationsInput | number
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    results?: MatchResultUncheckedUpdateManyWithoutRequestNestedInput
+  }
+
+  export type MatchRequestCreateManyInput = {
+    id?: string
+    requestedById: string
+    campaignId?: string | null
+    brief: string
+    budgetCents?: number | null
+    targetNiche?: MatchRequestCreatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestCreatetargetPlatformsInput | string[]
+    targetMinFollowers?: number | null
+    targetMaxFollowers?: number | null
+    targetMinEngagement?: number | null
+    targetEntityType?: string
+    targetSport?: string | null
+    maxResults?: number
+    status?: $Enums.MatchStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MatchRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    brief?: StringFieldUpdateOperationsInput | string
+    budgetCents?: NullableIntFieldUpdateOperationsInput | number | null
+    targetNiche?: MatchRequestUpdatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestUpdatetargetPlatformsInput | string[]
+    targetMinFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMaxFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMinEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetEntityType?: StringFieldUpdateOperationsInput | string
+    targetSport?: NullableStringFieldUpdateOperationsInput | string | null
+    maxResults?: IntFieldUpdateOperationsInput | number
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedById?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    brief?: StringFieldUpdateOperationsInput | string
+    budgetCents?: NullableIntFieldUpdateOperationsInput | number | null
+    targetNiche?: MatchRequestUpdatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestUpdatetargetPlatformsInput | string[]
+    targetMinFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMaxFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMinEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetEntityType?: StringFieldUpdateOperationsInput | string
+    targetSport?: NullableStringFieldUpdateOperationsInput | string | null
+    maxResults?: IntFieldUpdateOperationsInput | number
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchResultCreateInput = {
+    id?: string
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents?: number | null
+    estimatedReach?: number | null
+    estimatedRoi?: number | null
+    reasoning: string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    request: MatchRequestCreateNestedOneWithoutResultsInput
+    creator?: CreatorCreateNestedOneWithoutMatchResultsInput
+    athlete?: AthleteCreateNestedOneWithoutMatchResultsInput
+  }
+
+  export type MatchResultUncheckedCreateInput = {
+    id?: string
+    requestId: string
+    creatorId?: string | null
+    athleteId?: string | null
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents?: number | null
+    estimatedReach?: number | null
+    estimatedRoi?: number | null
+    reasoning: string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type MatchResultUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    request?: MatchRequestUpdateOneRequiredWithoutResultsNestedInput
+    creator?: CreatorUpdateOneWithoutMatchResultsNestedInput
+    athlete?: AthleteUpdateOneWithoutMatchResultsNestedInput
+  }
+
+  export type MatchResultUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestId?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    athleteId?: NullableStringFieldUpdateOperationsInput | string | null
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchResultCreateManyInput = {
+    id?: string
+    requestId: string
+    creatorId?: string | null
+    athleteId?: string | null
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents?: number | null
+    estimatedReach?: number | null
+    estimatedRoi?: number | null
+    reasoning: string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type MatchResultUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchResultUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestId?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    athleteId?: NullableStringFieldUpdateOperationsInput | string | null
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -84500,6 +98839,24 @@ export namespace Prisma {
     none?: ImportJobWhereInput
   }
 
+  export type DealRoomMessageListRelationFilter = {
+    every?: DealRoomMessageWhereInput
+    some?: DealRoomMessageWhereInput
+    none?: DealRoomMessageWhereInput
+  }
+
+  export type DealRoomProposalListRelationFilter = {
+    every?: DealRoomProposalWhereInput
+    some?: DealRoomProposalWhereInput
+    none?: DealRoomProposalWhereInput
+  }
+
+  export type MatchRequestListRelationFilter = {
+    every?: MatchRequestWhereInput
+    some?: MatchRequestWhereInput
+    none?: MatchRequestWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -84522,6 +98879,18 @@ export namespace Prisma {
   }
 
   export type ImportJobOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DealRoomMessageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DealRoomProposalOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MatchRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -84930,6 +99299,12 @@ export namespace Prisma {
     none?: FmvAssessmentWhereInput
   }
 
+  export type MatchResultListRelationFilter = {
+    every?: MatchResultWhereInput
+    some?: MatchResultWhereInput
+    none?: MatchResultWhereInput
+  }
+
   export type DeliverableOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -84951,6 +99326,10 @@ export namespace Prisma {
   }
 
   export type FmvAssessmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MatchResultOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -85201,6 +99580,11 @@ export namespace Prisma {
   export type ContractNilExtensionNullableScalarRelationFilter = {
     is?: ContractNilExtensionWhereInput | null
     isNot?: ContractNilExtensionWhereInput | null
+  }
+
+  export type DealRoomNullableScalarRelationFilter = {
+    is?: DealRoomWhereInput | null
+    isNot?: DealRoomWhereInput | null
   }
 
   export type PaymentOrderByRelationAggregateInput = {
@@ -87040,6 +101424,12 @@ export namespace Prisma {
     isNot?: NilMarketplaceListingWhereInput | null
   }
 
+  export type CollectiveMemberListRelationFilter = {
+    every?: CollectiveMemberWhereInput
+    some?: CollectiveMemberWhereInput
+    none?: CollectiveMemberWhereInput
+  }
+
   export type GuardianRelationshipOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -87049,6 +101439,10 @@ export namespace Prisma {
   }
 
   export type NilDisclosureOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CollectiveMemberOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -87456,6 +101850,36 @@ export namespace Prisma {
 
   export type AgentRepresentationSumOrderByAggregateInput = {
     commissionRate?: SortOrder
+  }
+
+  export type CollectiveDonorListRelationFilter = {
+    every?: CollectiveDonorWhereInput
+    some?: CollectiveDonorWhereInput
+    none?: CollectiveDonorWhereInput
+  }
+
+  export type CollectiveDonationListRelationFilter = {
+    every?: CollectiveDonationWhereInput
+    some?: CollectiveDonationWhereInput
+    none?: CollectiveDonationWhereInput
+  }
+
+  export type CollectiveDistributionListRelationFilter = {
+    every?: CollectiveDistributionWhereInput
+    some?: CollectiveDistributionWhereInput
+    none?: CollectiveDistributionWhereInput
+  }
+
+  export type CollectiveDonorOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CollectiveDonationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CollectiveDistributionOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type NilCollectiveCountOrderByAggregateInput = {
@@ -88564,6 +102988,597 @@ export namespace Prisma {
     _max?: NestedEnumImportJobStatusFilter<$PrismaModel>
   }
 
+  export type EnumDealRoomStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealRoomStatus | EnumDealRoomStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DealRoomStatus[] | ListEnumDealRoomStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealRoomStatus[] | ListEnumDealRoomStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealRoomStatusFilter<$PrismaModel> | $Enums.DealRoomStatus
+  }
+
+  export type DealRoomCountOrderByAggregateInput = {
+    id?: SortOrder
+    contractId?: SortOrder
+    status?: SortOrder
+    openedAt?: SortOrder
+    agreedAt?: SortOrder
+    closedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DealRoomMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contractId?: SortOrder
+    status?: SortOrder
+    openedAt?: SortOrder
+    agreedAt?: SortOrder
+    closedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DealRoomMinOrderByAggregateInput = {
+    id?: SortOrder
+    contractId?: SortOrder
+    status?: SortOrder
+    openedAt?: SortOrder
+    agreedAt?: SortOrder
+    closedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumDealRoomStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealRoomStatus | EnumDealRoomStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DealRoomStatus[] | ListEnumDealRoomStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealRoomStatus[] | ListEnumDealRoomStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealRoomStatusWithAggregatesFilter<$PrismaModel> | $Enums.DealRoomStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDealRoomStatusFilter<$PrismaModel>
+    _max?: NestedEnumDealRoomStatusFilter<$PrismaModel>
+  }
+
+  export type EnumDealRoomMessageTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealRoomMessageType | EnumDealRoomMessageTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DealRoomMessageType[] | ListEnumDealRoomMessageTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealRoomMessageType[] | ListEnumDealRoomMessageTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealRoomMessageTypeFilter<$PrismaModel> | $Enums.DealRoomMessageType
+  }
+
+  export type DealRoomScalarRelationFilter = {
+    is?: DealRoomWhereInput
+    isNot?: DealRoomWhereInput
+  }
+
+  export type DealRoomMessageCountOrderByAggregateInput = {
+    id?: SortOrder
+    dealRoomId?: SortOrder
+    authorId?: SortOrder
+    content?: SortOrder
+    clauseRef?: SortOrder
+    type?: SortOrder
+    metadata?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DealRoomMessageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    dealRoomId?: SortOrder
+    authorId?: SortOrder
+    content?: SortOrder
+    clauseRef?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DealRoomMessageMinOrderByAggregateInput = {
+    id?: SortOrder
+    dealRoomId?: SortOrder
+    authorId?: SortOrder
+    content?: SortOrder
+    clauseRef?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumDealRoomMessageTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealRoomMessageType | EnumDealRoomMessageTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DealRoomMessageType[] | ListEnumDealRoomMessageTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealRoomMessageType[] | ListEnumDealRoomMessageTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealRoomMessageTypeWithAggregatesFilter<$PrismaModel> | $Enums.DealRoomMessageType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDealRoomMessageTypeFilter<$PrismaModel>
+    _max?: NestedEnumDealRoomMessageTypeFilter<$PrismaModel>
+  }
+
+  export type EnumProposalStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProposalStatus | EnumProposalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProposalStatus[] | ListEnumProposalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProposalStatus[] | ListEnumProposalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProposalStatusFilter<$PrismaModel> | $Enums.ProposalStatus
+  }
+
+  export type DealRoomProposalCountOrderByAggregateInput = {
+    id?: SortOrder
+    dealRoomId?: SortOrder
+    proposedById?: SortOrder
+    title?: SortOrder
+    changes?: SortOrder
+    aiRiskDelta?: SortOrder
+    aiSummary?: SortOrder
+    status?: SortOrder
+    resolvedById?: SortOrder
+    resolvedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DealRoomProposalAvgOrderByAggregateInput = {
+    aiRiskDelta?: SortOrder
+  }
+
+  export type DealRoomProposalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    dealRoomId?: SortOrder
+    proposedById?: SortOrder
+    title?: SortOrder
+    aiRiskDelta?: SortOrder
+    aiSummary?: SortOrder
+    status?: SortOrder
+    resolvedById?: SortOrder
+    resolvedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DealRoomProposalMinOrderByAggregateInput = {
+    id?: SortOrder
+    dealRoomId?: SortOrder
+    proposedById?: SortOrder
+    title?: SortOrder
+    aiRiskDelta?: SortOrder
+    aiSummary?: SortOrder
+    status?: SortOrder
+    resolvedById?: SortOrder
+    resolvedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DealRoomProposalSumOrderByAggregateInput = {
+    aiRiskDelta?: SortOrder
+  }
+
+  export type EnumProposalStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProposalStatus | EnumProposalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProposalStatus[] | ListEnumProposalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProposalStatus[] | ListEnumProposalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProposalStatusWithAggregatesFilter<$PrismaModel> | $Enums.ProposalStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProposalStatusFilter<$PrismaModel>
+    _max?: NestedEnumProposalStatusFilter<$PrismaModel>
+  }
+
+  export type EnumCollectiveMemberStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CollectiveMemberStatus | EnumCollectiveMemberStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CollectiveMemberStatus[] | ListEnumCollectiveMemberStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CollectiveMemberStatus[] | ListEnumCollectiveMemberStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCollectiveMemberStatusFilter<$PrismaModel> | $Enums.CollectiveMemberStatus
+  }
+
+  export type NilCollectiveScalarRelationFilter = {
+    is?: NilCollectiveWhereInput
+    isNot?: NilCollectiveWhereInput
+  }
+
+  export type CollectiveMemberCollectiveIdAthleteIdCompoundUniqueInput = {
+    collectiveId: string
+    athleteId: string
+  }
+
+  export type CollectiveMemberCountOrderByAggregateInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    athleteId?: SortOrder
+    sharePercent?: SortOrder
+    joinedAt?: SortOrder
+    leftAt?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CollectiveMemberAvgOrderByAggregateInput = {
+    sharePercent?: SortOrder
+  }
+
+  export type CollectiveMemberMaxOrderByAggregateInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    athleteId?: SortOrder
+    sharePercent?: SortOrder
+    joinedAt?: SortOrder
+    leftAt?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CollectiveMemberMinOrderByAggregateInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    athleteId?: SortOrder
+    sharePercent?: SortOrder
+    joinedAt?: SortOrder
+    leftAt?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CollectiveMemberSumOrderByAggregateInput = {
+    sharePercent?: SortOrder
+  }
+
+  export type EnumCollectiveMemberStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CollectiveMemberStatus | EnumCollectiveMemberStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CollectiveMemberStatus[] | ListEnumCollectiveMemberStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CollectiveMemberStatus[] | ListEnumCollectiveMemberStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCollectiveMemberStatusWithAggregatesFilter<$PrismaModel> | $Enums.CollectiveMemberStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCollectiveMemberStatusFilter<$PrismaModel>
+    _max?: NestedEnumCollectiveMemberStatusFilter<$PrismaModel>
+  }
+
+  export type CollectiveDonorCollectiveIdEmailCompoundUniqueInput = {
+    collectiveId: string
+    email: string
+  }
+
+  export type CollectiveDonorCountOrderByAggregateInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    displayName?: SortOrder
+    email?: SortOrder
+    isAnonymous?: SortOrder
+    totalDonatedCents?: SortOrder
+    donationCount?: SortOrder
+    lastDonatedAt?: SortOrder
+    dwollaCustomerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CollectiveDonorAvgOrderByAggregateInput = {
+    totalDonatedCents?: SortOrder
+    donationCount?: SortOrder
+  }
+
+  export type CollectiveDonorMaxOrderByAggregateInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    displayName?: SortOrder
+    email?: SortOrder
+    isAnonymous?: SortOrder
+    totalDonatedCents?: SortOrder
+    donationCount?: SortOrder
+    lastDonatedAt?: SortOrder
+    dwollaCustomerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CollectiveDonorMinOrderByAggregateInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    displayName?: SortOrder
+    email?: SortOrder
+    isAnonymous?: SortOrder
+    totalDonatedCents?: SortOrder
+    donationCount?: SortOrder
+    lastDonatedAt?: SortOrder
+    dwollaCustomerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CollectiveDonorSumOrderByAggregateInput = {
+    totalDonatedCents?: SortOrder
+    donationCount?: SortOrder
+  }
+
+  export type CollectiveDonorScalarRelationFilter = {
+    is?: CollectiveDonorWhereInput
+    isNot?: CollectiveDonorWhereInput
+  }
+
+  export type CollectiveDonationCountOrderByAggregateInput = {
+    id?: SortOrder
+    donorId?: SortOrder
+    collectiveId?: SortOrder
+    amountCents?: SortOrder
+    currency?: SortOrder
+    dwollaTransferId?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    isRecurring?: SortOrder
+    donatedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CollectiveDonationAvgOrderByAggregateInput = {
+    amountCents?: SortOrder
+  }
+
+  export type CollectiveDonationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    donorId?: SortOrder
+    collectiveId?: SortOrder
+    amountCents?: SortOrder
+    currency?: SortOrder
+    dwollaTransferId?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    isRecurring?: SortOrder
+    donatedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CollectiveDonationMinOrderByAggregateInput = {
+    id?: SortOrder
+    donorId?: SortOrder
+    collectiveId?: SortOrder
+    amountCents?: SortOrder
+    currency?: SortOrder
+    dwollaTransferId?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    isRecurring?: SortOrder
+    donatedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CollectiveDonationSumOrderByAggregateInput = {
+    amountCents?: SortOrder
+  }
+
+  export type CollectiveMemberScalarRelationFilter = {
+    is?: CollectiveMemberWhereInput
+    isNot?: CollectiveMemberWhereInput
+  }
+
+  export type CollectiveDistributionCountOrderByAggregateInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    memberId?: SortOrder
+    athleteId?: SortOrder
+    amountCents?: SortOrder
+    currency?: SortOrder
+    reason?: SortOrder
+    periodStart?: SortOrder
+    periodEnd?: SortOrder
+    dwollaTransferId?: SortOrder
+    paidAt?: SortOrder
+    status?: SortOrder
+    taxYear?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CollectiveDistributionAvgOrderByAggregateInput = {
+    amountCents?: SortOrder
+    taxYear?: SortOrder
+  }
+
+  export type CollectiveDistributionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    memberId?: SortOrder
+    athleteId?: SortOrder
+    amountCents?: SortOrder
+    currency?: SortOrder
+    reason?: SortOrder
+    periodStart?: SortOrder
+    periodEnd?: SortOrder
+    dwollaTransferId?: SortOrder
+    paidAt?: SortOrder
+    status?: SortOrder
+    taxYear?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CollectiveDistributionMinOrderByAggregateInput = {
+    id?: SortOrder
+    collectiveId?: SortOrder
+    memberId?: SortOrder
+    athleteId?: SortOrder
+    amountCents?: SortOrder
+    currency?: SortOrder
+    reason?: SortOrder
+    periodStart?: SortOrder
+    periodEnd?: SortOrder
+    dwollaTransferId?: SortOrder
+    paidAt?: SortOrder
+    status?: SortOrder
+    taxYear?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CollectiveDistributionSumOrderByAggregateInput = {
+    amountCents?: SortOrder
+    taxYear?: SortOrder
+  }
+
+  export type EnumMatchStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.MatchStatus | EnumMatchStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MatchStatus[] | ListEnumMatchStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MatchStatus[] | ListEnumMatchStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMatchStatusFilter<$PrismaModel> | $Enums.MatchStatus
+  }
+
+  export type MatchRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    requestedById?: SortOrder
+    campaignId?: SortOrder
+    brief?: SortOrder
+    budgetCents?: SortOrder
+    targetNiche?: SortOrder
+    targetPlatforms?: SortOrder
+    targetMinFollowers?: SortOrder
+    targetMaxFollowers?: SortOrder
+    targetMinEngagement?: SortOrder
+    targetEntityType?: SortOrder
+    targetSport?: SortOrder
+    maxResults?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MatchRequestAvgOrderByAggregateInput = {
+    budgetCents?: SortOrder
+    targetMinFollowers?: SortOrder
+    targetMaxFollowers?: SortOrder
+    targetMinEngagement?: SortOrder
+    maxResults?: SortOrder
+  }
+
+  export type MatchRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    requestedById?: SortOrder
+    campaignId?: SortOrder
+    brief?: SortOrder
+    budgetCents?: SortOrder
+    targetMinFollowers?: SortOrder
+    targetMaxFollowers?: SortOrder
+    targetMinEngagement?: SortOrder
+    targetEntityType?: SortOrder
+    targetSport?: SortOrder
+    maxResults?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MatchRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    requestedById?: SortOrder
+    campaignId?: SortOrder
+    brief?: SortOrder
+    budgetCents?: SortOrder
+    targetMinFollowers?: SortOrder
+    targetMaxFollowers?: SortOrder
+    targetMinEngagement?: SortOrder
+    targetEntityType?: SortOrder
+    targetSport?: SortOrder
+    maxResults?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MatchRequestSumOrderByAggregateInput = {
+    budgetCents?: SortOrder
+    targetMinFollowers?: SortOrder
+    targetMaxFollowers?: SortOrder
+    targetMinEngagement?: SortOrder
+    maxResults?: SortOrder
+  }
+
+  export type EnumMatchStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MatchStatus | EnumMatchStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MatchStatus[] | ListEnumMatchStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MatchStatus[] | ListEnumMatchStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMatchStatusWithAggregatesFilter<$PrismaModel> | $Enums.MatchStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMatchStatusFilter<$PrismaModel>
+    _max?: NestedEnumMatchStatusFilter<$PrismaModel>
+  }
+
+  export type MatchRequestScalarRelationFilter = {
+    is?: MatchRequestWhereInput
+    isNot?: MatchRequestWhereInput
+  }
+
+  export type MatchResultCountOrderByAggregateInput = {
+    id?: SortOrder
+    requestId?: SortOrder
+    creatorId?: SortOrder
+    athleteId?: SortOrder
+    rank?: SortOrder
+    matchScore?: SortOrder
+    audienceAlignScore?: SortOrder
+    performanceScore?: SortOrder
+    fraudScore?: SortOrder
+    suggestedRateCents?: SortOrder
+    estimatedReach?: SortOrder
+    estimatedRoi?: SortOrder
+    reasoning?: SortOrder
+    aiFlags?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MatchResultAvgOrderByAggregateInput = {
+    rank?: SortOrder
+    matchScore?: SortOrder
+    audienceAlignScore?: SortOrder
+    performanceScore?: SortOrder
+    fraudScore?: SortOrder
+    suggestedRateCents?: SortOrder
+    estimatedReach?: SortOrder
+    estimatedRoi?: SortOrder
+  }
+
+  export type MatchResultMaxOrderByAggregateInput = {
+    id?: SortOrder
+    requestId?: SortOrder
+    creatorId?: SortOrder
+    athleteId?: SortOrder
+    rank?: SortOrder
+    matchScore?: SortOrder
+    audienceAlignScore?: SortOrder
+    performanceScore?: SortOrder
+    fraudScore?: SortOrder
+    suggestedRateCents?: SortOrder
+    estimatedReach?: SortOrder
+    estimatedRoi?: SortOrder
+    reasoning?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MatchResultMinOrderByAggregateInput = {
+    id?: SortOrder
+    requestId?: SortOrder
+    creatorId?: SortOrder
+    athleteId?: SortOrder
+    rank?: SortOrder
+    matchScore?: SortOrder
+    audienceAlignScore?: SortOrder
+    performanceScore?: SortOrder
+    fraudScore?: SortOrder
+    suggestedRateCents?: SortOrder
+    estimatedReach?: SortOrder
+    estimatedRoi?: SortOrder
+    reasoning?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MatchResultSumOrderByAggregateInput = {
+    rank?: SortOrder
+    matchScore?: SortOrder
+    audienceAlignScore?: SortOrder
+    performanceScore?: SortOrder
+    fraudScore?: SortOrder
+    suggestedRateCents?: SortOrder
+    estimatedReach?: SortOrder
+    estimatedRoi?: SortOrder
+  }
+
   export type BrandCreateNestedOneWithoutUserInput = {
     create?: XOR<BrandCreateWithoutUserInput, BrandUncheckedCreateWithoutUserInput>
     connectOrCreate?: BrandCreateOrConnectWithoutUserInput
@@ -88648,6 +103663,27 @@ export namespace Prisma {
     connect?: ImportJobWhereUniqueInput | ImportJobWhereUniqueInput[]
   }
 
+  export type DealRoomMessageCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<DealRoomMessageCreateWithoutAuthorInput, DealRoomMessageUncheckedCreateWithoutAuthorInput> | DealRoomMessageCreateWithoutAuthorInput[] | DealRoomMessageUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: DealRoomMessageCreateOrConnectWithoutAuthorInput | DealRoomMessageCreateOrConnectWithoutAuthorInput[]
+    createMany?: DealRoomMessageCreateManyAuthorInputEnvelope
+    connect?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+  }
+
+  export type DealRoomProposalCreateNestedManyWithoutProposedByInput = {
+    create?: XOR<DealRoomProposalCreateWithoutProposedByInput, DealRoomProposalUncheckedCreateWithoutProposedByInput> | DealRoomProposalCreateWithoutProposedByInput[] | DealRoomProposalUncheckedCreateWithoutProposedByInput[]
+    connectOrCreate?: DealRoomProposalCreateOrConnectWithoutProposedByInput | DealRoomProposalCreateOrConnectWithoutProposedByInput[]
+    createMany?: DealRoomProposalCreateManyProposedByInputEnvelope
+    connect?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+  }
+
+  export type MatchRequestCreateNestedManyWithoutRequestedByInput = {
+    create?: XOR<MatchRequestCreateWithoutRequestedByInput, MatchRequestUncheckedCreateWithoutRequestedByInput> | MatchRequestCreateWithoutRequestedByInput[] | MatchRequestUncheckedCreateWithoutRequestedByInput[]
+    connectOrCreate?: MatchRequestCreateOrConnectWithoutRequestedByInput | MatchRequestCreateOrConnectWithoutRequestedByInput[]
+    createMany?: MatchRequestCreateManyRequestedByInputEnvelope
+    connect?: MatchRequestWhereUniqueInput | MatchRequestWhereUniqueInput[]
+  }
+
   export type BrandUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<BrandCreateWithoutUserInput, BrandUncheckedCreateWithoutUserInput>
     connectOrCreate?: BrandCreateOrConnectWithoutUserInput
@@ -88730,6 +103766,27 @@ export namespace Prisma {
     connectOrCreate?: ImportJobCreateOrConnectWithoutUserInput | ImportJobCreateOrConnectWithoutUserInput[]
     createMany?: ImportJobCreateManyUserInputEnvelope
     connect?: ImportJobWhereUniqueInput | ImportJobWhereUniqueInput[]
+  }
+
+  export type DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<DealRoomMessageCreateWithoutAuthorInput, DealRoomMessageUncheckedCreateWithoutAuthorInput> | DealRoomMessageCreateWithoutAuthorInput[] | DealRoomMessageUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: DealRoomMessageCreateOrConnectWithoutAuthorInput | DealRoomMessageCreateOrConnectWithoutAuthorInput[]
+    createMany?: DealRoomMessageCreateManyAuthorInputEnvelope
+    connect?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+  }
+
+  export type DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput = {
+    create?: XOR<DealRoomProposalCreateWithoutProposedByInput, DealRoomProposalUncheckedCreateWithoutProposedByInput> | DealRoomProposalCreateWithoutProposedByInput[] | DealRoomProposalUncheckedCreateWithoutProposedByInput[]
+    connectOrCreate?: DealRoomProposalCreateOrConnectWithoutProposedByInput | DealRoomProposalCreateOrConnectWithoutProposedByInput[]
+    createMany?: DealRoomProposalCreateManyProposedByInputEnvelope
+    connect?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+  }
+
+  export type MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput = {
+    create?: XOR<MatchRequestCreateWithoutRequestedByInput, MatchRequestUncheckedCreateWithoutRequestedByInput> | MatchRequestCreateWithoutRequestedByInput[] | MatchRequestUncheckedCreateWithoutRequestedByInput[]
+    connectOrCreate?: MatchRequestCreateOrConnectWithoutRequestedByInput | MatchRequestCreateOrConnectWithoutRequestedByInput[]
+    createMany?: MatchRequestCreateManyRequestedByInputEnvelope
+    connect?: MatchRequestWhereUniqueInput | MatchRequestWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -88910,6 +103967,48 @@ export namespace Prisma {
     deleteMany?: ImportJobScalarWhereInput | ImportJobScalarWhereInput[]
   }
 
+  export type DealRoomMessageUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<DealRoomMessageCreateWithoutAuthorInput, DealRoomMessageUncheckedCreateWithoutAuthorInput> | DealRoomMessageCreateWithoutAuthorInput[] | DealRoomMessageUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: DealRoomMessageCreateOrConnectWithoutAuthorInput | DealRoomMessageCreateOrConnectWithoutAuthorInput[]
+    upsert?: DealRoomMessageUpsertWithWhereUniqueWithoutAuthorInput | DealRoomMessageUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: DealRoomMessageCreateManyAuthorInputEnvelope
+    set?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    disconnect?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    delete?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    connect?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    update?: DealRoomMessageUpdateWithWhereUniqueWithoutAuthorInput | DealRoomMessageUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: DealRoomMessageUpdateManyWithWhereWithoutAuthorInput | DealRoomMessageUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: DealRoomMessageScalarWhereInput | DealRoomMessageScalarWhereInput[]
+  }
+
+  export type DealRoomProposalUpdateManyWithoutProposedByNestedInput = {
+    create?: XOR<DealRoomProposalCreateWithoutProposedByInput, DealRoomProposalUncheckedCreateWithoutProposedByInput> | DealRoomProposalCreateWithoutProposedByInput[] | DealRoomProposalUncheckedCreateWithoutProposedByInput[]
+    connectOrCreate?: DealRoomProposalCreateOrConnectWithoutProposedByInput | DealRoomProposalCreateOrConnectWithoutProposedByInput[]
+    upsert?: DealRoomProposalUpsertWithWhereUniqueWithoutProposedByInput | DealRoomProposalUpsertWithWhereUniqueWithoutProposedByInput[]
+    createMany?: DealRoomProposalCreateManyProposedByInputEnvelope
+    set?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    disconnect?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    delete?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    connect?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    update?: DealRoomProposalUpdateWithWhereUniqueWithoutProposedByInput | DealRoomProposalUpdateWithWhereUniqueWithoutProposedByInput[]
+    updateMany?: DealRoomProposalUpdateManyWithWhereWithoutProposedByInput | DealRoomProposalUpdateManyWithWhereWithoutProposedByInput[]
+    deleteMany?: DealRoomProposalScalarWhereInput | DealRoomProposalScalarWhereInput[]
+  }
+
+  export type MatchRequestUpdateManyWithoutRequestedByNestedInput = {
+    create?: XOR<MatchRequestCreateWithoutRequestedByInput, MatchRequestUncheckedCreateWithoutRequestedByInput> | MatchRequestCreateWithoutRequestedByInput[] | MatchRequestUncheckedCreateWithoutRequestedByInput[]
+    connectOrCreate?: MatchRequestCreateOrConnectWithoutRequestedByInput | MatchRequestCreateOrConnectWithoutRequestedByInput[]
+    upsert?: MatchRequestUpsertWithWhereUniqueWithoutRequestedByInput | MatchRequestUpsertWithWhereUniqueWithoutRequestedByInput[]
+    createMany?: MatchRequestCreateManyRequestedByInputEnvelope
+    set?: MatchRequestWhereUniqueInput | MatchRequestWhereUniqueInput[]
+    disconnect?: MatchRequestWhereUniqueInput | MatchRequestWhereUniqueInput[]
+    delete?: MatchRequestWhereUniqueInput | MatchRequestWhereUniqueInput[]
+    connect?: MatchRequestWhereUniqueInput | MatchRequestWhereUniqueInput[]
+    update?: MatchRequestUpdateWithWhereUniqueWithoutRequestedByInput | MatchRequestUpdateWithWhereUniqueWithoutRequestedByInput[]
+    updateMany?: MatchRequestUpdateManyWithWhereWithoutRequestedByInput | MatchRequestUpdateManyWithWhereWithoutRequestedByInput[]
+    deleteMany?: MatchRequestScalarWhereInput | MatchRequestScalarWhereInput[]
+  }
+
   export type BrandUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<BrandCreateWithoutUserInput, BrandUncheckedCreateWithoutUserInput>
     connectOrCreate?: BrandCreateOrConnectWithoutUserInput
@@ -89062,6 +104161,48 @@ export namespace Prisma {
     update?: ImportJobUpdateWithWhereUniqueWithoutUserInput | ImportJobUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ImportJobUpdateManyWithWhereWithoutUserInput | ImportJobUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ImportJobScalarWhereInput | ImportJobScalarWhereInput[]
+  }
+
+  export type DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<DealRoomMessageCreateWithoutAuthorInput, DealRoomMessageUncheckedCreateWithoutAuthorInput> | DealRoomMessageCreateWithoutAuthorInput[] | DealRoomMessageUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: DealRoomMessageCreateOrConnectWithoutAuthorInput | DealRoomMessageCreateOrConnectWithoutAuthorInput[]
+    upsert?: DealRoomMessageUpsertWithWhereUniqueWithoutAuthorInput | DealRoomMessageUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: DealRoomMessageCreateManyAuthorInputEnvelope
+    set?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    disconnect?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    delete?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    connect?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    update?: DealRoomMessageUpdateWithWhereUniqueWithoutAuthorInput | DealRoomMessageUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: DealRoomMessageUpdateManyWithWhereWithoutAuthorInput | DealRoomMessageUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: DealRoomMessageScalarWhereInput | DealRoomMessageScalarWhereInput[]
+  }
+
+  export type DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput = {
+    create?: XOR<DealRoomProposalCreateWithoutProposedByInput, DealRoomProposalUncheckedCreateWithoutProposedByInput> | DealRoomProposalCreateWithoutProposedByInput[] | DealRoomProposalUncheckedCreateWithoutProposedByInput[]
+    connectOrCreate?: DealRoomProposalCreateOrConnectWithoutProposedByInput | DealRoomProposalCreateOrConnectWithoutProposedByInput[]
+    upsert?: DealRoomProposalUpsertWithWhereUniqueWithoutProposedByInput | DealRoomProposalUpsertWithWhereUniqueWithoutProposedByInput[]
+    createMany?: DealRoomProposalCreateManyProposedByInputEnvelope
+    set?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    disconnect?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    delete?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    connect?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    update?: DealRoomProposalUpdateWithWhereUniqueWithoutProposedByInput | DealRoomProposalUpdateWithWhereUniqueWithoutProposedByInput[]
+    updateMany?: DealRoomProposalUpdateManyWithWhereWithoutProposedByInput | DealRoomProposalUpdateManyWithWhereWithoutProposedByInput[]
+    deleteMany?: DealRoomProposalScalarWhereInput | DealRoomProposalScalarWhereInput[]
+  }
+
+  export type MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput = {
+    create?: XOR<MatchRequestCreateWithoutRequestedByInput, MatchRequestUncheckedCreateWithoutRequestedByInput> | MatchRequestCreateWithoutRequestedByInput[] | MatchRequestUncheckedCreateWithoutRequestedByInput[]
+    connectOrCreate?: MatchRequestCreateOrConnectWithoutRequestedByInput | MatchRequestCreateOrConnectWithoutRequestedByInput[]
+    upsert?: MatchRequestUpsertWithWhereUniqueWithoutRequestedByInput | MatchRequestUpsertWithWhereUniqueWithoutRequestedByInput[]
+    createMany?: MatchRequestCreateManyRequestedByInputEnvelope
+    set?: MatchRequestWhereUniqueInput | MatchRequestWhereUniqueInput[]
+    disconnect?: MatchRequestWhereUniqueInput | MatchRequestWhereUniqueInput[]
+    delete?: MatchRequestWhereUniqueInput | MatchRequestWhereUniqueInput[]
+    connect?: MatchRequestWhereUniqueInput | MatchRequestWhereUniqueInput[]
+    update?: MatchRequestUpdateWithWhereUniqueWithoutRequestedByInput | MatchRequestUpdateWithWhereUniqueWithoutRequestedByInput[]
+    updateMany?: MatchRequestUpdateManyWithWhereWithoutRequestedByInput | MatchRequestUpdateManyWithWhereWithoutRequestedByInput[]
+    deleteMany?: MatchRequestScalarWhereInput | MatchRequestScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutRefreshTokensInput = {
@@ -89333,6 +104474,13 @@ export namespace Prisma {
     connect?: FmvAssessmentWhereUniqueInput | FmvAssessmentWhereUniqueInput[]
   }
 
+  export type MatchResultCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<MatchResultCreateWithoutCreatorInput, MatchResultUncheckedCreateWithoutCreatorInput> | MatchResultCreateWithoutCreatorInput[] | MatchResultUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: MatchResultCreateOrConnectWithoutCreatorInput | MatchResultCreateOrConnectWithoutCreatorInput[]
+    createMany?: MatchResultCreateManyCreatorInputEnvelope
+    connect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+  }
+
   export type ContractUncheckedCreateNestedManyWithoutCreatorInput = {
     create?: XOR<ContractCreateWithoutCreatorInput, ContractUncheckedCreateWithoutCreatorInput> | ContractCreateWithoutCreatorInput[] | ContractUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: ContractCreateOrConnectWithoutCreatorInput | ContractCreateOrConnectWithoutCreatorInput[]
@@ -89386,6 +104534,13 @@ export namespace Prisma {
     connectOrCreate?: FmvAssessmentCreateOrConnectWithoutCreatorInput | FmvAssessmentCreateOrConnectWithoutCreatorInput[]
     createMany?: FmvAssessmentCreateManyCreatorInputEnvelope
     connect?: FmvAssessmentWhereUniqueInput | FmvAssessmentWhereUniqueInput[]
+  }
+
+  export type MatchResultUncheckedCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<MatchResultCreateWithoutCreatorInput, MatchResultUncheckedCreateWithoutCreatorInput> | MatchResultCreateWithoutCreatorInput[] | MatchResultUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: MatchResultCreateOrConnectWithoutCreatorInput | MatchResultCreateOrConnectWithoutCreatorInput[]
+    createMany?: MatchResultCreateManyCreatorInputEnvelope
+    connect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
   }
 
   export type CreatorUpdatenicheInput = {
@@ -89517,6 +104672,20 @@ export namespace Prisma {
     deleteMany?: FmvAssessmentScalarWhereInput | FmvAssessmentScalarWhereInput[]
   }
 
+  export type MatchResultUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<MatchResultCreateWithoutCreatorInput, MatchResultUncheckedCreateWithoutCreatorInput> | MatchResultCreateWithoutCreatorInput[] | MatchResultUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: MatchResultCreateOrConnectWithoutCreatorInput | MatchResultCreateOrConnectWithoutCreatorInput[]
+    upsert?: MatchResultUpsertWithWhereUniqueWithoutCreatorInput | MatchResultUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: MatchResultCreateManyCreatorInputEnvelope
+    set?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    disconnect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    delete?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    connect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    update?: MatchResultUpdateWithWhereUniqueWithoutCreatorInput | MatchResultUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: MatchResultUpdateManyWithWhereWithoutCreatorInput | MatchResultUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: MatchResultScalarWhereInput | MatchResultScalarWhereInput[]
+  }
+
   export type ContractUncheckedUpdateManyWithoutCreatorNestedInput = {
     create?: XOR<ContractCreateWithoutCreatorInput, ContractUncheckedCreateWithoutCreatorInput> | ContractCreateWithoutCreatorInput[] | ContractUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: ContractCreateOrConnectWithoutCreatorInput | ContractCreateOrConnectWithoutCreatorInput[]
@@ -89625,6 +104794,20 @@ export namespace Prisma {
     deleteMany?: FmvAssessmentScalarWhereInput | FmvAssessmentScalarWhereInput[]
   }
 
+  export type MatchResultUncheckedUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<MatchResultCreateWithoutCreatorInput, MatchResultUncheckedCreateWithoutCreatorInput> | MatchResultCreateWithoutCreatorInput[] | MatchResultUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: MatchResultCreateOrConnectWithoutCreatorInput | MatchResultCreateOrConnectWithoutCreatorInput[]
+    upsert?: MatchResultUpsertWithWhereUniqueWithoutCreatorInput | MatchResultUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: MatchResultCreateManyCreatorInputEnvelope
+    set?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    disconnect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    delete?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    connect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    update?: MatchResultUpdateWithWhereUniqueWithoutCreatorInput | MatchResultUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: MatchResultUpdateManyWithWhereWithoutCreatorInput | MatchResultUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: MatchResultScalarWhereInput | MatchResultScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAgencyInput = {
     create?: XOR<UserCreateWithoutAgencyInput, UserUncheckedCreateWithoutAgencyInput>
     connectOrCreate?: UserCreateOrConnectWithoutAgencyInput
@@ -89709,6 +104892,12 @@ export namespace Prisma {
     connect?: NilDealWhereUniqueInput | NilDealWhereUniqueInput[]
   }
 
+  export type DealRoomCreateNestedOneWithoutContractInput = {
+    create?: XOR<DealRoomCreateWithoutContractInput, DealRoomUncheckedCreateWithoutContractInput>
+    connectOrCreate?: DealRoomCreateOrConnectWithoutContractInput
+    connect?: DealRoomWhereUniqueInput
+  }
+
   export type DeliverableUncheckedCreateNestedManyWithoutContractInput = {
     create?: XOR<DeliverableCreateWithoutContractInput, DeliverableUncheckedCreateWithoutContractInput> | DeliverableCreateWithoutContractInput[] | DeliverableUncheckedCreateWithoutContractInput[]
     connectOrCreate?: DeliverableCreateOrConnectWithoutContractInput | DeliverableCreateOrConnectWithoutContractInput[]
@@ -89755,6 +104944,12 @@ export namespace Prisma {
     connectOrCreate?: NilDealCreateOrConnectWithoutContractInput | NilDealCreateOrConnectWithoutContractInput[]
     createMany?: NilDealCreateManyContractInputEnvelope
     connect?: NilDealWhereUniqueInput | NilDealWhereUniqueInput[]
+  }
+
+  export type DealRoomUncheckedCreateNestedOneWithoutContractInput = {
+    create?: XOR<DealRoomCreateWithoutContractInput, DealRoomUncheckedCreateWithoutContractInput>
+    connectOrCreate?: DealRoomCreateOrConnectWithoutContractInput
+    connect?: DealRoomWhereUniqueInput
   }
 
   export type EnumContractStatusFieldUpdateOperationsInput = {
@@ -89894,6 +105089,16 @@ export namespace Prisma {
     deleteMany?: NilDealScalarWhereInput | NilDealScalarWhereInput[]
   }
 
+  export type DealRoomUpdateOneWithoutContractNestedInput = {
+    create?: XOR<DealRoomCreateWithoutContractInput, DealRoomUncheckedCreateWithoutContractInput>
+    connectOrCreate?: DealRoomCreateOrConnectWithoutContractInput
+    upsert?: DealRoomUpsertWithoutContractInput
+    disconnect?: DealRoomWhereInput | boolean
+    delete?: DealRoomWhereInput | boolean
+    connect?: DealRoomWhereUniqueInput
+    update?: XOR<XOR<DealRoomUpdateToOneWithWhereWithoutContractInput, DealRoomUpdateWithoutContractInput>, DealRoomUncheckedUpdateWithoutContractInput>
+  }
+
   export type DeliverableUncheckedUpdateManyWithoutContractNestedInput = {
     create?: XOR<DeliverableCreateWithoutContractInput, DeliverableUncheckedCreateWithoutContractInput> | DeliverableCreateWithoutContractInput[] | DeliverableUncheckedCreateWithoutContractInput[]
     connectOrCreate?: DeliverableCreateOrConnectWithoutContractInput | DeliverableCreateOrConnectWithoutContractInput[]
@@ -89986,6 +105191,16 @@ export namespace Prisma {
     update?: NilDealUpdateWithWhereUniqueWithoutContractInput | NilDealUpdateWithWhereUniqueWithoutContractInput[]
     updateMany?: NilDealUpdateManyWithWhereWithoutContractInput | NilDealUpdateManyWithWhereWithoutContractInput[]
     deleteMany?: NilDealScalarWhereInput | NilDealScalarWhereInput[]
+  }
+
+  export type DealRoomUncheckedUpdateOneWithoutContractNestedInput = {
+    create?: XOR<DealRoomCreateWithoutContractInput, DealRoomUncheckedCreateWithoutContractInput>
+    connectOrCreate?: DealRoomCreateOrConnectWithoutContractInput
+    upsert?: DealRoomUpsertWithoutContractInput
+    disconnect?: DealRoomWhereInput | boolean
+    delete?: DealRoomWhereInput | boolean
+    connect?: DealRoomWhereUniqueInput
+    update?: XOR<XOR<DealRoomUpdateToOneWithWhereWithoutContractInput, DealRoomUpdateWithoutContractInput>, DealRoomUncheckedUpdateWithoutContractInput>
   }
 
   export type ContractTemplateCreateplatformsInput = {
@@ -91176,6 +106391,20 @@ export namespace Prisma {
     connect?: NilMarketplaceListingWhereUniqueInput
   }
 
+  export type CollectiveMemberCreateNestedManyWithoutAthleteInput = {
+    create?: XOR<CollectiveMemberCreateWithoutAthleteInput, CollectiveMemberUncheckedCreateWithoutAthleteInput> | CollectiveMemberCreateWithoutAthleteInput[] | CollectiveMemberUncheckedCreateWithoutAthleteInput[]
+    connectOrCreate?: CollectiveMemberCreateOrConnectWithoutAthleteInput | CollectiveMemberCreateOrConnectWithoutAthleteInput[]
+    createMany?: CollectiveMemberCreateManyAthleteInputEnvelope
+    connect?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+  }
+
+  export type MatchResultCreateNestedManyWithoutAthleteInput = {
+    create?: XOR<MatchResultCreateWithoutAthleteInput, MatchResultUncheckedCreateWithoutAthleteInput> | MatchResultCreateWithoutAthleteInput[] | MatchResultUncheckedCreateWithoutAthleteInput[]
+    connectOrCreate?: MatchResultCreateOrConnectWithoutAthleteInput | MatchResultCreateOrConnectWithoutAthleteInput[]
+    createMany?: MatchResultCreateManyAthleteInputEnvelope
+    connect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+  }
+
   export type GuardianRelationshipUncheckedCreateNestedManyWithoutAthleteInput = {
     create?: XOR<GuardianRelationshipCreateWithoutAthleteInput, GuardianRelationshipUncheckedCreateWithoutAthleteInput> | GuardianRelationshipCreateWithoutAthleteInput[] | GuardianRelationshipUncheckedCreateWithoutAthleteInput[]
     connectOrCreate?: GuardianRelationshipCreateOrConnectWithoutAthleteInput | GuardianRelationshipCreateOrConnectWithoutAthleteInput[]
@@ -91235,6 +106464,20 @@ export namespace Prisma {
     create?: XOR<NilMarketplaceListingCreateWithoutAthleteInput, NilMarketplaceListingUncheckedCreateWithoutAthleteInput>
     connectOrCreate?: NilMarketplaceListingCreateOrConnectWithoutAthleteInput
     connect?: NilMarketplaceListingWhereUniqueInput
+  }
+
+  export type CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput = {
+    create?: XOR<CollectiveMemberCreateWithoutAthleteInput, CollectiveMemberUncheckedCreateWithoutAthleteInput> | CollectiveMemberCreateWithoutAthleteInput[] | CollectiveMemberUncheckedCreateWithoutAthleteInput[]
+    connectOrCreate?: CollectiveMemberCreateOrConnectWithoutAthleteInput | CollectiveMemberCreateOrConnectWithoutAthleteInput[]
+    createMany?: CollectiveMemberCreateManyAthleteInputEnvelope
+    connect?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+  }
+
+  export type MatchResultUncheckedCreateNestedManyWithoutAthleteInput = {
+    create?: XOR<MatchResultCreateWithoutAthleteInput, MatchResultUncheckedCreateWithoutAthleteInput> | MatchResultCreateWithoutAthleteInput[] | MatchResultUncheckedCreateWithoutAthleteInput[]
+    connectOrCreate?: MatchResultCreateOrConnectWithoutAthleteInput | MatchResultCreateOrConnectWithoutAthleteInput[]
+    createMany?: MatchResultCreateManyAthleteInputEnvelope
+    connect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
   }
 
   export type EnumAthleteStatusFieldUpdateOperationsInput = {
@@ -91391,6 +106634,34 @@ export namespace Prisma {
     update?: XOR<XOR<NilMarketplaceListingUpdateToOneWithWhereWithoutAthleteInput, NilMarketplaceListingUpdateWithoutAthleteInput>, NilMarketplaceListingUncheckedUpdateWithoutAthleteInput>
   }
 
+  export type CollectiveMemberUpdateManyWithoutAthleteNestedInput = {
+    create?: XOR<CollectiveMemberCreateWithoutAthleteInput, CollectiveMemberUncheckedCreateWithoutAthleteInput> | CollectiveMemberCreateWithoutAthleteInput[] | CollectiveMemberUncheckedCreateWithoutAthleteInput[]
+    connectOrCreate?: CollectiveMemberCreateOrConnectWithoutAthleteInput | CollectiveMemberCreateOrConnectWithoutAthleteInput[]
+    upsert?: CollectiveMemberUpsertWithWhereUniqueWithoutAthleteInput | CollectiveMemberUpsertWithWhereUniqueWithoutAthleteInput[]
+    createMany?: CollectiveMemberCreateManyAthleteInputEnvelope
+    set?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    disconnect?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    delete?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    connect?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    update?: CollectiveMemberUpdateWithWhereUniqueWithoutAthleteInput | CollectiveMemberUpdateWithWhereUniqueWithoutAthleteInput[]
+    updateMany?: CollectiveMemberUpdateManyWithWhereWithoutAthleteInput | CollectiveMemberUpdateManyWithWhereWithoutAthleteInput[]
+    deleteMany?: CollectiveMemberScalarWhereInput | CollectiveMemberScalarWhereInput[]
+  }
+
+  export type MatchResultUpdateManyWithoutAthleteNestedInput = {
+    create?: XOR<MatchResultCreateWithoutAthleteInput, MatchResultUncheckedCreateWithoutAthleteInput> | MatchResultCreateWithoutAthleteInput[] | MatchResultUncheckedCreateWithoutAthleteInput[]
+    connectOrCreate?: MatchResultCreateOrConnectWithoutAthleteInput | MatchResultCreateOrConnectWithoutAthleteInput[]
+    upsert?: MatchResultUpsertWithWhereUniqueWithoutAthleteInput | MatchResultUpsertWithWhereUniqueWithoutAthleteInput[]
+    createMany?: MatchResultCreateManyAthleteInputEnvelope
+    set?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    disconnect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    delete?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    connect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    update?: MatchResultUpdateWithWhereUniqueWithoutAthleteInput | MatchResultUpdateWithWhereUniqueWithoutAthleteInput[]
+    updateMany?: MatchResultUpdateManyWithWhereWithoutAthleteInput | MatchResultUpdateManyWithWhereWithoutAthleteInput[]
+    deleteMany?: MatchResultScalarWhereInput | MatchResultScalarWhereInput[]
+  }
+
   export type GuardianRelationshipUncheckedUpdateManyWithoutAthleteNestedInput = {
     create?: XOR<GuardianRelationshipCreateWithoutAthleteInput, GuardianRelationshipUncheckedCreateWithoutAthleteInput> | GuardianRelationshipCreateWithoutAthleteInput[] | GuardianRelationshipUncheckedCreateWithoutAthleteInput[]
     connectOrCreate?: GuardianRelationshipCreateOrConnectWithoutAthleteInput | GuardianRelationshipCreateOrConnectWithoutAthleteInput[]
@@ -91507,6 +106778,34 @@ export namespace Prisma {
     delete?: NilMarketplaceListingWhereInput | boolean
     connect?: NilMarketplaceListingWhereUniqueInput
     update?: XOR<XOR<NilMarketplaceListingUpdateToOneWithWhereWithoutAthleteInput, NilMarketplaceListingUpdateWithoutAthleteInput>, NilMarketplaceListingUncheckedUpdateWithoutAthleteInput>
+  }
+
+  export type CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput = {
+    create?: XOR<CollectiveMemberCreateWithoutAthleteInput, CollectiveMemberUncheckedCreateWithoutAthleteInput> | CollectiveMemberCreateWithoutAthleteInput[] | CollectiveMemberUncheckedCreateWithoutAthleteInput[]
+    connectOrCreate?: CollectiveMemberCreateOrConnectWithoutAthleteInput | CollectiveMemberCreateOrConnectWithoutAthleteInput[]
+    upsert?: CollectiveMemberUpsertWithWhereUniqueWithoutAthleteInput | CollectiveMemberUpsertWithWhereUniqueWithoutAthleteInput[]
+    createMany?: CollectiveMemberCreateManyAthleteInputEnvelope
+    set?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    disconnect?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    delete?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    connect?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    update?: CollectiveMemberUpdateWithWhereUniqueWithoutAthleteInput | CollectiveMemberUpdateWithWhereUniqueWithoutAthleteInput[]
+    updateMany?: CollectiveMemberUpdateManyWithWhereWithoutAthleteInput | CollectiveMemberUpdateManyWithWhereWithoutAthleteInput[]
+    deleteMany?: CollectiveMemberScalarWhereInput | CollectiveMemberScalarWhereInput[]
+  }
+
+  export type MatchResultUncheckedUpdateManyWithoutAthleteNestedInput = {
+    create?: XOR<MatchResultCreateWithoutAthleteInput, MatchResultUncheckedCreateWithoutAthleteInput> | MatchResultCreateWithoutAthleteInput[] | MatchResultUncheckedCreateWithoutAthleteInput[]
+    connectOrCreate?: MatchResultCreateOrConnectWithoutAthleteInput | MatchResultCreateOrConnectWithoutAthleteInput[]
+    upsert?: MatchResultUpsertWithWhereUniqueWithoutAthleteInput | MatchResultUpsertWithWhereUniqueWithoutAthleteInput[]
+    createMany?: MatchResultCreateManyAthleteInputEnvelope
+    set?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    disconnect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    delete?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    connect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    update?: MatchResultUpdateWithWhereUniqueWithoutAthleteInput | MatchResultUpdateWithWhereUniqueWithoutAthleteInput[]
+    updateMany?: MatchResultUpdateManyWithWhereWithoutAthleteInput | MatchResultUpdateManyWithWhereWithoutAthleteInput[]
+    deleteMany?: MatchResultScalarWhereInput | MatchResultScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutGuardianInput = {
@@ -91759,11 +107058,67 @@ export namespace Prisma {
     connect?: NilDealWhereUniqueInput | NilDealWhereUniqueInput[]
   }
 
+  export type CollectiveMemberCreateNestedManyWithoutCollectiveInput = {
+    create?: XOR<CollectiveMemberCreateWithoutCollectiveInput, CollectiveMemberUncheckedCreateWithoutCollectiveInput> | CollectiveMemberCreateWithoutCollectiveInput[] | CollectiveMemberUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveMemberCreateOrConnectWithoutCollectiveInput | CollectiveMemberCreateOrConnectWithoutCollectiveInput[]
+    createMany?: CollectiveMemberCreateManyCollectiveInputEnvelope
+    connect?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+  }
+
+  export type CollectiveDonorCreateNestedManyWithoutCollectiveInput = {
+    create?: XOR<CollectiveDonorCreateWithoutCollectiveInput, CollectiveDonorUncheckedCreateWithoutCollectiveInput> | CollectiveDonorCreateWithoutCollectiveInput[] | CollectiveDonorUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveDonorCreateOrConnectWithoutCollectiveInput | CollectiveDonorCreateOrConnectWithoutCollectiveInput[]
+    createMany?: CollectiveDonorCreateManyCollectiveInputEnvelope
+    connect?: CollectiveDonorWhereUniqueInput | CollectiveDonorWhereUniqueInput[]
+  }
+
+  export type CollectiveDonationCreateNestedManyWithoutCollectiveInput = {
+    create?: XOR<CollectiveDonationCreateWithoutCollectiveInput, CollectiveDonationUncheckedCreateWithoutCollectiveInput> | CollectiveDonationCreateWithoutCollectiveInput[] | CollectiveDonationUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveDonationCreateOrConnectWithoutCollectiveInput | CollectiveDonationCreateOrConnectWithoutCollectiveInput[]
+    createMany?: CollectiveDonationCreateManyCollectiveInputEnvelope
+    connect?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+  }
+
+  export type CollectiveDistributionCreateNestedManyWithoutCollectiveInput = {
+    create?: XOR<CollectiveDistributionCreateWithoutCollectiveInput, CollectiveDistributionUncheckedCreateWithoutCollectiveInput> | CollectiveDistributionCreateWithoutCollectiveInput[] | CollectiveDistributionUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveDistributionCreateOrConnectWithoutCollectiveInput | CollectiveDistributionCreateOrConnectWithoutCollectiveInput[]
+    createMany?: CollectiveDistributionCreateManyCollectiveInputEnvelope
+    connect?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+  }
+
   export type NilDealUncheckedCreateNestedManyWithoutCollectiveInput = {
     create?: XOR<NilDealCreateWithoutCollectiveInput, NilDealUncheckedCreateWithoutCollectiveInput> | NilDealCreateWithoutCollectiveInput[] | NilDealUncheckedCreateWithoutCollectiveInput[]
     connectOrCreate?: NilDealCreateOrConnectWithoutCollectiveInput | NilDealCreateOrConnectWithoutCollectiveInput[]
     createMany?: NilDealCreateManyCollectiveInputEnvelope
     connect?: NilDealWhereUniqueInput | NilDealWhereUniqueInput[]
+  }
+
+  export type CollectiveMemberUncheckedCreateNestedManyWithoutCollectiveInput = {
+    create?: XOR<CollectiveMemberCreateWithoutCollectiveInput, CollectiveMemberUncheckedCreateWithoutCollectiveInput> | CollectiveMemberCreateWithoutCollectiveInput[] | CollectiveMemberUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveMemberCreateOrConnectWithoutCollectiveInput | CollectiveMemberCreateOrConnectWithoutCollectiveInput[]
+    createMany?: CollectiveMemberCreateManyCollectiveInputEnvelope
+    connect?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+  }
+
+  export type CollectiveDonorUncheckedCreateNestedManyWithoutCollectiveInput = {
+    create?: XOR<CollectiveDonorCreateWithoutCollectiveInput, CollectiveDonorUncheckedCreateWithoutCollectiveInput> | CollectiveDonorCreateWithoutCollectiveInput[] | CollectiveDonorUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveDonorCreateOrConnectWithoutCollectiveInput | CollectiveDonorCreateOrConnectWithoutCollectiveInput[]
+    createMany?: CollectiveDonorCreateManyCollectiveInputEnvelope
+    connect?: CollectiveDonorWhereUniqueInput | CollectiveDonorWhereUniqueInput[]
+  }
+
+  export type CollectiveDonationUncheckedCreateNestedManyWithoutCollectiveInput = {
+    create?: XOR<CollectiveDonationCreateWithoutCollectiveInput, CollectiveDonationUncheckedCreateWithoutCollectiveInput> | CollectiveDonationCreateWithoutCollectiveInput[] | CollectiveDonationUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveDonationCreateOrConnectWithoutCollectiveInput | CollectiveDonationCreateOrConnectWithoutCollectiveInput[]
+    createMany?: CollectiveDonationCreateManyCollectiveInputEnvelope
+    connect?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+  }
+
+  export type CollectiveDistributionUncheckedCreateNestedManyWithoutCollectiveInput = {
+    create?: XOR<CollectiveDistributionCreateWithoutCollectiveInput, CollectiveDistributionUncheckedCreateWithoutCollectiveInput> | CollectiveDistributionCreateWithoutCollectiveInput[] | CollectiveDistributionUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveDistributionCreateOrConnectWithoutCollectiveInput | CollectiveDistributionCreateOrConnectWithoutCollectiveInput[]
+    createMany?: CollectiveDistributionCreateManyCollectiveInputEnvelope
+    connect?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
   }
 
   export type UniversityUpdateOneWithoutNilCollectivesNestedInput = {
@@ -91790,6 +107145,62 @@ export namespace Prisma {
     deleteMany?: NilDealScalarWhereInput | NilDealScalarWhereInput[]
   }
 
+  export type CollectiveMemberUpdateManyWithoutCollectiveNestedInput = {
+    create?: XOR<CollectiveMemberCreateWithoutCollectiveInput, CollectiveMemberUncheckedCreateWithoutCollectiveInput> | CollectiveMemberCreateWithoutCollectiveInput[] | CollectiveMemberUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveMemberCreateOrConnectWithoutCollectiveInput | CollectiveMemberCreateOrConnectWithoutCollectiveInput[]
+    upsert?: CollectiveMemberUpsertWithWhereUniqueWithoutCollectiveInput | CollectiveMemberUpsertWithWhereUniqueWithoutCollectiveInput[]
+    createMany?: CollectiveMemberCreateManyCollectiveInputEnvelope
+    set?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    disconnect?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    delete?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    connect?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    update?: CollectiveMemberUpdateWithWhereUniqueWithoutCollectiveInput | CollectiveMemberUpdateWithWhereUniqueWithoutCollectiveInput[]
+    updateMany?: CollectiveMemberUpdateManyWithWhereWithoutCollectiveInput | CollectiveMemberUpdateManyWithWhereWithoutCollectiveInput[]
+    deleteMany?: CollectiveMemberScalarWhereInput | CollectiveMemberScalarWhereInput[]
+  }
+
+  export type CollectiveDonorUpdateManyWithoutCollectiveNestedInput = {
+    create?: XOR<CollectiveDonorCreateWithoutCollectiveInput, CollectiveDonorUncheckedCreateWithoutCollectiveInput> | CollectiveDonorCreateWithoutCollectiveInput[] | CollectiveDonorUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveDonorCreateOrConnectWithoutCollectiveInput | CollectiveDonorCreateOrConnectWithoutCollectiveInput[]
+    upsert?: CollectiveDonorUpsertWithWhereUniqueWithoutCollectiveInput | CollectiveDonorUpsertWithWhereUniqueWithoutCollectiveInput[]
+    createMany?: CollectiveDonorCreateManyCollectiveInputEnvelope
+    set?: CollectiveDonorWhereUniqueInput | CollectiveDonorWhereUniqueInput[]
+    disconnect?: CollectiveDonorWhereUniqueInput | CollectiveDonorWhereUniqueInput[]
+    delete?: CollectiveDonorWhereUniqueInput | CollectiveDonorWhereUniqueInput[]
+    connect?: CollectiveDonorWhereUniqueInput | CollectiveDonorWhereUniqueInput[]
+    update?: CollectiveDonorUpdateWithWhereUniqueWithoutCollectiveInput | CollectiveDonorUpdateWithWhereUniqueWithoutCollectiveInput[]
+    updateMany?: CollectiveDonorUpdateManyWithWhereWithoutCollectiveInput | CollectiveDonorUpdateManyWithWhereWithoutCollectiveInput[]
+    deleteMany?: CollectiveDonorScalarWhereInput | CollectiveDonorScalarWhereInput[]
+  }
+
+  export type CollectiveDonationUpdateManyWithoutCollectiveNestedInput = {
+    create?: XOR<CollectiveDonationCreateWithoutCollectiveInput, CollectiveDonationUncheckedCreateWithoutCollectiveInput> | CollectiveDonationCreateWithoutCollectiveInput[] | CollectiveDonationUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveDonationCreateOrConnectWithoutCollectiveInput | CollectiveDonationCreateOrConnectWithoutCollectiveInput[]
+    upsert?: CollectiveDonationUpsertWithWhereUniqueWithoutCollectiveInput | CollectiveDonationUpsertWithWhereUniqueWithoutCollectiveInput[]
+    createMany?: CollectiveDonationCreateManyCollectiveInputEnvelope
+    set?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    disconnect?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    delete?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    connect?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    update?: CollectiveDonationUpdateWithWhereUniqueWithoutCollectiveInput | CollectiveDonationUpdateWithWhereUniqueWithoutCollectiveInput[]
+    updateMany?: CollectiveDonationUpdateManyWithWhereWithoutCollectiveInput | CollectiveDonationUpdateManyWithWhereWithoutCollectiveInput[]
+    deleteMany?: CollectiveDonationScalarWhereInput | CollectiveDonationScalarWhereInput[]
+  }
+
+  export type CollectiveDistributionUpdateManyWithoutCollectiveNestedInput = {
+    create?: XOR<CollectiveDistributionCreateWithoutCollectiveInput, CollectiveDistributionUncheckedCreateWithoutCollectiveInput> | CollectiveDistributionCreateWithoutCollectiveInput[] | CollectiveDistributionUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveDistributionCreateOrConnectWithoutCollectiveInput | CollectiveDistributionCreateOrConnectWithoutCollectiveInput[]
+    upsert?: CollectiveDistributionUpsertWithWhereUniqueWithoutCollectiveInput | CollectiveDistributionUpsertWithWhereUniqueWithoutCollectiveInput[]
+    createMany?: CollectiveDistributionCreateManyCollectiveInputEnvelope
+    set?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    disconnect?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    delete?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    connect?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    update?: CollectiveDistributionUpdateWithWhereUniqueWithoutCollectiveInput | CollectiveDistributionUpdateWithWhereUniqueWithoutCollectiveInput[]
+    updateMany?: CollectiveDistributionUpdateManyWithWhereWithoutCollectiveInput | CollectiveDistributionUpdateManyWithWhereWithoutCollectiveInput[]
+    deleteMany?: CollectiveDistributionScalarWhereInput | CollectiveDistributionScalarWhereInput[]
+  }
+
   export type NilDealUncheckedUpdateManyWithoutCollectiveNestedInput = {
     create?: XOR<NilDealCreateWithoutCollectiveInput, NilDealUncheckedCreateWithoutCollectiveInput> | NilDealCreateWithoutCollectiveInput[] | NilDealUncheckedCreateWithoutCollectiveInput[]
     connectOrCreate?: NilDealCreateOrConnectWithoutCollectiveInput | NilDealCreateOrConnectWithoutCollectiveInput[]
@@ -91802,6 +107213,62 @@ export namespace Prisma {
     update?: NilDealUpdateWithWhereUniqueWithoutCollectiveInput | NilDealUpdateWithWhereUniqueWithoutCollectiveInput[]
     updateMany?: NilDealUpdateManyWithWhereWithoutCollectiveInput | NilDealUpdateManyWithWhereWithoutCollectiveInput[]
     deleteMany?: NilDealScalarWhereInput | NilDealScalarWhereInput[]
+  }
+
+  export type CollectiveMemberUncheckedUpdateManyWithoutCollectiveNestedInput = {
+    create?: XOR<CollectiveMemberCreateWithoutCollectiveInput, CollectiveMemberUncheckedCreateWithoutCollectiveInput> | CollectiveMemberCreateWithoutCollectiveInput[] | CollectiveMemberUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveMemberCreateOrConnectWithoutCollectiveInput | CollectiveMemberCreateOrConnectWithoutCollectiveInput[]
+    upsert?: CollectiveMemberUpsertWithWhereUniqueWithoutCollectiveInput | CollectiveMemberUpsertWithWhereUniqueWithoutCollectiveInput[]
+    createMany?: CollectiveMemberCreateManyCollectiveInputEnvelope
+    set?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    disconnect?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    delete?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    connect?: CollectiveMemberWhereUniqueInput | CollectiveMemberWhereUniqueInput[]
+    update?: CollectiveMemberUpdateWithWhereUniqueWithoutCollectiveInput | CollectiveMemberUpdateWithWhereUniqueWithoutCollectiveInput[]
+    updateMany?: CollectiveMemberUpdateManyWithWhereWithoutCollectiveInput | CollectiveMemberUpdateManyWithWhereWithoutCollectiveInput[]
+    deleteMany?: CollectiveMemberScalarWhereInput | CollectiveMemberScalarWhereInput[]
+  }
+
+  export type CollectiveDonorUncheckedUpdateManyWithoutCollectiveNestedInput = {
+    create?: XOR<CollectiveDonorCreateWithoutCollectiveInput, CollectiveDonorUncheckedCreateWithoutCollectiveInput> | CollectiveDonorCreateWithoutCollectiveInput[] | CollectiveDonorUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveDonorCreateOrConnectWithoutCollectiveInput | CollectiveDonorCreateOrConnectWithoutCollectiveInput[]
+    upsert?: CollectiveDonorUpsertWithWhereUniqueWithoutCollectiveInput | CollectiveDonorUpsertWithWhereUniqueWithoutCollectiveInput[]
+    createMany?: CollectiveDonorCreateManyCollectiveInputEnvelope
+    set?: CollectiveDonorWhereUniqueInput | CollectiveDonorWhereUniqueInput[]
+    disconnect?: CollectiveDonorWhereUniqueInput | CollectiveDonorWhereUniqueInput[]
+    delete?: CollectiveDonorWhereUniqueInput | CollectiveDonorWhereUniqueInput[]
+    connect?: CollectiveDonorWhereUniqueInput | CollectiveDonorWhereUniqueInput[]
+    update?: CollectiveDonorUpdateWithWhereUniqueWithoutCollectiveInput | CollectiveDonorUpdateWithWhereUniqueWithoutCollectiveInput[]
+    updateMany?: CollectiveDonorUpdateManyWithWhereWithoutCollectiveInput | CollectiveDonorUpdateManyWithWhereWithoutCollectiveInput[]
+    deleteMany?: CollectiveDonorScalarWhereInput | CollectiveDonorScalarWhereInput[]
+  }
+
+  export type CollectiveDonationUncheckedUpdateManyWithoutCollectiveNestedInput = {
+    create?: XOR<CollectiveDonationCreateWithoutCollectiveInput, CollectiveDonationUncheckedCreateWithoutCollectiveInput> | CollectiveDonationCreateWithoutCollectiveInput[] | CollectiveDonationUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveDonationCreateOrConnectWithoutCollectiveInput | CollectiveDonationCreateOrConnectWithoutCollectiveInput[]
+    upsert?: CollectiveDonationUpsertWithWhereUniqueWithoutCollectiveInput | CollectiveDonationUpsertWithWhereUniqueWithoutCollectiveInput[]
+    createMany?: CollectiveDonationCreateManyCollectiveInputEnvelope
+    set?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    disconnect?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    delete?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    connect?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    update?: CollectiveDonationUpdateWithWhereUniqueWithoutCollectiveInput | CollectiveDonationUpdateWithWhereUniqueWithoutCollectiveInput[]
+    updateMany?: CollectiveDonationUpdateManyWithWhereWithoutCollectiveInput | CollectiveDonationUpdateManyWithWhereWithoutCollectiveInput[]
+    deleteMany?: CollectiveDonationScalarWhereInput | CollectiveDonationScalarWhereInput[]
+  }
+
+  export type CollectiveDistributionUncheckedUpdateManyWithoutCollectiveNestedInput = {
+    create?: XOR<CollectiveDistributionCreateWithoutCollectiveInput, CollectiveDistributionUncheckedCreateWithoutCollectiveInput> | CollectiveDistributionCreateWithoutCollectiveInput[] | CollectiveDistributionUncheckedCreateWithoutCollectiveInput[]
+    connectOrCreate?: CollectiveDistributionCreateOrConnectWithoutCollectiveInput | CollectiveDistributionCreateOrConnectWithoutCollectiveInput[]
+    upsert?: CollectiveDistributionUpsertWithWhereUniqueWithoutCollectiveInput | CollectiveDistributionUpsertWithWhereUniqueWithoutCollectiveInput[]
+    createMany?: CollectiveDistributionCreateManyCollectiveInputEnvelope
+    set?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    disconnect?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    delete?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    connect?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    update?: CollectiveDistributionUpdateWithWhereUniqueWithoutCollectiveInput | CollectiveDistributionUpdateWithWhereUniqueWithoutCollectiveInput[]
+    updateMany?: CollectiveDistributionUpdateManyWithWhereWithoutCollectiveInput | CollectiveDistributionUpdateManyWithWhereWithoutCollectiveInput[]
+    deleteMany?: CollectiveDistributionScalarWhereInput | CollectiveDistributionScalarWhereInput[]
   }
 
   export type AthleteCreateNestedOneWithoutNilDealsInput = {
@@ -92342,6 +107809,482 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutImportJobsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutImportJobsInput, UserUpdateWithoutImportJobsInput>, UserUncheckedUpdateWithoutImportJobsInput>
+  }
+
+  export type ContractCreateNestedOneWithoutDealRoomInput = {
+    create?: XOR<ContractCreateWithoutDealRoomInput, ContractUncheckedCreateWithoutDealRoomInput>
+    connectOrCreate?: ContractCreateOrConnectWithoutDealRoomInput
+    connect?: ContractWhereUniqueInput
+  }
+
+  export type DealRoomMessageCreateNestedManyWithoutDealRoomInput = {
+    create?: XOR<DealRoomMessageCreateWithoutDealRoomInput, DealRoomMessageUncheckedCreateWithoutDealRoomInput> | DealRoomMessageCreateWithoutDealRoomInput[] | DealRoomMessageUncheckedCreateWithoutDealRoomInput[]
+    connectOrCreate?: DealRoomMessageCreateOrConnectWithoutDealRoomInput | DealRoomMessageCreateOrConnectWithoutDealRoomInput[]
+    createMany?: DealRoomMessageCreateManyDealRoomInputEnvelope
+    connect?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+  }
+
+  export type DealRoomProposalCreateNestedManyWithoutDealRoomInput = {
+    create?: XOR<DealRoomProposalCreateWithoutDealRoomInput, DealRoomProposalUncheckedCreateWithoutDealRoomInput> | DealRoomProposalCreateWithoutDealRoomInput[] | DealRoomProposalUncheckedCreateWithoutDealRoomInput[]
+    connectOrCreate?: DealRoomProposalCreateOrConnectWithoutDealRoomInput | DealRoomProposalCreateOrConnectWithoutDealRoomInput[]
+    createMany?: DealRoomProposalCreateManyDealRoomInputEnvelope
+    connect?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+  }
+
+  export type DealRoomMessageUncheckedCreateNestedManyWithoutDealRoomInput = {
+    create?: XOR<DealRoomMessageCreateWithoutDealRoomInput, DealRoomMessageUncheckedCreateWithoutDealRoomInput> | DealRoomMessageCreateWithoutDealRoomInput[] | DealRoomMessageUncheckedCreateWithoutDealRoomInput[]
+    connectOrCreate?: DealRoomMessageCreateOrConnectWithoutDealRoomInput | DealRoomMessageCreateOrConnectWithoutDealRoomInput[]
+    createMany?: DealRoomMessageCreateManyDealRoomInputEnvelope
+    connect?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+  }
+
+  export type DealRoomProposalUncheckedCreateNestedManyWithoutDealRoomInput = {
+    create?: XOR<DealRoomProposalCreateWithoutDealRoomInput, DealRoomProposalUncheckedCreateWithoutDealRoomInput> | DealRoomProposalCreateWithoutDealRoomInput[] | DealRoomProposalUncheckedCreateWithoutDealRoomInput[]
+    connectOrCreate?: DealRoomProposalCreateOrConnectWithoutDealRoomInput | DealRoomProposalCreateOrConnectWithoutDealRoomInput[]
+    createMany?: DealRoomProposalCreateManyDealRoomInputEnvelope
+    connect?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+  }
+
+  export type EnumDealRoomStatusFieldUpdateOperationsInput = {
+    set?: $Enums.DealRoomStatus
+  }
+
+  export type ContractUpdateOneRequiredWithoutDealRoomNestedInput = {
+    create?: XOR<ContractCreateWithoutDealRoomInput, ContractUncheckedCreateWithoutDealRoomInput>
+    connectOrCreate?: ContractCreateOrConnectWithoutDealRoomInput
+    upsert?: ContractUpsertWithoutDealRoomInput
+    connect?: ContractWhereUniqueInput
+    update?: XOR<XOR<ContractUpdateToOneWithWhereWithoutDealRoomInput, ContractUpdateWithoutDealRoomInput>, ContractUncheckedUpdateWithoutDealRoomInput>
+  }
+
+  export type DealRoomMessageUpdateManyWithoutDealRoomNestedInput = {
+    create?: XOR<DealRoomMessageCreateWithoutDealRoomInput, DealRoomMessageUncheckedCreateWithoutDealRoomInput> | DealRoomMessageCreateWithoutDealRoomInput[] | DealRoomMessageUncheckedCreateWithoutDealRoomInput[]
+    connectOrCreate?: DealRoomMessageCreateOrConnectWithoutDealRoomInput | DealRoomMessageCreateOrConnectWithoutDealRoomInput[]
+    upsert?: DealRoomMessageUpsertWithWhereUniqueWithoutDealRoomInput | DealRoomMessageUpsertWithWhereUniqueWithoutDealRoomInput[]
+    createMany?: DealRoomMessageCreateManyDealRoomInputEnvelope
+    set?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    disconnect?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    delete?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    connect?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    update?: DealRoomMessageUpdateWithWhereUniqueWithoutDealRoomInput | DealRoomMessageUpdateWithWhereUniqueWithoutDealRoomInput[]
+    updateMany?: DealRoomMessageUpdateManyWithWhereWithoutDealRoomInput | DealRoomMessageUpdateManyWithWhereWithoutDealRoomInput[]
+    deleteMany?: DealRoomMessageScalarWhereInput | DealRoomMessageScalarWhereInput[]
+  }
+
+  export type DealRoomProposalUpdateManyWithoutDealRoomNestedInput = {
+    create?: XOR<DealRoomProposalCreateWithoutDealRoomInput, DealRoomProposalUncheckedCreateWithoutDealRoomInput> | DealRoomProposalCreateWithoutDealRoomInput[] | DealRoomProposalUncheckedCreateWithoutDealRoomInput[]
+    connectOrCreate?: DealRoomProposalCreateOrConnectWithoutDealRoomInput | DealRoomProposalCreateOrConnectWithoutDealRoomInput[]
+    upsert?: DealRoomProposalUpsertWithWhereUniqueWithoutDealRoomInput | DealRoomProposalUpsertWithWhereUniqueWithoutDealRoomInput[]
+    createMany?: DealRoomProposalCreateManyDealRoomInputEnvelope
+    set?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    disconnect?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    delete?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    connect?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    update?: DealRoomProposalUpdateWithWhereUniqueWithoutDealRoomInput | DealRoomProposalUpdateWithWhereUniqueWithoutDealRoomInput[]
+    updateMany?: DealRoomProposalUpdateManyWithWhereWithoutDealRoomInput | DealRoomProposalUpdateManyWithWhereWithoutDealRoomInput[]
+    deleteMany?: DealRoomProposalScalarWhereInput | DealRoomProposalScalarWhereInput[]
+  }
+
+  export type DealRoomMessageUncheckedUpdateManyWithoutDealRoomNestedInput = {
+    create?: XOR<DealRoomMessageCreateWithoutDealRoomInput, DealRoomMessageUncheckedCreateWithoutDealRoomInput> | DealRoomMessageCreateWithoutDealRoomInput[] | DealRoomMessageUncheckedCreateWithoutDealRoomInput[]
+    connectOrCreate?: DealRoomMessageCreateOrConnectWithoutDealRoomInput | DealRoomMessageCreateOrConnectWithoutDealRoomInput[]
+    upsert?: DealRoomMessageUpsertWithWhereUniqueWithoutDealRoomInput | DealRoomMessageUpsertWithWhereUniqueWithoutDealRoomInput[]
+    createMany?: DealRoomMessageCreateManyDealRoomInputEnvelope
+    set?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    disconnect?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    delete?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    connect?: DealRoomMessageWhereUniqueInput | DealRoomMessageWhereUniqueInput[]
+    update?: DealRoomMessageUpdateWithWhereUniqueWithoutDealRoomInput | DealRoomMessageUpdateWithWhereUniqueWithoutDealRoomInput[]
+    updateMany?: DealRoomMessageUpdateManyWithWhereWithoutDealRoomInput | DealRoomMessageUpdateManyWithWhereWithoutDealRoomInput[]
+    deleteMany?: DealRoomMessageScalarWhereInput | DealRoomMessageScalarWhereInput[]
+  }
+
+  export type DealRoomProposalUncheckedUpdateManyWithoutDealRoomNestedInput = {
+    create?: XOR<DealRoomProposalCreateWithoutDealRoomInput, DealRoomProposalUncheckedCreateWithoutDealRoomInput> | DealRoomProposalCreateWithoutDealRoomInput[] | DealRoomProposalUncheckedCreateWithoutDealRoomInput[]
+    connectOrCreate?: DealRoomProposalCreateOrConnectWithoutDealRoomInput | DealRoomProposalCreateOrConnectWithoutDealRoomInput[]
+    upsert?: DealRoomProposalUpsertWithWhereUniqueWithoutDealRoomInput | DealRoomProposalUpsertWithWhereUniqueWithoutDealRoomInput[]
+    createMany?: DealRoomProposalCreateManyDealRoomInputEnvelope
+    set?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    disconnect?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    delete?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    connect?: DealRoomProposalWhereUniqueInput | DealRoomProposalWhereUniqueInput[]
+    update?: DealRoomProposalUpdateWithWhereUniqueWithoutDealRoomInput | DealRoomProposalUpdateWithWhereUniqueWithoutDealRoomInput[]
+    updateMany?: DealRoomProposalUpdateManyWithWhereWithoutDealRoomInput | DealRoomProposalUpdateManyWithWhereWithoutDealRoomInput[]
+    deleteMany?: DealRoomProposalScalarWhereInput | DealRoomProposalScalarWhereInput[]
+  }
+
+  export type DealRoomCreateNestedOneWithoutMessagesInput = {
+    create?: XOR<DealRoomCreateWithoutMessagesInput, DealRoomUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: DealRoomCreateOrConnectWithoutMessagesInput
+    connect?: DealRoomWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutDealRoomMessagesInput = {
+    create?: XOR<UserCreateWithoutDealRoomMessagesInput, UserUncheckedCreateWithoutDealRoomMessagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDealRoomMessagesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumDealRoomMessageTypeFieldUpdateOperationsInput = {
+    set?: $Enums.DealRoomMessageType
+  }
+
+  export type DealRoomUpdateOneRequiredWithoutMessagesNestedInput = {
+    create?: XOR<DealRoomCreateWithoutMessagesInput, DealRoomUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: DealRoomCreateOrConnectWithoutMessagesInput
+    upsert?: DealRoomUpsertWithoutMessagesInput
+    connect?: DealRoomWhereUniqueInput
+    update?: XOR<XOR<DealRoomUpdateToOneWithWhereWithoutMessagesInput, DealRoomUpdateWithoutMessagesInput>, DealRoomUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutDealRoomMessagesNestedInput = {
+    create?: XOR<UserCreateWithoutDealRoomMessagesInput, UserUncheckedCreateWithoutDealRoomMessagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDealRoomMessagesInput
+    upsert?: UserUpsertWithoutDealRoomMessagesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDealRoomMessagesInput, UserUpdateWithoutDealRoomMessagesInput>, UserUncheckedUpdateWithoutDealRoomMessagesInput>
+  }
+
+  export type DealRoomCreateNestedOneWithoutProposalsInput = {
+    create?: XOR<DealRoomCreateWithoutProposalsInput, DealRoomUncheckedCreateWithoutProposalsInput>
+    connectOrCreate?: DealRoomCreateOrConnectWithoutProposalsInput
+    connect?: DealRoomWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutDealRoomProposalsInput = {
+    create?: XOR<UserCreateWithoutDealRoomProposalsInput, UserUncheckedCreateWithoutDealRoomProposalsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDealRoomProposalsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumProposalStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ProposalStatus
+  }
+
+  export type DealRoomUpdateOneRequiredWithoutProposalsNestedInput = {
+    create?: XOR<DealRoomCreateWithoutProposalsInput, DealRoomUncheckedCreateWithoutProposalsInput>
+    connectOrCreate?: DealRoomCreateOrConnectWithoutProposalsInput
+    upsert?: DealRoomUpsertWithoutProposalsInput
+    connect?: DealRoomWhereUniqueInput
+    update?: XOR<XOR<DealRoomUpdateToOneWithWhereWithoutProposalsInput, DealRoomUpdateWithoutProposalsInput>, DealRoomUncheckedUpdateWithoutProposalsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutDealRoomProposalsNestedInput = {
+    create?: XOR<UserCreateWithoutDealRoomProposalsInput, UserUncheckedCreateWithoutDealRoomProposalsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDealRoomProposalsInput
+    upsert?: UserUpsertWithoutDealRoomProposalsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDealRoomProposalsInput, UserUpdateWithoutDealRoomProposalsInput>, UserUncheckedUpdateWithoutDealRoomProposalsInput>
+  }
+
+  export type NilCollectiveCreateNestedOneWithoutMembersInput = {
+    create?: XOR<NilCollectiveCreateWithoutMembersInput, NilCollectiveUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: NilCollectiveCreateOrConnectWithoutMembersInput
+    connect?: NilCollectiveWhereUniqueInput
+  }
+
+  export type AthleteCreateNestedOneWithoutCollectiveMembershipsInput = {
+    create?: XOR<AthleteCreateWithoutCollectiveMembershipsInput, AthleteUncheckedCreateWithoutCollectiveMembershipsInput>
+    connectOrCreate?: AthleteCreateOrConnectWithoutCollectiveMembershipsInput
+    connect?: AthleteWhereUniqueInput
+  }
+
+  export type CollectiveDistributionCreateNestedManyWithoutMemberInput = {
+    create?: XOR<CollectiveDistributionCreateWithoutMemberInput, CollectiveDistributionUncheckedCreateWithoutMemberInput> | CollectiveDistributionCreateWithoutMemberInput[] | CollectiveDistributionUncheckedCreateWithoutMemberInput[]
+    connectOrCreate?: CollectiveDistributionCreateOrConnectWithoutMemberInput | CollectiveDistributionCreateOrConnectWithoutMemberInput[]
+    createMany?: CollectiveDistributionCreateManyMemberInputEnvelope
+    connect?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+  }
+
+  export type CollectiveDistributionUncheckedCreateNestedManyWithoutMemberInput = {
+    create?: XOR<CollectiveDistributionCreateWithoutMemberInput, CollectiveDistributionUncheckedCreateWithoutMemberInput> | CollectiveDistributionCreateWithoutMemberInput[] | CollectiveDistributionUncheckedCreateWithoutMemberInput[]
+    connectOrCreate?: CollectiveDistributionCreateOrConnectWithoutMemberInput | CollectiveDistributionCreateOrConnectWithoutMemberInput[]
+    createMany?: CollectiveDistributionCreateManyMemberInputEnvelope
+    connect?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+  }
+
+  export type EnumCollectiveMemberStatusFieldUpdateOperationsInput = {
+    set?: $Enums.CollectiveMemberStatus
+  }
+
+  export type NilCollectiveUpdateOneRequiredWithoutMembersNestedInput = {
+    create?: XOR<NilCollectiveCreateWithoutMembersInput, NilCollectiveUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: NilCollectiveCreateOrConnectWithoutMembersInput
+    upsert?: NilCollectiveUpsertWithoutMembersInput
+    connect?: NilCollectiveWhereUniqueInput
+    update?: XOR<XOR<NilCollectiveUpdateToOneWithWhereWithoutMembersInput, NilCollectiveUpdateWithoutMembersInput>, NilCollectiveUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type AthleteUpdateOneRequiredWithoutCollectiveMembershipsNestedInput = {
+    create?: XOR<AthleteCreateWithoutCollectiveMembershipsInput, AthleteUncheckedCreateWithoutCollectiveMembershipsInput>
+    connectOrCreate?: AthleteCreateOrConnectWithoutCollectiveMembershipsInput
+    upsert?: AthleteUpsertWithoutCollectiveMembershipsInput
+    connect?: AthleteWhereUniqueInput
+    update?: XOR<XOR<AthleteUpdateToOneWithWhereWithoutCollectiveMembershipsInput, AthleteUpdateWithoutCollectiveMembershipsInput>, AthleteUncheckedUpdateWithoutCollectiveMembershipsInput>
+  }
+
+  export type CollectiveDistributionUpdateManyWithoutMemberNestedInput = {
+    create?: XOR<CollectiveDistributionCreateWithoutMemberInput, CollectiveDistributionUncheckedCreateWithoutMemberInput> | CollectiveDistributionCreateWithoutMemberInput[] | CollectiveDistributionUncheckedCreateWithoutMemberInput[]
+    connectOrCreate?: CollectiveDistributionCreateOrConnectWithoutMemberInput | CollectiveDistributionCreateOrConnectWithoutMemberInput[]
+    upsert?: CollectiveDistributionUpsertWithWhereUniqueWithoutMemberInput | CollectiveDistributionUpsertWithWhereUniqueWithoutMemberInput[]
+    createMany?: CollectiveDistributionCreateManyMemberInputEnvelope
+    set?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    disconnect?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    delete?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    connect?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    update?: CollectiveDistributionUpdateWithWhereUniqueWithoutMemberInput | CollectiveDistributionUpdateWithWhereUniqueWithoutMemberInput[]
+    updateMany?: CollectiveDistributionUpdateManyWithWhereWithoutMemberInput | CollectiveDistributionUpdateManyWithWhereWithoutMemberInput[]
+    deleteMany?: CollectiveDistributionScalarWhereInput | CollectiveDistributionScalarWhereInput[]
+  }
+
+  export type CollectiveDistributionUncheckedUpdateManyWithoutMemberNestedInput = {
+    create?: XOR<CollectiveDistributionCreateWithoutMemberInput, CollectiveDistributionUncheckedCreateWithoutMemberInput> | CollectiveDistributionCreateWithoutMemberInput[] | CollectiveDistributionUncheckedCreateWithoutMemberInput[]
+    connectOrCreate?: CollectiveDistributionCreateOrConnectWithoutMemberInput | CollectiveDistributionCreateOrConnectWithoutMemberInput[]
+    upsert?: CollectiveDistributionUpsertWithWhereUniqueWithoutMemberInput | CollectiveDistributionUpsertWithWhereUniqueWithoutMemberInput[]
+    createMany?: CollectiveDistributionCreateManyMemberInputEnvelope
+    set?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    disconnect?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    delete?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    connect?: CollectiveDistributionWhereUniqueInput | CollectiveDistributionWhereUniqueInput[]
+    update?: CollectiveDistributionUpdateWithWhereUniqueWithoutMemberInput | CollectiveDistributionUpdateWithWhereUniqueWithoutMemberInput[]
+    updateMany?: CollectiveDistributionUpdateManyWithWhereWithoutMemberInput | CollectiveDistributionUpdateManyWithWhereWithoutMemberInput[]
+    deleteMany?: CollectiveDistributionScalarWhereInput | CollectiveDistributionScalarWhereInput[]
+  }
+
+  export type NilCollectiveCreateNestedOneWithoutDonorsInput = {
+    create?: XOR<NilCollectiveCreateWithoutDonorsInput, NilCollectiveUncheckedCreateWithoutDonorsInput>
+    connectOrCreate?: NilCollectiveCreateOrConnectWithoutDonorsInput
+    connect?: NilCollectiveWhereUniqueInput
+  }
+
+  export type CollectiveDonationCreateNestedManyWithoutDonorInput = {
+    create?: XOR<CollectiveDonationCreateWithoutDonorInput, CollectiveDonationUncheckedCreateWithoutDonorInput> | CollectiveDonationCreateWithoutDonorInput[] | CollectiveDonationUncheckedCreateWithoutDonorInput[]
+    connectOrCreate?: CollectiveDonationCreateOrConnectWithoutDonorInput | CollectiveDonationCreateOrConnectWithoutDonorInput[]
+    createMany?: CollectiveDonationCreateManyDonorInputEnvelope
+    connect?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+  }
+
+  export type CollectiveDonationUncheckedCreateNestedManyWithoutDonorInput = {
+    create?: XOR<CollectiveDonationCreateWithoutDonorInput, CollectiveDonationUncheckedCreateWithoutDonorInput> | CollectiveDonationCreateWithoutDonorInput[] | CollectiveDonationUncheckedCreateWithoutDonorInput[]
+    connectOrCreate?: CollectiveDonationCreateOrConnectWithoutDonorInput | CollectiveDonationCreateOrConnectWithoutDonorInput[]
+    createMany?: CollectiveDonationCreateManyDonorInputEnvelope
+    connect?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+  }
+
+  export type NilCollectiveUpdateOneRequiredWithoutDonorsNestedInput = {
+    create?: XOR<NilCollectiveCreateWithoutDonorsInput, NilCollectiveUncheckedCreateWithoutDonorsInput>
+    connectOrCreate?: NilCollectiveCreateOrConnectWithoutDonorsInput
+    upsert?: NilCollectiveUpsertWithoutDonorsInput
+    connect?: NilCollectiveWhereUniqueInput
+    update?: XOR<XOR<NilCollectiveUpdateToOneWithWhereWithoutDonorsInput, NilCollectiveUpdateWithoutDonorsInput>, NilCollectiveUncheckedUpdateWithoutDonorsInput>
+  }
+
+  export type CollectiveDonationUpdateManyWithoutDonorNestedInput = {
+    create?: XOR<CollectiveDonationCreateWithoutDonorInput, CollectiveDonationUncheckedCreateWithoutDonorInput> | CollectiveDonationCreateWithoutDonorInput[] | CollectiveDonationUncheckedCreateWithoutDonorInput[]
+    connectOrCreate?: CollectiveDonationCreateOrConnectWithoutDonorInput | CollectiveDonationCreateOrConnectWithoutDonorInput[]
+    upsert?: CollectiveDonationUpsertWithWhereUniqueWithoutDonorInput | CollectiveDonationUpsertWithWhereUniqueWithoutDonorInput[]
+    createMany?: CollectiveDonationCreateManyDonorInputEnvelope
+    set?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    disconnect?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    delete?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    connect?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    update?: CollectiveDonationUpdateWithWhereUniqueWithoutDonorInput | CollectiveDonationUpdateWithWhereUniqueWithoutDonorInput[]
+    updateMany?: CollectiveDonationUpdateManyWithWhereWithoutDonorInput | CollectiveDonationUpdateManyWithWhereWithoutDonorInput[]
+    deleteMany?: CollectiveDonationScalarWhereInput | CollectiveDonationScalarWhereInput[]
+  }
+
+  export type CollectiveDonationUncheckedUpdateManyWithoutDonorNestedInput = {
+    create?: XOR<CollectiveDonationCreateWithoutDonorInput, CollectiveDonationUncheckedCreateWithoutDonorInput> | CollectiveDonationCreateWithoutDonorInput[] | CollectiveDonationUncheckedCreateWithoutDonorInput[]
+    connectOrCreate?: CollectiveDonationCreateOrConnectWithoutDonorInput | CollectiveDonationCreateOrConnectWithoutDonorInput[]
+    upsert?: CollectiveDonationUpsertWithWhereUniqueWithoutDonorInput | CollectiveDonationUpsertWithWhereUniqueWithoutDonorInput[]
+    createMany?: CollectiveDonationCreateManyDonorInputEnvelope
+    set?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    disconnect?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    delete?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    connect?: CollectiveDonationWhereUniqueInput | CollectiveDonationWhereUniqueInput[]
+    update?: CollectiveDonationUpdateWithWhereUniqueWithoutDonorInput | CollectiveDonationUpdateWithWhereUniqueWithoutDonorInput[]
+    updateMany?: CollectiveDonationUpdateManyWithWhereWithoutDonorInput | CollectiveDonationUpdateManyWithWhereWithoutDonorInput[]
+    deleteMany?: CollectiveDonationScalarWhereInput | CollectiveDonationScalarWhereInput[]
+  }
+
+  export type CollectiveDonorCreateNestedOneWithoutDonationsInput = {
+    create?: XOR<CollectiveDonorCreateWithoutDonationsInput, CollectiveDonorUncheckedCreateWithoutDonationsInput>
+    connectOrCreate?: CollectiveDonorCreateOrConnectWithoutDonationsInput
+    connect?: CollectiveDonorWhereUniqueInput
+  }
+
+  export type NilCollectiveCreateNestedOneWithoutDonationsInput = {
+    create?: XOR<NilCollectiveCreateWithoutDonationsInput, NilCollectiveUncheckedCreateWithoutDonationsInput>
+    connectOrCreate?: NilCollectiveCreateOrConnectWithoutDonationsInput
+    connect?: NilCollectiveWhereUniqueInput
+  }
+
+  export type CollectiveDonorUpdateOneRequiredWithoutDonationsNestedInput = {
+    create?: XOR<CollectiveDonorCreateWithoutDonationsInput, CollectiveDonorUncheckedCreateWithoutDonationsInput>
+    connectOrCreate?: CollectiveDonorCreateOrConnectWithoutDonationsInput
+    upsert?: CollectiveDonorUpsertWithoutDonationsInput
+    connect?: CollectiveDonorWhereUniqueInput
+    update?: XOR<XOR<CollectiveDonorUpdateToOneWithWhereWithoutDonationsInput, CollectiveDonorUpdateWithoutDonationsInput>, CollectiveDonorUncheckedUpdateWithoutDonationsInput>
+  }
+
+  export type NilCollectiveUpdateOneRequiredWithoutDonationsNestedInput = {
+    create?: XOR<NilCollectiveCreateWithoutDonationsInput, NilCollectiveUncheckedCreateWithoutDonationsInput>
+    connectOrCreate?: NilCollectiveCreateOrConnectWithoutDonationsInput
+    upsert?: NilCollectiveUpsertWithoutDonationsInput
+    connect?: NilCollectiveWhereUniqueInput
+    update?: XOR<XOR<NilCollectiveUpdateToOneWithWhereWithoutDonationsInput, NilCollectiveUpdateWithoutDonationsInput>, NilCollectiveUncheckedUpdateWithoutDonationsInput>
+  }
+
+  export type NilCollectiveCreateNestedOneWithoutDistributionsInput = {
+    create?: XOR<NilCollectiveCreateWithoutDistributionsInput, NilCollectiveUncheckedCreateWithoutDistributionsInput>
+    connectOrCreate?: NilCollectiveCreateOrConnectWithoutDistributionsInput
+    connect?: NilCollectiveWhereUniqueInput
+  }
+
+  export type CollectiveMemberCreateNestedOneWithoutDistributionsInput = {
+    create?: XOR<CollectiveMemberCreateWithoutDistributionsInput, CollectiveMemberUncheckedCreateWithoutDistributionsInput>
+    connectOrCreate?: CollectiveMemberCreateOrConnectWithoutDistributionsInput
+    connect?: CollectiveMemberWhereUniqueInput
+  }
+
+  export type NilCollectiveUpdateOneRequiredWithoutDistributionsNestedInput = {
+    create?: XOR<NilCollectiveCreateWithoutDistributionsInput, NilCollectiveUncheckedCreateWithoutDistributionsInput>
+    connectOrCreate?: NilCollectiveCreateOrConnectWithoutDistributionsInput
+    upsert?: NilCollectiveUpsertWithoutDistributionsInput
+    connect?: NilCollectiveWhereUniqueInput
+    update?: XOR<XOR<NilCollectiveUpdateToOneWithWhereWithoutDistributionsInput, NilCollectiveUpdateWithoutDistributionsInput>, NilCollectiveUncheckedUpdateWithoutDistributionsInput>
+  }
+
+  export type CollectiveMemberUpdateOneRequiredWithoutDistributionsNestedInput = {
+    create?: XOR<CollectiveMemberCreateWithoutDistributionsInput, CollectiveMemberUncheckedCreateWithoutDistributionsInput>
+    connectOrCreate?: CollectiveMemberCreateOrConnectWithoutDistributionsInput
+    upsert?: CollectiveMemberUpsertWithoutDistributionsInput
+    connect?: CollectiveMemberWhereUniqueInput
+    update?: XOR<XOR<CollectiveMemberUpdateToOneWithWhereWithoutDistributionsInput, CollectiveMemberUpdateWithoutDistributionsInput>, CollectiveMemberUncheckedUpdateWithoutDistributionsInput>
+  }
+
+  export type MatchRequestCreatetargetNicheInput = {
+    set: string[]
+  }
+
+  export type MatchRequestCreatetargetPlatformsInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutMatchRequestsInput = {
+    create?: XOR<UserCreateWithoutMatchRequestsInput, UserUncheckedCreateWithoutMatchRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMatchRequestsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type MatchResultCreateNestedManyWithoutRequestInput = {
+    create?: XOR<MatchResultCreateWithoutRequestInput, MatchResultUncheckedCreateWithoutRequestInput> | MatchResultCreateWithoutRequestInput[] | MatchResultUncheckedCreateWithoutRequestInput[]
+    connectOrCreate?: MatchResultCreateOrConnectWithoutRequestInput | MatchResultCreateOrConnectWithoutRequestInput[]
+    createMany?: MatchResultCreateManyRequestInputEnvelope
+    connect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+  }
+
+  export type MatchResultUncheckedCreateNestedManyWithoutRequestInput = {
+    create?: XOR<MatchResultCreateWithoutRequestInput, MatchResultUncheckedCreateWithoutRequestInput> | MatchResultCreateWithoutRequestInput[] | MatchResultUncheckedCreateWithoutRequestInput[]
+    connectOrCreate?: MatchResultCreateOrConnectWithoutRequestInput | MatchResultCreateOrConnectWithoutRequestInput[]
+    createMany?: MatchResultCreateManyRequestInputEnvelope
+    connect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+  }
+
+  export type MatchRequestUpdatetargetNicheInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type MatchRequestUpdatetargetPlatformsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type EnumMatchStatusFieldUpdateOperationsInput = {
+    set?: $Enums.MatchStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutMatchRequestsNestedInput = {
+    create?: XOR<UserCreateWithoutMatchRequestsInput, UserUncheckedCreateWithoutMatchRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMatchRequestsInput
+    upsert?: UserUpsertWithoutMatchRequestsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMatchRequestsInput, UserUpdateWithoutMatchRequestsInput>, UserUncheckedUpdateWithoutMatchRequestsInput>
+  }
+
+  export type MatchResultUpdateManyWithoutRequestNestedInput = {
+    create?: XOR<MatchResultCreateWithoutRequestInput, MatchResultUncheckedCreateWithoutRequestInput> | MatchResultCreateWithoutRequestInput[] | MatchResultUncheckedCreateWithoutRequestInput[]
+    connectOrCreate?: MatchResultCreateOrConnectWithoutRequestInput | MatchResultCreateOrConnectWithoutRequestInput[]
+    upsert?: MatchResultUpsertWithWhereUniqueWithoutRequestInput | MatchResultUpsertWithWhereUniqueWithoutRequestInput[]
+    createMany?: MatchResultCreateManyRequestInputEnvelope
+    set?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    disconnect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    delete?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    connect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    update?: MatchResultUpdateWithWhereUniqueWithoutRequestInput | MatchResultUpdateWithWhereUniqueWithoutRequestInput[]
+    updateMany?: MatchResultUpdateManyWithWhereWithoutRequestInput | MatchResultUpdateManyWithWhereWithoutRequestInput[]
+    deleteMany?: MatchResultScalarWhereInput | MatchResultScalarWhereInput[]
+  }
+
+  export type MatchResultUncheckedUpdateManyWithoutRequestNestedInput = {
+    create?: XOR<MatchResultCreateWithoutRequestInput, MatchResultUncheckedCreateWithoutRequestInput> | MatchResultCreateWithoutRequestInput[] | MatchResultUncheckedCreateWithoutRequestInput[]
+    connectOrCreate?: MatchResultCreateOrConnectWithoutRequestInput | MatchResultCreateOrConnectWithoutRequestInput[]
+    upsert?: MatchResultUpsertWithWhereUniqueWithoutRequestInput | MatchResultUpsertWithWhereUniqueWithoutRequestInput[]
+    createMany?: MatchResultCreateManyRequestInputEnvelope
+    set?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    disconnect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    delete?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    connect?: MatchResultWhereUniqueInput | MatchResultWhereUniqueInput[]
+    update?: MatchResultUpdateWithWhereUniqueWithoutRequestInput | MatchResultUpdateWithWhereUniqueWithoutRequestInput[]
+    updateMany?: MatchResultUpdateManyWithWhereWithoutRequestInput | MatchResultUpdateManyWithWhereWithoutRequestInput[]
+    deleteMany?: MatchResultScalarWhereInput | MatchResultScalarWhereInput[]
+  }
+
+  export type MatchRequestCreateNestedOneWithoutResultsInput = {
+    create?: XOR<MatchRequestCreateWithoutResultsInput, MatchRequestUncheckedCreateWithoutResultsInput>
+    connectOrCreate?: MatchRequestCreateOrConnectWithoutResultsInput
+    connect?: MatchRequestWhereUniqueInput
+  }
+
+  export type CreatorCreateNestedOneWithoutMatchResultsInput = {
+    create?: XOR<CreatorCreateWithoutMatchResultsInput, CreatorUncheckedCreateWithoutMatchResultsInput>
+    connectOrCreate?: CreatorCreateOrConnectWithoutMatchResultsInput
+    connect?: CreatorWhereUniqueInput
+  }
+
+  export type AthleteCreateNestedOneWithoutMatchResultsInput = {
+    create?: XOR<AthleteCreateWithoutMatchResultsInput, AthleteUncheckedCreateWithoutMatchResultsInput>
+    connectOrCreate?: AthleteCreateOrConnectWithoutMatchResultsInput
+    connect?: AthleteWhereUniqueInput
+  }
+
+  export type MatchRequestUpdateOneRequiredWithoutResultsNestedInput = {
+    create?: XOR<MatchRequestCreateWithoutResultsInput, MatchRequestUncheckedCreateWithoutResultsInput>
+    connectOrCreate?: MatchRequestCreateOrConnectWithoutResultsInput
+    upsert?: MatchRequestUpsertWithoutResultsInput
+    connect?: MatchRequestWhereUniqueInput
+    update?: XOR<XOR<MatchRequestUpdateToOneWithWhereWithoutResultsInput, MatchRequestUpdateWithoutResultsInput>, MatchRequestUncheckedUpdateWithoutResultsInput>
+  }
+
+  export type CreatorUpdateOneWithoutMatchResultsNestedInput = {
+    create?: XOR<CreatorCreateWithoutMatchResultsInput, CreatorUncheckedCreateWithoutMatchResultsInput>
+    connectOrCreate?: CreatorCreateOrConnectWithoutMatchResultsInput
+    upsert?: CreatorUpsertWithoutMatchResultsInput
+    disconnect?: CreatorWhereInput | boolean
+    delete?: CreatorWhereInput | boolean
+    connect?: CreatorWhereUniqueInput
+    update?: XOR<XOR<CreatorUpdateToOneWithWhereWithoutMatchResultsInput, CreatorUpdateWithoutMatchResultsInput>, CreatorUncheckedUpdateWithoutMatchResultsInput>
+  }
+
+  export type AthleteUpdateOneWithoutMatchResultsNestedInput = {
+    create?: XOR<AthleteCreateWithoutMatchResultsInput, AthleteUncheckedCreateWithoutMatchResultsInput>
+    connectOrCreate?: AthleteCreateOrConnectWithoutMatchResultsInput
+    upsert?: AthleteUpsertWithoutMatchResultsInput
+    disconnect?: AthleteWhereInput | boolean
+    delete?: AthleteWhereInput | boolean
+    connect?: AthleteWhereUniqueInput
+    update?: XOR<XOR<AthleteUpdateToOneWithWhereWithoutMatchResultsInput, AthleteUpdateWithoutMatchResultsInput>, AthleteUncheckedUpdateWithoutMatchResultsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -92952,6 +108895,91 @@ export namespace Prisma {
     _max?: NestedEnumImportJobStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumDealRoomStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealRoomStatus | EnumDealRoomStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DealRoomStatus[] | ListEnumDealRoomStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealRoomStatus[] | ListEnumDealRoomStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealRoomStatusFilter<$PrismaModel> | $Enums.DealRoomStatus
+  }
+
+  export type NestedEnumDealRoomStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealRoomStatus | EnumDealRoomStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DealRoomStatus[] | ListEnumDealRoomStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealRoomStatus[] | ListEnumDealRoomStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealRoomStatusWithAggregatesFilter<$PrismaModel> | $Enums.DealRoomStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDealRoomStatusFilter<$PrismaModel>
+    _max?: NestedEnumDealRoomStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDealRoomMessageTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealRoomMessageType | EnumDealRoomMessageTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DealRoomMessageType[] | ListEnumDealRoomMessageTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealRoomMessageType[] | ListEnumDealRoomMessageTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealRoomMessageTypeFilter<$PrismaModel> | $Enums.DealRoomMessageType
+  }
+
+  export type NestedEnumDealRoomMessageTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealRoomMessageType | EnumDealRoomMessageTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DealRoomMessageType[] | ListEnumDealRoomMessageTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealRoomMessageType[] | ListEnumDealRoomMessageTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealRoomMessageTypeWithAggregatesFilter<$PrismaModel> | $Enums.DealRoomMessageType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDealRoomMessageTypeFilter<$PrismaModel>
+    _max?: NestedEnumDealRoomMessageTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumProposalStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProposalStatus | EnumProposalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProposalStatus[] | ListEnumProposalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProposalStatus[] | ListEnumProposalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProposalStatusFilter<$PrismaModel> | $Enums.ProposalStatus
+  }
+
+  export type NestedEnumProposalStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProposalStatus | EnumProposalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProposalStatus[] | ListEnumProposalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProposalStatus[] | ListEnumProposalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProposalStatusWithAggregatesFilter<$PrismaModel> | $Enums.ProposalStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProposalStatusFilter<$PrismaModel>
+    _max?: NestedEnumProposalStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCollectiveMemberStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CollectiveMemberStatus | EnumCollectiveMemberStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CollectiveMemberStatus[] | ListEnumCollectiveMemberStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CollectiveMemberStatus[] | ListEnumCollectiveMemberStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCollectiveMemberStatusFilter<$PrismaModel> | $Enums.CollectiveMemberStatus
+  }
+
+  export type NestedEnumCollectiveMemberStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CollectiveMemberStatus | EnumCollectiveMemberStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CollectiveMemberStatus[] | ListEnumCollectiveMemberStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CollectiveMemberStatus[] | ListEnumCollectiveMemberStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCollectiveMemberStatusWithAggregatesFilter<$PrismaModel> | $Enums.CollectiveMemberStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCollectiveMemberStatusFilter<$PrismaModel>
+    _max?: NestedEnumCollectiveMemberStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumMatchStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.MatchStatus | EnumMatchStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MatchStatus[] | ListEnumMatchStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MatchStatus[] | ListEnumMatchStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMatchStatusFilter<$PrismaModel> | $Enums.MatchStatus
+  }
+
+  export type NestedEnumMatchStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MatchStatus | EnumMatchStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MatchStatus[] | ListEnumMatchStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MatchStatus[] | ListEnumMatchStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMatchStatusWithAggregatesFilter<$PrismaModel> | $Enums.MatchStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMatchStatusFilter<$PrismaModel>
+    _max?: NestedEnumMatchStatusFilter<$PrismaModel>
+  }
+
   export type BrandCreateWithoutUserInput = {
     id?: string
     companyName: string
@@ -93024,6 +109052,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorUncheckedCreateWithoutUserInput = {
@@ -93055,6 +109084,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorCreateOrConnectWithoutUserInput = {
@@ -93129,6 +109159,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateWithoutUserInput = {
@@ -93173,6 +109205,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteCreateOrConnectWithoutUserInput = {
@@ -93479,6 +109513,122 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DealRoomMessageCreateWithoutAuthorInput = {
+    id?: string
+    content: string
+    clauseRef?: string | null
+    type?: $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    dealRoom: DealRoomCreateNestedOneWithoutMessagesInput
+  }
+
+  export type DealRoomMessageUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    dealRoomId: string
+    content: string
+    clauseRef?: string | null
+    type?: $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type DealRoomMessageCreateOrConnectWithoutAuthorInput = {
+    where: DealRoomMessageWhereUniqueInput
+    create: XOR<DealRoomMessageCreateWithoutAuthorInput, DealRoomMessageUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type DealRoomMessageCreateManyAuthorInputEnvelope = {
+    data: DealRoomMessageCreateManyAuthorInput | DealRoomMessageCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DealRoomProposalCreateWithoutProposedByInput = {
+    id?: string
+    title: string
+    changes: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: number | null
+    aiSummary?: string | null
+    status?: $Enums.ProposalStatus
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    dealRoom: DealRoomCreateNestedOneWithoutProposalsInput
+  }
+
+  export type DealRoomProposalUncheckedCreateWithoutProposedByInput = {
+    id?: string
+    dealRoomId: string
+    title: string
+    changes: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: number | null
+    aiSummary?: string | null
+    status?: $Enums.ProposalStatus
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealRoomProposalCreateOrConnectWithoutProposedByInput = {
+    where: DealRoomProposalWhereUniqueInput
+    create: XOR<DealRoomProposalCreateWithoutProposedByInput, DealRoomProposalUncheckedCreateWithoutProposedByInput>
+  }
+
+  export type DealRoomProposalCreateManyProposedByInputEnvelope = {
+    data: DealRoomProposalCreateManyProposedByInput | DealRoomProposalCreateManyProposedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MatchRequestCreateWithoutRequestedByInput = {
+    id?: string
+    campaignId?: string | null
+    brief: string
+    budgetCents?: number | null
+    targetNiche?: MatchRequestCreatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestCreatetargetPlatformsInput | string[]
+    targetMinFollowers?: number | null
+    targetMaxFollowers?: number | null
+    targetMinEngagement?: number | null
+    targetEntityType?: string
+    targetSport?: string | null
+    maxResults?: number
+    status?: $Enums.MatchStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    results?: MatchResultCreateNestedManyWithoutRequestInput
+  }
+
+  export type MatchRequestUncheckedCreateWithoutRequestedByInput = {
+    id?: string
+    campaignId?: string | null
+    brief: string
+    budgetCents?: number | null
+    targetNiche?: MatchRequestCreatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestCreatetargetPlatformsInput | string[]
+    targetMinFollowers?: number | null
+    targetMaxFollowers?: number | null
+    targetMinEngagement?: number | null
+    targetEntityType?: string
+    targetSport?: string | null
+    maxResults?: number
+    status?: $Enums.MatchStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    results?: MatchResultUncheckedCreateNestedManyWithoutRequestInput
+  }
+
+  export type MatchRequestCreateOrConnectWithoutRequestedByInput = {
+    where: MatchRequestWhereUniqueInput
+    create: XOR<MatchRequestCreateWithoutRequestedByInput, MatchRequestUncheckedCreateWithoutRequestedByInput>
+  }
+
+  export type MatchRequestCreateManyRequestedByInputEnvelope = {
+    data: MatchRequestCreateManyRequestedByInput | MatchRequestCreateManyRequestedByInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BrandUpsertWithoutUserInput = {
     update: XOR<BrandUpdateWithoutUserInput, BrandUncheckedUpdateWithoutUserInput>
     create: XOR<BrandCreateWithoutUserInput, BrandUncheckedCreateWithoutUserInput>
@@ -93568,6 +109718,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorUncheckedUpdateWithoutUserInput = {
@@ -93599,6 +109750,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type AgencyUpsertWithoutUserInput = {
@@ -93685,6 +109837,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateWithoutUserInput = {
@@ -93729,6 +109883,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type GuardianUpsertWithoutUserInput = {
@@ -94015,6 +110171,108 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ImportJob"> | Date | string
   }
 
+  export type DealRoomMessageUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: DealRoomMessageWhereUniqueInput
+    update: XOR<DealRoomMessageUpdateWithoutAuthorInput, DealRoomMessageUncheckedUpdateWithoutAuthorInput>
+    create: XOR<DealRoomMessageCreateWithoutAuthorInput, DealRoomMessageUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type DealRoomMessageUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: DealRoomMessageWhereUniqueInput
+    data: XOR<DealRoomMessageUpdateWithoutAuthorInput, DealRoomMessageUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type DealRoomMessageUpdateManyWithWhereWithoutAuthorInput = {
+    where: DealRoomMessageScalarWhereInput
+    data: XOR<DealRoomMessageUpdateManyMutationInput, DealRoomMessageUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type DealRoomMessageScalarWhereInput = {
+    AND?: DealRoomMessageScalarWhereInput | DealRoomMessageScalarWhereInput[]
+    OR?: DealRoomMessageScalarWhereInput[]
+    NOT?: DealRoomMessageScalarWhereInput | DealRoomMessageScalarWhereInput[]
+    id?: StringFilter<"DealRoomMessage"> | string
+    dealRoomId?: StringFilter<"DealRoomMessage"> | string
+    authorId?: StringFilter<"DealRoomMessage"> | string
+    content?: StringFilter<"DealRoomMessage"> | string
+    clauseRef?: StringNullableFilter<"DealRoomMessage"> | string | null
+    type?: EnumDealRoomMessageTypeFilter<"DealRoomMessage"> | $Enums.DealRoomMessageType
+    metadata?: JsonNullableFilter<"DealRoomMessage">
+    createdAt?: DateTimeFilter<"DealRoomMessage"> | Date | string
+  }
+
+  export type DealRoomProposalUpsertWithWhereUniqueWithoutProposedByInput = {
+    where: DealRoomProposalWhereUniqueInput
+    update: XOR<DealRoomProposalUpdateWithoutProposedByInput, DealRoomProposalUncheckedUpdateWithoutProposedByInput>
+    create: XOR<DealRoomProposalCreateWithoutProposedByInput, DealRoomProposalUncheckedCreateWithoutProposedByInput>
+  }
+
+  export type DealRoomProposalUpdateWithWhereUniqueWithoutProposedByInput = {
+    where: DealRoomProposalWhereUniqueInput
+    data: XOR<DealRoomProposalUpdateWithoutProposedByInput, DealRoomProposalUncheckedUpdateWithoutProposedByInput>
+  }
+
+  export type DealRoomProposalUpdateManyWithWhereWithoutProposedByInput = {
+    where: DealRoomProposalScalarWhereInput
+    data: XOR<DealRoomProposalUpdateManyMutationInput, DealRoomProposalUncheckedUpdateManyWithoutProposedByInput>
+  }
+
+  export type DealRoomProposalScalarWhereInput = {
+    AND?: DealRoomProposalScalarWhereInput | DealRoomProposalScalarWhereInput[]
+    OR?: DealRoomProposalScalarWhereInput[]
+    NOT?: DealRoomProposalScalarWhereInput | DealRoomProposalScalarWhereInput[]
+    id?: StringFilter<"DealRoomProposal"> | string
+    dealRoomId?: StringFilter<"DealRoomProposal"> | string
+    proposedById?: StringFilter<"DealRoomProposal"> | string
+    title?: StringFilter<"DealRoomProposal"> | string
+    changes?: JsonFilter<"DealRoomProposal">
+    aiRiskDelta?: IntNullableFilter<"DealRoomProposal"> | number | null
+    aiSummary?: StringNullableFilter<"DealRoomProposal"> | string | null
+    status?: EnumProposalStatusFilter<"DealRoomProposal"> | $Enums.ProposalStatus
+    resolvedById?: StringNullableFilter<"DealRoomProposal"> | string | null
+    resolvedAt?: DateTimeNullableFilter<"DealRoomProposal"> | Date | string | null
+    createdAt?: DateTimeFilter<"DealRoomProposal"> | Date | string
+    updatedAt?: DateTimeFilter<"DealRoomProposal"> | Date | string
+  }
+
+  export type MatchRequestUpsertWithWhereUniqueWithoutRequestedByInput = {
+    where: MatchRequestWhereUniqueInput
+    update: XOR<MatchRequestUpdateWithoutRequestedByInput, MatchRequestUncheckedUpdateWithoutRequestedByInput>
+    create: XOR<MatchRequestCreateWithoutRequestedByInput, MatchRequestUncheckedCreateWithoutRequestedByInput>
+  }
+
+  export type MatchRequestUpdateWithWhereUniqueWithoutRequestedByInput = {
+    where: MatchRequestWhereUniqueInput
+    data: XOR<MatchRequestUpdateWithoutRequestedByInput, MatchRequestUncheckedUpdateWithoutRequestedByInput>
+  }
+
+  export type MatchRequestUpdateManyWithWhereWithoutRequestedByInput = {
+    where: MatchRequestScalarWhereInput
+    data: XOR<MatchRequestUpdateManyMutationInput, MatchRequestUncheckedUpdateManyWithoutRequestedByInput>
+  }
+
+  export type MatchRequestScalarWhereInput = {
+    AND?: MatchRequestScalarWhereInput | MatchRequestScalarWhereInput[]
+    OR?: MatchRequestScalarWhereInput[]
+    NOT?: MatchRequestScalarWhereInput | MatchRequestScalarWhereInput[]
+    id?: StringFilter<"MatchRequest"> | string
+    requestedById?: StringFilter<"MatchRequest"> | string
+    campaignId?: StringNullableFilter<"MatchRequest"> | string | null
+    brief?: StringFilter<"MatchRequest"> | string
+    budgetCents?: IntNullableFilter<"MatchRequest"> | number | null
+    targetNiche?: StringNullableListFilter<"MatchRequest">
+    targetPlatforms?: StringNullableListFilter<"MatchRequest">
+    targetMinFollowers?: IntNullableFilter<"MatchRequest"> | number | null
+    targetMaxFollowers?: IntNullableFilter<"MatchRequest"> | number | null
+    targetMinEngagement?: FloatNullableFilter<"MatchRequest"> | number | null
+    targetEntityType?: StringFilter<"MatchRequest"> | string
+    targetSport?: StringNullableFilter<"MatchRequest"> | string | null
+    maxResults?: IntFilter<"MatchRequest"> | number
+    status?: EnumMatchStatusFilter<"MatchRequest"> | $Enums.MatchStatus
+    createdAt?: DateTimeFilter<"MatchRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"MatchRequest"> | Date | string
+  }
+
   export type UserCreateWithoutRefreshTokensInput = {
     id?: string
     email: string
@@ -94046,6 +110304,9 @@ export namespace Prisma {
     receivedNotifications?: NotificationCreateNestedManyWithoutRecipientInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -94079,6 +110340,9 @@ export namespace Prisma {
     receivedNotifications?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -94128,6 +110392,9 @@ export namespace Prisma {
     receivedNotifications?: NotificationUpdateManyWithoutRecipientNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -94161,6 +110428,9 @@ export namespace Prisma {
     receivedNotifications?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserCreateWithoutBrandInput = {
@@ -94194,6 +110464,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutBrandInput = {
@@ -94227,6 +110500,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutBrandInput = {
@@ -94268,6 +110544,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionCreateNestedOneWithoutContractInput
     nilDeals?: NilDealCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomCreateNestedOneWithoutContractInput
   }
 
   export type ContractUncheckedCreateWithoutBrandInput = {
@@ -94304,6 +110581,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionUncheckedCreateNestedOneWithoutContractInput
     nilDeals?: NilDealUncheckedCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomUncheckedCreateNestedOneWithoutContractInput
   }
 
   export type ContractCreateOrConnectWithoutBrandInput = {
@@ -94556,6 +110834,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBrandInput = {
@@ -94589,6 +110870,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type ContractUpsertWithWhereUniqueWithoutBrandInput = {
@@ -94813,6 +111097,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutCreatorInput = {
@@ -94846,6 +111133,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutCreatorInput = {
@@ -94887,6 +111177,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionCreateNestedOneWithoutContractInput
     nilDeals?: NilDealCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomCreateNestedOneWithoutContractInput
   }
 
   export type ContractUncheckedCreateWithoutCreatorInput = {
@@ -94923,6 +111214,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionUncheckedCreateNestedOneWithoutContractInput
     nilDeals?: NilDealUncheckedCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomUncheckedCreateNestedOneWithoutContractInput
   }
 
   export type ContractCreateOrConnectWithoutCreatorInput = {
@@ -95258,6 +111550,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MatchResultCreateWithoutCreatorInput = {
+    id?: string
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents?: number | null
+    estimatedReach?: number | null
+    estimatedRoi?: number | null
+    reasoning: string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    request: MatchRequestCreateNestedOneWithoutResultsInput
+    athlete?: AthleteCreateNestedOneWithoutMatchResultsInput
+  }
+
+  export type MatchResultUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    requestId: string
+    athleteId?: string | null
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents?: number | null
+    estimatedReach?: number | null
+    estimatedRoi?: number | null
+    reasoning: string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type MatchResultCreateOrConnectWithoutCreatorInput = {
+    where: MatchResultWhereUniqueInput
+    create: XOR<MatchResultCreateWithoutCreatorInput, MatchResultUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type MatchResultCreateManyCreatorInputEnvelope = {
+    data: MatchResultCreateManyCreatorInput | MatchResultCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutCreatorInput = {
     update: XOR<UserUpdateWithoutCreatorInput, UserUncheckedUpdateWithoutCreatorInput>
     create: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput>
@@ -95300,6 +111636,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatorInput = {
@@ -95333,6 +111672,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type ContractUpsertWithWhereUniqueWithoutCreatorInput = {
@@ -95627,6 +111969,43 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"FmvAssessment"> | Date | string
   }
 
+  export type MatchResultUpsertWithWhereUniqueWithoutCreatorInput = {
+    where: MatchResultWhereUniqueInput
+    update: XOR<MatchResultUpdateWithoutCreatorInput, MatchResultUncheckedUpdateWithoutCreatorInput>
+    create: XOR<MatchResultCreateWithoutCreatorInput, MatchResultUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type MatchResultUpdateWithWhereUniqueWithoutCreatorInput = {
+    where: MatchResultWhereUniqueInput
+    data: XOR<MatchResultUpdateWithoutCreatorInput, MatchResultUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type MatchResultUpdateManyWithWhereWithoutCreatorInput = {
+    where: MatchResultScalarWhereInput
+    data: XOR<MatchResultUpdateManyMutationInput, MatchResultUncheckedUpdateManyWithoutCreatorInput>
+  }
+
+  export type MatchResultScalarWhereInput = {
+    AND?: MatchResultScalarWhereInput | MatchResultScalarWhereInput[]
+    OR?: MatchResultScalarWhereInput[]
+    NOT?: MatchResultScalarWhereInput | MatchResultScalarWhereInput[]
+    id?: StringFilter<"MatchResult"> | string
+    requestId?: StringFilter<"MatchResult"> | string
+    creatorId?: StringNullableFilter<"MatchResult"> | string | null
+    athleteId?: StringNullableFilter<"MatchResult"> | string | null
+    rank?: IntFilter<"MatchResult"> | number
+    matchScore?: FloatFilter<"MatchResult"> | number
+    audienceAlignScore?: FloatFilter<"MatchResult"> | number
+    performanceScore?: FloatFilter<"MatchResult"> | number
+    fraudScore?: FloatFilter<"MatchResult"> | number
+    suggestedRateCents?: IntNullableFilter<"MatchResult"> | number | null
+    estimatedReach?: IntNullableFilter<"MatchResult"> | number | null
+    estimatedRoi?: FloatNullableFilter<"MatchResult"> | number | null
+    reasoning?: StringFilter<"MatchResult"> | string
+    aiFlags?: JsonNullableFilter<"MatchResult">
+    createdAt?: DateTimeFilter<"MatchResult"> | Date | string
+  }
+
   export type UserCreateWithoutAgencyInput = {
     id?: string
     email: string
@@ -95658,6 +112037,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutAgencyInput = {
@@ -95691,6 +112073,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutAgencyInput = {
@@ -95740,6 +112125,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAgencyInput = {
@@ -95773,6 +112161,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type BrandCreateWithoutContractsInput = {
@@ -95847,6 +112238,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorUncheckedCreateWithoutContractsInput = {
@@ -95878,6 +112270,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorCreateOrConnectWithoutContractsInput = {
@@ -96255,6 +112648,35 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DealRoomCreateWithoutContractInput = {
+    id?: string
+    status?: $Enums.DealRoomStatus
+    openedAt?: Date | string
+    agreedAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: DealRoomMessageCreateNestedManyWithoutDealRoomInput
+    proposals?: DealRoomProposalCreateNestedManyWithoutDealRoomInput
+  }
+
+  export type DealRoomUncheckedCreateWithoutContractInput = {
+    id?: string
+    status?: $Enums.DealRoomStatus
+    openedAt?: Date | string
+    agreedAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: DealRoomMessageUncheckedCreateNestedManyWithoutDealRoomInput
+    proposals?: DealRoomProposalUncheckedCreateNestedManyWithoutDealRoomInput
+  }
+
+  export type DealRoomCreateOrConnectWithoutContractInput = {
+    where: DealRoomWhereUniqueInput
+    create: XOR<DealRoomCreateWithoutContractInput, DealRoomUncheckedCreateWithoutContractInput>
+  }
+
   export type BrandUpsertWithoutContractsInput = {
     update: XOR<BrandUpdateWithoutContractsInput, BrandUncheckedUpdateWithoutContractsInput>
     create: XOR<BrandCreateWithoutContractsInput, BrandUncheckedCreateWithoutContractsInput>
@@ -96344,6 +112766,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorUncheckedUpdateWithoutContractsInput = {
@@ -96375,6 +112798,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type ContractTemplateUpsertWithoutContractsInput = {
@@ -96647,6 +113071,41 @@ export namespace Prisma {
     data: XOR<NilDealUpdateManyMutationInput, NilDealUncheckedUpdateManyWithoutContractInput>
   }
 
+  export type DealRoomUpsertWithoutContractInput = {
+    update: XOR<DealRoomUpdateWithoutContractInput, DealRoomUncheckedUpdateWithoutContractInput>
+    create: XOR<DealRoomCreateWithoutContractInput, DealRoomUncheckedCreateWithoutContractInput>
+    where?: DealRoomWhereInput
+  }
+
+  export type DealRoomUpdateToOneWithWhereWithoutContractInput = {
+    where?: DealRoomWhereInput
+    data: XOR<DealRoomUpdateWithoutContractInput, DealRoomUncheckedUpdateWithoutContractInput>
+  }
+
+  export type DealRoomUpdateWithoutContractInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumDealRoomStatusFieldUpdateOperationsInput | $Enums.DealRoomStatus
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: DealRoomMessageUpdateManyWithoutDealRoomNestedInput
+    proposals?: DealRoomProposalUpdateManyWithoutDealRoomNestedInput
+  }
+
+  export type DealRoomUncheckedUpdateWithoutContractInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumDealRoomStatusFieldUpdateOperationsInput | $Enums.DealRoomStatus
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: DealRoomMessageUncheckedUpdateManyWithoutDealRoomNestedInput
+    proposals?: DealRoomProposalUncheckedUpdateManyWithoutDealRoomNestedInput
+  }
+
   export type ContractCreateWithoutTemplateInput = {
     id?: string
     title: string
@@ -96681,6 +113140,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionCreateNestedOneWithoutContractInput
     nilDeals?: NilDealCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomCreateNestedOneWithoutContractInput
   }
 
   export type ContractUncheckedCreateWithoutTemplateInput = {
@@ -96717,6 +113177,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionUncheckedCreateNestedOneWithoutContractInput
     nilDeals?: NilDealUncheckedCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomUncheckedCreateNestedOneWithoutContractInput
   }
 
   export type ContractCreateOrConnectWithoutTemplateInput = {
@@ -96779,6 +113240,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionCreateNestedOneWithoutContractInput
     nilDeals?: NilDealCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomCreateNestedOneWithoutContractInput
   }
 
   export type ContractUncheckedCreateWithoutVersionsInput = {
@@ -96815,6 +113277,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionUncheckedCreateNestedOneWithoutContractInput
     nilDeals?: NilDealUncheckedCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomUncheckedCreateNestedOneWithoutContractInput
   }
 
   export type ContractCreateOrConnectWithoutVersionsInput = {
@@ -96867,6 +113330,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateWithoutVersionsInput = {
@@ -96903,6 +113367,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUncheckedUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUncheckedUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUncheckedUpdateOneWithoutContractNestedInput
   }
 
   export type ContractCreateWithoutClausesInput = {
@@ -96939,6 +113404,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionCreateNestedOneWithoutContractInput
     nilDeals?: NilDealCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomCreateNestedOneWithoutContractInput
   }
 
   export type ContractUncheckedCreateWithoutClausesInput = {
@@ -96975,6 +113441,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionUncheckedCreateNestedOneWithoutContractInput
     nilDeals?: NilDealUncheckedCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomUncheckedCreateNestedOneWithoutContractInput
   }
 
   export type ContractCreateOrConnectWithoutClausesInput = {
@@ -97027,6 +113494,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateWithoutClausesInput = {
@@ -97063,6 +113531,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUncheckedUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUncheckedUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUncheckedUpdateOneWithoutContractNestedInput
   }
 
   export type ContractCreateWithoutDeliverablesInput = {
@@ -97099,6 +113568,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionCreateNestedOneWithoutContractInput
     nilDeals?: NilDealCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomCreateNestedOneWithoutContractInput
   }
 
   export type ContractUncheckedCreateWithoutDeliverablesInput = {
@@ -97135,6 +113605,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionUncheckedCreateNestedOneWithoutContractInput
     nilDeals?: NilDealUncheckedCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomUncheckedCreateNestedOneWithoutContractInput
   }
 
   export type ContractCreateOrConnectWithoutDeliverablesInput = {
@@ -97171,6 +113642,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorUncheckedCreateWithoutDeliverablesInput = {
@@ -97202,6 +113674,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorCreateOrConnectWithoutDeliverablesInput = {
@@ -97301,6 +113774,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateWithoutDeliverablesInput = {
@@ -97337,6 +113811,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUncheckedUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUncheckedUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUncheckedUpdateOneWithoutContractNestedInput
   }
 
   export type CreatorUpsertWithoutDeliverablesInput = {
@@ -97379,6 +113854,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorUncheckedUpdateWithoutDeliverablesInput = {
@@ -97410,6 +113886,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type PaymentUpsertWithoutDeliverableInput = {
@@ -97499,6 +113976,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionCreateNestedOneWithoutContractInput
     nilDeals?: NilDealCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomCreateNestedOneWithoutContractInput
   }
 
   export type ContractUncheckedCreateWithoutPaymentsInput = {
@@ -97535,6 +114013,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionUncheckedCreateNestedOneWithoutContractInput
     nilDeals?: NilDealUncheckedCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomUncheckedCreateNestedOneWithoutContractInput
   }
 
   export type ContractCreateOrConnectWithoutPaymentsInput = {
@@ -97681,6 +114160,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateWithoutPaymentsInput = {
@@ -97717,6 +114197,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUncheckedUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUncheckedUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUncheckedUpdateOneWithoutContractNestedInput
   }
 
   export type DeliverableUpsertWithoutPaymentInput = {
@@ -97859,6 +114340,7 @@ export namespace Prisma {
     clauses?: ContractClauseCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionCreateNestedOneWithoutContractInput
     nilDeals?: NilDealCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomCreateNestedOneWithoutContractInput
   }
 
   export type ContractUncheckedCreateWithoutMilestonesInput = {
@@ -97895,6 +114377,7 @@ export namespace Prisma {
     clauses?: ContractClauseUncheckedCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionUncheckedCreateNestedOneWithoutContractInput
     nilDeals?: NilDealUncheckedCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomUncheckedCreateNestedOneWithoutContractInput
   }
 
   export type ContractCreateOrConnectWithoutMilestonesInput = {
@@ -97999,6 +114482,7 @@ export namespace Prisma {
     clauses?: ContractClauseUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateWithoutMilestonesInput = {
@@ -98035,6 +114519,7 @@ export namespace Prisma {
     clauses?: ContractClauseUncheckedUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUncheckedUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUncheckedUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUncheckedUpdateOneWithoutContractNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutMilestoneInput = {
@@ -98594,6 +115079,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorUncheckedCreateWithoutGraphNodeInput = {
@@ -98625,6 +115111,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorCreateOrConnectWithoutGraphNodeInput = {
@@ -98728,6 +115215,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorUncheckedUpdateWithoutGraphNodeInput = {
@@ -98759,6 +115247,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorGraphEdgeUpsertWithWhereUniqueWithoutSourceInput = {
@@ -99011,6 +115500,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorUncheckedCreateWithoutPredictionsInput = {
@@ -99042,6 +115532,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorCreateOrConnectWithoutPredictionsInput = {
@@ -99089,6 +115580,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorUncheckedUpdateWithoutPredictionsInput = {
@@ -99120,6 +115612,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorCreateWithoutFeatureVectorsInput = {
@@ -99151,6 +115644,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorUncheckedCreateWithoutFeatureVectorsInput = {
@@ -99182,6 +115676,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorCreateOrConnectWithoutFeatureVectorsInput = {
@@ -99229,6 +115724,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorUncheckedUpdateWithoutFeatureVectorsInput = {
@@ -99260,6 +115756,7 @@ export namespace Prisma {
     embeddings?: EmbeddingRecordUncheckedUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorCreateWithoutEmbeddingsInput = {
@@ -99291,6 +115788,7 @@ export namespace Prisma {
     featureVectors?: FeatureVectorCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorUncheckedCreateWithoutEmbeddingsInput = {
@@ -99322,6 +115820,7 @@ export namespace Prisma {
     featureVectors?: FeatureVectorUncheckedCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorCreateOrConnectWithoutEmbeddingsInput = {
@@ -99369,6 +115868,7 @@ export namespace Prisma {
     featureVectors?: FeatureVectorUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorUncheckedUpdateWithoutEmbeddingsInput = {
@@ -99400,6 +115900,7 @@ export namespace Prisma {
     featureVectors?: FeatureVectorUncheckedUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type ModelDriftAlertCreateWithoutModelInput = {
@@ -99579,6 +116080,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutSentNotificationsInput = {
@@ -99612,6 +116116,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutSentNotificationsInput = {
@@ -99650,6 +116157,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
@@ -99683,6 +116193,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutReceivedNotificationsInput = {
@@ -99732,6 +116245,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSentNotificationsInput = {
@@ -99765,6 +116281,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUpsertWithoutReceivedNotificationsInput = {
@@ -99809,6 +116328,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
@@ -99842,6 +116364,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserCreateWithoutAuditLogsInput = {
@@ -99875,6 +116400,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -99908,6 +116436,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -99957,6 +116488,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -99990,6 +116524,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type WebhookDeliveryCreateWithoutEndpointInput = {
@@ -100188,6 +116725,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateWithoutUniversityInput = {
@@ -100232,6 +116771,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteCreateOrConnectWithoutUniversityInput = {
@@ -100350,6 +116891,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     nilDeals?: NilDealCreateNestedManyWithoutCollectiveInput
+    members?: CollectiveMemberCreateNestedManyWithoutCollectiveInput
+    donors?: CollectiveDonorCreateNestedManyWithoutCollectiveInput
+    donations?: CollectiveDonationCreateNestedManyWithoutCollectiveInput
+    distributions?: CollectiveDistributionCreateNestedManyWithoutCollectiveInput
   }
 
   export type NilCollectiveUncheckedCreateWithoutUniversityInput = {
@@ -100368,6 +116913,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     nilDeals?: NilDealUncheckedCreateNestedManyWithoutCollectiveInput
+    members?: CollectiveMemberUncheckedCreateNestedManyWithoutCollectiveInput
+    donors?: CollectiveDonorUncheckedCreateNestedManyWithoutCollectiveInput
+    donations?: CollectiveDonationUncheckedCreateNestedManyWithoutCollectiveInput
+    distributions?: CollectiveDistributionUncheckedCreateNestedManyWithoutCollectiveInput
   }
 
   export type NilCollectiveCreateOrConnectWithoutUniversityInput = {
@@ -100676,6 +117225,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateWithoutAthleticDepartmentInput = {
@@ -100720,6 +117271,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteCreateOrConnectWithoutAthleticDepartmentInput = {
@@ -100842,6 +117395,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutComplianceOfficerInput = {
@@ -100875,6 +117431,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutComplianceOfficerInput = {
@@ -100981,6 +117540,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutComplianceOfficerInput = {
@@ -101014,6 +117576,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UniversityUpsertWithoutComplianceOfficersInput = {
@@ -101110,6 +117675,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutAthleteInput = {
@@ -101143,6 +117711,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutAthleteInput = {
@@ -101682,6 +118253,86 @@ export namespace Prisma {
     create: XOR<NilMarketplaceListingCreateWithoutAthleteInput, NilMarketplaceListingUncheckedCreateWithoutAthleteInput>
   }
 
+  export type CollectiveMemberCreateWithoutAthleteInput = {
+    id?: string
+    sharePercent?: number
+    joinedAt?: Date | string
+    leftAt?: Date | string | null
+    status?: $Enums.CollectiveMemberStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    collective: NilCollectiveCreateNestedOneWithoutMembersInput
+    distributions?: CollectiveDistributionCreateNestedManyWithoutMemberInput
+  }
+
+  export type CollectiveMemberUncheckedCreateWithoutAthleteInput = {
+    id?: string
+    collectiveId: string
+    sharePercent?: number
+    joinedAt?: Date | string
+    leftAt?: Date | string | null
+    status?: $Enums.CollectiveMemberStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    distributions?: CollectiveDistributionUncheckedCreateNestedManyWithoutMemberInput
+  }
+
+  export type CollectiveMemberCreateOrConnectWithoutAthleteInput = {
+    where: CollectiveMemberWhereUniqueInput
+    create: XOR<CollectiveMemberCreateWithoutAthleteInput, CollectiveMemberUncheckedCreateWithoutAthleteInput>
+  }
+
+  export type CollectiveMemberCreateManyAthleteInputEnvelope = {
+    data: CollectiveMemberCreateManyAthleteInput | CollectiveMemberCreateManyAthleteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MatchResultCreateWithoutAthleteInput = {
+    id?: string
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents?: number | null
+    estimatedReach?: number | null
+    estimatedRoi?: number | null
+    reasoning: string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    request: MatchRequestCreateNestedOneWithoutResultsInput
+    creator?: CreatorCreateNestedOneWithoutMatchResultsInput
+  }
+
+  export type MatchResultUncheckedCreateWithoutAthleteInput = {
+    id?: string
+    requestId: string
+    creatorId?: string | null
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents?: number | null
+    estimatedReach?: number | null
+    estimatedRoi?: number | null
+    reasoning: string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type MatchResultCreateOrConnectWithoutAthleteInput = {
+    where: MatchResultWhereUniqueInput
+    create: XOR<MatchResultCreateWithoutAthleteInput, MatchResultUncheckedCreateWithoutAthleteInput>
+  }
+
+  export type MatchResultCreateManyAthleteInputEnvelope = {
+    data: MatchResultCreateManyAthleteInput | MatchResultCreateManyAthleteInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutAthleteInput = {
     update: XOR<UserUpdateWithoutAthleteInput, UserUncheckedUpdateWithoutAthleteInput>
     create: XOR<UserCreateWithoutAthleteInput, UserUncheckedCreateWithoutAthleteInput>
@@ -101724,6 +118375,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAthleteInput = {
@@ -101757,6 +118411,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UniversityUpsertWithoutAthletesInput = {
@@ -102126,6 +118783,54 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CollectiveMemberUpsertWithWhereUniqueWithoutAthleteInput = {
+    where: CollectiveMemberWhereUniqueInput
+    update: XOR<CollectiveMemberUpdateWithoutAthleteInput, CollectiveMemberUncheckedUpdateWithoutAthleteInput>
+    create: XOR<CollectiveMemberCreateWithoutAthleteInput, CollectiveMemberUncheckedCreateWithoutAthleteInput>
+  }
+
+  export type CollectiveMemberUpdateWithWhereUniqueWithoutAthleteInput = {
+    where: CollectiveMemberWhereUniqueInput
+    data: XOR<CollectiveMemberUpdateWithoutAthleteInput, CollectiveMemberUncheckedUpdateWithoutAthleteInput>
+  }
+
+  export type CollectiveMemberUpdateManyWithWhereWithoutAthleteInput = {
+    where: CollectiveMemberScalarWhereInput
+    data: XOR<CollectiveMemberUpdateManyMutationInput, CollectiveMemberUncheckedUpdateManyWithoutAthleteInput>
+  }
+
+  export type CollectiveMemberScalarWhereInput = {
+    AND?: CollectiveMemberScalarWhereInput | CollectiveMemberScalarWhereInput[]
+    OR?: CollectiveMemberScalarWhereInput[]
+    NOT?: CollectiveMemberScalarWhereInput | CollectiveMemberScalarWhereInput[]
+    id?: StringFilter<"CollectiveMember"> | string
+    collectiveId?: StringFilter<"CollectiveMember"> | string
+    athleteId?: StringFilter<"CollectiveMember"> | string
+    sharePercent?: FloatFilter<"CollectiveMember"> | number
+    joinedAt?: DateTimeFilter<"CollectiveMember"> | Date | string
+    leftAt?: DateTimeNullableFilter<"CollectiveMember"> | Date | string | null
+    status?: EnumCollectiveMemberStatusFilter<"CollectiveMember"> | $Enums.CollectiveMemberStatus
+    notes?: StringNullableFilter<"CollectiveMember"> | string | null
+    createdAt?: DateTimeFilter<"CollectiveMember"> | Date | string
+    updatedAt?: DateTimeFilter<"CollectiveMember"> | Date | string
+  }
+
+  export type MatchResultUpsertWithWhereUniqueWithoutAthleteInput = {
+    where: MatchResultWhereUniqueInput
+    update: XOR<MatchResultUpdateWithoutAthleteInput, MatchResultUncheckedUpdateWithoutAthleteInput>
+    create: XOR<MatchResultCreateWithoutAthleteInput, MatchResultUncheckedCreateWithoutAthleteInput>
+  }
+
+  export type MatchResultUpdateWithWhereUniqueWithoutAthleteInput = {
+    where: MatchResultWhereUniqueInput
+    data: XOR<MatchResultUpdateWithoutAthleteInput, MatchResultUncheckedUpdateWithoutAthleteInput>
+  }
+
+  export type MatchResultUpdateManyWithWhereWithoutAthleteInput = {
+    where: MatchResultScalarWhereInput
+    data: XOR<MatchResultUpdateManyMutationInput, MatchResultUncheckedUpdateManyWithoutAthleteInput>
+  }
+
   export type UserCreateWithoutGuardianInput = {
     id?: string
     email: string
@@ -102157,6 +118862,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutGuardianInput = {
@@ -102190,6 +118898,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutGuardianInput = {
@@ -102303,6 +119014,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGuardianInput = {
@@ -102336,6 +119050,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type GuardianRelationshipUpsertWithWhereUniqueWithoutGuardianInput = {
@@ -102458,6 +119175,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateWithoutGuardiansInput = {
@@ -102502,6 +119221,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteCreateOrConnectWithoutGuardiansInput = {
@@ -102597,6 +119318,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateWithoutGuardiansInput = {
@@ -102641,6 +119364,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type GuardianCreateWithoutApprovalsInput = {
@@ -102738,6 +119463,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutAgentProfileInput = {
@@ -102771,6 +119499,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutAgentProfileInput = {
@@ -102856,6 +119587,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAgentProfileInput = {
@@ -102889,6 +119623,9 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type AgentRepresentationUpsertWithWhereUniqueWithoutAgentInput = {
@@ -102984,6 +119721,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateWithoutAgentRelationshipsInput = {
@@ -103028,6 +119767,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteCreateOrConnectWithoutAgentRelationshipsInput = {
@@ -103129,6 +119870,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateWithoutAgentRelationshipsInput = {
@@ -103173,6 +119916,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type UniversityCreateWithoutNilCollectivesInput = {
@@ -103290,6 +120035,160 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CollectiveMemberCreateWithoutCollectiveInput = {
+    id?: string
+    sharePercent?: number
+    joinedAt?: Date | string
+    leftAt?: Date | string | null
+    status?: $Enums.CollectiveMemberStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    athlete: AthleteCreateNestedOneWithoutCollectiveMembershipsInput
+    distributions?: CollectiveDistributionCreateNestedManyWithoutMemberInput
+  }
+
+  export type CollectiveMemberUncheckedCreateWithoutCollectiveInput = {
+    id?: string
+    athleteId: string
+    sharePercent?: number
+    joinedAt?: Date | string
+    leftAt?: Date | string | null
+    status?: $Enums.CollectiveMemberStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    distributions?: CollectiveDistributionUncheckedCreateNestedManyWithoutMemberInput
+  }
+
+  export type CollectiveMemberCreateOrConnectWithoutCollectiveInput = {
+    where: CollectiveMemberWhereUniqueInput
+    create: XOR<CollectiveMemberCreateWithoutCollectiveInput, CollectiveMemberUncheckedCreateWithoutCollectiveInput>
+  }
+
+  export type CollectiveMemberCreateManyCollectiveInputEnvelope = {
+    data: CollectiveMemberCreateManyCollectiveInput | CollectiveMemberCreateManyCollectiveInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CollectiveDonorCreateWithoutCollectiveInput = {
+    id?: string
+    displayName: string
+    email: string
+    isAnonymous?: boolean
+    totalDonatedCents?: number
+    donationCount?: number
+    lastDonatedAt?: Date | string | null
+    dwollaCustomerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    donations?: CollectiveDonationCreateNestedManyWithoutDonorInput
+  }
+
+  export type CollectiveDonorUncheckedCreateWithoutCollectiveInput = {
+    id?: string
+    displayName: string
+    email: string
+    isAnonymous?: boolean
+    totalDonatedCents?: number
+    donationCount?: number
+    lastDonatedAt?: Date | string | null
+    dwollaCustomerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    donations?: CollectiveDonationUncheckedCreateNestedManyWithoutDonorInput
+  }
+
+  export type CollectiveDonorCreateOrConnectWithoutCollectiveInput = {
+    where: CollectiveDonorWhereUniqueInput
+    create: XOR<CollectiveDonorCreateWithoutCollectiveInput, CollectiveDonorUncheckedCreateWithoutCollectiveInput>
+  }
+
+  export type CollectiveDonorCreateManyCollectiveInputEnvelope = {
+    data: CollectiveDonorCreateManyCollectiveInput | CollectiveDonorCreateManyCollectiveInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CollectiveDonationCreateWithoutCollectiveInput = {
+    id?: string
+    amountCents: number
+    currency?: string
+    dwollaTransferId?: string | null
+    status?: string
+    note?: string | null
+    isRecurring?: boolean
+    donatedAt?: Date | string
+    createdAt?: Date | string
+    donor: CollectiveDonorCreateNestedOneWithoutDonationsInput
+  }
+
+  export type CollectiveDonationUncheckedCreateWithoutCollectiveInput = {
+    id?: string
+    donorId: string
+    amountCents: number
+    currency?: string
+    dwollaTransferId?: string | null
+    status?: string
+    note?: string | null
+    isRecurring?: boolean
+    donatedAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type CollectiveDonationCreateOrConnectWithoutCollectiveInput = {
+    where: CollectiveDonationWhereUniqueInput
+    create: XOR<CollectiveDonationCreateWithoutCollectiveInput, CollectiveDonationUncheckedCreateWithoutCollectiveInput>
+  }
+
+  export type CollectiveDonationCreateManyCollectiveInputEnvelope = {
+    data: CollectiveDonationCreateManyCollectiveInput | CollectiveDonationCreateManyCollectiveInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CollectiveDistributionCreateWithoutCollectiveInput = {
+    id?: string
+    athleteId: string
+    amountCents: number
+    currency?: string
+    reason: string
+    periodStart: Date | string
+    periodEnd: Date | string
+    dwollaTransferId?: string | null
+    paidAt?: Date | string | null
+    status?: string
+    taxYear: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    member: CollectiveMemberCreateNestedOneWithoutDistributionsInput
+  }
+
+  export type CollectiveDistributionUncheckedCreateWithoutCollectiveInput = {
+    id?: string
+    memberId: string
+    athleteId: string
+    amountCents: number
+    currency?: string
+    reason: string
+    periodStart: Date | string
+    periodEnd: Date | string
+    dwollaTransferId?: string | null
+    paidAt?: Date | string | null
+    status?: string
+    taxYear: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CollectiveDistributionCreateOrConnectWithoutCollectiveInput = {
+    where: CollectiveDistributionWhereUniqueInput
+    create: XOR<CollectiveDistributionCreateWithoutCollectiveInput, CollectiveDistributionUncheckedCreateWithoutCollectiveInput>
+  }
+
+  export type CollectiveDistributionCreateManyCollectiveInputEnvelope = {
+    data: CollectiveDistributionCreateManyCollectiveInput | CollectiveDistributionCreateManyCollectiveInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UniversityUpsertWithoutNilCollectivesInput = {
     update: XOR<UniversityUpdateWithoutNilCollectivesInput, UniversityUncheckedUpdateWithoutNilCollectivesInput>
     create: XOR<UniversityCreateWithoutNilCollectivesInput, UniversityUncheckedCreateWithoutNilCollectivesInput>
@@ -103369,6 +120268,125 @@ export namespace Prisma {
     data: XOR<NilDealUpdateManyMutationInput, NilDealUncheckedUpdateManyWithoutCollectiveInput>
   }
 
+  export type CollectiveMemberUpsertWithWhereUniqueWithoutCollectiveInput = {
+    where: CollectiveMemberWhereUniqueInput
+    update: XOR<CollectiveMemberUpdateWithoutCollectiveInput, CollectiveMemberUncheckedUpdateWithoutCollectiveInput>
+    create: XOR<CollectiveMemberCreateWithoutCollectiveInput, CollectiveMemberUncheckedCreateWithoutCollectiveInput>
+  }
+
+  export type CollectiveMemberUpdateWithWhereUniqueWithoutCollectiveInput = {
+    where: CollectiveMemberWhereUniqueInput
+    data: XOR<CollectiveMemberUpdateWithoutCollectiveInput, CollectiveMemberUncheckedUpdateWithoutCollectiveInput>
+  }
+
+  export type CollectiveMemberUpdateManyWithWhereWithoutCollectiveInput = {
+    where: CollectiveMemberScalarWhereInput
+    data: XOR<CollectiveMemberUpdateManyMutationInput, CollectiveMemberUncheckedUpdateManyWithoutCollectiveInput>
+  }
+
+  export type CollectiveDonorUpsertWithWhereUniqueWithoutCollectiveInput = {
+    where: CollectiveDonorWhereUniqueInput
+    update: XOR<CollectiveDonorUpdateWithoutCollectiveInput, CollectiveDonorUncheckedUpdateWithoutCollectiveInput>
+    create: XOR<CollectiveDonorCreateWithoutCollectiveInput, CollectiveDonorUncheckedCreateWithoutCollectiveInput>
+  }
+
+  export type CollectiveDonorUpdateWithWhereUniqueWithoutCollectiveInput = {
+    where: CollectiveDonorWhereUniqueInput
+    data: XOR<CollectiveDonorUpdateWithoutCollectiveInput, CollectiveDonorUncheckedUpdateWithoutCollectiveInput>
+  }
+
+  export type CollectiveDonorUpdateManyWithWhereWithoutCollectiveInput = {
+    where: CollectiveDonorScalarWhereInput
+    data: XOR<CollectiveDonorUpdateManyMutationInput, CollectiveDonorUncheckedUpdateManyWithoutCollectiveInput>
+  }
+
+  export type CollectiveDonorScalarWhereInput = {
+    AND?: CollectiveDonorScalarWhereInput | CollectiveDonorScalarWhereInput[]
+    OR?: CollectiveDonorScalarWhereInput[]
+    NOT?: CollectiveDonorScalarWhereInput | CollectiveDonorScalarWhereInput[]
+    id?: StringFilter<"CollectiveDonor"> | string
+    collectiveId?: StringFilter<"CollectiveDonor"> | string
+    displayName?: StringFilter<"CollectiveDonor"> | string
+    email?: StringFilter<"CollectiveDonor"> | string
+    isAnonymous?: BoolFilter<"CollectiveDonor"> | boolean
+    totalDonatedCents?: IntFilter<"CollectiveDonor"> | number
+    donationCount?: IntFilter<"CollectiveDonor"> | number
+    lastDonatedAt?: DateTimeNullableFilter<"CollectiveDonor"> | Date | string | null
+    dwollaCustomerId?: StringNullableFilter<"CollectiveDonor"> | string | null
+    createdAt?: DateTimeFilter<"CollectiveDonor"> | Date | string
+    updatedAt?: DateTimeFilter<"CollectiveDonor"> | Date | string
+  }
+
+  export type CollectiveDonationUpsertWithWhereUniqueWithoutCollectiveInput = {
+    where: CollectiveDonationWhereUniqueInput
+    update: XOR<CollectiveDonationUpdateWithoutCollectiveInput, CollectiveDonationUncheckedUpdateWithoutCollectiveInput>
+    create: XOR<CollectiveDonationCreateWithoutCollectiveInput, CollectiveDonationUncheckedCreateWithoutCollectiveInput>
+  }
+
+  export type CollectiveDonationUpdateWithWhereUniqueWithoutCollectiveInput = {
+    where: CollectiveDonationWhereUniqueInput
+    data: XOR<CollectiveDonationUpdateWithoutCollectiveInput, CollectiveDonationUncheckedUpdateWithoutCollectiveInput>
+  }
+
+  export type CollectiveDonationUpdateManyWithWhereWithoutCollectiveInput = {
+    where: CollectiveDonationScalarWhereInput
+    data: XOR<CollectiveDonationUpdateManyMutationInput, CollectiveDonationUncheckedUpdateManyWithoutCollectiveInput>
+  }
+
+  export type CollectiveDonationScalarWhereInput = {
+    AND?: CollectiveDonationScalarWhereInput | CollectiveDonationScalarWhereInput[]
+    OR?: CollectiveDonationScalarWhereInput[]
+    NOT?: CollectiveDonationScalarWhereInput | CollectiveDonationScalarWhereInput[]
+    id?: StringFilter<"CollectiveDonation"> | string
+    donorId?: StringFilter<"CollectiveDonation"> | string
+    collectiveId?: StringFilter<"CollectiveDonation"> | string
+    amountCents?: IntFilter<"CollectiveDonation"> | number
+    currency?: StringFilter<"CollectiveDonation"> | string
+    dwollaTransferId?: StringNullableFilter<"CollectiveDonation"> | string | null
+    status?: StringFilter<"CollectiveDonation"> | string
+    note?: StringNullableFilter<"CollectiveDonation"> | string | null
+    isRecurring?: BoolFilter<"CollectiveDonation"> | boolean
+    donatedAt?: DateTimeFilter<"CollectiveDonation"> | Date | string
+    createdAt?: DateTimeFilter<"CollectiveDonation"> | Date | string
+  }
+
+  export type CollectiveDistributionUpsertWithWhereUniqueWithoutCollectiveInput = {
+    where: CollectiveDistributionWhereUniqueInput
+    update: XOR<CollectiveDistributionUpdateWithoutCollectiveInput, CollectiveDistributionUncheckedUpdateWithoutCollectiveInput>
+    create: XOR<CollectiveDistributionCreateWithoutCollectiveInput, CollectiveDistributionUncheckedCreateWithoutCollectiveInput>
+  }
+
+  export type CollectiveDistributionUpdateWithWhereUniqueWithoutCollectiveInput = {
+    where: CollectiveDistributionWhereUniqueInput
+    data: XOR<CollectiveDistributionUpdateWithoutCollectiveInput, CollectiveDistributionUncheckedUpdateWithoutCollectiveInput>
+  }
+
+  export type CollectiveDistributionUpdateManyWithWhereWithoutCollectiveInput = {
+    where: CollectiveDistributionScalarWhereInput
+    data: XOR<CollectiveDistributionUpdateManyMutationInput, CollectiveDistributionUncheckedUpdateManyWithoutCollectiveInput>
+  }
+
+  export type CollectiveDistributionScalarWhereInput = {
+    AND?: CollectiveDistributionScalarWhereInput | CollectiveDistributionScalarWhereInput[]
+    OR?: CollectiveDistributionScalarWhereInput[]
+    NOT?: CollectiveDistributionScalarWhereInput | CollectiveDistributionScalarWhereInput[]
+    id?: StringFilter<"CollectiveDistribution"> | string
+    collectiveId?: StringFilter<"CollectiveDistribution"> | string
+    memberId?: StringFilter<"CollectiveDistribution"> | string
+    athleteId?: StringFilter<"CollectiveDistribution"> | string
+    amountCents?: IntFilter<"CollectiveDistribution"> | number
+    currency?: StringFilter<"CollectiveDistribution"> | string
+    reason?: StringFilter<"CollectiveDistribution"> | string
+    periodStart?: DateTimeFilter<"CollectiveDistribution"> | Date | string
+    periodEnd?: DateTimeFilter<"CollectiveDistribution"> | Date | string
+    dwollaTransferId?: StringNullableFilter<"CollectiveDistribution"> | string | null
+    paidAt?: DateTimeNullableFilter<"CollectiveDistribution"> | Date | string | null
+    status?: StringFilter<"CollectiveDistribution"> | string
+    taxYear?: IntFilter<"CollectiveDistribution"> | number
+    createdAt?: DateTimeFilter<"CollectiveDistribution"> | Date | string
+    updatedAt?: DateTimeFilter<"CollectiveDistribution"> | Date | string
+  }
+
   export type AthleteCreateWithoutNilDealsInput = {
     id?: string
     sport: string
@@ -103411,6 +120429,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateWithoutNilDealsInput = {
@@ -103455,6 +120475,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteCreateOrConnectWithoutNilDealsInput = {
@@ -103478,6 +120500,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     university?: UniversityCreateNestedOneWithoutNilCollectivesInput
+    members?: CollectiveMemberCreateNestedManyWithoutCollectiveInput
+    donors?: CollectiveDonorCreateNestedManyWithoutCollectiveInput
+    donations?: CollectiveDonationCreateNestedManyWithoutCollectiveInput
+    distributions?: CollectiveDistributionCreateNestedManyWithoutCollectiveInput
   }
 
   export type NilCollectiveUncheckedCreateWithoutNilDealsInput = {
@@ -103496,6 +120522,10 @@ export namespace Prisma {
     totalPaidOutCents?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    members?: CollectiveMemberUncheckedCreateNestedManyWithoutCollectiveInput
+    donors?: CollectiveDonorUncheckedCreateNestedManyWithoutCollectiveInput
+    donations?: CollectiveDonationUncheckedCreateNestedManyWithoutCollectiveInput
+    distributions?: CollectiveDistributionUncheckedCreateNestedManyWithoutCollectiveInput
   }
 
   export type NilCollectiveCreateOrConnectWithoutNilDealsInput = {
@@ -103688,6 +120718,7 @@ export namespace Prisma {
     clauses?: ContractClauseCreateNestedManyWithoutContractInput
     milestones?: PaymentMilestoneCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionCreateNestedOneWithoutContractInput
+    dealRoom?: DealRoomCreateNestedOneWithoutContractInput
   }
 
   export type ContractUncheckedCreateWithoutNilDealsInput = {
@@ -103724,6 +120755,7 @@ export namespace Prisma {
     clauses?: ContractClauseUncheckedCreateNestedManyWithoutContractInput
     milestones?: PaymentMilestoneUncheckedCreateNestedManyWithoutContractInput
     nilExtension?: ContractNilExtensionUncheckedCreateNestedOneWithoutContractInput
+    dealRoom?: DealRoomUncheckedCreateNestedOneWithoutContractInput
   }
 
   export type ContractCreateOrConnectWithoutNilDealsInput = {
@@ -103784,6 +120816,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateWithoutNilDealsInput = {
@@ -103828,6 +120862,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type NilCollectiveUpsertWithoutNilDealsInput = {
@@ -103857,6 +120893,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     university?: UniversityUpdateOneWithoutNilCollectivesNestedInput
+    members?: CollectiveMemberUpdateManyWithoutCollectiveNestedInput
+    donors?: CollectiveDonorUpdateManyWithoutCollectiveNestedInput
+    donations?: CollectiveDonationUpdateManyWithoutCollectiveNestedInput
+    distributions?: CollectiveDistributionUpdateManyWithoutCollectiveNestedInput
   }
 
   export type NilCollectiveUncheckedUpdateWithoutNilDealsInput = {
@@ -103875,6 +120915,10 @@ export namespace Prisma {
     totalPaidOutCents?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: CollectiveMemberUncheckedUpdateManyWithoutCollectiveNestedInput
+    donors?: CollectiveDonorUncheckedUpdateManyWithoutCollectiveNestedInput
+    donations?: CollectiveDonationUncheckedUpdateManyWithoutCollectiveNestedInput
+    distributions?: CollectiveDistributionUncheckedUpdateManyWithoutCollectiveNestedInput
   }
 
   export type BrandUpsertWithoutNilDealsInput = {
@@ -104091,6 +121135,7 @@ export namespace Prisma {
     clauses?: ContractClauseUpdateManyWithoutContractNestedInput
     milestones?: PaymentMilestoneUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUpdateOneWithoutContractNestedInput
+    dealRoom?: DealRoomUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateWithoutNilDealsInput = {
@@ -104127,6 +121172,7 @@ export namespace Prisma {
     clauses?: ContractClauseUncheckedUpdateManyWithoutContractNestedInput
     milestones?: PaymentMilestoneUncheckedUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUncheckedUpdateOneWithoutContractNestedInput
+    dealRoom?: DealRoomUncheckedUpdateOneWithoutContractNestedInput
   }
 
   export type AthleteCreateWithoutNilDisclosuresInput = {
@@ -104171,6 +121217,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateWithoutNilDisclosuresInput = {
@@ -104215,6 +121263,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteCreateOrConnectWithoutNilDisclosuresInput = {
@@ -104391,6 +121441,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateWithoutNilDisclosuresInput = {
@@ -104435,6 +121487,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type NilDealUpsertWithWhereUniqueWithoutDisclosureInput = {
@@ -104539,6 +121593,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateWithoutAppearancesInput = {
@@ -104583,6 +121639,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteCreateOrConnectWithoutAppearancesInput = {
@@ -104686,6 +121744,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateWithoutAppearancesInput = {
@@ -104730,6 +121790,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type BrandUpsertWithoutAppearancesInput = {
@@ -104823,6 +121885,8 @@ export namespace Prisma {
     fmvAssessments?: FmvAssessmentCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateWithoutTaxDocumentsInput = {
@@ -104867,6 +121931,8 @@ export namespace Prisma {
     fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteCreateOrConnectWithoutTaxDocumentsInput = {
@@ -104903,6 +121969,7 @@ export namespace Prisma {
     featureVectors?: FeatureVectorCreateNestedManyWithoutCreatorInput
     embeddings?: EmbeddingRecordCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorUncheckedCreateWithoutTaxDocumentsInput = {
@@ -104934,6 +122001,7 @@ export namespace Prisma {
     featureVectors?: FeatureVectorUncheckedCreateNestedManyWithoutCreatorInput
     embeddings?: EmbeddingRecordUncheckedCreateNestedManyWithoutCreatorInput
     fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorCreateOrConnectWithoutTaxDocumentsInput = {
@@ -104994,6 +122062,8 @@ export namespace Prisma {
     fmvAssessments?: FmvAssessmentUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateWithoutTaxDocumentsInput = {
@@ -105038,6 +122108,8 @@ export namespace Prisma {
     fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type CreatorUpsertWithoutTaxDocumentsInput = {
@@ -105080,6 +122152,7 @@ export namespace Prisma {
     featureVectors?: FeatureVectorUpdateManyWithoutCreatorNestedInput
     embeddings?: EmbeddingRecordUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorUncheckedUpdateWithoutTaxDocumentsInput = {
@@ -105111,6 +122184,7 @@ export namespace Prisma {
     featureVectors?: FeatureVectorUncheckedUpdateManyWithoutCreatorNestedInput
     embeddings?: EmbeddingRecordUncheckedUpdateManyWithoutCreatorNestedInput
     fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type AthleteCreateWithoutFmvAssessmentsInput = {
@@ -105155,6 +122229,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateWithoutFmvAssessmentsInput = {
@@ -105199,6 +122275,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteCreateOrConnectWithoutFmvAssessmentsInput = {
@@ -105235,6 +122313,7 @@ export namespace Prisma {
     featureVectors?: FeatureVectorCreateNestedManyWithoutCreatorInput
     embeddings?: EmbeddingRecordCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorUncheckedCreateWithoutFmvAssessmentsInput = {
@@ -105266,6 +122345,7 @@ export namespace Prisma {
     featureVectors?: FeatureVectorUncheckedCreateNestedManyWithoutCreatorInput
     embeddings?: EmbeddingRecordUncheckedCreateNestedManyWithoutCreatorInput
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutCreatorInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type CreatorCreateOrConnectWithoutFmvAssessmentsInput = {
@@ -105384,6 +122464,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateWithoutFmvAssessmentsInput = {
@@ -105428,6 +122510,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type CreatorUpsertWithoutFmvAssessmentsInput = {
@@ -105470,6 +122554,7 @@ export namespace Prisma {
     featureVectors?: FeatureVectorUpdateManyWithoutCreatorNestedInput
     embeddings?: EmbeddingRecordUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUpdateManyWithoutCreatorNestedInput
   }
 
   export type CreatorUncheckedUpdateWithoutFmvAssessmentsInput = {
@@ -105501,6 +122586,7 @@ export namespace Prisma {
     featureVectors?: FeatureVectorUncheckedUpdateManyWithoutCreatorNestedInput
     embeddings?: EmbeddingRecordUncheckedUpdateManyWithoutCreatorNestedInput
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type NilDealUpsertWithWhereUniqueWithoutFmvAssessmentInput = {
@@ -105681,6 +122767,8 @@ export namespace Prisma {
     fmvAssessments?: FmvAssessmentCreateNestedManyWithoutAthleteInput
     taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateWithoutGraphNodeInput = {
@@ -105725,6 +122813,8 @@ export namespace Prisma {
     fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutAthleteInput
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
     marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteCreateOrConnectWithoutGraphNodeInput = {
@@ -105785,6 +122875,8 @@ export namespace Prisma {
     fmvAssessments?: FmvAssessmentUpdateManyWithoutAthleteNestedInput
     taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateWithoutGraphNodeInput = {
@@ -105829,6 +122921,8 @@ export namespace Prisma {
     fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutAthleteNestedInput
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type ContractCreateWithoutNilExtensionInput = {
@@ -105865,6 +122959,7 @@ export namespace Prisma {
     clauses?: ContractClauseCreateNestedManyWithoutContractInput
     milestones?: PaymentMilestoneCreateNestedManyWithoutContractInput
     nilDeals?: NilDealCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomCreateNestedOneWithoutContractInput
   }
 
   export type ContractUncheckedCreateWithoutNilExtensionInput = {
@@ -105901,6 +122996,7 @@ export namespace Prisma {
     clauses?: ContractClauseUncheckedCreateNestedManyWithoutContractInput
     milestones?: PaymentMilestoneUncheckedCreateNestedManyWithoutContractInput
     nilDeals?: NilDealUncheckedCreateNestedManyWithoutContractInput
+    dealRoom?: DealRoomUncheckedCreateNestedOneWithoutContractInput
   }
 
   export type ContractCreateOrConnectWithoutNilExtensionInput = {
@@ -106012,6 +123108,7 @@ export namespace Prisma {
     clauses?: ContractClauseUpdateManyWithoutContractNestedInput
     milestones?: PaymentMilestoneUpdateManyWithoutContractNestedInput
     nilDeals?: NilDealUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateWithoutNilExtensionInput = {
@@ -106048,6 +123145,7 @@ export namespace Prisma {
     clauses?: ContractClauseUncheckedUpdateManyWithoutContractNestedInput
     milestones?: PaymentMilestoneUncheckedUpdateManyWithoutContractNestedInput
     nilDeals?: NilDealUncheckedUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUncheckedUpdateOneWithoutContractNestedInput
   }
 
   export type NilDisclosureUpsertWithoutContractExtensionsInput = {
@@ -106146,6 +123244,9 @@ export namespace Prisma {
     receivedNotifications?: NotificationCreateNestedManyWithoutRecipientInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutApiKeysInput = {
@@ -106179,6 +123280,9 @@ export namespace Prisma {
     receivedNotifications?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutApiKeysInput = {
@@ -106228,6 +123332,9 @@ export namespace Prisma {
     receivedNotifications?: NotificationUpdateManyWithoutRecipientNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutApiKeysInput = {
@@ -106261,6 +123368,9 @@ export namespace Prisma {
     receivedNotifications?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type AthleteCreateWithoutMarketplaceListingInput = {
@@ -106305,6 +123415,8 @@ export namespace Prisma {
     fmvAssessments?: FmvAssessmentCreateNestedManyWithoutAthleteInput
     taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteUncheckedCreateWithoutMarketplaceListingInput = {
@@ -106349,6 +123461,8 @@ export namespace Prisma {
     fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutAthleteInput
     taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
     graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
   }
 
   export type AthleteCreateOrConnectWithoutMarketplaceListingInput = {
@@ -106409,6 +123523,8 @@ export namespace Prisma {
     fmvAssessments?: FmvAssessmentUpdateManyWithoutAthleteNestedInput
     taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateWithoutMarketplaceListingInput = {
@@ -106453,6 +123569,8 @@ export namespace Prisma {
     fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutAthleteNestedInput
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type UserCreateWithoutImportJobsInput = {
@@ -106486,6 +123604,9 @@ export namespace Prisma {
     receivedNotifications?: NotificationCreateNestedManyWithoutRecipientInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutImportJobsInput = {
@@ -106519,6 +123640,9 @@ export namespace Prisma {
     receivedNotifications?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutImportJobsInput = {
@@ -106568,6 +123692,9 @@ export namespace Prisma {
     receivedNotifications?: NotificationUpdateManyWithoutRecipientNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutImportJobsInput = {
@@ -106601,6 +123728,2245 @@ export namespace Prisma {
     receivedNotifications?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  }
+
+  export type ContractCreateWithoutDealRoomInput = {
+    id?: string
+    title: string
+    status?: $Enums.ContractStatus
+    content: string
+    usageRights?: string | null
+    exclusivity?: boolean
+    exclusivityDays?: number | null
+    platforms?: ContractCreateplatformsInput | string[]
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    totalValue: number
+    currency?: string
+    riskScore?: number
+    riskFlags?: NullableJsonNullValueInput | InputJsonValue
+    versionNumber?: number
+    brandSignedAt?: Date | string | null
+    brandSignerIp?: string | null
+    creatorSignedAt?: Date | string | null
+    creatorSignerIp?: string | null
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    disputedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    brand: BrandCreateNestedOneWithoutContractsInput
+    creator: CreatorCreateNestedOneWithoutContractsInput
+    template?: ContractTemplateCreateNestedOneWithoutContractsInput
+    deliverables?: DeliverableCreateNestedManyWithoutContractInput
+    payments?: PaymentCreateNestedManyWithoutContractInput
+    versions?: ContractVersionCreateNestedManyWithoutContractInput
+    clauses?: ContractClauseCreateNestedManyWithoutContractInput
+    milestones?: PaymentMilestoneCreateNestedManyWithoutContractInput
+    nilExtension?: ContractNilExtensionCreateNestedOneWithoutContractInput
+    nilDeals?: NilDealCreateNestedManyWithoutContractInput
+  }
+
+  export type ContractUncheckedCreateWithoutDealRoomInput = {
+    id?: string
+    brandId: string
+    creatorId: string
+    title: string
+    status?: $Enums.ContractStatus
+    content: string
+    templateId?: string | null
+    usageRights?: string | null
+    exclusivity?: boolean
+    exclusivityDays?: number | null
+    platforms?: ContractCreateplatformsInput | string[]
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    totalValue: number
+    currency?: string
+    riskScore?: number
+    riskFlags?: NullableJsonNullValueInput | InputJsonValue
+    versionNumber?: number
+    brandSignedAt?: Date | string | null
+    brandSignerIp?: string | null
+    creatorSignedAt?: Date | string | null
+    creatorSignerIp?: string | null
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    disputedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deliverables?: DeliverableUncheckedCreateNestedManyWithoutContractInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutContractInput
+    versions?: ContractVersionUncheckedCreateNestedManyWithoutContractInput
+    clauses?: ContractClauseUncheckedCreateNestedManyWithoutContractInput
+    milestones?: PaymentMilestoneUncheckedCreateNestedManyWithoutContractInput
+    nilExtension?: ContractNilExtensionUncheckedCreateNestedOneWithoutContractInput
+    nilDeals?: NilDealUncheckedCreateNestedManyWithoutContractInput
+  }
+
+  export type ContractCreateOrConnectWithoutDealRoomInput = {
+    where: ContractWhereUniqueInput
+    create: XOR<ContractCreateWithoutDealRoomInput, ContractUncheckedCreateWithoutDealRoomInput>
+  }
+
+  export type DealRoomMessageCreateWithoutDealRoomInput = {
+    id?: string
+    content: string
+    clauseRef?: string | null
+    type?: $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    author: UserCreateNestedOneWithoutDealRoomMessagesInput
+  }
+
+  export type DealRoomMessageUncheckedCreateWithoutDealRoomInput = {
+    id?: string
+    authorId: string
+    content: string
+    clauseRef?: string | null
+    type?: $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type DealRoomMessageCreateOrConnectWithoutDealRoomInput = {
+    where: DealRoomMessageWhereUniqueInput
+    create: XOR<DealRoomMessageCreateWithoutDealRoomInput, DealRoomMessageUncheckedCreateWithoutDealRoomInput>
+  }
+
+  export type DealRoomMessageCreateManyDealRoomInputEnvelope = {
+    data: DealRoomMessageCreateManyDealRoomInput | DealRoomMessageCreateManyDealRoomInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DealRoomProposalCreateWithoutDealRoomInput = {
+    id?: string
+    title: string
+    changes: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: number | null
+    aiSummary?: string | null
+    status?: $Enums.ProposalStatus
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    proposedBy: UserCreateNestedOneWithoutDealRoomProposalsInput
+  }
+
+  export type DealRoomProposalUncheckedCreateWithoutDealRoomInput = {
+    id?: string
+    proposedById: string
+    title: string
+    changes: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: number | null
+    aiSummary?: string | null
+    status?: $Enums.ProposalStatus
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealRoomProposalCreateOrConnectWithoutDealRoomInput = {
+    where: DealRoomProposalWhereUniqueInput
+    create: XOR<DealRoomProposalCreateWithoutDealRoomInput, DealRoomProposalUncheckedCreateWithoutDealRoomInput>
+  }
+
+  export type DealRoomProposalCreateManyDealRoomInputEnvelope = {
+    data: DealRoomProposalCreateManyDealRoomInput | DealRoomProposalCreateManyDealRoomInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ContractUpsertWithoutDealRoomInput = {
+    update: XOR<ContractUpdateWithoutDealRoomInput, ContractUncheckedUpdateWithoutDealRoomInput>
+    create: XOR<ContractCreateWithoutDealRoomInput, ContractUncheckedCreateWithoutDealRoomInput>
+    where?: ContractWhereInput
+  }
+
+  export type ContractUpdateToOneWithWhereWithoutDealRoomInput = {
+    where?: ContractWhereInput
+    data: XOR<ContractUpdateWithoutDealRoomInput, ContractUncheckedUpdateWithoutDealRoomInput>
+  }
+
+  export type ContractUpdateWithoutDealRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumContractStatusFieldUpdateOperationsInput | $Enums.ContractStatus
+    content?: StringFieldUpdateOperationsInput | string
+    usageRights?: NullableStringFieldUpdateOperationsInput | string | null
+    exclusivity?: BoolFieldUpdateOperationsInput | boolean
+    exclusivityDays?: NullableIntFieldUpdateOperationsInput | number | null
+    platforms?: ContractUpdateplatformsInput | string[]
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalValue?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    riskScore?: IntFieldUpdateOperationsInput | number
+    riskFlags?: NullableJsonNullValueInput | InputJsonValue
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    brandSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    brandSignerIp?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    creatorSignerIp?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brand?: BrandUpdateOneRequiredWithoutContractsNestedInput
+    creator?: CreatorUpdateOneRequiredWithoutContractsNestedInput
+    template?: ContractTemplateUpdateOneWithoutContractsNestedInput
+    deliverables?: DeliverableUpdateManyWithoutContractNestedInput
+    payments?: PaymentUpdateManyWithoutContractNestedInput
+    versions?: ContractVersionUpdateManyWithoutContractNestedInput
+    clauses?: ContractClauseUpdateManyWithoutContractNestedInput
+    milestones?: PaymentMilestoneUpdateManyWithoutContractNestedInput
+    nilExtension?: ContractNilExtensionUpdateOneWithoutContractNestedInput
+    nilDeals?: NilDealUpdateManyWithoutContractNestedInput
+  }
+
+  export type ContractUncheckedUpdateWithoutDealRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    brandId?: StringFieldUpdateOperationsInput | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumContractStatusFieldUpdateOperationsInput | $Enums.ContractStatus
+    content?: StringFieldUpdateOperationsInput | string
+    templateId?: NullableStringFieldUpdateOperationsInput | string | null
+    usageRights?: NullableStringFieldUpdateOperationsInput | string | null
+    exclusivity?: BoolFieldUpdateOperationsInput | boolean
+    exclusivityDays?: NullableIntFieldUpdateOperationsInput | number | null
+    platforms?: ContractUpdateplatformsInput | string[]
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalValue?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    riskScore?: IntFieldUpdateOperationsInput | number
+    riskFlags?: NullableJsonNullValueInput | InputJsonValue
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    brandSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    brandSignerIp?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    creatorSignerIp?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliverables?: DeliverableUncheckedUpdateManyWithoutContractNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutContractNestedInput
+    versions?: ContractVersionUncheckedUpdateManyWithoutContractNestedInput
+    clauses?: ContractClauseUncheckedUpdateManyWithoutContractNestedInput
+    milestones?: PaymentMilestoneUncheckedUpdateManyWithoutContractNestedInput
+    nilExtension?: ContractNilExtensionUncheckedUpdateOneWithoutContractNestedInput
+    nilDeals?: NilDealUncheckedUpdateManyWithoutContractNestedInput
+  }
+
+  export type DealRoomMessageUpsertWithWhereUniqueWithoutDealRoomInput = {
+    where: DealRoomMessageWhereUniqueInput
+    update: XOR<DealRoomMessageUpdateWithoutDealRoomInput, DealRoomMessageUncheckedUpdateWithoutDealRoomInput>
+    create: XOR<DealRoomMessageCreateWithoutDealRoomInput, DealRoomMessageUncheckedCreateWithoutDealRoomInput>
+  }
+
+  export type DealRoomMessageUpdateWithWhereUniqueWithoutDealRoomInput = {
+    where: DealRoomMessageWhereUniqueInput
+    data: XOR<DealRoomMessageUpdateWithoutDealRoomInput, DealRoomMessageUncheckedUpdateWithoutDealRoomInput>
+  }
+
+  export type DealRoomMessageUpdateManyWithWhereWithoutDealRoomInput = {
+    where: DealRoomMessageScalarWhereInput
+    data: XOR<DealRoomMessageUpdateManyMutationInput, DealRoomMessageUncheckedUpdateManyWithoutDealRoomInput>
+  }
+
+  export type DealRoomProposalUpsertWithWhereUniqueWithoutDealRoomInput = {
+    where: DealRoomProposalWhereUniqueInput
+    update: XOR<DealRoomProposalUpdateWithoutDealRoomInput, DealRoomProposalUncheckedUpdateWithoutDealRoomInput>
+    create: XOR<DealRoomProposalCreateWithoutDealRoomInput, DealRoomProposalUncheckedCreateWithoutDealRoomInput>
+  }
+
+  export type DealRoomProposalUpdateWithWhereUniqueWithoutDealRoomInput = {
+    where: DealRoomProposalWhereUniqueInput
+    data: XOR<DealRoomProposalUpdateWithoutDealRoomInput, DealRoomProposalUncheckedUpdateWithoutDealRoomInput>
+  }
+
+  export type DealRoomProposalUpdateManyWithWhereWithoutDealRoomInput = {
+    where: DealRoomProposalScalarWhereInput
+    data: XOR<DealRoomProposalUpdateManyMutationInput, DealRoomProposalUncheckedUpdateManyWithoutDealRoomInput>
+  }
+
+  export type DealRoomCreateWithoutMessagesInput = {
+    id?: string
+    status?: $Enums.DealRoomStatus
+    openedAt?: Date | string
+    agreedAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contract: ContractCreateNestedOneWithoutDealRoomInput
+    proposals?: DealRoomProposalCreateNestedManyWithoutDealRoomInput
+  }
+
+  export type DealRoomUncheckedCreateWithoutMessagesInput = {
+    id?: string
+    contractId: string
+    status?: $Enums.DealRoomStatus
+    openedAt?: Date | string
+    agreedAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    proposals?: DealRoomProposalUncheckedCreateNestedManyWithoutDealRoomInput
+  }
+
+  export type DealRoomCreateOrConnectWithoutMessagesInput = {
+    where: DealRoomWhereUniqueInput
+    create: XOR<DealRoomCreateWithoutMessagesInput, DealRoomUncheckedCreateWithoutMessagesInput>
+  }
+
+  export type UserCreateWithoutDealRoomMessagesInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    firstName: string
+    lastName: string
+    avatarUrl?: string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpiry?: Date | string | null
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    dwollaCustomerId?: string | null
+    lastLoginAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    brand?: BrandCreateNestedOneWithoutUserInput
+    creator?: CreatorCreateNestedOneWithoutUserInput
+    agency?: AgencyCreateNestedOneWithoutUserInput
+    athlete?: AthleteCreateNestedOneWithoutUserInput
+    guardian?: GuardianCreateNestedOneWithoutUserInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    complianceOfficer?: ComplianceOfficerCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    receivedNotifications?: NotificationCreateNestedManyWithoutRecipientInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
+  }
+
+  export type UserUncheckedCreateWithoutDealRoomMessagesInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    firstName: string
+    lastName: string
+    avatarUrl?: string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpiry?: Date | string | null
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    dwollaCustomerId?: string | null
+    lastLoginAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    brand?: BrandUncheckedCreateNestedOneWithoutUserInput
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
+    agency?: AgencyUncheckedCreateNestedOneWithoutUserInput
+    athlete?: AthleteUncheckedCreateNestedOneWithoutUserInput
+    guardian?: GuardianUncheckedCreateNestedOneWithoutUserInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    complianceOfficer?: ComplianceOfficerUncheckedCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    receivedNotifications?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  }
+
+  export type UserCreateOrConnectWithoutDealRoomMessagesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDealRoomMessagesInput, UserUncheckedCreateWithoutDealRoomMessagesInput>
+  }
+
+  export type DealRoomUpsertWithoutMessagesInput = {
+    update: XOR<DealRoomUpdateWithoutMessagesInput, DealRoomUncheckedUpdateWithoutMessagesInput>
+    create: XOR<DealRoomCreateWithoutMessagesInput, DealRoomUncheckedCreateWithoutMessagesInput>
+    where?: DealRoomWhereInput
+  }
+
+  export type DealRoomUpdateToOneWithWhereWithoutMessagesInput = {
+    where?: DealRoomWhereInput
+    data: XOR<DealRoomUpdateWithoutMessagesInput, DealRoomUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type DealRoomUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumDealRoomStatusFieldUpdateOperationsInput | $Enums.DealRoomStatus
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contract?: ContractUpdateOneRequiredWithoutDealRoomNestedInput
+    proposals?: DealRoomProposalUpdateManyWithoutDealRoomNestedInput
+  }
+
+  export type DealRoomUncheckedUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contractId?: StringFieldUpdateOperationsInput | string
+    status?: EnumDealRoomStatusFieldUpdateOperationsInput | $Enums.DealRoomStatus
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    proposals?: DealRoomProposalUncheckedUpdateManyWithoutDealRoomNestedInput
+  }
+
+  export type UserUpsertWithoutDealRoomMessagesInput = {
+    update: XOR<UserUpdateWithoutDealRoomMessagesInput, UserUncheckedUpdateWithoutDealRoomMessagesInput>
+    create: XOR<UserCreateWithoutDealRoomMessagesInput, UserUncheckedCreateWithoutDealRoomMessagesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDealRoomMessagesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDealRoomMessagesInput, UserUncheckedUpdateWithoutDealRoomMessagesInput>
+  }
+
+  export type UserUpdateWithoutDealRoomMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brand?: BrandUpdateOneWithoutUserNestedInput
+    creator?: CreatorUpdateOneWithoutUserNestedInput
+    agency?: AgencyUpdateOneWithoutUserNestedInput
+    athlete?: AthleteUpdateOneWithoutUserNestedInput
+    guardian?: GuardianUpdateOneWithoutUserNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    complianceOfficer?: ComplianceOfficerUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    receivedNotifications?: NotificationUpdateManyWithoutRecipientNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDealRoomMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brand?: BrandUncheckedUpdateOneWithoutUserNestedInput
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
+    agency?: AgencyUncheckedUpdateOneWithoutUserNestedInput
+    athlete?: AthleteUncheckedUpdateOneWithoutUserNestedInput
+    guardian?: GuardianUncheckedUpdateOneWithoutUserNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    complianceOfficer?: ComplianceOfficerUncheckedUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedNotifications?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  }
+
+  export type DealRoomCreateWithoutProposalsInput = {
+    id?: string
+    status?: $Enums.DealRoomStatus
+    openedAt?: Date | string
+    agreedAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contract: ContractCreateNestedOneWithoutDealRoomInput
+    messages?: DealRoomMessageCreateNestedManyWithoutDealRoomInput
+  }
+
+  export type DealRoomUncheckedCreateWithoutProposalsInput = {
+    id?: string
+    contractId: string
+    status?: $Enums.DealRoomStatus
+    openedAt?: Date | string
+    agreedAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: DealRoomMessageUncheckedCreateNestedManyWithoutDealRoomInput
+  }
+
+  export type DealRoomCreateOrConnectWithoutProposalsInput = {
+    where: DealRoomWhereUniqueInput
+    create: XOR<DealRoomCreateWithoutProposalsInput, DealRoomUncheckedCreateWithoutProposalsInput>
+  }
+
+  export type UserCreateWithoutDealRoomProposalsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    firstName: string
+    lastName: string
+    avatarUrl?: string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpiry?: Date | string | null
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    dwollaCustomerId?: string | null
+    lastLoginAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    brand?: BrandCreateNestedOneWithoutUserInput
+    creator?: CreatorCreateNestedOneWithoutUserInput
+    agency?: AgencyCreateNestedOneWithoutUserInput
+    athlete?: AthleteCreateNestedOneWithoutUserInput
+    guardian?: GuardianCreateNestedOneWithoutUserInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    complianceOfficer?: ComplianceOfficerCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    receivedNotifications?: NotificationCreateNestedManyWithoutRecipientInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutRequestedByInput
+  }
+
+  export type UserUncheckedCreateWithoutDealRoomProposalsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    firstName: string
+    lastName: string
+    avatarUrl?: string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpiry?: Date | string | null
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    dwollaCustomerId?: string | null
+    lastLoginAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    brand?: BrandUncheckedCreateNestedOneWithoutUserInput
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
+    agency?: AgencyUncheckedCreateNestedOneWithoutUserInput
+    athlete?: AthleteUncheckedCreateNestedOneWithoutUserInput
+    guardian?: GuardianUncheckedCreateNestedOneWithoutUserInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    complianceOfficer?: ComplianceOfficerUncheckedCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    receivedNotifications?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  }
+
+  export type UserCreateOrConnectWithoutDealRoomProposalsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDealRoomProposalsInput, UserUncheckedCreateWithoutDealRoomProposalsInput>
+  }
+
+  export type DealRoomUpsertWithoutProposalsInput = {
+    update: XOR<DealRoomUpdateWithoutProposalsInput, DealRoomUncheckedUpdateWithoutProposalsInput>
+    create: XOR<DealRoomCreateWithoutProposalsInput, DealRoomUncheckedCreateWithoutProposalsInput>
+    where?: DealRoomWhereInput
+  }
+
+  export type DealRoomUpdateToOneWithWhereWithoutProposalsInput = {
+    where?: DealRoomWhereInput
+    data: XOR<DealRoomUpdateWithoutProposalsInput, DealRoomUncheckedUpdateWithoutProposalsInput>
+  }
+
+  export type DealRoomUpdateWithoutProposalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumDealRoomStatusFieldUpdateOperationsInput | $Enums.DealRoomStatus
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contract?: ContractUpdateOneRequiredWithoutDealRoomNestedInput
+    messages?: DealRoomMessageUpdateManyWithoutDealRoomNestedInput
+  }
+
+  export type DealRoomUncheckedUpdateWithoutProposalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contractId?: StringFieldUpdateOperationsInput | string
+    status?: EnumDealRoomStatusFieldUpdateOperationsInput | $Enums.DealRoomStatus
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: DealRoomMessageUncheckedUpdateManyWithoutDealRoomNestedInput
+  }
+
+  export type UserUpsertWithoutDealRoomProposalsInput = {
+    update: XOR<UserUpdateWithoutDealRoomProposalsInput, UserUncheckedUpdateWithoutDealRoomProposalsInput>
+    create: XOR<UserCreateWithoutDealRoomProposalsInput, UserUncheckedCreateWithoutDealRoomProposalsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDealRoomProposalsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDealRoomProposalsInput, UserUncheckedUpdateWithoutDealRoomProposalsInput>
+  }
+
+  export type UserUpdateWithoutDealRoomProposalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brand?: BrandUpdateOneWithoutUserNestedInput
+    creator?: CreatorUpdateOneWithoutUserNestedInput
+    agency?: AgencyUpdateOneWithoutUserNestedInput
+    athlete?: AthleteUpdateOneWithoutUserNestedInput
+    guardian?: GuardianUpdateOneWithoutUserNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    complianceOfficer?: ComplianceOfficerUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    receivedNotifications?: NotificationUpdateManyWithoutRecipientNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutRequestedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDealRoomProposalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brand?: BrandUncheckedUpdateOneWithoutUserNestedInput
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
+    agency?: AgencyUncheckedUpdateOneWithoutUserNestedInput
+    athlete?: AthleteUncheckedUpdateOneWithoutUserNestedInput
+    guardian?: GuardianUncheckedUpdateOneWithoutUserNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    complianceOfficer?: ComplianceOfficerUncheckedUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedNotifications?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  }
+
+  export type NilCollectiveCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    slug: string
+    sport?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    description?: string | null
+    contactEmail?: string | null
+    ein?: string | null
+    isVerified?: boolean
+    totalFundsRaisedCents?: number
+    totalPaidOutCents?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    university?: UniversityCreateNestedOneWithoutNilCollectivesInput
+    nilDeals?: NilDealCreateNestedManyWithoutCollectiveInput
+    donors?: CollectiveDonorCreateNestedManyWithoutCollectiveInput
+    donations?: CollectiveDonationCreateNestedManyWithoutCollectiveInput
+    distributions?: CollectiveDistributionCreateNestedManyWithoutCollectiveInput
+  }
+
+  export type NilCollectiveUncheckedCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    slug: string
+    universityId?: string | null
+    sport?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    description?: string | null
+    contactEmail?: string | null
+    ein?: string | null
+    isVerified?: boolean
+    totalFundsRaisedCents?: number
+    totalPaidOutCents?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    nilDeals?: NilDealUncheckedCreateNestedManyWithoutCollectiveInput
+    donors?: CollectiveDonorUncheckedCreateNestedManyWithoutCollectiveInput
+    donations?: CollectiveDonationUncheckedCreateNestedManyWithoutCollectiveInput
+    distributions?: CollectiveDistributionUncheckedCreateNestedManyWithoutCollectiveInput
+  }
+
+  export type NilCollectiveCreateOrConnectWithoutMembersInput = {
+    where: NilCollectiveWhereUniqueInput
+    create: XOR<NilCollectiveCreateWithoutMembersInput, NilCollectiveUncheckedCreateWithoutMembersInput>
+  }
+
+  export type AthleteCreateWithoutCollectiveMembershipsInput = {
+    id?: string
+    sport: string
+    position?: string | null
+    jerseyNumber?: string | null
+    classYear?: string | null
+    graduationYear?: number | null
+    status?: $Enums.AthleteStatus
+    eligibilityStatus?: $Enums.EligibilityStatus
+    eligibilityYearsLeft?: number | null
+    ncaaId?: string | null
+    nilActive?: boolean
+    nilCapCents?: number | null
+    nilEarnedYtdCents?: number
+    nilDisclosureRequired?: boolean
+    followersCount?: number
+    engagementRate?: number
+    primaryPlatform?: string | null
+    platforms?: NullableJsonNullValueInput | InputJsonValue
+    audienceScore?: number
+    fraudScore?: number
+    performanceScore?: number
+    fmvMinCents?: number | null
+    fmvMaxCents?: number | null
+    fmvLastAssessedAt?: Date | string | null
+    dwollaCustomerId?: string | null
+    dwollaVerified?: boolean
+    totalEarningsNilCents?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAthleteInput
+    university?: UniversityCreateNestedOneWithoutAthletesInput
+    athleticDepartment?: AthleticDepartmentCreateNestedOneWithoutAthletesInput
+    guardians?: GuardianRelationshipCreateNestedManyWithoutAthleteInput
+    agentRelationships?: AgentRepresentationCreateNestedManyWithoutAthleteInput
+    nilDisclosures?: NilDisclosureCreateNestedManyWithoutAthleteInput
+    appearances?: AppearanceCreateNestedManyWithoutAthleteInput
+    nilDeals?: NilDealCreateNestedManyWithoutAthleteInput
+    fmvAssessments?: FmvAssessmentCreateNestedManyWithoutAthleteInput
+    taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
+    graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
+    marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    matchResults?: MatchResultCreateNestedManyWithoutAthleteInput
+  }
+
+  export type AthleteUncheckedCreateWithoutCollectiveMembershipsInput = {
+    id?: string
+    userId: string
+    universityId?: string | null
+    athleticDepartmentId?: string | null
+    sport: string
+    position?: string | null
+    jerseyNumber?: string | null
+    classYear?: string | null
+    graduationYear?: number | null
+    status?: $Enums.AthleteStatus
+    eligibilityStatus?: $Enums.EligibilityStatus
+    eligibilityYearsLeft?: number | null
+    ncaaId?: string | null
+    nilActive?: boolean
+    nilCapCents?: number | null
+    nilEarnedYtdCents?: number
+    nilDisclosureRequired?: boolean
+    followersCount?: number
+    engagementRate?: number
+    primaryPlatform?: string | null
+    platforms?: NullableJsonNullValueInput | InputJsonValue
+    audienceScore?: number
+    fraudScore?: number
+    performanceScore?: number
+    fmvMinCents?: number | null
+    fmvMaxCents?: number | null
+    fmvLastAssessedAt?: Date | string | null
+    dwollaCustomerId?: string | null
+    dwollaVerified?: boolean
+    totalEarningsNilCents?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    guardians?: GuardianRelationshipUncheckedCreateNestedManyWithoutAthleteInput
+    agentRelationships?: AgentRepresentationUncheckedCreateNestedManyWithoutAthleteInput
+    nilDisclosures?: NilDisclosureUncheckedCreateNestedManyWithoutAthleteInput
+    appearances?: AppearanceUncheckedCreateNestedManyWithoutAthleteInput
+    nilDeals?: NilDealUncheckedCreateNestedManyWithoutAthleteInput
+    fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutAthleteInput
+    taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
+    graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
+    marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    matchResults?: MatchResultUncheckedCreateNestedManyWithoutAthleteInput
+  }
+
+  export type AthleteCreateOrConnectWithoutCollectiveMembershipsInput = {
+    where: AthleteWhereUniqueInput
+    create: XOR<AthleteCreateWithoutCollectiveMembershipsInput, AthleteUncheckedCreateWithoutCollectiveMembershipsInput>
+  }
+
+  export type CollectiveDistributionCreateWithoutMemberInput = {
+    id?: string
+    athleteId: string
+    amountCents: number
+    currency?: string
+    reason: string
+    periodStart: Date | string
+    periodEnd: Date | string
+    dwollaTransferId?: string | null
+    paidAt?: Date | string | null
+    status?: string
+    taxYear: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    collective: NilCollectiveCreateNestedOneWithoutDistributionsInput
+  }
+
+  export type CollectiveDistributionUncheckedCreateWithoutMemberInput = {
+    id?: string
+    collectiveId: string
+    athleteId: string
+    amountCents: number
+    currency?: string
+    reason: string
+    periodStart: Date | string
+    periodEnd: Date | string
+    dwollaTransferId?: string | null
+    paidAt?: Date | string | null
+    status?: string
+    taxYear: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CollectiveDistributionCreateOrConnectWithoutMemberInput = {
+    where: CollectiveDistributionWhereUniqueInput
+    create: XOR<CollectiveDistributionCreateWithoutMemberInput, CollectiveDistributionUncheckedCreateWithoutMemberInput>
+  }
+
+  export type CollectiveDistributionCreateManyMemberInputEnvelope = {
+    data: CollectiveDistributionCreateManyMemberInput | CollectiveDistributionCreateManyMemberInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NilCollectiveUpsertWithoutMembersInput = {
+    update: XOR<NilCollectiveUpdateWithoutMembersInput, NilCollectiveUncheckedUpdateWithoutMembersInput>
+    create: XOR<NilCollectiveCreateWithoutMembersInput, NilCollectiveUncheckedCreateWithoutMembersInput>
+    where?: NilCollectiveWhereInput
+  }
+
+  export type NilCollectiveUpdateToOneWithWhereWithoutMembersInput = {
+    where?: NilCollectiveWhereInput
+    data: XOR<NilCollectiveUpdateWithoutMembersInput, NilCollectiveUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type NilCollectiveUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    sport?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    ein?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalFundsRaisedCents?: IntFieldUpdateOperationsInput | number
+    totalPaidOutCents?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    university?: UniversityUpdateOneWithoutNilCollectivesNestedInput
+    nilDeals?: NilDealUpdateManyWithoutCollectiveNestedInput
+    donors?: CollectiveDonorUpdateManyWithoutCollectiveNestedInput
+    donations?: CollectiveDonationUpdateManyWithoutCollectiveNestedInput
+    distributions?: CollectiveDistributionUpdateManyWithoutCollectiveNestedInput
+  }
+
+  export type NilCollectiveUncheckedUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    universityId?: NullableStringFieldUpdateOperationsInput | string | null
+    sport?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    ein?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalFundsRaisedCents?: IntFieldUpdateOperationsInput | number
+    totalPaidOutCents?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    nilDeals?: NilDealUncheckedUpdateManyWithoutCollectiveNestedInput
+    donors?: CollectiveDonorUncheckedUpdateManyWithoutCollectiveNestedInput
+    donations?: CollectiveDonationUncheckedUpdateManyWithoutCollectiveNestedInput
+    distributions?: CollectiveDistributionUncheckedUpdateManyWithoutCollectiveNestedInput
+  }
+
+  export type AthleteUpsertWithoutCollectiveMembershipsInput = {
+    update: XOR<AthleteUpdateWithoutCollectiveMembershipsInput, AthleteUncheckedUpdateWithoutCollectiveMembershipsInput>
+    create: XOR<AthleteCreateWithoutCollectiveMembershipsInput, AthleteUncheckedCreateWithoutCollectiveMembershipsInput>
+    where?: AthleteWhereInput
+  }
+
+  export type AthleteUpdateToOneWithWhereWithoutCollectiveMembershipsInput = {
+    where?: AthleteWhereInput
+    data: XOR<AthleteUpdateWithoutCollectiveMembershipsInput, AthleteUncheckedUpdateWithoutCollectiveMembershipsInput>
+  }
+
+  export type AthleteUpdateWithoutCollectiveMembershipsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sport?: StringFieldUpdateOperationsInput | string
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    jerseyNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    graduationYear?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumAthleteStatusFieldUpdateOperationsInput | $Enums.AthleteStatus
+    eligibilityStatus?: EnumEligibilityStatusFieldUpdateOperationsInput | $Enums.EligibilityStatus
+    eligibilityYearsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    ncaaId?: NullableStringFieldUpdateOperationsInput | string | null
+    nilActive?: BoolFieldUpdateOperationsInput | boolean
+    nilCapCents?: NullableIntFieldUpdateOperationsInput | number | null
+    nilEarnedYtdCents?: IntFieldUpdateOperationsInput | number
+    nilDisclosureRequired?: BoolFieldUpdateOperationsInput | boolean
+    followersCount?: IntFieldUpdateOperationsInput | number
+    engagementRate?: FloatFieldUpdateOperationsInput | number
+    primaryPlatform?: NullableStringFieldUpdateOperationsInput | string | null
+    platforms?: NullableJsonNullValueInput | InputJsonValue
+    audienceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fmvMinCents?: NullableIntFieldUpdateOperationsInput | number | null
+    fmvMaxCents?: NullableIntFieldUpdateOperationsInput | number | null
+    fmvLastAssessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    dwollaVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalEarningsNilCents?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAthleteNestedInput
+    university?: UniversityUpdateOneWithoutAthletesNestedInput
+    athleticDepartment?: AthleticDepartmentUpdateOneWithoutAthletesNestedInput
+    guardians?: GuardianRelationshipUpdateManyWithoutAthleteNestedInput
+    agentRelationships?: AgentRepresentationUpdateManyWithoutAthleteNestedInput
+    nilDisclosures?: NilDisclosureUpdateManyWithoutAthleteNestedInput
+    appearances?: AppearanceUpdateManyWithoutAthleteNestedInput
+    nilDeals?: NilDealUpdateManyWithoutAthleteNestedInput
+    fmvAssessments?: FmvAssessmentUpdateManyWithoutAthleteNestedInput
+    taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
+    graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
+    marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
+  }
+
+  export type AthleteUncheckedUpdateWithoutCollectiveMembershipsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    universityId?: NullableStringFieldUpdateOperationsInput | string | null
+    athleticDepartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    sport?: StringFieldUpdateOperationsInput | string
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    jerseyNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    graduationYear?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumAthleteStatusFieldUpdateOperationsInput | $Enums.AthleteStatus
+    eligibilityStatus?: EnumEligibilityStatusFieldUpdateOperationsInput | $Enums.EligibilityStatus
+    eligibilityYearsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    ncaaId?: NullableStringFieldUpdateOperationsInput | string | null
+    nilActive?: BoolFieldUpdateOperationsInput | boolean
+    nilCapCents?: NullableIntFieldUpdateOperationsInput | number | null
+    nilEarnedYtdCents?: IntFieldUpdateOperationsInput | number
+    nilDisclosureRequired?: BoolFieldUpdateOperationsInput | boolean
+    followersCount?: IntFieldUpdateOperationsInput | number
+    engagementRate?: FloatFieldUpdateOperationsInput | number
+    primaryPlatform?: NullableStringFieldUpdateOperationsInput | string | null
+    platforms?: NullableJsonNullValueInput | InputJsonValue
+    audienceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fmvMinCents?: NullableIntFieldUpdateOperationsInput | number | null
+    fmvMaxCents?: NullableIntFieldUpdateOperationsInput | number | null
+    fmvLastAssessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    dwollaVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalEarningsNilCents?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guardians?: GuardianRelationshipUncheckedUpdateManyWithoutAthleteNestedInput
+    agentRelationships?: AgentRepresentationUncheckedUpdateManyWithoutAthleteNestedInput
+    nilDisclosures?: NilDisclosureUncheckedUpdateManyWithoutAthleteNestedInput
+    appearances?: AppearanceUncheckedUpdateManyWithoutAthleteNestedInput
+    nilDeals?: NilDealUncheckedUpdateManyWithoutAthleteNestedInput
+    fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutAthleteNestedInput
+    taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
+    graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
+    marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
+  }
+
+  export type CollectiveDistributionUpsertWithWhereUniqueWithoutMemberInput = {
+    where: CollectiveDistributionWhereUniqueInput
+    update: XOR<CollectiveDistributionUpdateWithoutMemberInput, CollectiveDistributionUncheckedUpdateWithoutMemberInput>
+    create: XOR<CollectiveDistributionCreateWithoutMemberInput, CollectiveDistributionUncheckedCreateWithoutMemberInput>
+  }
+
+  export type CollectiveDistributionUpdateWithWhereUniqueWithoutMemberInput = {
+    where: CollectiveDistributionWhereUniqueInput
+    data: XOR<CollectiveDistributionUpdateWithoutMemberInput, CollectiveDistributionUncheckedUpdateWithoutMemberInput>
+  }
+
+  export type CollectiveDistributionUpdateManyWithWhereWithoutMemberInput = {
+    where: CollectiveDistributionScalarWhereInput
+    data: XOR<CollectiveDistributionUpdateManyMutationInput, CollectiveDistributionUncheckedUpdateManyWithoutMemberInput>
+  }
+
+  export type NilCollectiveCreateWithoutDonorsInput = {
+    id?: string
+    name: string
+    slug: string
+    sport?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    description?: string | null
+    contactEmail?: string | null
+    ein?: string | null
+    isVerified?: boolean
+    totalFundsRaisedCents?: number
+    totalPaidOutCents?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    university?: UniversityCreateNestedOneWithoutNilCollectivesInput
+    nilDeals?: NilDealCreateNestedManyWithoutCollectiveInput
+    members?: CollectiveMemberCreateNestedManyWithoutCollectiveInput
+    donations?: CollectiveDonationCreateNestedManyWithoutCollectiveInput
+    distributions?: CollectiveDistributionCreateNestedManyWithoutCollectiveInput
+  }
+
+  export type NilCollectiveUncheckedCreateWithoutDonorsInput = {
+    id?: string
+    name: string
+    slug: string
+    universityId?: string | null
+    sport?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    description?: string | null
+    contactEmail?: string | null
+    ein?: string | null
+    isVerified?: boolean
+    totalFundsRaisedCents?: number
+    totalPaidOutCents?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    nilDeals?: NilDealUncheckedCreateNestedManyWithoutCollectiveInput
+    members?: CollectiveMemberUncheckedCreateNestedManyWithoutCollectiveInput
+    donations?: CollectiveDonationUncheckedCreateNestedManyWithoutCollectiveInput
+    distributions?: CollectiveDistributionUncheckedCreateNestedManyWithoutCollectiveInput
+  }
+
+  export type NilCollectiveCreateOrConnectWithoutDonorsInput = {
+    where: NilCollectiveWhereUniqueInput
+    create: XOR<NilCollectiveCreateWithoutDonorsInput, NilCollectiveUncheckedCreateWithoutDonorsInput>
+  }
+
+  export type CollectiveDonationCreateWithoutDonorInput = {
+    id?: string
+    amountCents: number
+    currency?: string
+    dwollaTransferId?: string | null
+    status?: string
+    note?: string | null
+    isRecurring?: boolean
+    donatedAt?: Date | string
+    createdAt?: Date | string
+    collective: NilCollectiveCreateNestedOneWithoutDonationsInput
+  }
+
+  export type CollectiveDonationUncheckedCreateWithoutDonorInput = {
+    id?: string
+    collectiveId: string
+    amountCents: number
+    currency?: string
+    dwollaTransferId?: string | null
+    status?: string
+    note?: string | null
+    isRecurring?: boolean
+    donatedAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type CollectiveDonationCreateOrConnectWithoutDonorInput = {
+    where: CollectiveDonationWhereUniqueInput
+    create: XOR<CollectiveDonationCreateWithoutDonorInput, CollectiveDonationUncheckedCreateWithoutDonorInput>
+  }
+
+  export type CollectiveDonationCreateManyDonorInputEnvelope = {
+    data: CollectiveDonationCreateManyDonorInput | CollectiveDonationCreateManyDonorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NilCollectiveUpsertWithoutDonorsInput = {
+    update: XOR<NilCollectiveUpdateWithoutDonorsInput, NilCollectiveUncheckedUpdateWithoutDonorsInput>
+    create: XOR<NilCollectiveCreateWithoutDonorsInput, NilCollectiveUncheckedCreateWithoutDonorsInput>
+    where?: NilCollectiveWhereInput
+  }
+
+  export type NilCollectiveUpdateToOneWithWhereWithoutDonorsInput = {
+    where?: NilCollectiveWhereInput
+    data: XOR<NilCollectiveUpdateWithoutDonorsInput, NilCollectiveUncheckedUpdateWithoutDonorsInput>
+  }
+
+  export type NilCollectiveUpdateWithoutDonorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    sport?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    ein?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalFundsRaisedCents?: IntFieldUpdateOperationsInput | number
+    totalPaidOutCents?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    university?: UniversityUpdateOneWithoutNilCollectivesNestedInput
+    nilDeals?: NilDealUpdateManyWithoutCollectiveNestedInput
+    members?: CollectiveMemberUpdateManyWithoutCollectiveNestedInput
+    donations?: CollectiveDonationUpdateManyWithoutCollectiveNestedInput
+    distributions?: CollectiveDistributionUpdateManyWithoutCollectiveNestedInput
+  }
+
+  export type NilCollectiveUncheckedUpdateWithoutDonorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    universityId?: NullableStringFieldUpdateOperationsInput | string | null
+    sport?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    ein?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalFundsRaisedCents?: IntFieldUpdateOperationsInput | number
+    totalPaidOutCents?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    nilDeals?: NilDealUncheckedUpdateManyWithoutCollectiveNestedInput
+    members?: CollectiveMemberUncheckedUpdateManyWithoutCollectiveNestedInput
+    donations?: CollectiveDonationUncheckedUpdateManyWithoutCollectiveNestedInput
+    distributions?: CollectiveDistributionUncheckedUpdateManyWithoutCollectiveNestedInput
+  }
+
+  export type CollectiveDonationUpsertWithWhereUniqueWithoutDonorInput = {
+    where: CollectiveDonationWhereUniqueInput
+    update: XOR<CollectiveDonationUpdateWithoutDonorInput, CollectiveDonationUncheckedUpdateWithoutDonorInput>
+    create: XOR<CollectiveDonationCreateWithoutDonorInput, CollectiveDonationUncheckedCreateWithoutDonorInput>
+  }
+
+  export type CollectiveDonationUpdateWithWhereUniqueWithoutDonorInput = {
+    where: CollectiveDonationWhereUniqueInput
+    data: XOR<CollectiveDonationUpdateWithoutDonorInput, CollectiveDonationUncheckedUpdateWithoutDonorInput>
+  }
+
+  export type CollectiveDonationUpdateManyWithWhereWithoutDonorInput = {
+    where: CollectiveDonationScalarWhereInput
+    data: XOR<CollectiveDonationUpdateManyMutationInput, CollectiveDonationUncheckedUpdateManyWithoutDonorInput>
+  }
+
+  export type CollectiveDonorCreateWithoutDonationsInput = {
+    id?: string
+    displayName: string
+    email: string
+    isAnonymous?: boolean
+    totalDonatedCents?: number
+    donationCount?: number
+    lastDonatedAt?: Date | string | null
+    dwollaCustomerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    collective: NilCollectiveCreateNestedOneWithoutDonorsInput
+  }
+
+  export type CollectiveDonorUncheckedCreateWithoutDonationsInput = {
+    id?: string
+    collectiveId: string
+    displayName: string
+    email: string
+    isAnonymous?: boolean
+    totalDonatedCents?: number
+    donationCount?: number
+    lastDonatedAt?: Date | string | null
+    dwollaCustomerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CollectiveDonorCreateOrConnectWithoutDonationsInput = {
+    where: CollectiveDonorWhereUniqueInput
+    create: XOR<CollectiveDonorCreateWithoutDonationsInput, CollectiveDonorUncheckedCreateWithoutDonationsInput>
+  }
+
+  export type NilCollectiveCreateWithoutDonationsInput = {
+    id?: string
+    name: string
+    slug: string
+    sport?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    description?: string | null
+    contactEmail?: string | null
+    ein?: string | null
+    isVerified?: boolean
+    totalFundsRaisedCents?: number
+    totalPaidOutCents?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    university?: UniversityCreateNestedOneWithoutNilCollectivesInput
+    nilDeals?: NilDealCreateNestedManyWithoutCollectiveInput
+    members?: CollectiveMemberCreateNestedManyWithoutCollectiveInput
+    donors?: CollectiveDonorCreateNestedManyWithoutCollectiveInput
+    distributions?: CollectiveDistributionCreateNestedManyWithoutCollectiveInput
+  }
+
+  export type NilCollectiveUncheckedCreateWithoutDonationsInput = {
+    id?: string
+    name: string
+    slug: string
+    universityId?: string | null
+    sport?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    description?: string | null
+    contactEmail?: string | null
+    ein?: string | null
+    isVerified?: boolean
+    totalFundsRaisedCents?: number
+    totalPaidOutCents?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    nilDeals?: NilDealUncheckedCreateNestedManyWithoutCollectiveInput
+    members?: CollectiveMemberUncheckedCreateNestedManyWithoutCollectiveInput
+    donors?: CollectiveDonorUncheckedCreateNestedManyWithoutCollectiveInput
+    distributions?: CollectiveDistributionUncheckedCreateNestedManyWithoutCollectiveInput
+  }
+
+  export type NilCollectiveCreateOrConnectWithoutDonationsInput = {
+    where: NilCollectiveWhereUniqueInput
+    create: XOR<NilCollectiveCreateWithoutDonationsInput, NilCollectiveUncheckedCreateWithoutDonationsInput>
+  }
+
+  export type CollectiveDonorUpsertWithoutDonationsInput = {
+    update: XOR<CollectiveDonorUpdateWithoutDonationsInput, CollectiveDonorUncheckedUpdateWithoutDonationsInput>
+    create: XOR<CollectiveDonorCreateWithoutDonationsInput, CollectiveDonorUncheckedCreateWithoutDonationsInput>
+    where?: CollectiveDonorWhereInput
+  }
+
+  export type CollectiveDonorUpdateToOneWithWhereWithoutDonationsInput = {
+    where?: CollectiveDonorWhereInput
+    data: XOR<CollectiveDonorUpdateWithoutDonationsInput, CollectiveDonorUncheckedUpdateWithoutDonationsInput>
+  }
+
+  export type CollectiveDonorUpdateWithoutDonationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    totalDonatedCents?: IntFieldUpdateOperationsInput | number
+    donationCount?: IntFieldUpdateOperationsInput | number
+    lastDonatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    collective?: NilCollectiveUpdateOneRequiredWithoutDonorsNestedInput
+  }
+
+  export type CollectiveDonorUncheckedUpdateWithoutDonationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    totalDonatedCents?: IntFieldUpdateOperationsInput | number
+    donationCount?: IntFieldUpdateOperationsInput | number
+    lastDonatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NilCollectiveUpsertWithoutDonationsInput = {
+    update: XOR<NilCollectiveUpdateWithoutDonationsInput, NilCollectiveUncheckedUpdateWithoutDonationsInput>
+    create: XOR<NilCollectiveCreateWithoutDonationsInput, NilCollectiveUncheckedCreateWithoutDonationsInput>
+    where?: NilCollectiveWhereInput
+  }
+
+  export type NilCollectiveUpdateToOneWithWhereWithoutDonationsInput = {
+    where?: NilCollectiveWhereInput
+    data: XOR<NilCollectiveUpdateWithoutDonationsInput, NilCollectiveUncheckedUpdateWithoutDonationsInput>
+  }
+
+  export type NilCollectiveUpdateWithoutDonationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    sport?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    ein?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalFundsRaisedCents?: IntFieldUpdateOperationsInput | number
+    totalPaidOutCents?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    university?: UniversityUpdateOneWithoutNilCollectivesNestedInput
+    nilDeals?: NilDealUpdateManyWithoutCollectiveNestedInput
+    members?: CollectiveMemberUpdateManyWithoutCollectiveNestedInput
+    donors?: CollectiveDonorUpdateManyWithoutCollectiveNestedInput
+    distributions?: CollectiveDistributionUpdateManyWithoutCollectiveNestedInput
+  }
+
+  export type NilCollectiveUncheckedUpdateWithoutDonationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    universityId?: NullableStringFieldUpdateOperationsInput | string | null
+    sport?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    ein?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalFundsRaisedCents?: IntFieldUpdateOperationsInput | number
+    totalPaidOutCents?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    nilDeals?: NilDealUncheckedUpdateManyWithoutCollectiveNestedInput
+    members?: CollectiveMemberUncheckedUpdateManyWithoutCollectiveNestedInput
+    donors?: CollectiveDonorUncheckedUpdateManyWithoutCollectiveNestedInput
+    distributions?: CollectiveDistributionUncheckedUpdateManyWithoutCollectiveNestedInput
+  }
+
+  export type NilCollectiveCreateWithoutDistributionsInput = {
+    id?: string
+    name: string
+    slug: string
+    sport?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    description?: string | null
+    contactEmail?: string | null
+    ein?: string | null
+    isVerified?: boolean
+    totalFundsRaisedCents?: number
+    totalPaidOutCents?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    university?: UniversityCreateNestedOneWithoutNilCollectivesInput
+    nilDeals?: NilDealCreateNestedManyWithoutCollectiveInput
+    members?: CollectiveMemberCreateNestedManyWithoutCollectiveInput
+    donors?: CollectiveDonorCreateNestedManyWithoutCollectiveInput
+    donations?: CollectiveDonationCreateNestedManyWithoutCollectiveInput
+  }
+
+  export type NilCollectiveUncheckedCreateWithoutDistributionsInput = {
+    id?: string
+    name: string
+    slug: string
+    universityId?: string | null
+    sport?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    description?: string | null
+    contactEmail?: string | null
+    ein?: string | null
+    isVerified?: boolean
+    totalFundsRaisedCents?: number
+    totalPaidOutCents?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    nilDeals?: NilDealUncheckedCreateNestedManyWithoutCollectiveInput
+    members?: CollectiveMemberUncheckedCreateNestedManyWithoutCollectiveInput
+    donors?: CollectiveDonorUncheckedCreateNestedManyWithoutCollectiveInput
+    donations?: CollectiveDonationUncheckedCreateNestedManyWithoutCollectiveInput
+  }
+
+  export type NilCollectiveCreateOrConnectWithoutDistributionsInput = {
+    where: NilCollectiveWhereUniqueInput
+    create: XOR<NilCollectiveCreateWithoutDistributionsInput, NilCollectiveUncheckedCreateWithoutDistributionsInput>
+  }
+
+  export type CollectiveMemberCreateWithoutDistributionsInput = {
+    id?: string
+    sharePercent?: number
+    joinedAt?: Date | string
+    leftAt?: Date | string | null
+    status?: $Enums.CollectiveMemberStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    collective: NilCollectiveCreateNestedOneWithoutMembersInput
+    athlete: AthleteCreateNestedOneWithoutCollectiveMembershipsInput
+  }
+
+  export type CollectiveMemberUncheckedCreateWithoutDistributionsInput = {
+    id?: string
+    collectiveId: string
+    athleteId: string
+    sharePercent?: number
+    joinedAt?: Date | string
+    leftAt?: Date | string | null
+    status?: $Enums.CollectiveMemberStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CollectiveMemberCreateOrConnectWithoutDistributionsInput = {
+    where: CollectiveMemberWhereUniqueInput
+    create: XOR<CollectiveMemberCreateWithoutDistributionsInput, CollectiveMemberUncheckedCreateWithoutDistributionsInput>
+  }
+
+  export type NilCollectiveUpsertWithoutDistributionsInput = {
+    update: XOR<NilCollectiveUpdateWithoutDistributionsInput, NilCollectiveUncheckedUpdateWithoutDistributionsInput>
+    create: XOR<NilCollectiveCreateWithoutDistributionsInput, NilCollectiveUncheckedCreateWithoutDistributionsInput>
+    where?: NilCollectiveWhereInput
+  }
+
+  export type NilCollectiveUpdateToOneWithWhereWithoutDistributionsInput = {
+    where?: NilCollectiveWhereInput
+    data: XOR<NilCollectiveUpdateWithoutDistributionsInput, NilCollectiveUncheckedUpdateWithoutDistributionsInput>
+  }
+
+  export type NilCollectiveUpdateWithoutDistributionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    sport?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    ein?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalFundsRaisedCents?: IntFieldUpdateOperationsInput | number
+    totalPaidOutCents?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    university?: UniversityUpdateOneWithoutNilCollectivesNestedInput
+    nilDeals?: NilDealUpdateManyWithoutCollectiveNestedInput
+    members?: CollectiveMemberUpdateManyWithoutCollectiveNestedInput
+    donors?: CollectiveDonorUpdateManyWithoutCollectiveNestedInput
+    donations?: CollectiveDonationUpdateManyWithoutCollectiveNestedInput
+  }
+
+  export type NilCollectiveUncheckedUpdateWithoutDistributionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    universityId?: NullableStringFieldUpdateOperationsInput | string | null
+    sport?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    ein?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalFundsRaisedCents?: IntFieldUpdateOperationsInput | number
+    totalPaidOutCents?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    nilDeals?: NilDealUncheckedUpdateManyWithoutCollectiveNestedInput
+    members?: CollectiveMemberUncheckedUpdateManyWithoutCollectiveNestedInput
+    donors?: CollectiveDonorUncheckedUpdateManyWithoutCollectiveNestedInput
+    donations?: CollectiveDonationUncheckedUpdateManyWithoutCollectiveNestedInput
+  }
+
+  export type CollectiveMemberUpsertWithoutDistributionsInput = {
+    update: XOR<CollectiveMemberUpdateWithoutDistributionsInput, CollectiveMemberUncheckedUpdateWithoutDistributionsInput>
+    create: XOR<CollectiveMemberCreateWithoutDistributionsInput, CollectiveMemberUncheckedCreateWithoutDistributionsInput>
+    where?: CollectiveMemberWhereInput
+  }
+
+  export type CollectiveMemberUpdateToOneWithWhereWithoutDistributionsInput = {
+    where?: CollectiveMemberWhereInput
+    data: XOR<CollectiveMemberUpdateWithoutDistributionsInput, CollectiveMemberUncheckedUpdateWithoutDistributionsInput>
+  }
+
+  export type CollectiveMemberUpdateWithoutDistributionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sharePercent?: FloatFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leftAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCollectiveMemberStatusFieldUpdateOperationsInput | $Enums.CollectiveMemberStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    collective?: NilCollectiveUpdateOneRequiredWithoutMembersNestedInput
+    athlete?: AthleteUpdateOneRequiredWithoutCollectiveMembershipsNestedInput
+  }
+
+  export type CollectiveMemberUncheckedUpdateWithoutDistributionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    sharePercent?: FloatFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leftAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCollectiveMemberStatusFieldUpdateOperationsInput | $Enums.CollectiveMemberStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateWithoutMatchRequestsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    firstName: string
+    lastName: string
+    avatarUrl?: string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpiry?: Date | string | null
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    dwollaCustomerId?: string | null
+    lastLoginAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    brand?: BrandCreateNestedOneWithoutUserInput
+    creator?: CreatorCreateNestedOneWithoutUserInput
+    agency?: AgencyCreateNestedOneWithoutUserInput
+    athlete?: AthleteCreateNestedOneWithoutUserInput
+    guardian?: GuardianCreateNestedOneWithoutUserInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    complianceOfficer?: ComplianceOfficerCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    receivedNotifications?: NotificationCreateNestedManyWithoutRecipientInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    importJobs?: ImportJobCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalCreateNestedManyWithoutProposedByInput
+  }
+
+  export type UserUncheckedCreateWithoutMatchRequestsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    firstName: string
+    lastName: string
+    avatarUrl?: string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpiry?: Date | string | null
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    dwollaCustomerId?: string | null
+    lastLoginAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    brand?: BrandUncheckedCreateNestedOneWithoutUserInput
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
+    agency?: AgencyUncheckedCreateNestedOneWithoutUserInput
+    athlete?: AthleteUncheckedCreateNestedOneWithoutUserInput
+    guardian?: GuardianUncheckedCreateNestedOneWithoutUserInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    complianceOfficer?: ComplianceOfficerUncheckedCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    receivedNotifications?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    importJobs?: ImportJobUncheckedCreateNestedManyWithoutUserInput
+    dealRoomMessages?: DealRoomMessageUncheckedCreateNestedManyWithoutAuthorInput
+    dealRoomProposals?: DealRoomProposalUncheckedCreateNestedManyWithoutProposedByInput
+  }
+
+  export type UserCreateOrConnectWithoutMatchRequestsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMatchRequestsInput, UserUncheckedCreateWithoutMatchRequestsInput>
+  }
+
+  export type MatchResultCreateWithoutRequestInput = {
+    id?: string
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents?: number | null
+    estimatedReach?: number | null
+    estimatedRoi?: number | null
+    reasoning: string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutMatchResultsInput
+    athlete?: AthleteCreateNestedOneWithoutMatchResultsInput
+  }
+
+  export type MatchResultUncheckedCreateWithoutRequestInput = {
+    id?: string
+    creatorId?: string | null
+    athleteId?: string | null
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents?: number | null
+    estimatedReach?: number | null
+    estimatedRoi?: number | null
+    reasoning: string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type MatchResultCreateOrConnectWithoutRequestInput = {
+    where: MatchResultWhereUniqueInput
+    create: XOR<MatchResultCreateWithoutRequestInput, MatchResultUncheckedCreateWithoutRequestInput>
+  }
+
+  export type MatchResultCreateManyRequestInputEnvelope = {
+    data: MatchResultCreateManyRequestInput | MatchResultCreateManyRequestInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutMatchRequestsInput = {
+    update: XOR<UserUpdateWithoutMatchRequestsInput, UserUncheckedUpdateWithoutMatchRequestsInput>
+    create: XOR<UserCreateWithoutMatchRequestsInput, UserUncheckedCreateWithoutMatchRequestsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMatchRequestsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMatchRequestsInput, UserUncheckedUpdateWithoutMatchRequestsInput>
+  }
+
+  export type UserUpdateWithoutMatchRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brand?: BrandUpdateOneWithoutUserNestedInput
+    creator?: CreatorUpdateOneWithoutUserNestedInput
+    agency?: AgencyUpdateOneWithoutUserNestedInput
+    athlete?: AthleteUpdateOneWithoutUserNestedInput
+    guardian?: GuardianUpdateOneWithoutUserNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    complianceOfficer?: ComplianceOfficerUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    receivedNotifications?: NotificationUpdateManyWithoutRecipientNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    importJobs?: ImportJobUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUpdateManyWithoutProposedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMatchRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brand?: BrandUncheckedUpdateOneWithoutUserNestedInput
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
+    agency?: AgencyUncheckedUpdateOneWithoutUserNestedInput
+    athlete?: AthleteUncheckedUpdateOneWithoutUserNestedInput
+    guardian?: GuardianUncheckedUpdateOneWithoutUserNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    complianceOfficer?: ComplianceOfficerUncheckedUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedNotifications?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    importJobs?: ImportJobUncheckedUpdateManyWithoutUserNestedInput
+    dealRoomMessages?: DealRoomMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    dealRoomProposals?: DealRoomProposalUncheckedUpdateManyWithoutProposedByNestedInput
+  }
+
+  export type MatchResultUpsertWithWhereUniqueWithoutRequestInput = {
+    where: MatchResultWhereUniqueInput
+    update: XOR<MatchResultUpdateWithoutRequestInput, MatchResultUncheckedUpdateWithoutRequestInput>
+    create: XOR<MatchResultCreateWithoutRequestInput, MatchResultUncheckedCreateWithoutRequestInput>
+  }
+
+  export type MatchResultUpdateWithWhereUniqueWithoutRequestInput = {
+    where: MatchResultWhereUniqueInput
+    data: XOR<MatchResultUpdateWithoutRequestInput, MatchResultUncheckedUpdateWithoutRequestInput>
+  }
+
+  export type MatchResultUpdateManyWithWhereWithoutRequestInput = {
+    where: MatchResultScalarWhereInput
+    data: XOR<MatchResultUpdateManyMutationInput, MatchResultUncheckedUpdateManyWithoutRequestInput>
+  }
+
+  export type MatchRequestCreateWithoutResultsInput = {
+    id?: string
+    campaignId?: string | null
+    brief: string
+    budgetCents?: number | null
+    targetNiche?: MatchRequestCreatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestCreatetargetPlatformsInput | string[]
+    targetMinFollowers?: number | null
+    targetMaxFollowers?: number | null
+    targetMinEngagement?: number | null
+    targetEntityType?: string
+    targetSport?: string | null
+    maxResults?: number
+    status?: $Enums.MatchStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requestedBy: UserCreateNestedOneWithoutMatchRequestsInput
+  }
+
+  export type MatchRequestUncheckedCreateWithoutResultsInput = {
+    id?: string
+    requestedById: string
+    campaignId?: string | null
+    brief: string
+    budgetCents?: number | null
+    targetNiche?: MatchRequestCreatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestCreatetargetPlatformsInput | string[]
+    targetMinFollowers?: number | null
+    targetMaxFollowers?: number | null
+    targetMinEngagement?: number | null
+    targetEntityType?: string
+    targetSport?: string | null
+    maxResults?: number
+    status?: $Enums.MatchStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MatchRequestCreateOrConnectWithoutResultsInput = {
+    where: MatchRequestWhereUniqueInput
+    create: XOR<MatchRequestCreateWithoutResultsInput, MatchRequestUncheckedCreateWithoutResultsInput>
+  }
+
+  export type CreatorCreateWithoutMatchResultsInput = {
+    id?: string
+    handle: string
+    bio?: string | null
+    platforms: JsonNullValueInput | InputJsonValue
+    primaryPlatform?: string | null
+    niche?: CreatorCreatenicheInput | string[]
+    followersCount?: number
+    engagementRate?: number
+    avgReach?: number
+    audienceScore?: number
+    fraudScore?: number
+    performanceScore?: number
+    pricingTier?: string | null
+    rateCardJson?: NullableJsonNullValueInput | InputJsonValue
+    dwollaCustomerId?: string | null
+    dwollaVerified?: boolean
+    totalEarnings?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCreatorInput
+    contracts?: ContractCreateNestedManyWithoutCreatorInput
+    deliverables?: DeliverableCreateNestedManyWithoutCreatorInput
+    graphNode?: CreatorGraphNodeCreateNestedOneWithoutCreatorInput
+    predictions?: CreatorPredictionCreateNestedManyWithoutCreatorInput
+    featureVectors?: FeatureVectorCreateNestedManyWithoutCreatorInput
+    embeddings?: EmbeddingRecordCreateNestedManyWithoutCreatorInput
+    taxDocuments?: TaxDocumentCreateNestedManyWithoutCreatorInput
+    fmvAssessments?: FmvAssessmentCreateNestedManyWithoutCreatorInput
+  }
+
+  export type CreatorUncheckedCreateWithoutMatchResultsInput = {
+    id?: string
+    userId: string
+    handle: string
+    bio?: string | null
+    platforms: JsonNullValueInput | InputJsonValue
+    primaryPlatform?: string | null
+    niche?: CreatorCreatenicheInput | string[]
+    followersCount?: number
+    engagementRate?: number
+    avgReach?: number
+    audienceScore?: number
+    fraudScore?: number
+    performanceScore?: number
+    pricingTier?: string | null
+    rateCardJson?: NullableJsonNullValueInput | InputJsonValue
+    dwollaCustomerId?: string | null
+    dwollaVerified?: boolean
+    totalEarnings?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contracts?: ContractUncheckedCreateNestedManyWithoutCreatorInput
+    deliverables?: DeliverableUncheckedCreateNestedManyWithoutCreatorInput
+    graphNode?: CreatorGraphNodeUncheckedCreateNestedOneWithoutCreatorInput
+    predictions?: CreatorPredictionUncheckedCreateNestedManyWithoutCreatorInput
+    featureVectors?: FeatureVectorUncheckedCreateNestedManyWithoutCreatorInput
+    embeddings?: EmbeddingRecordUncheckedCreateNestedManyWithoutCreatorInput
+    taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutCreatorInput
+    fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type CreatorCreateOrConnectWithoutMatchResultsInput = {
+    where: CreatorWhereUniqueInput
+    create: XOR<CreatorCreateWithoutMatchResultsInput, CreatorUncheckedCreateWithoutMatchResultsInput>
+  }
+
+  export type AthleteCreateWithoutMatchResultsInput = {
+    id?: string
+    sport: string
+    position?: string | null
+    jerseyNumber?: string | null
+    classYear?: string | null
+    graduationYear?: number | null
+    status?: $Enums.AthleteStatus
+    eligibilityStatus?: $Enums.EligibilityStatus
+    eligibilityYearsLeft?: number | null
+    ncaaId?: string | null
+    nilActive?: boolean
+    nilCapCents?: number | null
+    nilEarnedYtdCents?: number
+    nilDisclosureRequired?: boolean
+    followersCount?: number
+    engagementRate?: number
+    primaryPlatform?: string | null
+    platforms?: NullableJsonNullValueInput | InputJsonValue
+    audienceScore?: number
+    fraudScore?: number
+    performanceScore?: number
+    fmvMinCents?: number | null
+    fmvMaxCents?: number | null
+    fmvLastAssessedAt?: Date | string | null
+    dwollaCustomerId?: string | null
+    dwollaVerified?: boolean
+    totalEarningsNilCents?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAthleteInput
+    university?: UniversityCreateNestedOneWithoutAthletesInput
+    athleticDepartment?: AthleticDepartmentCreateNestedOneWithoutAthletesInput
+    guardians?: GuardianRelationshipCreateNestedManyWithoutAthleteInput
+    agentRelationships?: AgentRepresentationCreateNestedManyWithoutAthleteInput
+    nilDisclosures?: NilDisclosureCreateNestedManyWithoutAthleteInput
+    appearances?: AppearanceCreateNestedManyWithoutAthleteInput
+    nilDeals?: NilDealCreateNestedManyWithoutAthleteInput
+    fmvAssessments?: FmvAssessmentCreateNestedManyWithoutAthleteInput
+    taxDocuments?: TaxDocumentCreateNestedManyWithoutAthleteInput
+    graphNode?: AthleteGraphNodeCreateNestedOneWithoutAthleteInput
+    marketplaceListing?: NilMarketplaceListingCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberCreateNestedManyWithoutAthleteInput
+  }
+
+  export type AthleteUncheckedCreateWithoutMatchResultsInput = {
+    id?: string
+    userId: string
+    universityId?: string | null
+    athleticDepartmentId?: string | null
+    sport: string
+    position?: string | null
+    jerseyNumber?: string | null
+    classYear?: string | null
+    graduationYear?: number | null
+    status?: $Enums.AthleteStatus
+    eligibilityStatus?: $Enums.EligibilityStatus
+    eligibilityYearsLeft?: number | null
+    ncaaId?: string | null
+    nilActive?: boolean
+    nilCapCents?: number | null
+    nilEarnedYtdCents?: number
+    nilDisclosureRequired?: boolean
+    followersCount?: number
+    engagementRate?: number
+    primaryPlatform?: string | null
+    platforms?: NullableJsonNullValueInput | InputJsonValue
+    audienceScore?: number
+    fraudScore?: number
+    performanceScore?: number
+    fmvMinCents?: number | null
+    fmvMaxCents?: number | null
+    fmvLastAssessedAt?: Date | string | null
+    dwollaCustomerId?: string | null
+    dwollaVerified?: boolean
+    totalEarningsNilCents?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    guardians?: GuardianRelationshipUncheckedCreateNestedManyWithoutAthleteInput
+    agentRelationships?: AgentRepresentationUncheckedCreateNestedManyWithoutAthleteInput
+    nilDisclosures?: NilDisclosureUncheckedCreateNestedManyWithoutAthleteInput
+    appearances?: AppearanceUncheckedCreateNestedManyWithoutAthleteInput
+    nilDeals?: NilDealUncheckedCreateNestedManyWithoutAthleteInput
+    fmvAssessments?: FmvAssessmentUncheckedCreateNestedManyWithoutAthleteInput
+    taxDocuments?: TaxDocumentUncheckedCreateNestedManyWithoutAthleteInput
+    graphNode?: AthleteGraphNodeUncheckedCreateNestedOneWithoutAthleteInput
+    marketplaceListing?: NilMarketplaceListingUncheckedCreateNestedOneWithoutAthleteInput
+    collectiveMemberships?: CollectiveMemberUncheckedCreateNestedManyWithoutAthleteInput
+  }
+
+  export type AthleteCreateOrConnectWithoutMatchResultsInput = {
+    where: AthleteWhereUniqueInput
+    create: XOR<AthleteCreateWithoutMatchResultsInput, AthleteUncheckedCreateWithoutMatchResultsInput>
+  }
+
+  export type MatchRequestUpsertWithoutResultsInput = {
+    update: XOR<MatchRequestUpdateWithoutResultsInput, MatchRequestUncheckedUpdateWithoutResultsInput>
+    create: XOR<MatchRequestCreateWithoutResultsInput, MatchRequestUncheckedCreateWithoutResultsInput>
+    where?: MatchRequestWhereInput
+  }
+
+  export type MatchRequestUpdateToOneWithWhereWithoutResultsInput = {
+    where?: MatchRequestWhereInput
+    data: XOR<MatchRequestUpdateWithoutResultsInput, MatchRequestUncheckedUpdateWithoutResultsInput>
+  }
+
+  export type MatchRequestUpdateWithoutResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    brief?: StringFieldUpdateOperationsInput | string
+    budgetCents?: NullableIntFieldUpdateOperationsInput | number | null
+    targetNiche?: MatchRequestUpdatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestUpdatetargetPlatformsInput | string[]
+    targetMinFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMaxFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMinEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetEntityType?: StringFieldUpdateOperationsInput | string
+    targetSport?: NullableStringFieldUpdateOperationsInput | string | null
+    maxResults?: IntFieldUpdateOperationsInput | number
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requestedBy?: UserUpdateOneRequiredWithoutMatchRequestsNestedInput
+  }
+
+  export type MatchRequestUncheckedUpdateWithoutResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedById?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    brief?: StringFieldUpdateOperationsInput | string
+    budgetCents?: NullableIntFieldUpdateOperationsInput | number | null
+    targetNiche?: MatchRequestUpdatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestUpdatetargetPlatformsInput | string[]
+    targetMinFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMaxFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMinEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetEntityType?: StringFieldUpdateOperationsInput | string
+    targetSport?: NullableStringFieldUpdateOperationsInput | string | null
+    maxResults?: IntFieldUpdateOperationsInput | number
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreatorUpsertWithoutMatchResultsInput = {
+    update: XOR<CreatorUpdateWithoutMatchResultsInput, CreatorUncheckedUpdateWithoutMatchResultsInput>
+    create: XOR<CreatorCreateWithoutMatchResultsInput, CreatorUncheckedCreateWithoutMatchResultsInput>
+    where?: CreatorWhereInput
+  }
+
+  export type CreatorUpdateToOneWithWhereWithoutMatchResultsInput = {
+    where?: CreatorWhereInput
+    data: XOR<CreatorUpdateWithoutMatchResultsInput, CreatorUncheckedUpdateWithoutMatchResultsInput>
+  }
+
+  export type CreatorUpdateWithoutMatchResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    handle?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    platforms?: JsonNullValueInput | InputJsonValue
+    primaryPlatform?: NullableStringFieldUpdateOperationsInput | string | null
+    niche?: CreatorUpdatenicheInput | string[]
+    followersCount?: IntFieldUpdateOperationsInput | number
+    engagementRate?: FloatFieldUpdateOperationsInput | number
+    avgReach?: IntFieldUpdateOperationsInput | number
+    audienceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    pricingTier?: NullableStringFieldUpdateOperationsInput | string | null
+    rateCardJson?: NullableJsonNullValueInput | InputJsonValue
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    dwollaVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalEarnings?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCreatorNestedInput
+    contracts?: ContractUpdateManyWithoutCreatorNestedInput
+    deliverables?: DeliverableUpdateManyWithoutCreatorNestedInput
+    graphNode?: CreatorGraphNodeUpdateOneWithoutCreatorNestedInput
+    predictions?: CreatorPredictionUpdateManyWithoutCreatorNestedInput
+    featureVectors?: FeatureVectorUpdateManyWithoutCreatorNestedInput
+    embeddings?: EmbeddingRecordUpdateManyWithoutCreatorNestedInput
+    taxDocuments?: TaxDocumentUpdateManyWithoutCreatorNestedInput
+    fmvAssessments?: FmvAssessmentUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type CreatorUncheckedUpdateWithoutMatchResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    handle?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    platforms?: JsonNullValueInput | InputJsonValue
+    primaryPlatform?: NullableStringFieldUpdateOperationsInput | string | null
+    niche?: CreatorUpdatenicheInput | string[]
+    followersCount?: IntFieldUpdateOperationsInput | number
+    engagementRate?: FloatFieldUpdateOperationsInput | number
+    avgReach?: IntFieldUpdateOperationsInput | number
+    audienceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    pricingTier?: NullableStringFieldUpdateOperationsInput | string | null
+    rateCardJson?: NullableJsonNullValueInput | InputJsonValue
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    dwollaVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalEarnings?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contracts?: ContractUncheckedUpdateManyWithoutCreatorNestedInput
+    deliverables?: DeliverableUncheckedUpdateManyWithoutCreatorNestedInput
+    graphNode?: CreatorGraphNodeUncheckedUpdateOneWithoutCreatorNestedInput
+    predictions?: CreatorPredictionUncheckedUpdateManyWithoutCreatorNestedInput
+    featureVectors?: FeatureVectorUncheckedUpdateManyWithoutCreatorNestedInput
+    embeddings?: EmbeddingRecordUncheckedUpdateManyWithoutCreatorNestedInput
+    taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type AthleteUpsertWithoutMatchResultsInput = {
+    update: XOR<AthleteUpdateWithoutMatchResultsInput, AthleteUncheckedUpdateWithoutMatchResultsInput>
+    create: XOR<AthleteCreateWithoutMatchResultsInput, AthleteUncheckedCreateWithoutMatchResultsInput>
+    where?: AthleteWhereInput
+  }
+
+  export type AthleteUpdateToOneWithWhereWithoutMatchResultsInput = {
+    where?: AthleteWhereInput
+    data: XOR<AthleteUpdateWithoutMatchResultsInput, AthleteUncheckedUpdateWithoutMatchResultsInput>
+  }
+
+  export type AthleteUpdateWithoutMatchResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sport?: StringFieldUpdateOperationsInput | string
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    jerseyNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    graduationYear?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumAthleteStatusFieldUpdateOperationsInput | $Enums.AthleteStatus
+    eligibilityStatus?: EnumEligibilityStatusFieldUpdateOperationsInput | $Enums.EligibilityStatus
+    eligibilityYearsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    ncaaId?: NullableStringFieldUpdateOperationsInput | string | null
+    nilActive?: BoolFieldUpdateOperationsInput | boolean
+    nilCapCents?: NullableIntFieldUpdateOperationsInput | number | null
+    nilEarnedYtdCents?: IntFieldUpdateOperationsInput | number
+    nilDisclosureRequired?: BoolFieldUpdateOperationsInput | boolean
+    followersCount?: IntFieldUpdateOperationsInput | number
+    engagementRate?: FloatFieldUpdateOperationsInput | number
+    primaryPlatform?: NullableStringFieldUpdateOperationsInput | string | null
+    platforms?: NullableJsonNullValueInput | InputJsonValue
+    audienceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fmvMinCents?: NullableIntFieldUpdateOperationsInput | number | null
+    fmvMaxCents?: NullableIntFieldUpdateOperationsInput | number | null
+    fmvLastAssessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    dwollaVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalEarningsNilCents?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAthleteNestedInput
+    university?: UniversityUpdateOneWithoutAthletesNestedInput
+    athleticDepartment?: AthleticDepartmentUpdateOneWithoutAthletesNestedInput
+    guardians?: GuardianRelationshipUpdateManyWithoutAthleteNestedInput
+    agentRelationships?: AgentRepresentationUpdateManyWithoutAthleteNestedInput
+    nilDisclosures?: NilDisclosureUpdateManyWithoutAthleteNestedInput
+    appearances?: AppearanceUpdateManyWithoutAthleteNestedInput
+    nilDeals?: NilDealUpdateManyWithoutAthleteNestedInput
+    fmvAssessments?: FmvAssessmentUpdateManyWithoutAthleteNestedInput
+    taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
+    graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
+    marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+  }
+
+  export type AthleteUncheckedUpdateWithoutMatchResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    universityId?: NullableStringFieldUpdateOperationsInput | string | null
+    athleticDepartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    sport?: StringFieldUpdateOperationsInput | string
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    jerseyNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    graduationYear?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumAthleteStatusFieldUpdateOperationsInput | $Enums.AthleteStatus
+    eligibilityStatus?: EnumEligibilityStatusFieldUpdateOperationsInput | $Enums.EligibilityStatus
+    eligibilityYearsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    ncaaId?: NullableStringFieldUpdateOperationsInput | string | null
+    nilActive?: BoolFieldUpdateOperationsInput | boolean
+    nilCapCents?: NullableIntFieldUpdateOperationsInput | number | null
+    nilEarnedYtdCents?: IntFieldUpdateOperationsInput | number
+    nilDisclosureRequired?: BoolFieldUpdateOperationsInput | boolean
+    followersCount?: IntFieldUpdateOperationsInput | number
+    engagementRate?: FloatFieldUpdateOperationsInput | number
+    primaryPlatform?: NullableStringFieldUpdateOperationsInput | string | null
+    platforms?: NullableJsonNullValueInput | InputJsonValue
+    audienceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fmvMinCents?: NullableIntFieldUpdateOperationsInput | number | null
+    fmvMaxCents?: NullableIntFieldUpdateOperationsInput | number | null
+    fmvLastAssessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    dwollaVerified?: BoolFieldUpdateOperationsInput | boolean
+    totalEarningsNilCents?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guardians?: GuardianRelationshipUncheckedUpdateManyWithoutAthleteNestedInput
+    agentRelationships?: AgentRepresentationUncheckedUpdateManyWithoutAthleteNestedInput
+    nilDisclosures?: NilDisclosureUncheckedUpdateManyWithoutAthleteNestedInput
+    appearances?: AppearanceUncheckedUpdateManyWithoutAthleteNestedInput
+    nilDeals?: NilDealUncheckedUpdateManyWithoutAthleteNestedInput
+    fmvAssessments?: FmvAssessmentUncheckedUpdateManyWithoutAthleteNestedInput
+    taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
+    graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
+    marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type AuditLogCreateManyUserInput = {
@@ -106675,6 +126041,48 @@ export namespace Prisma {
     errors?: NullableJsonNullValueInput | InputJsonValue
     mappingConfig?: NullableJsonNullValueInput | InputJsonValue
     completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealRoomMessageCreateManyAuthorInput = {
+    id?: string
+    dealRoomId: string
+    content: string
+    clauseRef?: string | null
+    type?: $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type DealRoomProposalCreateManyProposedByInput = {
+    id?: string
+    dealRoomId: string
+    title: string
+    changes: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: number | null
+    aiSummary?: string | null
+    status?: $Enums.ProposalStatus
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MatchRequestCreateManyRequestedByInput = {
+    id?: string
+    campaignId?: string | null
+    brief: string
+    budgetCents?: number | null
+    targetNiche?: MatchRequestCreatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestCreatetargetPlatformsInput | string[]
+    targetMinFollowers?: number | null
+    targetMaxFollowers?: number | null
+    targetMinEngagement?: number | null
+    targetEntityType?: string
+    targetSport?: string | null
+    maxResults?: number
+    status?: $Enums.MatchStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -106907,6 +126315,134 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DealRoomMessageUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    clauseRef?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumDealRoomMessageTypeFieldUpdateOperationsInput | $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dealRoom?: DealRoomUpdateOneRequiredWithoutMessagesNestedInput
+  }
+
+  export type DealRoomMessageUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dealRoomId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    clauseRef?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumDealRoomMessageTypeFieldUpdateOperationsInput | $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomMessageUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dealRoomId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    clauseRef?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumDealRoomMessageTypeFieldUpdateOperationsInput | $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomProposalUpdateWithoutProposedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    changes?: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: NullableIntFieldUpdateOperationsInput | number | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProposalStatusFieldUpdateOperationsInput | $Enums.ProposalStatus
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dealRoom?: DealRoomUpdateOneRequiredWithoutProposalsNestedInput
+  }
+
+  export type DealRoomProposalUncheckedUpdateWithoutProposedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dealRoomId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    changes?: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: NullableIntFieldUpdateOperationsInput | number | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProposalStatusFieldUpdateOperationsInput | $Enums.ProposalStatus
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomProposalUncheckedUpdateManyWithoutProposedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dealRoomId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    changes?: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: NullableIntFieldUpdateOperationsInput | number | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProposalStatusFieldUpdateOperationsInput | $Enums.ProposalStatus
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchRequestUpdateWithoutRequestedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    brief?: StringFieldUpdateOperationsInput | string
+    budgetCents?: NullableIntFieldUpdateOperationsInput | number | null
+    targetNiche?: MatchRequestUpdatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestUpdatetargetPlatformsInput | string[]
+    targetMinFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMaxFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMinEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetEntityType?: StringFieldUpdateOperationsInput | string
+    targetSport?: NullableStringFieldUpdateOperationsInput | string | null
+    maxResults?: IntFieldUpdateOperationsInput | number
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    results?: MatchResultUpdateManyWithoutRequestNestedInput
+  }
+
+  export type MatchRequestUncheckedUpdateWithoutRequestedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    brief?: StringFieldUpdateOperationsInput | string
+    budgetCents?: NullableIntFieldUpdateOperationsInput | number | null
+    targetNiche?: MatchRequestUpdatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestUpdatetargetPlatformsInput | string[]
+    targetMinFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMaxFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMinEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetEntityType?: StringFieldUpdateOperationsInput | string
+    targetSport?: NullableStringFieldUpdateOperationsInput | string | null
+    maxResults?: IntFieldUpdateOperationsInput | number
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    results?: MatchResultUncheckedUpdateManyWithoutRequestNestedInput
+  }
+
+  export type MatchRequestUncheckedUpdateManyWithoutRequestedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    brief?: StringFieldUpdateOperationsInput | string
+    budgetCents?: NullableIntFieldUpdateOperationsInput | number | null
+    targetNiche?: MatchRequestUpdatetargetNicheInput | string[]
+    targetPlatforms?: MatchRequestUpdatetargetPlatformsInput | string[]
+    targetMinFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMaxFollowers?: NullableIntFieldUpdateOperationsInput | number | null
+    targetMinEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetEntityType?: StringFieldUpdateOperationsInput | string
+    targetSport?: NullableStringFieldUpdateOperationsInput | string | null
+    maxResults?: IntFieldUpdateOperationsInput | number
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ContractCreateManyBrandInput = {
     id?: string
     creatorId: string
@@ -107052,6 +126588,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateWithoutBrandInput = {
@@ -107088,6 +126625,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUncheckedUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUncheckedUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUncheckedUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateManyWithoutBrandInput = {
@@ -107507,6 +127045,23 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type MatchResultCreateManyCreatorInput = {
+    id?: string
+    requestId: string
+    athleteId?: string | null
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents?: number | null
+    estimatedReach?: number | null
+    estimatedRoi?: number | null
+    reasoning: string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
   export type ContractUpdateWithoutCreatorInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -107541,6 +127096,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateWithoutCreatorInput = {
@@ -107577,6 +127133,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUncheckedUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUncheckedUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUncheckedUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateManyWithoutCreatorInput = {
@@ -107936,6 +127493,57 @@ export namespace Prisma {
     aiModel?: StringFieldUpdateOperationsInput | string
     riskFlags?: NullableJsonNullValueInput | InputJsonValue
     rawFactors?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchResultUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    request?: MatchRequestUpdateOneRequiredWithoutResultsNestedInput
+    athlete?: AthleteUpdateOneWithoutMatchResultsNestedInput
+  }
+
+  export type MatchResultUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestId?: StringFieldUpdateOperationsInput | string
+    athleteId?: NullableStringFieldUpdateOperationsInput | string | null
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchResultUncheckedUpdateManyWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestId?: StringFieldUpdateOperationsInput | string
+    athleteId?: NullableStringFieldUpdateOperationsInput | string | null
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -108430,6 +128038,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateWithoutTemplateInput = {
@@ -108466,6 +128075,7 @@ export namespace Prisma {
     milestones?: PaymentMilestoneUncheckedUpdateManyWithoutContractNestedInput
     nilExtension?: ContractNilExtensionUncheckedUpdateOneWithoutContractNestedInput
     nilDeals?: NilDealUncheckedUpdateManyWithoutContractNestedInput
+    dealRoom?: DealRoomUncheckedUpdateOneWithoutContractNestedInput
   }
 
   export type ContractUncheckedUpdateManyWithoutTemplateInput = {
@@ -109016,6 +128626,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateWithoutUniversityInput = {
@@ -109060,6 +128672,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateManyWithoutUniversityInput = {
@@ -109218,6 +128832,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     nilDeals?: NilDealUpdateManyWithoutCollectiveNestedInput
+    members?: CollectiveMemberUpdateManyWithoutCollectiveNestedInput
+    donors?: CollectiveDonorUpdateManyWithoutCollectiveNestedInput
+    donations?: CollectiveDonationUpdateManyWithoutCollectiveNestedInput
+    distributions?: CollectiveDistributionUpdateManyWithoutCollectiveNestedInput
   }
 
   export type NilCollectiveUncheckedUpdateWithoutUniversityInput = {
@@ -109236,6 +128854,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     nilDeals?: NilDealUncheckedUpdateManyWithoutCollectiveNestedInput
+    members?: CollectiveMemberUncheckedUpdateManyWithoutCollectiveNestedInput
+    donors?: CollectiveDonorUncheckedUpdateManyWithoutCollectiveNestedInput
+    donations?: CollectiveDonationUncheckedUpdateManyWithoutCollectiveNestedInput
+    distributions?: CollectiveDistributionUncheckedUpdateManyWithoutCollectiveNestedInput
   }
 
   export type NilCollectiveUncheckedUpdateManyWithoutUniversityInput = {
@@ -109332,6 +128954,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateWithoutAthleticDepartmentInput = {
@@ -109376,6 +129000,8 @@ export namespace Prisma {
     taxDocuments?: TaxDocumentUncheckedUpdateManyWithoutAthleteNestedInput
     graphNode?: AthleteGraphNodeUncheckedUpdateOneWithoutAthleteNestedInput
     marketplaceListing?: NilMarketplaceListingUncheckedUpdateOneWithoutAthleteNestedInput
+    collectiveMemberships?: CollectiveMemberUncheckedUpdateManyWithoutAthleteNestedInput
+    matchResults?: MatchResultUncheckedUpdateManyWithoutAthleteNestedInput
   }
 
   export type AthleteUncheckedUpdateManyWithoutAthleticDepartmentInput = {
@@ -109553,6 +129179,35 @@ export namespace Prisma {
     expiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type CollectiveMemberCreateManyAthleteInput = {
+    id?: string
+    collectiveId: string
+    sharePercent?: number
+    joinedAt?: Date | string
+    leftAt?: Date | string | null
+    status?: $Enums.CollectiveMemberStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MatchResultCreateManyAthleteInput = {
+    id?: string
+    requestId: string
+    creatorId?: string | null
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents?: number | null
+    estimatedReach?: number | null
+    estimatedRoi?: number | null
+    reasoning: string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
   }
 
   export type GuardianRelationshipUpdateWithoutAthleteInput = {
@@ -109987,6 +129642,95 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CollectiveMemberUpdateWithoutAthleteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sharePercent?: FloatFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leftAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCollectiveMemberStatusFieldUpdateOperationsInput | $Enums.CollectiveMemberStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    collective?: NilCollectiveUpdateOneRequiredWithoutMembersNestedInput
+    distributions?: CollectiveDistributionUpdateManyWithoutMemberNestedInput
+  }
+
+  export type CollectiveMemberUncheckedUpdateWithoutAthleteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    sharePercent?: FloatFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leftAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCollectiveMemberStatusFieldUpdateOperationsInput | $Enums.CollectiveMemberStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    distributions?: CollectiveDistributionUncheckedUpdateManyWithoutMemberNestedInput
+  }
+
+  export type CollectiveMemberUncheckedUpdateManyWithoutAthleteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    sharePercent?: FloatFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leftAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCollectiveMemberStatusFieldUpdateOperationsInput | $Enums.CollectiveMemberStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchResultUpdateWithoutAthleteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    request?: MatchRequestUpdateOneRequiredWithoutResultsNestedInput
+    creator?: CreatorUpdateOneWithoutMatchResultsNestedInput
+  }
+
+  export type MatchResultUncheckedUpdateWithoutAthleteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestId?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchResultUncheckedUpdateManyWithoutAthleteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestId?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type GuardianRelationshipCreateManyGuardianInput = {
     id?: string
     athleteId: string
@@ -110151,6 +129895,61 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type CollectiveMemberCreateManyCollectiveInput = {
+    id?: string
+    athleteId: string
+    sharePercent?: number
+    joinedAt?: Date | string
+    leftAt?: Date | string | null
+    status?: $Enums.CollectiveMemberStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CollectiveDonorCreateManyCollectiveInput = {
+    id?: string
+    displayName: string
+    email: string
+    isAnonymous?: boolean
+    totalDonatedCents?: number
+    donationCount?: number
+    lastDonatedAt?: Date | string | null
+    dwollaCustomerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CollectiveDonationCreateManyCollectiveInput = {
+    id?: string
+    donorId: string
+    amountCents: number
+    currency?: string
+    dwollaTransferId?: string | null
+    status?: string
+    note?: string | null
+    isRecurring?: boolean
+    donatedAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type CollectiveDistributionCreateManyCollectiveInput = {
+    id?: string
+    memberId: string
+    athleteId: string
+    amountCents: number
+    currency?: string
+    reason: string
+    periodStart: Date | string
+    periodEnd: Date | string
+    dwollaTransferId?: string | null
+    paidAt?: Date | string | null
+    status?: string
+    taxYear: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type NilDealUpdateWithoutCollectiveInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -110219,6 +130018,175 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     aiRiskScore?: IntFieldUpdateOperationsInput | number
     aiRiskFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveMemberUpdateWithoutCollectiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sharePercent?: FloatFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leftAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCollectiveMemberStatusFieldUpdateOperationsInput | $Enums.CollectiveMemberStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    athlete?: AthleteUpdateOneRequiredWithoutCollectiveMembershipsNestedInput
+    distributions?: CollectiveDistributionUpdateManyWithoutMemberNestedInput
+  }
+
+  export type CollectiveMemberUncheckedUpdateWithoutCollectiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    sharePercent?: FloatFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leftAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCollectiveMemberStatusFieldUpdateOperationsInput | $Enums.CollectiveMemberStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    distributions?: CollectiveDistributionUncheckedUpdateManyWithoutMemberNestedInput
+  }
+
+  export type CollectiveMemberUncheckedUpdateManyWithoutCollectiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    sharePercent?: FloatFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leftAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCollectiveMemberStatusFieldUpdateOperationsInput | $Enums.CollectiveMemberStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDonorUpdateWithoutCollectiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    totalDonatedCents?: IntFieldUpdateOperationsInput | number
+    donationCount?: IntFieldUpdateOperationsInput | number
+    lastDonatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    donations?: CollectiveDonationUpdateManyWithoutDonorNestedInput
+  }
+
+  export type CollectiveDonorUncheckedUpdateWithoutCollectiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    totalDonatedCents?: IntFieldUpdateOperationsInput | number
+    donationCount?: IntFieldUpdateOperationsInput | number
+    lastDonatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    donations?: CollectiveDonationUncheckedUpdateManyWithoutDonorNestedInput
+  }
+
+  export type CollectiveDonorUncheckedUpdateManyWithoutCollectiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    totalDonatedCents?: IntFieldUpdateOperationsInput | number
+    donationCount?: IntFieldUpdateOperationsInput | number
+    lastDonatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dwollaCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDonationUpdateWithoutCollectiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    donatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    donor?: CollectiveDonorUpdateOneRequiredWithoutDonationsNestedInput
+  }
+
+  export type CollectiveDonationUncheckedUpdateWithoutCollectiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    donorId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    donatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDonationUncheckedUpdateManyWithoutCollectiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    donorId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    donatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDistributionUpdateWithoutCollectiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    periodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    taxYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    member?: CollectiveMemberUpdateOneRequiredWithoutDistributionsNestedInput
+  }
+
+  export type CollectiveDistributionUncheckedUpdateWithoutCollectiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    memberId?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    periodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    taxYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDistributionUncheckedUpdateManyWithoutCollectiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    memberId?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    periodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    taxYear?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -110509,6 +130477,290 @@ export namespace Prisma {
     aiRiskFlags?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomMessageCreateManyDealRoomInput = {
+    id?: string
+    authorId: string
+    content: string
+    clauseRef?: string | null
+    type?: $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type DealRoomProposalCreateManyDealRoomInput = {
+    id?: string
+    proposedById: string
+    title: string
+    changes: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: number | null
+    aiSummary?: string | null
+    status?: $Enums.ProposalStatus
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealRoomMessageUpdateWithoutDealRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    clauseRef?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumDealRoomMessageTypeFieldUpdateOperationsInput | $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutDealRoomMessagesNestedInput
+  }
+
+  export type DealRoomMessageUncheckedUpdateWithoutDealRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    clauseRef?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumDealRoomMessageTypeFieldUpdateOperationsInput | $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomMessageUncheckedUpdateManyWithoutDealRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    clauseRef?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumDealRoomMessageTypeFieldUpdateOperationsInput | $Enums.DealRoomMessageType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomProposalUpdateWithoutDealRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    changes?: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: NullableIntFieldUpdateOperationsInput | number | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProposalStatusFieldUpdateOperationsInput | $Enums.ProposalStatus
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    proposedBy?: UserUpdateOneRequiredWithoutDealRoomProposalsNestedInput
+  }
+
+  export type DealRoomProposalUncheckedUpdateWithoutDealRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    proposedById?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    changes?: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: NullableIntFieldUpdateOperationsInput | number | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProposalStatusFieldUpdateOperationsInput | $Enums.ProposalStatus
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealRoomProposalUncheckedUpdateManyWithoutDealRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    proposedById?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    changes?: JsonNullValueInput | InputJsonValue
+    aiRiskDelta?: NullableIntFieldUpdateOperationsInput | number | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProposalStatusFieldUpdateOperationsInput | $Enums.ProposalStatus
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDistributionCreateManyMemberInput = {
+    id?: string
+    collectiveId: string
+    athleteId: string
+    amountCents: number
+    currency?: string
+    reason: string
+    periodStart: Date | string
+    periodEnd: Date | string
+    dwollaTransferId?: string | null
+    paidAt?: Date | string | null
+    status?: string
+    taxYear: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CollectiveDistributionUpdateWithoutMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    periodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    taxYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    collective?: NilCollectiveUpdateOneRequiredWithoutDistributionsNestedInput
+  }
+
+  export type CollectiveDistributionUncheckedUpdateWithoutMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    periodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    taxYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDistributionUncheckedUpdateManyWithoutMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    athleteId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    periodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    taxYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDonationCreateManyDonorInput = {
+    id?: string
+    collectiveId: string
+    amountCents: number
+    currency?: string
+    dwollaTransferId?: string | null
+    status?: string
+    note?: string | null
+    isRecurring?: boolean
+    donatedAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type CollectiveDonationUpdateWithoutDonorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    donatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    collective?: NilCollectiveUpdateOneRequiredWithoutDonationsNestedInput
+  }
+
+  export type CollectiveDonationUncheckedUpdateWithoutDonorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    donatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectiveDonationUncheckedUpdateManyWithoutDonorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectiveId?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    dwollaTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    donatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchResultCreateManyRequestInput = {
+    id?: string
+    creatorId?: string | null
+    athleteId?: string | null
+    rank: number
+    matchScore: number
+    audienceAlignScore: number
+    performanceScore: number
+    fraudScore: number
+    suggestedRateCents?: number | null
+    estimatedReach?: number | null
+    estimatedRoi?: number | null
+    reasoning: string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type MatchResultUpdateWithoutRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutMatchResultsNestedInput
+    athlete?: AthleteUpdateOneWithoutMatchResultsNestedInput
+  }
+
+  export type MatchResultUncheckedUpdateWithoutRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    athleteId?: NullableStringFieldUpdateOperationsInput | string | null
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchResultUncheckedUpdateManyWithoutRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    athleteId?: NullableStringFieldUpdateOperationsInput | string | null
+    rank?: IntFieldUpdateOperationsInput | number
+    matchScore?: FloatFieldUpdateOperationsInput | number
+    audienceAlignScore?: FloatFieldUpdateOperationsInput | number
+    performanceScore?: FloatFieldUpdateOperationsInput | number
+    fraudScore?: FloatFieldUpdateOperationsInput | number
+    suggestedRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedReach?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedRoi?: NullableFloatFieldUpdateOperationsInput | number | null
+    reasoning?: StringFieldUpdateOperationsInput | string
+    aiFlags?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

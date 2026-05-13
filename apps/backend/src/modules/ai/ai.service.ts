@@ -97,6 +97,15 @@ export class AiService {
     }
   }
 
+  async scoreContractRisk(input: { content: string }): Promise<{ riskScore: number; riskFlags: string[] }> {
+    return this.callAiService(
+      this.contractAiUrl!,
+      '/risk',
+      input,
+      { riskScore: 0, riskFlags: [] },
+    );
+  }
+
   async generateContractContent(input: ContractGenInput) {
     const fallback = {
       content: this.buildDefaultContractText(input),

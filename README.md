@@ -1,8 +1,6 @@
 # Conic Platform
 
-> **The creator & athlete partnership operating system** — AI-generated contracts, deliverable verification,
-> Dwolla ACH payments, campaign automation, creator identity graph, NIL compliance engine, compounding ML flywheel,
-> performance prediction, fraud detection, marketplace discovery, and enterprise API — web, iOS, and Android.
+> **The creator & athlete partnership operating system** — AI-generated contracts, real-time deal room negotiation, deliverable verification, Dwolla ACH payments, campaign automation, NIL collective management, AI-powered matchmaking, earnings intelligence, content calendar, creator identity graph, NIL compliance engine, compounding ML flywheel, fraud detection, marketplace discovery, and enterprise API — web, iOS, and Android.
 
 ---
 
@@ -13,15 +11,20 @@
 | Backend API (NestJS + Fastify) | ✅ Complete | 100% |
 | AI Microservices (8×) | ✅ Complete | 100% |
 | Web Dashboard (Next.js 15) | ✅ Complete | 100% |
-| **NIL Compliance Engine** | ✅ **New** | 100% |
-| **NIL Marketplace (Athlete Discovery)** | ✅ **New** | 100% |
-| **Fraud Detection AI** | ✅ **New** | 100% |
-| **Contract Template Library** | ✅ **New** | 100% |
-| **API Key Management (Ecosystem SDK)** | ✅ **New** | 100% |
-| **Tax Document Workflow (W-9/1099)** | ✅ **New** | 100% |
-| **Data Importers (Opendorse/Teamworks/CSV)** | ✅ **New** | 100% |
+| **NIL Compliance Engine** | ✅ Complete | 100% |
+| **NIL Marketplace (Athlete Discovery)** | ✅ Complete | 100% |
+| **Fraud Detection AI** | ✅ Complete | 100% |
+| **Contract Template Library** | ✅ Complete | 100% |
+| **API Key Management (Ecosystem SDK)** | ✅ Complete | 100% |
+| **Tax Document Workflow (W-9/1099)** | ✅ Complete | 100% |
+| **Data Importers (Opendorse/Teamworks/CSV)** | ✅ Complete | 100% |
+| **Deal Room (Real-Time Contract Negotiation)** | ✅ **New** | 100% |
+| **NIL Collective Portal (Donors · Members · Distributions)** | ✅ **New** | 100% |
+| **AI Matchmaking (Brand × Creator/Athlete)** | ✅ **New** | 100% |
+| **Earnings Intelligence (YTD · Pipeline · Tax)** | ✅ **New** | 100% |
+| **Content Calendar (Unified Event View)** | ✅ **New** | 100% |
 | **Mobile App (React Native + Expo)** | ✅ Complete | 100% |
-| Database Schema (Prisma + PG 16) | ✅ Complete + NIL models | 100% |
+| Database Schema (Prisma + PG 16) | ✅ Complete — 68 models | 100% |
 | Auth & RBAC + Google OAuth | ✅ Complete | 100% |
 | Biometric Auth (Face ID / Fingerprint) | ✅ Complete | 100% |
 | Push Notifications (APNs + FCM) | ✅ Complete | 100% |
@@ -43,6 +46,35 @@
 | EAS Build (App Store + Play Store) | ✅ Complete | 80% |
 | Infrastructure (Terraform + K8s) | ✅ Scaffolded — needs provisioning | 70% |
 | Unit test coverage | ✅ Critical paths (auth · contracts · payments) | 55% |
+
+---
+
+## Five Category-Leading Features
+
+### 1. Deal Room — Real-Time Contract Negotiation
+A dedicated negotiation hub attached to every contract. Parties can message in real-time, submit clause-level proposals, and accept/reject/counter-propose changes. The AI risk-scores every proposal against the contract content so both sides see the impact of changes before agreeing. Once both parties click "Agree to Terms" the room closes and the contract advances to signature.
+
+**Endpoints**: `POST /deal-room/open`, `GET /deal-room/:contractId`, `POST /deal-room/:contractId/messages`, `POST /deal-room/:contractId/proposals`, `PATCH .../proposals/:id/accept|reject|counter`, `PATCH .../agree|close`
+
+### 2. NIL Collective Portal — Full Fund Management
+Full lifecycle management for NIL collectives: create collectives, add/remove athlete members with share percentages, record donations (donor deduplication via upsert), and create proportional distributions that validate fund availability and distribute by share percent — all inside atomic Prisma transactions.
+
+**Endpoints**: `GET/POST /collectives`, `GET /collectives/:id/summary`, `POST/DELETE /collectives/:id/members`, `POST/GET /collectives/:id/donations`, `POST/GET /collectives/:id/distributions`
+
+### 3. AI Matchmaking — Brand × Creator/Athlete Pairing
+Brands submit a plain-text campaign brief with filters (niche, platform, followers, budget, entity type). The matchmaking engine queries verified creators and athletes, scores each candidate on a weighted combination of performance score (40%), audience authenticity (30%), and fraud score (30%), estimates CPM-based rates, and returns a ranked list with reasoning and AI flags. Processing is async — the request returns immediately with a `PENDING` status and results appear within seconds.
+
+**Endpoints**: `POST /matchmaking/requests`, `GET /matchmaking/requests`, `GET /matchmaking/requests/:id`
+
+### 4. Earnings Intelligence — Income, Pipeline & Tax
+Role-aware earnings dashboard. Creators see YTD net earnings, pending payments, active contract pipeline value, and a 15.3% self-employment tax estimate. Athletes see collective distributions and NIL deal pipeline. Brands see YTD spend. All roles get a 12-month breakdown and recent transaction history.
+
+**Endpoints**: `GET /earnings/summary`, `GET /earnings/breakdown?year=`, `GET /earnings/pipeline`
+
+### 5. Content Calendar — Unified Event View
+A single calendar aggregating every time-sensitive event: deliverable due dates, payment milestones, appearance bookings, campaign timelines, and campaign tasks — all filtered by the caller's role. The frontend renders a full monthly grid with color-coded event types (deliverable=blue, payment=green, appearance=purple, campaign=orange, task=gray). Click any day to see the full event list.
+
+**Endpoint**: `GET /calendar?start=ISO&end=ISO`
 
 ---
 
@@ -120,8 +152,9 @@
 apps/
   backend/                  NestJS API (port 4000)
     prisma/
-      schema.prisma         35+ models: creator, brand, athlete, NIL, contracts,
-                            marketplace, API keys, imports, tax docs, ML vectors
+      schema.prisma         68 models: creator, brand, athlete, NIL, contracts,
+                            marketplace, deal rooms, collectives, matchmaking,
+                            API keys, imports, tax docs, ML vectors
       seed.ts               Demo data — brands, creators, contracts, campaigns
     src/
       modules/              auth · users · brands · creators · contracts ·
@@ -130,7 +163,8 @@ apps/
                             graph · health · webhooks · orchestrator ·
                             nil-compliance · university · guardian · agent-profile ·
                             tax-documents · contract-templates · api-keys ·
-                            nil-marketplace · importers
+                            nil-marketplace · importers · deal-room ·
+                            collective-portal · matchmaking · earnings · calendar
       common/
         audit/              Compliance audit log
         cache/              Redis-backed typed CacheService
@@ -151,8 +185,9 @@ apps/
                             campaigns · analytics · creators · discover ·
                             graph · insights · notifications · settings ·
                             nil-compliance · athlete · school-reporting ·
-                            marketplace · api-keys · contract-templates
-    src/components/layout/  Sidebar — role-aware nav for 9 user roles
+                            marketplace · api-keys · contract-templates ·
+                            deal-room · earnings · collectives · match · calendar
+    src/components/layout/  Sidebar — role-aware nav for 9 user roles (31 routes)
     src/hooks/use-api.ts    TanStack Query hooks for every API resource
 
   mobile/                   React Native + Expo SDK 52 — iOS & Android

@@ -177,11 +177,14 @@ model User {
   complianceOfficer ComplianceOfficer?
 
   auditLogs             AuditLog[]
-  sentNotifications     Notification[] @relation("SentNotifications")
-  receivedNotifications Notification[] @relation("ReceivedNotifications")
+  sentNotifications     Notification[]     @relation("SentNotifications")
+  receivedNotifications Notification[]     @relation("ReceivedNotifications")
   refreshTokens         RefreshToken[]
   apiKeys               ApiKey[]
   importJobs            ImportJob[]
+  dealRoomMessages      DealRoomMessage[]
+  dealRoomProposals     DealRoomProposal[]
+  matchRequests         MatchRequest[]
 }
 
 model RefreshToken {
@@ -253,6 +256,7 @@ model Creator {
   embeddings     EmbeddingRecord[]
   taxDocuments   TaxDocument[]
   fmvAssessments FmvAssessment[]
+  matchResults   MatchResult[]
 
   @@index([userId])
   @@index([handle])
@@ -322,6 +326,7 @@ model Contract {
   milestones   PaymentMilestone[]
   nilExtension ContractNilExtension?
   nilDeals     NilDeal[]
+  dealRoom     DealRoom?
 
   @@index([brandId])
   @@index([creatorId])
@@ -929,15 +934,17 @@ model Athlete {
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
 
-  guardians          GuardianRelationship[]
-  agentRelationships AgentRepresentation[]
-  nilDisclosures     NilDisclosure[]
-  appearances        Appearance[]
-  nilDeals           NilDeal[]
-  fmvAssessments     FmvAssessment[]
-  taxDocuments       TaxDocument[]
-  graphNode          AthleteGraphNode?
-  marketplaceListing NilMarketplaceListing?
+  guardians             GuardianRelationship[]
+  agentRelationships    AgentRepresentation[]
+  nilDisclosures        NilDisclosure[]
+  appearances           Appearance[]
+  nilDeals              NilDeal[]
+  fmvAssessments        FmvAssessment[]
+  taxDocuments          TaxDocument[]
+  graphNode             AthleteGraphNode?
+  marketplaceListing    NilMarketplaceListing?
+  collectiveMemberships CollectiveMember[]
+  matchResults          MatchResult[]
 
   @@index([userId])
   @@index([universityId])
@@ -1065,7 +1072,11 @@ model NilCollective {
   createdAt             DateTime    @default(now())
   updatedAt             DateTime    @updatedAt
 
-  nilDeals NilDeal[]
+  nilDeals      NilDeal[]
+  members       CollectiveMember[]
+  donors        CollectiveDonor[]
+  donations     CollectiveDonation[]
+  distributions CollectiveDistribution[]
 
   @@index([universityId])
   @@index([sport])
@@ -1451,4 +1462,250 @@ model ImportJob {
 
   @@index([userId])
   @@index([status])
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// Deal Room — Live Negotiation Hub
+// ═══════════════════════════════════════════════════════════════════════════════
+
+enum DealRoomStatus {
+  OPEN // negotiation in progress
+  AGREED // both parties accepted final terms
+  CLOSED // closed without agreement
+  ABANDONED // one party stopped responding
+}
+
+enum DealRoomMessageType {
+  COMMENT
+  COUNTEROFFER
+  ACCEPTANCE
+  REJECTION
+  AI_SUGGESTION
+  SYSTEM
+}
+
+enum ProposalStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  COUNTERED
+  WITHDRAWN
+}
+
+model DealRoom {
+  id         String             @id @default(cuid())
+  contractId String             @unique
+  contract   Contract           @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  status     DealRoomStatus     @default(OPEN)
+  openedAt   DateTime           @default(now())
+  agreedAt   DateTime?
+  closedAt   DateTime?
+  messages   DealRoomMessage[]
+  proposals  DealRoomProposal[]
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+
+  @@index([contractId])
+  @@index([status])
+}
+
+model DealRoomMessage {
+  id         String              @id @default(cuid())
+  dealRoomId String
+  dealRoom   DealRoom            @relation(fields: [dealRoomId], references: [id], onDelete: Cascade)
+  authorId   String
+  author     User                @relation(fields: [authorId], references: [id])
+  content    String              @db.Text
+  clauseRef  String? // optional: which clause this message references
+  type       DealRoomMessageType @default(COMMENT)
+  metadata   Json?
+  createdAt  DateTime            @default(now())
+
+  @@index([dealRoomId])
+  @@index([authorId])
+  @@index([dealRoomId, createdAt])
+}
+
+model DealRoomProposal {
+  id           String         @id @default(cuid())
+  dealRoomId   String
+  dealRoom     DealRoom       @relation(fields: [dealRoomId], references: [id], onDelete: Cascade)
+  proposedById String
+  proposedBy   User           @relation(fields: [proposedById], references: [id])
+  title        String
+  changes      Json // [{ clauseType, original, proposed }]
+  aiRiskDelta  Int? // change in risk score vs current contract
+  aiSummary    String? // AI plain-language summary of changes
+  status       ProposalStatus @default(PENDING)
+  resolvedById String?
+  resolvedAt   DateTime?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@index([dealRoomId])
+  @@index([proposedById])
+  @@index([status])
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// Collective Portal — NIL Collective Management
+// ═══════════════════════════════════════════════════════════════════════════════
+
+enum CollectiveMemberStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+  REMOVED
+}
+
+model CollectiveMember {
+  id           String                 @id @default(cuid())
+  collectiveId String
+  collective   NilCollective          @relation(fields: [collectiveId], references: [id], onDelete: Cascade)
+  athleteId    String
+  athlete      Athlete                @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  sharePercent Float                  @default(0) // percentage of distributions
+  joinedAt     DateTime               @default(now())
+  leftAt       DateTime?
+  status       CollectiveMemberStatus @default(ACTIVE)
+  notes        String?
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+
+  distributions CollectiveDistribution[]
+
+  @@unique([collectiveId, athleteId])
+  @@index([collectiveId])
+  @@index([athleteId])
+  @@index([status])
+}
+
+model CollectiveDonor {
+  id                String        @id @default(cuid())
+  collectiveId      String
+  collective        NilCollective @relation(fields: [collectiveId], references: [id], onDelete: Cascade)
+  displayName       String
+  email             String
+  isAnonymous       Boolean       @default(false)
+  totalDonatedCents Int           @default(0)
+  donationCount     Int           @default(0)
+  lastDonatedAt     DateTime?
+  dwollaCustomerId  String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  donations CollectiveDonation[]
+
+  @@unique([collectiveId, email])
+  @@index([collectiveId])
+  @@index([email])
+}
+
+model CollectiveDonation {
+  id               String          @id @default(cuid())
+  donorId          String
+  donor            CollectiveDonor @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  collectiveId     String
+  collective       NilCollective   @relation(fields: [collectiveId], references: [id])
+  amountCents      Int
+  currency         String          @default("USD")
+  dwollaTransferId String?
+  status           String          @default("COMPLETED") // PENDING, COMPLETED, FAILED, REFUNDED
+  note             String?
+  isRecurring      Boolean         @default(false)
+  donatedAt        DateTime        @default(now())
+  createdAt        DateTime        @default(now())
+
+  @@index([donorId])
+  @@index([collectiveId])
+  @@index([status])
+  @@index([donatedAt])
+}
+
+model CollectiveDistribution {
+  id               String           @id @default(cuid())
+  collectiveId     String
+  collective       NilCollective    @relation(fields: [collectiveId], references: [id])
+  memberId         String
+  member           CollectiveMember @relation(fields: [memberId], references: [id])
+  athleteId        String
+  amountCents      Int
+  currency         String           @default("USD")
+  reason           String
+  periodStart      DateTime
+  periodEnd        DateTime
+  dwollaTransferId String?
+  paidAt           DateTime?
+  status           String           @default("PENDING") // PENDING, PROCESSING, PAID, FAILED
+  taxYear          Int
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  @@index([collectiveId])
+  @@index([memberId])
+  @@index([athleteId])
+  @@index([status])
+  @@index([taxYear])
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// AI Matchmaking — Brand × Creator / Athlete Pairing Engine
+// ═══════════════════════════════════════════════════════════════════════════════
+
+enum MatchStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model MatchRequest {
+  id                  String        @id @default(cuid())
+  requestedById       String
+  requestedBy         User          @relation(fields: [requestedById], references: [id])
+  campaignId          String?
+  brief               String        @db.Text // plain-text campaign brief
+  budgetCents         Int? // max per creator/athlete
+  targetNiche         String[]
+  targetPlatforms     String[]
+  targetMinFollowers  Int?
+  targetMaxFollowers  Int?
+  targetMinEngagement Float?
+  targetEntityType    String        @default("creator") // creator | athlete | both
+  targetSport         String? // for athlete matching
+  maxResults          Int           @default(10)
+  status              MatchStatus   @default(PENDING)
+  results             MatchResult[]
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  @@index([requestedById])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model MatchResult {
+  id                 String       @id @default(cuid())
+  requestId          String
+  request            MatchRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  creatorId          String?
+  creator            Creator?     @relation(fields: [creatorId], references: [id])
+  athleteId          String?
+  athlete            Athlete?     @relation(fields: [athleteId], references: [id])
+  rank               Int
+  matchScore         Float // 0-100 overall match quality
+  audienceAlignScore Float // 0-100 audience alignment to brief
+  performanceScore   Float // 0-100 predicted performance
+  fraudScore         Float // 0-100 fraud risk (lower = better)
+  suggestedRateCents Int? // AI-suggested deal rate
+  estimatedReach     Int?
+  estimatedRoi       Float?
+  reasoning          String       @db.Text
+  aiFlags            Json?
+  createdAt          DateTime     @default(now())
+
+  @@index([requestId])
+  @@index([creatorId])
+  @@index([athleteId])
+  @@index([rank])
 }

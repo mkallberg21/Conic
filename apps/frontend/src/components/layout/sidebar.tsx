@@ -6,7 +6,8 @@ import {
   LayoutDashboard, FileText, CheckSquare, CreditCard,
   Megaphone, BarChart2, Users, Settings, Zap, Network, Brain,
   ShieldCheck, GraduationCap, UserCircle, Store, Key, Upload,
-  ClipboardList, TrendingUp, Heart,
+  ClipboardList, TrendingUp, Heart, MessageSquare, DollarSign,
+  Sparkles, CalendarDays, Building2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/use-auth';
@@ -24,6 +25,10 @@ const navItems = [
   { href: '/dashboard/insights', label: 'AI Insights', icon: Brain, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/contract-templates', label: 'Templates', icon: ClipboardList, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/marketplace', label: 'NIL Marketplace', icon: Store, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/match', label: 'AI Matchmaking', icon: Sparkles, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/earnings', label: 'Earnings', icon: DollarSign, roles: ['BRAND', 'CREATOR', 'ATHLETE', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/calendar', label: 'Calendar', icon: CalendarDays, roles: ['BRAND', 'CREATOR', 'ATHLETE', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/collectives', label: 'Collectives', icon: Building2, roles: ['ADMIN', 'COLLECTIVE_ADMIN', 'UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR'] },
   { href: '/dashboard/api-keys', label: 'API Keys', icon: Key, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/importers', label: 'Data Import', icon: Upload, roles: ['AGENCY', 'ADMIN', 'UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR'] },
 
@@ -32,6 +37,7 @@ const navItems = [
   { href: '/athlete/marketplace', label: 'My Listing', icon: Store, roles: ['ATHLETE'] },
   { href: '/athlete/contracts', label: 'My Contracts', icon: FileText, roles: ['ATHLETE'] },
   { href: '/athlete/payments', label: 'Earnings', icon: CreditCard, roles: ['ATHLETE'] },
+  { href: '/dashboard/calendar', label: 'Calendar', icon: CalendarDays, roles: ['ATHLETE'] },
 
   // ─── Guardian ─────────────────────────────────────────────────────────────
   { href: '/guardian', label: 'Guardian Portal', icon: Heart, roles: ['GUARDIAN'] },

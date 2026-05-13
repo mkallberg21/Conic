@@ -1015,6 +1015,139 @@ exports.Prisma.ImportJobScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DealRoomScalarFieldEnum = {
+  id: 'id',
+  contractId: 'contractId',
+  status: 'status',
+  openedAt: 'openedAt',
+  agreedAt: 'agreedAt',
+  closedAt: 'closedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DealRoomMessageScalarFieldEnum = {
+  id: 'id',
+  dealRoomId: 'dealRoomId',
+  authorId: 'authorId',
+  content: 'content',
+  clauseRef: 'clauseRef',
+  type: 'type',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DealRoomProposalScalarFieldEnum = {
+  id: 'id',
+  dealRoomId: 'dealRoomId',
+  proposedById: 'proposedById',
+  title: 'title',
+  changes: 'changes',
+  aiRiskDelta: 'aiRiskDelta',
+  aiSummary: 'aiSummary',
+  status: 'status',
+  resolvedById: 'resolvedById',
+  resolvedAt: 'resolvedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CollectiveMemberScalarFieldEnum = {
+  id: 'id',
+  collectiveId: 'collectiveId',
+  athleteId: 'athleteId',
+  sharePercent: 'sharePercent',
+  joinedAt: 'joinedAt',
+  leftAt: 'leftAt',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CollectiveDonorScalarFieldEnum = {
+  id: 'id',
+  collectiveId: 'collectiveId',
+  displayName: 'displayName',
+  email: 'email',
+  isAnonymous: 'isAnonymous',
+  totalDonatedCents: 'totalDonatedCents',
+  donationCount: 'donationCount',
+  lastDonatedAt: 'lastDonatedAt',
+  dwollaCustomerId: 'dwollaCustomerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CollectiveDonationScalarFieldEnum = {
+  id: 'id',
+  donorId: 'donorId',
+  collectiveId: 'collectiveId',
+  amountCents: 'amountCents',
+  currency: 'currency',
+  dwollaTransferId: 'dwollaTransferId',
+  status: 'status',
+  note: 'note',
+  isRecurring: 'isRecurring',
+  donatedAt: 'donatedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CollectiveDistributionScalarFieldEnum = {
+  id: 'id',
+  collectiveId: 'collectiveId',
+  memberId: 'memberId',
+  athleteId: 'athleteId',
+  amountCents: 'amountCents',
+  currency: 'currency',
+  reason: 'reason',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  dwollaTransferId: 'dwollaTransferId',
+  paidAt: 'paidAt',
+  status: 'status',
+  taxYear: 'taxYear',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MatchRequestScalarFieldEnum = {
+  id: 'id',
+  requestedById: 'requestedById',
+  campaignId: 'campaignId',
+  brief: 'brief',
+  budgetCents: 'budgetCents',
+  targetNiche: 'targetNiche',
+  targetPlatforms: 'targetPlatforms',
+  targetMinFollowers: 'targetMinFollowers',
+  targetMaxFollowers: 'targetMaxFollowers',
+  targetMinEngagement: 'targetMinEngagement',
+  targetEntityType: 'targetEntityType',
+  targetSport: 'targetSport',
+  maxResults: 'maxResults',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MatchResultScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  creatorId: 'creatorId',
+  athleteId: 'athleteId',
+  rank: 'rank',
+  matchScore: 'matchScore',
+  audienceAlignScore: 'audienceAlignScore',
+  performanceScore: 'performanceScore',
+  fraudScore: 'fraudScore',
+  suggestedRateCents: 'suggestedRateCents',
+  estimatedReach: 'estimatedReach',
+  estimatedRoi: 'estimatedRoi',
+  reasoning: 'reasoning',
+  aiFlags: 'aiFlags',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1192,6 +1325,44 @@ exports.ImportJobStatus = exports.$Enums.ImportJobStatus = {
   PARTIAL: 'PARTIAL'
 };
 
+exports.DealRoomStatus = exports.$Enums.DealRoomStatus = {
+  OPEN: 'OPEN',
+  AGREED: 'AGREED',
+  CLOSED: 'CLOSED',
+  ABANDONED: 'ABANDONED'
+};
+
+exports.DealRoomMessageType = exports.$Enums.DealRoomMessageType = {
+  COMMENT: 'COMMENT',
+  COUNTEROFFER: 'COUNTEROFFER',
+  ACCEPTANCE: 'ACCEPTANCE',
+  REJECTION: 'REJECTION',
+  AI_SUGGESTION: 'AI_SUGGESTION',
+  SYSTEM: 'SYSTEM'
+};
+
+exports.ProposalStatus = exports.$Enums.ProposalStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  COUNTERED: 'COUNTERED',
+  WITHDRAWN: 'WITHDRAWN'
+};
+
+exports.CollectiveMemberStatus = exports.$Enums.CollectiveMemberStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  PENDING: 'PENDING',
+  REMOVED: 'REMOVED'
+};
+
+exports.MatchStatus = exports.$Enums.MatchStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   RefreshToken: 'RefreshToken',
@@ -1244,7 +1415,16 @@ exports.Prisma.ModelName = {
   ApiKey: 'ApiKey',
   NilMarketplaceListing: 'NilMarketplaceListing',
   ScimToken: 'ScimToken',
-  ImportJob: 'ImportJob'
+  ImportJob: 'ImportJob',
+  DealRoom: 'DealRoom',
+  DealRoomMessage: 'DealRoomMessage',
+  DealRoomProposal: 'DealRoomProposal',
+  CollectiveMember: 'CollectiveMember',
+  CollectiveDonor: 'CollectiveDonor',
+  CollectiveDonation: 'CollectiveDonation',
+  CollectiveDistribution: 'CollectiveDistribution',
+  MatchRequest: 'MatchRequest',
+  MatchResult: 'MatchResult'
 };
 
 /**

@@ -39,6 +39,11 @@ import { ContractTemplatesModule } from './modules/contract-templates/contract-t
 import { ApiKeysModule } from './modules/api-keys/api-keys.module';
 import { NilMarketplaceModule } from './modules/nil-marketplace/nil-marketplace.module';
 import { ImportersModule } from './modules/importers/importers.module';
+import { DealRoomModule } from './modules/deal-room/deal-room.module';
+import { CollectivePortalModule } from './modules/collective-portal/collective-portal.module';
+import { MatchmakingModule } from './modules/matchmaking/matchmaking.module';
+import { EarningsModule } from './modules/earnings/earnings.module';
+import { CalendarModule } from './modules/calendar/calendar.module';
 
 @Module({
   imports: [
@@ -108,6 +113,11 @@ import { ImportersModule } from './modules/importers/importers.module';
     ApiKeysModule,
     NilMarketplaceModule,
     ImportersModule,
+    DealRoomModule,
+    CollectivePortalModule,
+    MatchmakingModule,
+    EarningsModule,
+    CalendarModule,
   ],
   providers: [
     // Apply ThrottlerGuard globally — every route is rate-limited by default
