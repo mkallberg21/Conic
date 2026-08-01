@@ -83,16 +83,15 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
         working-directory: apps/${{ matrix.service }}
-      # NOTE: these services have no pytest suites yet. Until they do, we gate on a
-      # real signal — byte-compiling every module fails the build on syntax/import
-      # errors instead of the previous `pytest ... || true`, which silently passed.
-      # TODO: add pytest suites per service and switch this to `python -m pytest tests/ -v`.
+      # Byte-compile every module first — fails the build on syntax/import errors
+      # (replaces the previous `pytest ... || true`, which silently passed).
       - name: Compile-check
         run: python -m compileall -q .
         working-directory: apps/${{ matrix.service }}
-      - name: Run tests (if present)
+      - name: Run tests
         run: |
           if ls tests/test_*.py >/dev/null 2>&1; then
+            pip install pytest httpx
             python -m pytest tests/ -v
           else
             echo "No pytest suites for ${{ matrix.service }} yet — skipping (compile-check ran above)."
