@@ -34,7 +34,16 @@ npm run test:cov                               # 66/66 green, thresholds enforce
 
 These are genuinely gated on secrets or account access and cannot be completed in-repo:
 
-- [ ] **Live database boot / migrate / seed.** Not runnable in the dev container used for this pass (no Docker/Postgres present). To verify end-to-end: `docker compose up -d postgres redis`, create a local `.env` from `.env.example` (generate secrets with `openssl rand -base64 48`), then `npm run db:migrate` → `npm run db:seed` → start the backend and hit `/health`. An e2e smoke test (`apps/backend/test/`, existing `jest-e2e.json`) should be added to boot the Nest app against this DB.
+- [ ] **Live database boot / migrate / seed + e2e smoke test.** Not runnable in this
+  dev environment (no Docker/Postgres; the app cannot boot without Postgres **and**
+  Redis, since Prisma, the Throttler, and BullMQ all connect at startup — even
+  `/health/live` needs a booted app). To verify end-to-end: `docker compose up -d
+  postgres redis`, create a local `.env` from `.env.example` (secrets via `openssl
+  rand -base64 48`), then `npm run db:migrate` → `npm run db:seed` → start the backend
+  and hit `/health`. Then add an e2e smoke test — note the `test:e2e` script currently
+  points at `apps/backend/test/jest-e2e.json`, which **does not exist**; the `test/`
+  harness needs to be created. CI's `test-backend` job already provides Postgres + Redis
+  and now runs migrations, so the e2e will execute there once written.
 - [ ] **Payments (Dwolla ACH).** `PaymentsService.release()` is wired and unit-tested against mocks, but never exercised against the real Dwolla API. Needs live keys + a platform funding source, then a sandbox integration test.
 - [ ] **Infrastructure.** Terraform/K8s under `infrastructure/` is scaffolded, not provisioned. Needs AWS credentials.
 - [ ] **Mobile release.** EAS Build/Submit to the App Store + Google Play needs store accounts.
