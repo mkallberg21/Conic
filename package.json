@@ -25,5 +25,10 @@
     "typescript-eslint": "^8.46.3",
     "turbo": "^2.3.3",
     "typescript": "^5.7.2"
+  },
+  "overrides": {
+    "@nestjs/core": "^11.1.28",
+    "@nestjs/common": "^11.1.28",
+    "rxjs": "^7.8.2"
   }
 }
