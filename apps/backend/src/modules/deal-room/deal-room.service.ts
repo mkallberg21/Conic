@@ -10,6 +10,8 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { AuditService } from '../../common/audit/audit.service';
 import { AiService } from '../ai/ai.service';
 import { OpenDealRoomDto, PostMessageDto, CreateProposalDto } from './dto/deal-room.dto';
+import { ContactScannerService } from '../anti-circumvention/contact-scanner.service';
+import { AntiCircumventionService } from '../anti-circumvention/anti-circumvention.service';
 
 @Injectable()
 export class DealRoomService {
@@ -19,6 +21,8 @@ export class DealRoomService {
     private readonly prisma: PrismaService,
     private readonly auditService: AuditService,
     private readonly aiService: AiService,
+    private readonly scanner: ContactScannerService,
+    private readonly antiCircumvention: AntiCircumventionService,
   ) {}
 
   // ─── Open / Get ────────────────────────────────────────────────────────────
@@ -99,18 +103,33 @@ export class DealRoomService {
       throw new BadRequestException('Deal room is not open');
     }
 
+    // Anti-disintermediation: scan for off-platform contact sharing, redact + flag.
+    const scan = this.scanner.scan(dto.content);
+
     const message = await this.prisma.dealRoomMessage.create({
       data: {
         dealRoomId: room.id,
         authorId: callerId,
-        content: dto.content,
+        content: scan.flagged ? scan.redacted : dto.content,
         clauseRef: dto.clauseRef,
         type: dto.type ?? DealRoomMessageType.COMMENT,
+        ...(scan.flagged ? { metadata: { contactRedacted: true, categories: scan.categories } } : {}),
       },
       include: {
         author: { select: { id: true, firstName: true, lastName: true, avatarUrl: true, role: true } },
       },
     });
+
+    if (scan.flagged) {
+      await this.antiCircumvention.recordMessageFlag({
+        dealRoomId: room.id,
+        contractId,
+        actorUserId: callerId,
+        categories: scan.categories,
+        severity: scan.severity,
+        detail: 'Off-platform contact details detected and redacted in a deal-room message.',
+      });
+    }
 
     return message;
   }

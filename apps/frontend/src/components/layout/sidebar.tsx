@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, FileText, CheckSquare, CreditCard,
   Megaphone, BarChart2, Users, Settings, Zap, Network, Brain,
-  ShieldCheck, GraduationCap, UserCircle, Store, Key, Upload,
+  ShieldCheck, ShieldAlert, GraduationCap, UserCircle, Store, Key, Upload,
   ClipboardList, TrendingUp, Heart, DollarSign,
   Sparkles, CalendarDays, Building2,
 } from 'lucide-react';
@@ -15,6 +15,7 @@ import { useAuth } from '@/hooks/use-auth';
 const navItems = [
   // ─── Brand / Creator / Agency / Admin ────────────────────────────────────
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/profile', label: 'My Profile', icon: UserCircle, roles: ['CREATOR', 'ATHLETE'] },
   { href: '/dashboard/contracts', label: 'Contracts', icon: FileText, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/deliverables', label: 'Deliverables', icon: CheckSquare, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/payments', label: 'Payments', icon: CreditCard, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
@@ -30,6 +31,7 @@ const navItems = [
   { href: '/dashboard/calendar', label: 'Calendar', icon: CalendarDays, roles: ['BRAND', 'CREATOR', 'ATHLETE', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/collectives', label: 'Collectives', icon: Building2, roles: ['ADMIN', 'COLLECTIVE_ADMIN', 'UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR'] },
   { href: '/dashboard/api-keys', label: 'API Keys', icon: Key, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/circumvention', label: 'Platform Integrity', icon: ShieldAlert, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/importers', label: 'Data Import', icon: Upload, roles: ['AGENCY', 'ADMIN', 'UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR'] },
 
   // ─── Athlete ──────────────────────────────────────────────────────────────

@@ -44,6 +44,10 @@ import { CollectivePortalModule } from './modules/collective-portal/collective-p
 import { MatchmakingModule } from './modules/matchmaking/matchmaking.module';
 import { EarningsModule } from './modules/earnings/earnings.module';
 import { CalendarModule } from './modules/calendar/calendar.module';
+import { ProfileModule } from './modules/profile/profile.module';
+import { LlmModule } from './common/llm/llm.module';
+import { DiscoveryModule } from './modules/discovery/discovery.module';
+import { AntiCircumventionModule } from './modules/anti-circumvention/anti-circumvention.module';
 
 @Module({
   imports: [
@@ -86,6 +90,7 @@ import { CalendarModule } from './modules/calendar/calendar.module';
     SecurityModule,
     EventBusModule,
     AuditModule,
+    LlmModule,
 
     // Feature modules
     AuthModule,
@@ -118,6 +123,9 @@ import { CalendarModule } from './modules/calendar/calendar.module';
     MatchmakingModule,
     EarningsModule,
     CalendarModule,
+    ProfileModule,
+    DiscoveryModule,
+    AntiCircumventionModule,
   ],
   providers: [
     // Apply ThrottlerGuard globally — every route is rate-limited by default

@@ -46,6 +46,8 @@ export default () => ({
   },
   ai: {
     openaiApiKey: process.env.OPENAI_API_KEY,
+    anthropicApiKey: process.env.ANTHROPIC_API_KEY,
+    anthropicModel: process.env.ANTHROPIC_MODEL ?? 'claude-opus-5',
     internalSecret: process.env.INTERNAL_API_SECRET,
     contractAiUrl: process.env.CONTRACT_AI_URL ?? 'http://localhost:8001',
     deliverableAiUrl: process.env.DELIVERABLE_AI_URL ?? 'http://localhost:8002',

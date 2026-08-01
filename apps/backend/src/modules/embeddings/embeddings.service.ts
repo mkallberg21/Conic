@@ -99,6 +99,9 @@ export class EmbeddingsService {
       creator.handle,
       creator.bio ?? '',
       creator.niche.join(', '),
+      creator.contentStyle.join(', '),
+      creator.aestheticTags.join(', '),
+      [creator.city, creator.region, creator.country].filter(Boolean).join(', '),
       creator.primaryPlatform ?? '',
     ]
       .filter(Boolean)
@@ -107,6 +110,30 @@ export class EmbeddingsService {
     const vector = await this.embed(text);
     await this.storeEmbedding('creator', creatorId, 'profile', vector, 'text-embedding-3-small', creatorId);
     this.logger.log(`Profile embedding stored for creator=${creatorId}`);
+  }
+
+  // ── Embed + store athlete profile ─────────────────────────────────────────
+
+  async embedAthleteProfile(athleteId: string): Promise<void> {
+    const athlete = await this.prisma.athlete.findUniqueOrThrow({
+      where: { id: athleteId },
+      include: { user: { select: { firstName: true, lastName: true } } },
+    });
+
+    const text = [
+      `${athlete.user.firstName} ${athlete.user.lastName}`,
+      athlete.sport,
+      athlete.position ?? '',
+      athlete.contentStyle.join(', '),
+      athlete.aestheticTags.join(', '),
+      [athlete.city, athlete.region, athlete.country].filter(Boolean).join(', '),
+    ]
+      .filter(Boolean)
+      .join('. ');
+
+    const vector = await this.embed(text);
+    await this.storeEmbedding('athlete', athleteId, 'profile', vector);
+    this.logger.log(`Profile embedding stored for athlete=${athleteId}`);
   }
 
   // ── Embed + store contract clause ─────────────────────────────────────────
@@ -142,6 +169,11 @@ export class EmbeddingsService {
       }))
       .sort((a, b) => b.score - a.score)
       .slice(0, limit);
+  }
+
+  /** Public cosine similarity for callers that score their own candidate set (e.g. discovery). */
+  similarity(a: number[], b: number[]): number {
+    return this.cosineSimilarity(a, b);
   }
 
   private cosineSimilarity(a: number[], b: number[]): number {
