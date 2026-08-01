@@ -24,7 +24,7 @@
 | **Earnings Intelligence (YTD · Pipeline · Tax)** | ✅ **New** | 100% |
 | **Content Calendar (Unified Event View)** | ✅ **New** | 100% |
 | **Mobile App (React Native + Expo)** | ✅ Complete | 100% |
-| Database Schema (Prisma + PG 16) | ✅ Complete — 68 models | 100% |
+| Database Schema (Prisma + PG 16) | ✅ Complete — 61 models | 100% |
 | Auth & RBAC + Google OAuth | ✅ Complete | 100% |
 | Biometric Auth (Face ID / Fingerprint) | ✅ Complete | 100% |
 | Push Notifications (APNs + FCM) | ✅ Complete | 100% |
@@ -152,7 +152,7 @@ A single calendar aggregating every time-sensitive event: deliverable due dates,
 apps/
   backend/                  NestJS API (port 4000)
     prisma/
-      schema.prisma         68 models: creator, brand, athlete, NIL, contracts,
+      schema.prisma         61 models: creator, brand, athlete, NIL, contracts,
                             marketplace, deal rooms, collectives, matchmaking,
                             API keys, imports, tax docs, ML vectors
       seed.ts               Demo data — brands, creators, contracts, campaigns

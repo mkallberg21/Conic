@@ -41,7 +41,7 @@ Conic is the creator and athlete partnership operating system. It serves brands,
                             │                                  │
               ┌─────────────▼──────────┐          ┌───────────▼──────────────┐
               │  PostgreSQL 16 (RDS)   │          │   Redis 7 (ElastiCache)  │
-              │  52 Prisma models      │          │   Cache · BullMQ queues  │
+              │  61 Prisma models      │          │   Cache · BullMQ queues  │
               │  Encrypted at rest     │          │   Rate limiting          │
               └────────────────────────┘          └──────────────────────────┘
                             │
@@ -201,7 +201,7 @@ React Native 0.76 + Expo SDK 52 + Expo Router 4 + NativeWind. Targets App Store 
 
 | Package | Alias | Contents |
 |---------|-------|----------|
-| `packages/contracts` | `@conic/contracts` | Zod request schemas — shared between apps/api and apps/backend |
+| `packages/contracts` | `@conic/contracts` | Zod request schemas — shared across the backend and services |
 | `packages/domain` | `@conic/domain` | Value objects: Agreement, Deliverable, Payment, ContactLead, Party |
 | `packages/types` | `@conic/types` | Cross-platform TypeScript interfaces |
 | `packages/ui` | `@conic/ui` | 15+ shadcn/ui components + Conic-specific (StatCard, StatusBadge, DataTable) |
@@ -209,21 +209,18 @@ React Native 0.76 + Expo SDK 52 + Expo Router 4 + NativeWind. Targets App Store 
 
 ---
 
-### Workflow API (`apps/api`) — Standalone
-
-A self-contained Fastify 5 server (port 3001) built on the `@conic/contracts` and `@conic/domain` packages. Uses in-memory storage. This is the original standalone workflow prototype — useful for SDK demos, integration testing against a contract-spec-compliant server, or client onboarding tooling that does not require a full database. It is not deployed in production (not included in docker-compose or K8s manifests).
-
----
-
-## Data Model (52 Prisma models)
+## Data Model (61 Prisma models)
 
 | Domain | Models |
 |--------|--------|
-| Identity | User, RefreshToken, Brand, Creator, Agency |
+| Identity | User, RefreshToken, Brand, Creator, Agency, AgentProfile, AgentRepresentation |
 | Contracts | Contract, ContractTemplate, ContractVersion, ContractClause, ContractNilExtension |
+| Deal Room | DealRoom, DealRoomMessage, DealRoomProposal |
 | Delivery | Deliverable, Payment, PaymentMilestone |
 | Campaigns | Campaign, CampaignTask, CampaignSummary |
 | NIL / Athlete | Athlete, AthleteGraphNode, Guardian, GuardianRelationship, GuardianApproval, University, AthleticDepartment, ComplianceOfficer, NilCollective, NilDeal, NilDisclosure, Appearance, TaxDocument, FmvAssessment, ComplianceReport |
+| NIL Collective | CollectiveDonor, CollectiveDonation, CollectiveMember, CollectiveDistribution |
+| Matchmaking | MatchRequest, MatchResult |
 | AI / ML | AIModel, AIRequest, CreatorPrediction, FeatureVector, EmbeddingRecord, CreatorGraphNode, CreatorGraphEdge, ModelRegistry, ModelDriftAlert, DataFlywheelEvent |
 | Operations | Notification, AuditLog, WebhookEndpoint, WebhookDelivery, ContactLead, ApiKey, NilMarketplaceListing, ScimToken, ImportJob |
 
