@@ -17,6 +17,11 @@ jobs:
           node-version: '22'
           cache: 'npm'
       - run: npm ci
+      # The Prisma client is generated into node_modules (no longer committed), so
+      # typecheck needs it present to resolve '@prisma/client'.
+      - name: Generate Prisma client
+        run: npx prisma generate
+        working-directory: apps/backend
       - run: npm run lint
       - run: npm run typecheck
 
@@ -53,6 +58,8 @@ jobs:
         working-directory: apps/backend
         env:
           DATABASE_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
+          # schema.prisma declares directUrl = env("DATABASE_DIRECT_URL"); migrate needs it
+          DATABASE_DIRECT_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
       - name: Run tests (with coverage thresholds)
         run: npm run test:cov --workspace=apps/backend
         env:
@@ -68,6 +75,7 @@ jobs:
         run: npm run test:e2e --workspace=apps/backend
         env:
           DATABASE_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
+          DATABASE_DIRECT_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
           REDIS_HOST: localhost
           JWT_SECRET: test_secret_key_32_chars_minimum
           JWT_REFRESH_SECRET: test_refresh_secret_32_chars_min
