@@ -229,9 +229,16 @@ model Creator {
   user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   handle           String
   bio              String?
-  platforms        Json                // { instagram: "handle", tiktok: "handle", youtube: "channelId" }
+  platforms        Json                // legacy handle map; superseded by SocialAccount rows
   primaryPlatform  String?
   niche            String[]
+  // Self-provided profile attributes for discovery search (never scraped/inferred)
+  contentStyle     String[]            // e.g. minimalist, luxury, streetwear
+  aestheticTags    String[]
+  languages        String[]
+  city             String?
+  region           String?
+  country          String?
   followersCount   Int                 @default(0)
   engagementRate   Float               @default(0)
   avgReach         Int                 @default(0)
@@ -256,6 +263,7 @@ model Creator {
   taxDocuments     TaxDocument[]
   fmvAssessments   FmvAssessment[]
   matchResults     MatchResult[]
+  socialAccounts   SocialAccount[]
 
   @@index([userId])
   @@index([handle])
@@ -918,7 +926,14 @@ model Athlete {
   followersCount        Int                @default(0)
   engagementRate        Float              @default(0)
   primaryPlatform       String?
-  platforms             Json?
+  platforms             Json?              // legacy handle map; superseded by SocialAccount rows
+  // Self-provided profile attributes for discovery search (never scraped/inferred)
+  contentStyle          String[]
+  aestheticTags         String[]
+  languages             String[]
+  city                  String?
+  region                String?
+  country               String?
   audienceScore         Float              @default(0)
   fraudScore            Float              @default(0)
   performanceScore      Float              @default(0)
@@ -944,6 +959,7 @@ model Athlete {
   marketplaceListing    NilMarketplaceListing?
   collectiveMemberships CollectiveMember[]
   matchResults          MatchResult[]
+  socialAccounts        SocialAccount[]
 
   @@index([userId])
   @@index([universityId])
@@ -1709,3 +1725,55 @@ model MatchResult {
   @@index([rank])
 }
 
+
+// ─── Social Accounts (profile builder) ──────────────────────────────────────
+
+enum SocialPlatform {
+  INSTAGRAM
+  TIKTOK
+  YOUTUBE
+  X
+  FACEBOOK
+  TWITCH
+  LINKEDIN
+  SNAPCHAT
+  PINTEREST
+  THREADS
+  OTHER
+}
+
+enum SocialVerificationStatus {
+  UNVERIFIED
+  PENDING
+  VERIFIED
+  FAILED
+}
+
+/// A social account linked by a creator or athlete during profile setup.
+/// Polymorphic owner via nullable creatorId/athleteId (mirrors MatchResult).
+model SocialAccount {
+  id                 String                   @id @default(cuid())
+  ownerType          String                   // "creator" | "athlete"
+  creatorId          String?
+  creator            Creator?                 @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  athleteId          String?
+  athlete            Athlete?                 @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  platform           SocialPlatform
+  handle             String
+  url                String?
+  followerCount      Int?
+  isPrimary          Boolean                  @default(false)
+  verificationStatus SocialVerificationStatus @default(UNVERIFIED)
+  verificationMethod String?                  // "ownership_code" | "oauth" | "manual"
+  verificationCode   String?                  // code the owner must post to prove ownership
+  verifiedAt         DateTime?
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
+
+  @@unique([creatorId, platform, handle])
+  @@unique([athleteId, platform, handle])
+  @@index([creatorId])
+  @@index([athleteId])
+  @@index([platform, handle])
+  @@index([ownerType])
+}

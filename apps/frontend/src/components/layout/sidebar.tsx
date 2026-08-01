@@ -15,6 +15,7 @@ import { useAuth } from '@/hooks/use-auth';
 const navItems = [
   // ─── Brand / Creator / Agency / Admin ────────────────────────────────────
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
+  { href: '/dashboard/profile', label: 'My Profile', icon: UserCircle, roles: ['CREATOR', 'ATHLETE'] },
   { href: '/dashboard/contracts', label: 'Contracts', icon: FileText, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/deliverables', label: 'Deliverables', icon: CheckSquare, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/payments', label: 'Payments', icon: CreditCard, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },

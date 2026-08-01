@@ -44,6 +44,7 @@ import { CollectivePortalModule } from './modules/collective-portal/collective-p
 import { MatchmakingModule } from './modules/matchmaking/matchmaking.module';
 import { EarningsModule } from './modules/earnings/earnings.module';
 import { CalendarModule } from './modules/calendar/calendar.module';
+import { ProfileModule } from './modules/profile/profile.module';
 
 @Module({
   imports: [
@@ -118,6 +119,7 @@ import { CalendarModule } from './modules/calendar/calendar.module';
     MatchmakingModule,
     EarningsModule,
     CalendarModule,
+    ProfileModule,
   ],
   providers: [
     // Apply ThrottlerGuard globally — every route is rate-limited by default
