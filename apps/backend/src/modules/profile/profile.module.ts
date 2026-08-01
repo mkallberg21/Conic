@@ -3,9 +3,10 @@ import { ProfileService } from './profile.service';
 import { ProfileController } from './profile.controller';
 import { OwnershipCodeVerifier } from './social-verifier';
 import { EmbeddingsModule } from '../embeddings/embeddings.module';
+import { GuardianModule } from '../guardian/guardian.module';
 
 @Module({
-  imports: [EmbeddingsModule],
+  imports: [EmbeddingsModule, GuardianModule],
   controllers: [ProfileController],
   providers: [ProfileService, OwnershipCodeVerifier],
   exports: [ProfileService],

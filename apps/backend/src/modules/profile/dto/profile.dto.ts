@@ -1,5 +1,5 @@
 import {
-  IsString, IsOptional, IsArray, IsEnum, IsUrl, IsInt, IsBoolean, Min, MaxLength,
+  IsString, IsOptional, IsArray, IsEnum, IsUrl, IsInt, IsBoolean, Min, MaxLength, IsEmail,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { SocialPlatform } from '@prisma/client';
@@ -55,4 +55,14 @@ export class AddSocialAccountDto {
   @ApiPropertyOptional({ description: 'Make this the primary account' })
   @IsOptional() @IsBoolean()
   isPrimary?: boolean;
+}
+
+export class ResendGuardianInviteDto {
+  @ApiProperty({ description: "Parent/guardian's email to (re)send the invite to" })
+  @IsEmail() @MaxLength(254)
+  guardianEmail: string;
+
+  @ApiPropertyOptional({ example: 'parent', description: 'Relationship of the guardian to the minor' })
+  @IsOptional() @IsString() @MaxLength(50)
+  relationship?: string;
 }

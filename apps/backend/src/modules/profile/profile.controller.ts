@@ -4,7 +4,7 @@ import {
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
 import { ProfileService } from './profile.service';
-import { AddSocialAccountDto, UpdateProfileDto } from './dto/profile.dto';
+import { AddSocialAccountDto, ResendGuardianInviteDto, UpdateProfileDto } from './dto/profile.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
@@ -88,5 +88,21 @@ export class ProfileController {
     @Param('id') id: string,
   ) {
     return this.profileService.confirmVerification(userId, role, id);
+  }
+
+  @Get('guardian')
+  @ApiOperation({ summary: 'Minor status + linked guardians and any pending invite' })
+  getGuardianStatus(@CurrentUser('id') userId: string, @CurrentUser('role') role: UserRole) {
+    return this.profileService.getGuardianStatus(userId, role);
+  }
+
+  @Post('guardian/invite')
+  @ApiOperation({ summary: 'Resend (or send) a guardian invite for a minor' })
+  resendGuardianInvite(
+    @CurrentUser('id') userId: string,
+    @CurrentUser('role') role: UserRole,
+    @Body() dto: ResendGuardianInviteDto,
+  ) {
+    return this.profileService.resendGuardianInvite(userId, role, dto);
   }
 }
