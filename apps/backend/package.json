@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@fastify/helmet": "^13.0.2",
+    "boxen": "^5.1.2",
     "@nest-lab/throttler-storage-redis": "^1.2.0",
     "@nestjs/axios": "^4.0.1",
     "@nestjs/bullmq": "^11.0.4",
