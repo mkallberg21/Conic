@@ -5,7 +5,9 @@ import { DealRoomService } from './deal-room.service';
 import { PrismaService } from '../../prisma/prisma.service';
 import { AuditService } from '../../common/audit/audit.service';
 import { AiService } from '../ai/ai.service';
-import { CreateProposalDto } from './dto/deal-room.dto';
+import { ContactScannerService } from '../anti-circumvention/contact-scanner.service';
+import { AntiCircumventionService } from '../anti-circumvention/anti-circumvention.service';
+import { CreateProposalDto, PostMessageDto } from './dto/deal-room.dto';
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
 
@@ -18,6 +20,8 @@ const mockPrisma = {
 
 const mockAudit = { log: jest.fn() };
 const mockAi = { scoreContractRisk: jest.fn() };
+const realScanner = new ContactScannerService(); // pure logic — use the real scanner
+const mockAntiCircumvention = { recordMessageFlag: jest.fn().mockResolvedValue(undefined) };
 
 const BRAND_USER = 'user_brand';
 const CREATOR_USER = 'user_creator';
@@ -42,11 +46,46 @@ describe('DealRoomService', () => {
         { provide: PrismaService, useValue: mockPrisma },
         { provide: AuditService, useValue: mockAudit },
         { provide: AiService, useValue: mockAi },
+        { provide: ContactScannerService, useValue: realScanner },
+        { provide: AntiCircumventionService, useValue: mockAntiCircumvention },
       ],
     }).compile();
 
     service = module.get<DealRoomService>(DealRoomService);
     jest.clearAllMocks();
+  });
+
+  describe('postMessage (anti-disintermediation)', () => {
+    beforeEach(() => mockPrisma.contract.findUnique.mockResolvedValue(contractWithRoom));
+
+    it('redacts off-platform contact details and records a circumvention flag', async () => {
+      mockPrisma.dealRoomMessage.create.mockImplementation(async (args: { data: { content: string } }) => ({
+        id: 'm_1', ...args.data,
+      }));
+
+      await service.postMessage('contract_1', BRAND_USER, UserRole.BRAND, {
+        content: 'Let’s take this off platform — email me at bob@acme.com',
+      } as PostMessageDto);
+
+      const stored = mockPrisma.dealRoomMessage.create.mock.calls[0][0].data.content as string;
+      expect(stored).not.toContain('bob@acme.com');
+      expect(stored).toContain('[redacted]');
+      expect(mockAntiCircumvention.recordMessageFlag).toHaveBeenCalledWith(
+        expect.objectContaining({ dealRoomId: 'room_1', categories: expect.arrayContaining(['email']) }),
+      );
+    });
+
+    it('leaves clean messages untouched and does not flag', async () => {
+      mockPrisma.dealRoomMessage.create.mockImplementation(async (args: { data: { content: string } }) => ({ id: 'm_2', ...args.data }));
+
+      await service.postMessage('contract_1', BRAND_USER, UserRole.BRAND, {
+        content: 'Sounds great, can you deliver two reels by Friday?',
+      } as PostMessageDto);
+
+      const stored = mockPrisma.dealRoomMessage.create.mock.calls[0][0].data.content as string;
+      expect(stored).toBe('Sounds great, can you deliver two reels by Friday?');
+      expect(mockAntiCircumvention.recordMessageFlag).not.toHaveBeenCalled();
+    });
   });
 
   describe('access control', () => {

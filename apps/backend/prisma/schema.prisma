@@ -1777,3 +1777,26 @@ model SocialAccount {
   @@index([platform, handle])
   @@index([ownerType])
 }
+
+// ─── Anti-disintermediation ─────────────────────────────────────────────────
+
+/// Records a detected attempt to move a relationship off-platform (contact
+/// details shared in a deal room) or an audited contact reveal.
+model CircumventionFlag {
+  id             String   @id @default(cuid())
+  kind           String   // "message_contact" | "contact_reveal"
+  severity       String   // "low" | "medium" | "high"
+  contractId     String?
+  dealRoomId     String?
+  actorUserId    String   // who triggered the flag (message author / brand)
+  brandId        String?
+  targetType     String?  // "creator" | "athlete"
+  targetId       String?
+  categories     String[] // e.g. ["email","phone","offplatform_invite"]
+  detail         String   @db.Text
+  createdAt      DateTime @default(now())
+
+  @@index([brandId])
+  @@index([dealRoomId])
+  @@index([createdAt])
+}

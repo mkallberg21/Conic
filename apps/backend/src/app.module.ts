@@ -47,6 +47,7 @@ import { CalendarModule } from './modules/calendar/calendar.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { LlmModule } from './common/llm/llm.module';
 import { DiscoveryModule } from './modules/discovery/discovery.module';
+import { AntiCircumventionModule } from './modules/anti-circumvention/anti-circumvention.module';
 
 @Module({
   imports: [
@@ -124,6 +125,7 @@ import { DiscoveryModule } from './modules/discovery/discovery.module';
     CalendarModule,
     ProfileModule,
     DiscoveryModule,
+    AntiCircumventionModule,
   ],
   providers: [
     // Apply ThrottlerGuard globally — every route is rate-limited by default
