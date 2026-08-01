@@ -8,6 +8,7 @@ import { NilComplianceService } from './nil-compliance.service';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService } from '../../events/event-bus.service';
 import { AuditService } from '../../common/audit/audit.service';
+import { GuardianService } from '../guardian/guardian.service';
 import { CreateNilDealDto, ReviewDisclosureDto } from './dto/nil-deal.dto';
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
@@ -21,6 +22,7 @@ const mockEventBus = { emit: jest.fn() };
 const mockAudit = { log: jest.fn() };
 const mockHttp = { post: jest.fn() };
 const mockConfig = { get: jest.fn((_k: string, def?: unknown) => def) };
+const mockGuardian = { requestApproval: jest.fn().mockResolvedValue([]) };
 
 const CALLER = 'user_officer';
 
@@ -36,6 +38,7 @@ describe('NilComplianceService', () => {
         { provide: AuditService, useValue: mockAudit },
         { provide: HttpService, useValue: mockHttp },
         { provide: ConfigService, useValue: mockConfig },
+        { provide: GuardianService, useValue: mockGuardian },
       ],
     }).compile();
 

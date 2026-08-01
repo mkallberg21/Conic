@@ -52,6 +52,46 @@ export class EmailService {
 
   // ── Transactional helpers ─────────────────────────────────────────────────
 
+  async sendVerificationCode(to: string, code: string, firstName: string): Promise<void> {
+    await this.send({
+      to,
+      subject: `${code} is your Conic verification code`,
+      html: `
+        <div style="font-family:sans-serif;max-width:480px;margin:0 auto">
+          <h2 style="color:#6366f1">Verify your email</h2>
+          <p>Hi ${firstName}, enter this code to verify your email address:</p>
+          <p style="font-size:32px;font-weight:700;letter-spacing:8px;margin:16px 0">${code}</p>
+          <p style="color:#64748b;font-size:12px">
+            This code expires in 10 minutes. If you didn't request it, you can ignore this email.
+          </p>
+        </div>`,
+      text: `Your Conic verification code is ${code}. It expires in 10 minutes.`,
+    });
+  }
+
+  async sendGuardianInvite(to: string, params: { acceptUrl: string; minorName: string }): Promise<void> {
+    await this.send({
+      to,
+      subject: `You've been added as a guardian on Conic`,
+      html: `
+        <div style="font-family:sans-serif;max-width:480px;margin:0 auto">
+          <h2 style="color:#6366f1">Guardian approval requested</h2>
+          <p><strong>${params.minorName}</strong> listed you as their parent/guardian on Conic.</p>
+          <p>As their guardian you'll be able to review and approve every brand agreement,
+             and you'll receive a copy of every message a brand sends them.</p>
+          <a href="${params.acceptUrl}"
+             style="display:inline-block;background:#6366f1;color:#fff;padding:12px 24px;
+                    border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0">
+            Accept &amp; link your account
+          </a>
+          <p style="color:#64748b;font-size:12px">
+            If you weren't expecting this, you can ignore the email — no account is linked until you accept.
+          </p>
+        </div>`,
+      text: `${params.minorName} listed you as their guardian on Conic. Accept and link your account: ${params.acceptUrl}`,
+    });
+  }
+
   async sendEmailVerification(to: string, token: string, firstName: string): Promise<void> {
     const verifyUrl = `${this.config.get('app.frontendUrl')}/verify-email?token=${token}`;
     await this.send({

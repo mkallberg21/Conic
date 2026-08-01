@@ -10,6 +10,8 @@ import { EventBusService, EVENTS } from '../../events/event-bus.service';
 import { CreateContractDto } from './dto/create-contract.dto';
 import { AiService } from '../ai/ai.service';
 import { AuditService } from '../../common/audit/audit.service';
+import { GuardianService } from '../guardian/guardian.service';
+import { TwoFactorService } from '../two-factor/two-factor.service';
 
 @Injectable()
 export class ContractsService {
@@ -18,6 +20,8 @@ export class ContractsService {
     private readonly eventBus: EventBusService,
     private readonly aiService: AiService,
     private readonly auditService: AuditService,
+    private readonly guardianService: GuardianService,
+    private readonly twoFactor: TwoFactorService,
   ) {}
 
   async create(brandUserId: string, dto: CreateContractDto) {
@@ -78,6 +82,11 @@ export class ContractsService {
         },
       });
     });
+
+    // Minor creator → a parent/guardian must approve before this can be signed.
+    if (creator.isMinor) {
+      await this.guardianService.requestApproval('contract', contract.id, { creatorId: creator.id });
+    }
 
     this.eventBus.emit(EVENTS.CONTRACT_CREATED, {
       contractId: contract.id,
@@ -184,6 +193,14 @@ export class ContractsService {
       const creator = await this.prisma.creator.findUnique({ where: { userId } });
       if (!creator || contract.creatorId !== creator.id) {
         throw new ForbiddenException('You are not the creator party to this contract');
+      }
+      // Influencer 2FA gate: verified email + phone required before signing.
+      await this.twoFactor.assertInfluencerVerified(userId);
+      // Minor gate: a parent/guardian must have approved this agreement.
+      if (creator.isMinor && !(await this.guardianService.isApproved('contract', contractId))) {
+        throw new ForbiddenException(
+          'A parent or guardian must approve this agreement before you can sign it.',
+        );
       }
     } else {
       throw new ForbiddenException('Only brand or creator parties can sign a contract');

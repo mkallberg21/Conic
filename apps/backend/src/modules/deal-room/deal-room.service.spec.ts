@@ -16,6 +16,8 @@ const mockPrisma = {
   dealRoom: { create: jest.fn(), findUnique: jest.fn(), update: jest.fn() },
   dealRoomMessage: { create: jest.fn() },
   dealRoomProposal: { create: jest.fn(), findUnique: jest.fn(), update: jest.fn() },
+  guardianRelationship: { findMany: jest.fn().mockResolvedValue([]) },
+  notification: { createMany: jest.fn().mockResolvedValue({ count: 0 }) },
 };
 
 const mockAudit = { log: jest.fn() };
@@ -85,6 +87,47 @@ describe('DealRoomService', () => {
       const stored = mockPrisma.dealRoomMessage.create.mock.calls[0][0].data.content as string;
       expect(stored).toBe('Sounds great, can you deliver two reels by Friday?');
       expect(mockAntiCircumvention.recordMessageFlag).not.toHaveBeenCalled();
+    });
+
+    it('mirrors a brand message to a minor creator’s guardians', async () => {
+      mockPrisma.contract.findUnique.mockResolvedValue({
+        ...contractWithRoom,
+        creator: {
+          id: 'cr_minor', isMinor: true, userId: CREATOR_USER,
+          user: { firstName: 'Sam', lastName: 'Kid' },
+        },
+      });
+      mockPrisma.dealRoomMessage.create.mockImplementation(async (args: { data: { content: string } }) => ({ id: 'm_3', ...args.data }));
+      mockPrisma.guardianRelationship.findMany.mockResolvedValue([{ guardian: { userId: 'guardian_user' } }]);
+
+      await service.postMessage('contract_1', BRAND_USER, UserRole.BRAND, {
+        content: 'Excited to work together on this campaign!',
+      } as PostMessageDto);
+
+      expect(mockPrisma.notification.createMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.arrayContaining([
+            expect.objectContaining({ recipientId: 'guardian_user', type: 'GUARDIAN_DEALROOM_MESSAGE' }),
+          ]),
+        }),
+      );
+    });
+
+    it('does NOT mirror the minor’s own outgoing message', async () => {
+      mockPrisma.contract.findUnique.mockResolvedValue({
+        ...contractWithRoom,
+        creator: {
+          id: 'cr_minor', isMinor: true, userId: CREATOR_USER,
+          user: { firstName: 'Sam', lastName: 'Kid' },
+        },
+      });
+      mockPrisma.dealRoomMessage.create.mockImplementation(async (args: { data: { content: string } }) => ({ id: 'm_4', ...args.data }));
+
+      await service.postMessage('contract_1', CREATOR_USER, UserRole.CREATOR, {
+        content: 'Thanks, looking forward to it!',
+      } as PostMessageDto);
+
+      expect(mockPrisma.notification.createMany).not.toHaveBeenCalled();
     });
   });
 

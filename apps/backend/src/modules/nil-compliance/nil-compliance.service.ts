@@ -14,6 +14,7 @@ import { CreateNilDealDto, CreateAppearanceDto, ReviewDisclosureDto } from './dt
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
+import { GuardianService } from '../guardian/guardian.service';
 
 @Injectable()
 export class NilComplianceService {
@@ -27,6 +28,7 @@ export class NilComplianceService {
     private readonly auditService: AuditService,
     private readonly httpService: HttpService,
     private readonly config: ConfigService,
+    private readonly guardianService: GuardianService,
   ) {
     this.nilAiUrl = this.config.get<string>('NIL_COMPLIANCE_AI_URL', 'http://nil-compliance-ai:8007');
     this.internalSecret = this.config.get<string>('INTERNAL_API_SECRET', '');
@@ -240,6 +242,12 @@ export class NilComplianceService {
       },
       include: { athlete: { include: { user: true } }, brand: true, collective: true },
     });
+
+    // Minor athlete → a parent/guardian must approve before the deal activates.
+    // The deal stays PENDING with guardianApproved=false until they respond.
+    if (deal.athlete?.isMinor) {
+      await this.guardianService.requestApproval('nil_deal', deal.id, { athleteId: deal.athleteId });
+    }
 
     this.eventBus.emit(EVENTS.NIL_DEAL_CREATED, {
       dealId: deal.id,

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EVENTS } from '../../events/event-bus.service';
 
@@ -23,6 +24,37 @@ export class NotificationsService {
         body: `You have a new contract: "${contract.title}". Review and sign.`,
         data: { contractId: payload.contractId },
       },
+    });
+
+    // Minor creator → also notify their guardians so a parent sees the agreement.
+    if (contract.creator.isMinor) {
+      await this.notifyGuardiansOfCreator(contract.creator.id, {
+        type: 'GUARDIAN_CONTRACT_CREATED',
+        title: 'A new agreement needs your approval',
+        body: `A new contract "${contract.title}" was sent to your minor. Review and approve it.`,
+        data: { contractId: payload.contractId, kind: 'contract_approval' },
+      });
+    }
+  }
+
+  /** Fan a notification out to every guardian linked to a (minor) creator. */
+  private async notifyGuardiansOfCreator(
+    creatorId: string,
+    notification: { type: string; title: string; body: string; data: Prisma.InputJsonValue },
+  ) {
+    const relationships = await this.prisma.guardianRelationship.findMany({
+      where: { creatorId },
+      select: { guardian: { select: { userId: true } } },
+    });
+    if (relationships.length === 0) return;
+    await this.prisma.notification.createMany({
+      data: relationships.map((rel) => ({
+        recipientId: rel.guardian.userId,
+        type: notification.type,
+        title: notification.title,
+        body: notification.body,
+        data: notification.data,
+      })),
     });
   }
 

@@ -131,7 +131,57 @@ export class DealRoomService {
       });
     }
 
+    // Minor protection: mirror inbound (brand/system) messages to the creator's
+    // guardians so a parent sees everything the minor sees. Best-effort.
+    await this.mirrorToGuardians(contractId, callerId, message.content).catch((err) =>
+      this.logger.warn(`Guardian mirror failed: ${(err as Error).message}`),
+    );
+
     return message;
+  }
+
+  /**
+   * When the creator on this contract is a minor, copy an inbound deal-room
+   * message to every linked guardian as an in-app notification. The minor's own
+   * outgoing messages are not mirrored back to the guardian.
+   */
+  private async mirrorToGuardians(contractId: string, authorUserId: string, content: string) {
+    const contract = await this.prisma.contract.findUnique({
+      where: { id: contractId },
+      select: {
+        title: true,
+        creator: {
+          select: {
+            id: true,
+            isMinor: true,
+            userId: true,
+            user: { select: { firstName: true, lastName: true } },
+          },
+        },
+      },
+    });
+    const creator = contract?.creator;
+    if (!creator?.isMinor) return;
+    if (creator.userId === authorUserId) return; // the minor's own message
+
+    const relationships = await this.prisma.guardianRelationship.findMany({
+      where: { creatorId: creator.id },
+      select: { guardian: { select: { userId: true } } },
+    });
+    if (relationships.length === 0) return;
+
+    const minorName = `${creator.user.firstName} ${creator.user.lastName}`.trim();
+    const snippet = content.length > 160 ? `${content.slice(0, 157)}…` : content;
+
+    await this.prisma.notification.createMany({
+      data: relationships.map((rel) => ({
+        recipientId: rel.guardian.userId,
+        type: 'GUARDIAN_DEALROOM_MESSAGE',
+        title: `New message in ${minorName}'s deal room`,
+        body: `"${contract!.title}": ${snippet}`,
+        data: { contractId, kind: 'dealroom_message' },
+      })),
+    });
   }
 
   // ─── Proposals ─────────────────────────────────────────────────────────────

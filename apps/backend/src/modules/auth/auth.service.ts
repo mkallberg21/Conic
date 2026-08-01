@@ -1,13 +1,16 @@
 import {
   Injectable,
   UnauthorizedException,
-  ConflictException,} from '@nestjs/common';
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { UserRole } from '@prisma/client';
+import { Prisma, UserRole } from '@prisma/client';
 import * as argon2 from 'argon2';
 import { createHash } from 'crypto';
 import { PrismaService } from '../../prisma/prisma.service';
+import { GuardianService } from '../guardian/guardian.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 
@@ -17,6 +20,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly guardianService: GuardianService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -32,33 +36,54 @@ export class AuthService {
       parallelism: 4,
     });
 
+    const isInfluencer = dto.role === UserRole.CREATOR || dto.role === UserRole.ATHLETE;
+    const dob = dto.dateOfBirth ? new Date(dto.dateOfBirth) : null;
+    const minorThreshold = this.configService.get<number>('guardian.minorAgeThreshold', 18);
+    const isMinor = isInfluencer && dob ? ageInYears(dob) < minorThreshold : false;
+
+    // A minor influencer must name a guardian at sign-up — we email them an
+    // invite and hard-block agreements until a guardian is linked and approves.
+    if (isMinor && !dto.guardianEmail) {
+      throw new BadRequestException(
+        'A parent or guardian email is required to create an account for a minor.',
+      );
+    }
+
+    const profileCreate: Prisma.UserCreateInput = {
+      email: dto.email,
+      passwordHash,
+      role: dto.role,
+      firstName: dto.firstName,
+      lastName: dto.lastName,
+      phone: dto.phone ?? null,
+    };
+    if (dto.role === UserRole.BRAND && dto.companyName) {
+      profileCreate.brand = { create: { companyName: dto.companyName } };
+    } else if (dto.role === UserRole.CREATOR) {
+      profileCreate.creator = {
+        create: {
+          handle: dto.handle ?? dto.email.split('@')[0],
+          platforms: {},
+          dateOfBirth: dob,
+          isMinor,
+        },
+      };
+    } else if (dto.role === UserRole.ATHLETE) {
+      profileCreate.athlete = {
+        create: {
+          sport: dto.sport ?? 'Unspecified',
+          dateOfBirth: dob,
+          isMinor,
+        },
+      };
+    } else if (dto.role === UserRole.GUARDIAN) {
+      profileCreate.guardian = {
+        create: { relationship: dto.guardianRelationship ?? 'parent', phone: dto.phone ?? null },
+      };
+    }
+
     const user = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        passwordHash,
-        role: dto.role,
-        firstName: dto.firstName,
-        lastName: dto.lastName,
-        ...(dto.role === UserRole.BRAND && dto.companyName
-          ? {
-              brand: {
-                create: {
-                  companyName: dto.companyName,
-                },
-              },
-            }
-          : {}),
-        ...(dto.role === UserRole.CREATOR && dto.handle
-          ? {
-              creator: {
-                create: {
-                  handle: dto.handle,
-                  platforms: {},
-                },
-              },
-            }
-          : {}),
-      },
+      data: profileCreate,
       select: {
         id: true,
         email: true,
@@ -66,11 +91,34 @@ export class AuthService {
         firstName: true,
         lastName: true,
         createdAt: true,
+        creator: { select: { id: true } },
+        athlete: { select: { id: true } },
       },
     });
 
+    // Minor → create a pending guardian invite (emailed to the guardian).
+    if (isMinor && dto.guardianEmail) {
+      const subject =
+        dto.role === UserRole.ATHLETE
+          ? { athleteId: user.athlete?.id }
+          : { creatorId: user.creator?.id };
+      await this.guardianService.createInvite({
+        invitedByUserId: user.id,
+        subject,
+        guardianEmail: dto.guardianEmail,
+        relationship: dto.guardianRelationship,
+        minorName: `${dto.firstName} ${dto.lastName}`,
+      });
+    }
+
     const tokens = await this.generateTokens(user.id, user.email, user.role);
-    return { user, ...tokens };
+    return {
+      user: { ...user, isMinor },
+      // Influencers must complete email + phone 2FA before they can transact.
+      verificationRequired: isInfluencer,
+      guardianRequired: isMinor,
+      ...tokens,
+    };
   }
 
   async login(dto: LoginDto) {
@@ -276,4 +324,13 @@ export class AuthService {
 
     return { accessToken, refreshToken };
   }
+}
+
+/** Whole years between a date of birth and now. */
+function ageInYears(dob: Date): number {
+  const now = new Date();
+  let age = now.getFullYear() - dob.getFullYear();
+  const m = now.getMonth() - dob.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < dob.getDate())) age--;
+  return age;
 }

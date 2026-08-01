@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { PrismaService } from '../../prisma/prisma.service';
+import { GuardianService } from '../guardian/guardian.service';
 import * as argon2 from 'argon2';
 import { UserRole } from '@prisma/client';
 
@@ -43,16 +44,19 @@ const mockJwt = {
 };
 
 const mockConfig = {
-  get: jest.fn((key: string) => {
+  get: jest.fn((key: string, def?: unknown) => {
     const cfg: Record<string, string | number> = {
       'jwt.secret': 'test-secret',
       'jwt.expiresIn': '15m',
       'jwt.refreshSecret': 'test-refresh-secret',
       'jwt.refreshExpiresIn': '7d',
+      'guardian.minorAgeThreshold': 18,
     };
-    return cfg[key];
+    return cfg[key] ?? def;
   }),
 };
+
+const mockGuardian = { createInvite: jest.fn().mockResolvedValue({ inviteId: 'inv_1' }) };
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
@@ -66,6 +70,7 @@ describe('AuthService', () => {
         { provide: PrismaService, useValue: mockPrisma },
         { provide: JwtService, useValue: mockJwt },
         { provide: ConfigService, useValue: mockConfig },
+        { provide: GuardianService, useValue: mockGuardian },
       ],
     }).compile();
 
@@ -105,6 +110,52 @@ describe('AuthService', () => {
 
       expect(result.accessToken).toBe('mock-jwt-token');
       expect(mockPrisma.user.create).toHaveBeenCalledTimes(1);
+    });
+
+    it('requires a guardian email for a minor influencer', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue(null);
+      const minorDob = new Date();
+      minorDob.setFullYear(minorDob.getFullYear() - 15);
+
+      await expect(
+        service.register({
+          email: 'kid@test.com',
+          password: 'Password1!',
+          role: UserRole.ATHLETE,
+          firstName: 'Kid',
+          lastName: 'Athlete',
+          sport: 'Track',
+          dateOfBirth: minorDob.toISOString(),
+        }),
+      ).rejects.toThrow(/parent or guardian/i);
+      expect(mockPrisma.user.create).not.toHaveBeenCalled();
+    });
+
+    it('creates a guardian invite when a minor supplies a guardian email', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue(null);
+      mockPrisma.user.create.mockResolvedValue({
+        ...mockUser, id: 'usr_kid', role: UserRole.ATHLETE, athlete: { id: 'ath_1' }, creator: null,
+      });
+      mockPrisma.refreshToken.create.mockResolvedValue({ token: 'r' });
+      const minorDob = new Date();
+      minorDob.setFullYear(minorDob.getFullYear() - 15);
+
+      const result = await service.register({
+        email: 'kid@test.com',
+        password: 'Password1!',
+        role: UserRole.ATHLETE,
+        firstName: 'Kid',
+        lastName: 'Athlete',
+        sport: 'Track',
+        dateOfBirth: minorDob.toISOString(),
+        guardianEmail: 'parent@test.com',
+      });
+
+      expect(result.guardianRequired).toBe(true);
+      expect(result.verificationRequired).toBe(true);
+      expect(mockGuardian.createInvite).toHaveBeenCalledWith(
+        expect.objectContaining({ subject: { athleteId: 'ath_1' }, guardianEmail: 'parent@test.com' }),
+      );
     });
   });
 
