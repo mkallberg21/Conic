@@ -63,17 +63,25 @@ environments that don't use those integrations.
 - [ ] **Mobile release.** EAS Build/Submit to the App Store + Google Play needs store accounts.
 - [ ] **Load testing.** The k6 suites in `tests/load/` need a deployed target to run against.
 
-## Dependency upgrades still needed (breaking — do deliberately + test)
+## Breaking dependency upgrades
 
-`npm audit fix` can't touch these without major version bumps. Prioritise the
-runtime web-server one; the rest are mostly build/dev/mobile tooling:
-
-- [ ] **`@nestjs/platform-fastify` (runtime)** — pulls the `@fastify/middie` path-bypass
-  (critical) and `fastify` DoS (high) fixes. Highest priority; requires a Nest platform
-  major bump and a full request-path regression test.
-- [ ] **`expo`** major — clears `tar` (critical), `postcss`, `@expo/cli` highs (mobile only).
-- [ ] **`@nestjs/swagger`** — clears `lodash` / `js-yaml` code-injection/prototype-pollution.
-- [ ] **`@nestjs/cli`, `@opentelemetry/*`** — dev/observability tooling; lower urgency.
+- [x] **NestJS 10 → 11 (runtime web server)** — DONE. Clears the **critical
+  `@fastify/middie`** path-bypass plus the `fastify` / `find-my-way` / `fast-uri` /
+  `@fastify/ajv-compiler` highs, and the `@nestjs/swagger` (lodash/js-yaml) and
+  `@nestjs/cli` (tmp/glob/picomatch) highs. Upgraded the whole `@nestjs/*` family;
+  pinned `@nestjs/core`/`common` (+ `rxjs`) via root `overrides` so lagging transitives
+  don't split the tree; added `boxen` explicitly (terminus dep npm dropped). Verified:
+  typecheck, build, 102 unit tests, and the **e2e boot on Nest 11 (CI, real PG+Redis)**.
+- [ ] **`expo` SDK 52 → 57 (mobile)** — clears the remaining `tar` critical + `@expo/cli`
+  / `cacache` / `xmldom` highs. **Deferred**: a 5-major-version jump that can't be safely
+  verified without a device/simulator; needs a dedicated mobile migration. The `tar`
+  critical is in the mobile *build* toolchain, not the backend runtime.
+- [ ] **`@opentelemetry/*` (observability)** — coordinated major bump; requires rewriting
+  the `tracing.ts` SDK setup (the OTel JS SDK API changed across these majors). Verifiable
+  via the e2e boot. Lower urgency (DoS-class advisories in telemetry libs).
+- [ ] **frontend `sharp` / `postcss`** — patch/minor within-major, but forcing them via
+  `overrides` destabilised the shared dep tree (rxjs duplication, mobile type drift) so it
+  was reverted; revisit carefully with a scoped lockfile change + CI frontend-build check.
 
 ## Recommended next in-repo work (no credentials needed)
 
