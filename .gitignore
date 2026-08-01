@@ -5,5 +5,7 @@ node_modules
 dist
 *.tsbuildinfo
 coverage
+.turbo
+.next
 .DS_Store
 *.log
