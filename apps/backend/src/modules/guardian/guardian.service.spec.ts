@@ -1,22 +1,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ForbiddenException, NotFoundException } from '@nestjs/common';
-import { ApprovalStatus } from '@prisma/client';
+import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
+import { ApprovalStatus, GuardianInviteStatus } from '@prisma/client';
 import { GuardianService } from './guardian.service';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService } from '../../events/event-bus.service';
 import { AuditService } from '../../common/audit/audit.service';
+import { EmailService } from '../../common/email/email.service';
+import { ConfigService } from '@nestjs/config';
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
 
 const mockPrisma = {
-  guardian: { findUnique: jest.fn() },
+  guardian: { findUnique: jest.fn(), create: jest.fn() },
   guardianApproval: {
     findUnique: jest.fn(),
     findMany: jest.fn(),
     update: jest.fn(),
     create: jest.fn(),
+    count: jest.fn(),
   },
-  guardianRelationship: { findMany: jest.fn() },
+  guardianRelationship: { findMany: jest.fn(), create: jest.fn(), findFirst: jest.fn(), count: jest.fn() },
+  guardianInvite: { create: jest.fn(), findUnique: jest.fn(), update: jest.fn() },
   nilDeal: { update: jest.fn() },
   contractNilExtension: { updateMany: jest.fn() },
   $transaction: jest.fn(),
@@ -24,6 +28,8 @@ const mockPrisma = {
 
 const mockEventBus = { emit: jest.fn() };
 const mockAudit = { log: jest.fn() };
+const mockEmail = { sendGuardianInvite: jest.fn().mockResolvedValue(undefined) };
+const mockConfig = { get: jest.fn((_key: string, def?: unknown) => def) };
 
 const GUARDIAN_USER = 'user_guardian';
 const GUARDIAN_ID = 'guardian_1';
@@ -40,6 +46,8 @@ describe('GuardianService', () => {
         { provide: PrismaService, useValue: mockPrisma },
         { provide: EventBusService, useValue: mockEventBus },
         { provide: AuditService, useValue: mockAudit },
+        { provide: EmailService, useValue: mockEmail },
+        { provide: ConfigService, useValue: mockConfig },
       ],
     }).compile();
 
@@ -150,8 +158,11 @@ describe('GuardianService', () => {
       mockPrisma.guardianApproval.create.mockImplementation((args: unknown) => args);
       mockPrisma.$transaction.mockImplementation(async (ops: unknown[]) => ops);
 
-      const result = await service.requestApproval('nil_deal', 'deal_9', 'athlete_1', 48);
+      const result = await service.requestApproval('nil_deal', 'deal_9', { athleteId: 'athlete_1' }, 48);
 
+      expect(mockPrisma.guardianRelationship.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ where: expect.objectContaining({ athleteId: 'athlete_1', canApprove: true }) }),
+      );
       expect(mockPrisma.guardianApproval.create).toHaveBeenCalledTimes(2);
       expect(result).toHaveLength(2);
       // both created as PENDING with an expiry in the future
@@ -160,6 +171,76 @@ describe('GuardianService', () => {
           data: expect.objectContaining({ status: ApprovalStatus.PENDING, resourceId: 'deal_9' }),
         }),
       );
+    });
+
+    it('is a no-op when the minor has no guardians linked yet', async () => {
+      mockPrisma.guardianRelationship.findMany.mockResolvedValue([]);
+      const result = await service.requestApproval('contract', 'c_1', { creatorId: 'cr_1' });
+      expect(result).toEqual([]);
+      expect(mockPrisma.guardianApproval.create).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('gating helpers', () => {
+    it('isApproved is true once a guardian approval is APPROVED', async () => {
+      mockPrisma.guardianApproval.count.mockResolvedValue(1);
+      await expect(service.isApproved('nil_deal', 'deal_1')).resolves.toBe(true);
+      expect(mockPrisma.guardianApproval.count).toHaveBeenCalledWith(
+        expect.objectContaining({ where: expect.objectContaining({ status: ApprovalStatus.APPROVED }) }),
+      );
+    });
+
+    it('hasActiveGuardian reflects the relationship count', async () => {
+      mockPrisma.guardianRelationship.count.mockResolvedValue(0);
+      await expect(service.hasActiveGuardian({ creatorId: 'cr_1' })).resolves.toBe(false);
+    });
+  });
+
+  describe('createInvite', () => {
+    it('stores a hashed-token invite and emails the guardian', async () => {
+      mockPrisma.guardianInvite.create.mockResolvedValue({ id: 'inv_1', expiresAt: future() });
+      const res = await service.createInvite({
+        invitedByUserId: 'u_minor',
+        subject: { athleteId: 'ath_1' },
+        guardianEmail: 'Parent@Example.com',
+        minorName: 'Sam Jones',
+      });
+      expect(res.inviteId).toBe('inv_1');
+      // email lower-cased, token never stored raw
+      expect(mockPrisma.guardianInvite.create).toHaveBeenCalledWith(
+        expect.objectContaining({ data: expect.objectContaining({ guardianEmail: 'parent@example.com', athleteId: 'ath_1' }) }),
+      );
+      const stored = mockPrisma.guardianInvite.create.mock.calls[0][0].data;
+      expect(stored.tokenHash).toMatch(/^[a-f0-9]{64}$/);
+      expect(mockEmail.sendGuardianInvite).toHaveBeenCalledWith('Parent@Example.com', expect.objectContaining({ minorName: 'Sam Jones' }));
+    });
+  });
+
+  describe('acceptInvite', () => {
+    it('rejects an unknown or used token', async () => {
+      mockPrisma.guardianInvite.findUnique.mockResolvedValue(null);
+      await expect(service.acceptInvite(GUARDIAN_USER, 'tok')).rejects.toThrow(BadRequestException);
+    });
+
+    it('creates a guardian profile + relationship and marks the invite ACCEPTED', async () => {
+      mockPrisma.guardianInvite.findUnique.mockResolvedValue({
+        id: 'inv_1', status: GuardianInviteStatus.PENDING, expiresAt: future(),
+        athleteId: 'ath_1', creatorId: null, relationship: 'parent',
+      });
+      mockPrisma.guardian.findUnique.mockResolvedValue(null);
+      mockPrisma.guardian.create.mockResolvedValue({ id: GUARDIAN_ID });
+      mockPrisma.guardianRelationship.create.mockResolvedValue({ id: 'rel_1' });
+
+      const rel = await service.acceptInvite(GUARDIAN_USER, 'tok');
+
+      expect(mockPrisma.guardian.create).toHaveBeenCalled();
+      expect(mockPrisma.guardianRelationship.create).toHaveBeenCalledWith(
+        expect.objectContaining({ data: expect.objectContaining({ guardianId: GUARDIAN_ID, athleteId: 'ath_1' }) }),
+      );
+      expect(mockPrisma.guardianInvite.update).toHaveBeenCalledWith(
+        expect.objectContaining({ data: expect.objectContaining({ status: GuardianInviteStatus.ACCEPTED }) }),
+      );
+      expect(rel).toEqual({ id: 'rel_1' });
     });
   });
 });

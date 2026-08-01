@@ -48,6 +48,8 @@ import { ProfileModule } from './modules/profile/profile.module';
 import { LlmModule } from './common/llm/llm.module';
 import { DiscoveryModule } from './modules/discovery/discovery.module';
 import { AntiCircumventionModule } from './modules/anti-circumvention/anti-circumvention.module';
+import { SmsModule } from './common/sms/sms.module';
+import { TwoFactorModule } from './modules/two-factor/two-factor.module';
 
 @Module({
   imports: [
@@ -126,6 +128,8 @@ import { AntiCircumventionModule } from './modules/anti-circumvention/anti-circu
     ProfileModule,
     DiscoveryModule,
     AntiCircumventionModule,
+    SmsModule,
+    TwoFactorModule,
   ],
   providers: [
     // Apply ThrottlerGuard globally — every route is rate-limited by default

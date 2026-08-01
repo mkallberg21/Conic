@@ -6,6 +6,8 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService } from '../../events/event-bus.service';
 import { AiService } from '../ai/ai.service';
 import { AuditService } from '../../common/audit/audit.service';
+import { GuardianService } from '../guardian/guardian.service';
+import { TwoFactorService } from '../two-factor/two-factor.service';
 
 const ContractStatus = {
   DRAFT: 'DRAFT',
@@ -51,6 +53,11 @@ const mockPrisma = {
 
 const mockEventBus = { emit: jest.fn() };
 const mockAudit = { log: jest.fn().mockResolvedValue(undefined) };
+const mockGuardian = {
+  requestApproval: jest.fn().mockResolvedValue([]),
+  isApproved: jest.fn().mockResolvedValue(true),
+};
+const mockTwoFactor = { assertInfluencerVerified: jest.fn().mockResolvedValue(undefined) };
 const mockAi = {
   generateContractContent: jest.fn().mockResolvedValue({
     content: '# Test Contract',
@@ -73,6 +80,8 @@ describe('ContractsService', () => {
         { provide: EventBusService, useValue: mockEventBus },
         { provide: AiService, useValue: mockAi },
         { provide: AuditService, useValue: mockAudit },
+        { provide: GuardianService, useValue: mockGuardian },
+        { provide: TwoFactorService, useValue: mockTwoFactor },
       ],
     }).compile();
 

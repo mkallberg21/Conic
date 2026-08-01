@@ -67,6 +67,22 @@ export default () => ({
     sendgridApiKey: process.env.SENDGRID_API_KEY,
     fromAddress: process.env.EMAIL_FROM_ADDRESS ?? 'noreply@conic.io',
   },
+  sms: {
+    // 'twilio' when TWILIO_* creds are set; otherwise 'log' (codes are logged,
+    // never sent — the phone-verification path is provider-gated).
+    provider: process.env.SMS_PROVIDER ?? (process.env.TWILIO_ACCOUNT_SID ? 'twilio' : 'log'),
+    twilioAccountSid: process.env.TWILIO_ACCOUNT_SID,
+    twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,
+    fromNumber: process.env.TWILIO_FROM_NUMBER,
+  },
+  guardian: {
+    // Age below which an influencer (athlete/creator) is a minor and must have a
+    // verified guardian linked before entering into any agreement.
+    minorAgeThreshold: parseInt(process.env.MINOR_AGE_THRESHOLD ?? '18', 10),
+    // Hours a guardian-approval request / invite stays valid.
+    approvalExpiryHours: parseInt(process.env.GUARDIAN_APPROVAL_EXPIRY_HOURS ?? '72', 10),
+    inviteExpiryHours: parseInt(process.env.GUARDIAN_INVITE_EXPIRY_HOURS ?? '168', 10),
+  },
   telemetry: {
     otlpEndpoint: process.env.OTEL_EXPORTER_OTLP_ENDPOINT ?? 'http://localhost:4318',
     prometheusPort: parseInt(process.env.PROMETHEUS_PORT ?? '9464', 10),
