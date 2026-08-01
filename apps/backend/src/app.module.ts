@@ -45,6 +45,8 @@ import { MatchmakingModule } from './modules/matchmaking/matchmaking.module';
 import { EarningsModule } from './modules/earnings/earnings.module';
 import { CalendarModule } from './modules/calendar/calendar.module';
 import { ProfileModule } from './modules/profile/profile.module';
+import { LlmModule } from './common/llm/llm.module';
+import { DiscoveryModule } from './modules/discovery/discovery.module';
 
 @Module({
   imports: [
@@ -87,6 +89,7 @@ import { ProfileModule } from './modules/profile/profile.module';
     SecurityModule,
     EventBusModule,
     AuditModule,
+    LlmModule,
 
     // Feature modules
     AuthModule,
@@ -120,6 +123,7 @@ import { ProfileModule } from './modules/profile/profile.module';
     EarningsModule,
     CalendarModule,
     ProfileModule,
+    DiscoveryModule,
   ],
   providers: [
     // Apply ThrottlerGuard globally — every route is rate-limited by default

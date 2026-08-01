@@ -171,6 +171,11 @@ export class EmbeddingsService {
       .slice(0, limit);
   }
 
+  /** Public cosine similarity for callers that score their own candidate set (e.g. discovery). */
+  similarity(a: number[], b: number[]): number {
+    return this.cosineSimilarity(a, b);
+  }
+
   private cosineSimilarity(a: number[], b: number[]): number {
     if (a.length !== b.length) return 0;
     let dot = 0, na = 0, nb = 0;

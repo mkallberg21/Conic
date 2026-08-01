@@ -17,6 +17,7 @@ import { api } from '@/lib/api';
 import { Search, TrendingUp, Shield, Star, ChevronLeft, ChevronRight, SlidersHorizontal, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useDebounce } from '@/hooks/use-debounce';
+import { AiSearchPanel } from './ai-search-panel';
 
 const NICHES = ['fashion', 'beauty', 'fitness', 'food', 'travel', 'tech', 'gaming', 'lifestyle', 'parenting', 'finance', 'music', 'sports'];
 const PLATFORMS = ['instagram', 'tiktok', 'youtube', 'twitter', 'linkedin'];
@@ -207,6 +208,7 @@ export default function DiscoverPage() {
 
   return (
     <div className="space-y-5">
+      <AiSearchPanel />
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Discover Creators</h1>
