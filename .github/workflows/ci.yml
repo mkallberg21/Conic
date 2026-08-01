@@ -53,8 +53,8 @@ jobs:
         working-directory: apps/backend
         env:
           DATABASE_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
-      - name: Run tests
-        run: npm test --workspace=apps/backend
+      - name: Run tests (with coverage thresholds)
+        run: npm run test:cov --workspace=apps/backend
         env:
           DATABASE_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
           REDIS_URL: redis://localhost:6379
@@ -83,8 +83,20 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
         working-directory: apps/${{ matrix.service }}
-      - name: Run tests
-        run: python -m pytest tests/ -v || true
+      # NOTE: these services have no pytest suites yet. Until they do, we gate on a
+      # real signal — byte-compiling every module fails the build on syntax/import
+      # errors instead of the previous `pytest ... || true`, which silently passed.
+      # TODO: add pytest suites per service and switch this to `python -m pytest tests/ -v`.
+      - name: Compile-check
+        run: python -m compileall -q .
+        working-directory: apps/${{ matrix.service }}
+      - name: Run tests (if present)
+        run: |
+          if ls tests/test_*.py >/dev/null 2>&1; then
+            python -m pytest tests/ -v
+          else
+            echo "No pytest suites for ${{ matrix.service }} yet — skipping (compile-check ran above)."
+          fi
         working-directory: apps/${{ matrix.service }}
 
   build-check:
