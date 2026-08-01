@@ -9,6 +9,7 @@
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "test": "jest",
+    "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
@@ -80,12 +81,31 @@
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
+      "^.+\\.(t|j)s$": [
+        "ts-jest",
+        {
+          "diagnostics": {
+            "ignoreCodes": [
+              151002
+            ]
+          }
+        }
+      ]
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "modules/**/*.service.ts"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "coverageThreshold": {
+      "**/auth.service.ts": { "statements": 55, "branches": 45 },
+      "**/collective-portal.service.ts": { "statements": 70, "branches": 45 },
+      "**/contracts.service.ts": { "statements": 50, "branches": 48 },
+      "**/creators.service.ts": { "statements": 48, "branches": 20 },
+      "**/deal-room.service.ts": { "statements": 70, "branches": 58 },
+      "**/earnings.service.ts": { "statements": 42, "branches": 24 },
+      "**/matchmaking.service.ts": { "statements": 55, "branches": 26 },
+      "**/payments.service.ts": { "statements": 62, "branches": 36 }
+    }
   }
 }
