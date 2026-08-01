@@ -1,15 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
-import { OnEvent } from '@nestjs/event-emitter';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import * as crypto from 'crypto';
 import { PrismaService } from '../../prisma/prisma.service';
 import { QUEUE_NAMES } from '../../queue/queue.module';
 import { EVENTS } from '../../events/event-bus.service';
 import { CreateWebhookDto, UpdateWebhookDto } from './dto/webhook.dto';
 
-// Map internal EventBusService event names → webhook event strings
+// Map internal EventBusService event names → webhook event strings.
+// A listener is registered for every entry in onModuleInit(), so adding a row
+// here is all that is needed to start dispatching a new event to subscribers.
 const INTERNAL_TO_WEBHOOK: Record<string, string> = {
   [EVENTS.CONTRACT_CREATED]: 'contract.created',
   [EVENTS.CONTRACT_SIGNED]: 'contract.signed',
@@ -35,12 +37,33 @@ const INTERNAL_TO_WEBHOOK: Record<string, string> = {
 };
 
 @Injectable()
-export class WebhooksService {
+export class WebhooksService implements OnModuleInit {
+  private readonly logger = new Logger(WebhooksService.name);
+
   constructor(
     private readonly prisma: PrismaService,
+    private readonly eventEmitter: EventEmitter2,
     @InjectQueue(QUEUE_NAMES.WEBHOOK_DELIVERY)
     private readonly webhookQueue: Queue,
   ) {}
+
+  /**
+   * Register one listener per mapped internal event. This replaces the previous
+   * hand-written per-event @OnEvent handlers (which only covered 6 events) so that
+   * every event in INTERNAL_TO_WEBHOOK — including all NIL events (disclosures,
+   * deals, guardian, FMV, tax, appearances) — is fanned out to subscribed endpoints.
+   */
+  onModuleInit(): void {
+    for (const [internalEvent, webhookEvent] of Object.entries(INTERNAL_TO_WEBHOOK)) {
+      this.eventEmitter.on(internalEvent, (payload: Record<string, unknown>) => {
+        void this.dispatch(webhookEvent, payload).catch((err) =>
+          this.logger.error(
+            `Webhook dispatch failed for ${webhookEvent}: ${(err as Error).message}`,
+          ),
+        );
+      });
+    }
+  }
 
   // ── CRUD ──────────────────────────────────────────────────────────────────
 
@@ -143,38 +166,6 @@ export class WebhooksService {
         { jobId: `webhook-${delivery.id}` },
       );
     }
-  }
-
-  // ── Event Listeners ───────────────────────────────────────────────────────
-
-  @OnEvent(EVENTS.CONTRACT_CREATED)
-  async onContractCreated(payload: Record<string, unknown>) {
-    await this.dispatch('contract.created', payload);
-  }
-
-  @OnEvent(EVENTS.CONTRACT_SIGNED)
-  async onContractSigned(payload: Record<string, unknown>) {
-    await this.dispatch('contract.signed', payload);
-  }
-
-  @OnEvent(EVENTS.DELIVERABLE_SUBMITTED)
-  async onDeliverableSubmitted(payload: Record<string, unknown>) {
-    await this.dispatch('deliverable.submitted', payload);
-  }
-
-  @OnEvent(EVENTS.DELIVERABLE_APPROVED)
-  async onDeliverableApproved(payload: Record<string, unknown>) {
-    await this.dispatch('deliverable.approved', payload);
-  }
-
-  @OnEvent(EVENTS.PAYMENT_RELEASED)
-  async onPaymentReleased(payload: Record<string, unknown>) {
-    await this.dispatch('payment.released', payload);
-  }
-
-  @OnEvent(EVENTS.PAYMENT_FAILED)
-  async onPaymentFailed(payload: Record<string, unknown>) {
-    await this.dispatch('payment.failed', payload);
   }
 
   // ── Diagnostics ───────────────────────────────────────────────────────────

@@ -1,6 +1,5 @@
 import { Module, Global } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Queue, Worker, QueueEvents } from 'bullmq';
 import { EventBusService } from './event-bus.service';
 
 export const QUEUE_NAMES = {

@@ -1,6 +1,6 @@
 import {
   IsString, IsOptional, IsEmail, IsBoolean, IsInt, IsNumber,
-  Min, Max, MaxLength, IsArray,
+  Min, Max, IsArray,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 

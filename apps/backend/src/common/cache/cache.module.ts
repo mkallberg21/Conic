@@ -1,9 +1,12 @@
 import { Global, Module, Logger } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheService } from './cache.service';
+import { REDIS_CLIENT } from './cache.constants';
 import Redis from 'ioredis';
 
-export const REDIS_CLIENT = 'REDIS_CLIENT';
+// Re-exported for existing importers; the token lives in cache.constants to avoid
+// a cache.module <-> cache.service circular import.
+export { REDIS_CLIENT } from './cache.constants';
 
 const redisLogger = new Logger('Redis');
 

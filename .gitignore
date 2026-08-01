@@ -5,5 +5,11 @@ node_modules
 dist
 *.tsbuildinfo
 coverage
+.turbo
+.next
+__pycache__
+.pytest_cache
+*.pyc
+.venv
 .DS_Store
 *.log

@@ -1,12 +1,10 @@
 import {
   Injectable,
-  NotFoundException,
-  ForbiddenException,
-  ConflictException,
+  NotFoundException,  ConflictException,
   BadRequestException,
   Logger,
 } from '@nestjs/common';
-import { CollectiveMemberStatus, UserRole } from '@prisma/client';
+import { CollectiveMemberStatus } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { AuditService } from '../../common/audit/audit.service';
 import {

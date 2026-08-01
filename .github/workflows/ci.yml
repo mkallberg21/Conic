@@ -17,12 +17,18 @@ jobs:
           node-version: '22'
           cache: 'npm'
       - run: npm ci
+      # The Prisma client is generated into node_modules (no longer committed), so
+      # typecheck needs it present to resolve '@prisma/client'.
+      - name: Generate Prisma client
+        run: npx prisma generate
+        working-directory: apps/backend
       - run: npm run lint
       - run: npm run typecheck
 
   test-backend:
     name: Test Backend
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     services:
       postgres:
         image: postgres:16-alpine
@@ -53,13 +59,32 @@ jobs:
         working-directory: apps/backend
         env:
           DATABASE_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
-      - name: Run tests
-        run: npm test --workspace=apps/backend
+          # schema.prisma declares directUrl = env("DATABASE_DIRECT_URL"); migrate needs it
+          DATABASE_DIRECT_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
+      - name: Run tests (with coverage thresholds)
+        run: npm run test:cov --workspace=apps/backend
         env:
           DATABASE_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
           REDIS_URL: redis://localhost:6379
           JWT_SECRET: test_secret_key_32_chars_minimum
           JWT_REFRESH_SECRET: test_refresh_secret_32_chars_min
+      # Boot smoke test: starts the whole AppModule against the Postgres + Redis
+      # services above and hits /health. Dummy secrets below are the minimum the
+      # app requires to boot (env validation + Passport Google clientID + SendGrid
+      # getOrThrow + Dwolla client) — not real credentials.
+      - name: Run e2e boot smoke test
+        run: npm run test:e2e --workspace=apps/backend
+        env:
+          DATABASE_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
+          DATABASE_DIRECT_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
+          REDIS_HOST: localhost
+          JWT_SECRET: test_secret_key_32_chars_minimum
+          JWT_REFRESH_SECRET: test_refresh_secret_32_chars_min
+          GOOGLE_CLIENT_ID: test-google-client-id
+          GOOGLE_CLIENT_SECRET: test-google-client-secret
+          SENDGRID_API_KEY: SG.test-key
+          DWOLLA_KEY: test-dwolla-key
+          DWOLLA_SECRET: test-dwolla-secret
 
   test-ai-services:
     name: Test AI Services
@@ -83,8 +108,19 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
         working-directory: apps/${{ matrix.service }}
+      # Byte-compile every module first — fails the build on syntax/import errors
+      # (replaces the previous `pytest ... || true`, which silently passed).
+      - name: Compile-check
+        run: python -m compileall -q .
+        working-directory: apps/${{ matrix.service }}
       - name: Run tests
-        run: python -m pytest tests/ -v || true
+        run: |
+          if ls tests/test_*.py >/dev/null 2>&1; then
+            pip install pytest httpx
+            python -m pytest tests/ -v
+          else
+            echo "No pytest suites for ${{ matrix.service }} yet — skipping (compile-check ran above)."
+          fi
         working-directory: apps/${{ matrix.service }}
 
   build-check:

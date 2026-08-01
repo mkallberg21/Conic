@@ -5,9 +5,7 @@ import {
   Get,
   UseGuards,
   HttpCode,
-  HttpStatus,
-  Version,
-  Req,
+  HttpStatus,  Req,
   Res,
 } from '@nestjs/common';
 import { Request, Response } from 'express';

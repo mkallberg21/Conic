@@ -1,6 +1,6 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import Redis from 'ioredis';
-import { REDIS_CLIENT } from './cache.module';
+import { REDIS_CLIENT } from './cache.constants';
 
 // Default TTLs (seconds)
 export const TTL = {
