@@ -34,16 +34,30 @@ npm run test:cov                               # 66/66 green, thresholds enforce
 
 These are genuinely gated on secrets or account access and cannot be completed in-repo:
 
-- [ ] **Live database boot / migrate / seed + e2e smoke test.** Not runnable in this
-  dev environment (no Docker/Postgres; the app cannot boot without Postgres **and**
-  Redis, since Prisma, the Throttler, and BullMQ all connect at startup — even
-  `/health/live` needs a booted app). To verify end-to-end: `docker compose up -d
-  postgres redis`, create a local `.env` from `.env.example` (secrets via `openssl
-  rand -base64 48`), then `npm run db:migrate` → `npm run db:seed` → start the backend
-  and hit `/health`. Then add an e2e smoke test — note the `test:e2e` script currently
-  points at `apps/backend/test/jest-e2e.json`, which **does not exist**; the `test/`
-  harness needs to be created. CI's `test-backend` job already provides Postgres + Redis
-  and now runs migrations, so the e2e will execute there once written.
+- [x] **e2e boot smoke test** — added (`apps/backend/test/app.e2e-spec.ts` +
+  `jest-e2e.json`; the `test:e2e` script previously pointed at a non-existent config).
+  It boots the whole AppModule against Postgres + Redis and hits `/api/v1/health`. It
+  **cannot run in this dev environment** (no Docker/Postgres), so it is wired into CI's
+  `test-backend` job (which provides both services and now runs migrations). **The first
+  CI run is its real verification** — if the app needs boot env beyond what that job
+  sets, the e2e will surface it there.
+- [ ] **Local live boot / migrate / seed.** `docker compose up -d postgres redis`, make
+  a local `.env` from `.env.example` (secrets via `openssl rand -base64 48`), then
+  `npm run db:migrate` → `npm run db:seed` → start the backend and hit `/health`.
+
+### Boot-time env the app hard-requires (found while wiring the e2e)
+
+The app refuses to start unless these are set (beyond the DB/JWT vars in `validate`):
+
+- `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — `GoogleStrategy` passes `clientID: ''`
+  when unset and **passport-oauth2 throws on an empty clientID**, aborting boot.
+- `SENDGRID_API_KEY` — `EmailService` calls `config.getOrThrow('email.sendgridApiKey')`
+  in its constructor.
+- `DWOLLA_KEY` / `DWOLLA_SECRET` — the `dwolla-v2` client is constructed at startup.
+- Reachable **Postgres and Redis** (Prisma, Throttler, BullMQ connect on init).
+
+Consider making Google/Dwolla/SendGrid init lazy or guarded so the API can boot in
+environments that don't use those integrations.
 - [ ] **Payments (Dwolla ACH).** `PaymentsService.release()` is wired and unit-tested against mocks, but never exercised against the real Dwolla API. Needs live keys + a platform funding source, then a sandbox integration test.
 - [ ] **Infrastructure.** Terraform/K8s under `infrastructure/` is scaffolded, not provisioned. Needs AWS credentials.
 - [ ] **Mobile release.** EAS Build/Submit to the App Store + Google Play needs store accounts.

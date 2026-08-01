@@ -60,6 +60,22 @@ jobs:
           REDIS_URL: redis://localhost:6379
           JWT_SECRET: test_secret_key_32_chars_minimum
           JWT_REFRESH_SECRET: test_refresh_secret_32_chars_min
+      # Boot smoke test: starts the whole AppModule against the Postgres + Redis
+      # services above and hits /health. Dummy secrets below are the minimum the
+      # app requires to boot (env validation + Passport Google clientID + SendGrid
+      # getOrThrow + Dwolla client) — not real credentials.
+      - name: Run e2e boot smoke test
+        run: npm run test:e2e --workspace=apps/backend
+        env:
+          DATABASE_URL: postgresql://conic:conic_secret@localhost:5432/conic_test
+          REDIS_HOST: localhost
+          JWT_SECRET: test_secret_key_32_chars_minimum
+          JWT_REFRESH_SECRET: test_refresh_secret_32_chars_min
+          GOOGLE_CLIENT_ID: test-google-client-id
+          GOOGLE_CLIENT_SECRET: test-google-client-secret
+          SENDGRID_API_KEY: SG.test-key
+          DWOLLA_KEY: test-dwolla-key
+          DWOLLA_SECRET: test-dwolla-secret
 
   test-ai-services:
     name: Test AI Services
