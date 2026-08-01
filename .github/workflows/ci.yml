@@ -85,6 +85,10 @@ jobs:
           SENDGRID_API_KEY: SG.test-key
           DWOLLA_KEY: test-dwolla-key
           DWOLLA_SECRET: test-dwolla-secret
+          # Dummy key so AnthropicService instantiates its client at boot; no
+          # network call is made during the smoke test. Discovery/profile still
+          # degrade gracefully when unset in other environments.
+          ANTHROPIC_API_KEY: sk-ant-test-key
 
   test-ai-services:
     name: Test AI Services
