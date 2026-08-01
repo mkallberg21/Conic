@@ -7,9 +7,7 @@ import {
   Max,
   IsArray,
   IsBoolean,
-  IsDateString,
-  IsUUID,
-} from 'class-validator';
+  IsDateString,} from 'class-validator';
 
 export class UpdateAgentProfileDto {
   @IsOptional()

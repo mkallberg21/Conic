@@ -1,7 +1,6 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { firstValueFrom } from 'rxjs';
 import { MatchStatus, UserRole, Prisma } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { AuditService } from '../../common/audit/audit.service';
@@ -230,7 +229,7 @@ export class MatchmakingService {
     engagementRate: number;
     niche: string[];
     predictions: Array<{ predictedReach: number; predictedROI: number }>;
-  }>, brief: string) {
+  }>, _brief: string) {
     return creators.map((c) => {
       const perf = c.predictions[0];
       const matchScore = Math.round(
@@ -266,7 +265,7 @@ export class MatchmakingService {
     fmvMinCents: number | null;
     fmvMaxCents: number | null;
     marketplaceListing: { minDealValueCents: number } | null;
-  }>, brief: string) {
+  }>, _brief: string) {
     return athletes.map((a) => {
       const matchScore = Math.round(
         (a.performanceScore * 0.4) +

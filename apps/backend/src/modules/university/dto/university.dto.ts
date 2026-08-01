@@ -6,9 +6,7 @@ import {
   IsEmail,
   IsEnum,
   IsUrl,
-  Min,
-  Max,
-  MaxLength,
+  Min,  MaxLength,
   MinLength,
 } from 'class-validator';
 import { DivisionLevel } from '@prisma/client';

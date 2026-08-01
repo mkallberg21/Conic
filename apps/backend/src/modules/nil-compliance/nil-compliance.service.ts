@@ -523,7 +523,6 @@ export class NilComplianceService {
     if (!university) throw new NotFoundException('University not found');
 
     // Aggregate data for reporting period
-    const now = new Date();
     const [startDate, endDate] = this.parsePeriod(period, reportType);
 
     const [disclosures, nilDeals, athletes] = await Promise.all([

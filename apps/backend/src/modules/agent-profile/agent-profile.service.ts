@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { AuditService } from '../../common/audit/audit.service';
-import { EventBusService, EVENTS } from '../../events/event-bus.service';
+import { EventBusService } from '../../events/event-bus.service';
 import {
   UpdateAgentProfileDto,
   CreateRepresentationDto,

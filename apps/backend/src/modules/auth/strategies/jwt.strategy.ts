@@ -19,7 +19,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     configService: ConfigService,
     private readonly prisma: PrismaService,
   ) {
-    const privateKey = configService.get<string>('jwt.privateKey');
     const publicKey = configService.get<string>('jwt.publicKey');
     const symmetricSecret = configService.get<string>('jwt.secret');
 

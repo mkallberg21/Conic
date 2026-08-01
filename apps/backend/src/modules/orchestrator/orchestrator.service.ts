@@ -13,9 +13,7 @@ import {
   OrchestratorRequest,
   OrchestratorResponse,
   ModuleResult,
-  TaskType,
-  ModuleId,
-} from './types/orchestrator.types';
+  TaskType,} from './types/orchestrator.types';
 
 /**
  * UnifiedAIOrchestrator — the central brain of the entire AI layer.
