@@ -55,6 +55,7 @@ import { EngagementModule } from './modules/engagement/engagement.module';
 import { SubscriptionModule } from './modules/subscription/subscription.module';
 import { MarketplaceModule } from './modules/marketplace/marketplace.module';
 import { EscrowModule } from './modules/escrow/escrow.module';
+import { BrandBillingModule } from './modules/brand-billing/brand-billing.module';
 
 @Module({
   imports: [
@@ -140,6 +141,7 @@ import { EscrowModule } from './modules/escrow/escrow.module';
     SubscriptionModule,
     MarketplaceModule,
     EscrowModule,
+    BrandBillingModule,
   ],
   providers: [
     // Apply ThrottlerGuard globally — every route is rate-limited by default

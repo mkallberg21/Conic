@@ -88,6 +88,13 @@ export default () => ({
     proPriceId: process.env.STRIPE_PRO_PRICE_ID,
     checkoutSuccessUrl: process.env.BILLING_SUCCESS_URL ?? 'http://localhost:3000/plan?status=success',
     checkoutCancelUrl: process.env.BILLING_CANCEL_URL ?? 'http://localhost:3000/plan?status=cancel',
+    // Brand SaaS Stripe price ids (optional; stub ignores them)
+    brandStarterPriceId: process.env.STRIPE_BRAND_STARTER_PRICE_ID,
+    brandGrowthPriceId: process.env.STRIPE_BRAND_GROWTH_PRICE_ID,
+    brandScalePriceId: process.env.STRIPE_BRAND_SCALE_PRICE_ID,
+    // Enforce brand plan limits (active-campaign volume). Log-only by default so
+    // existing brands aren't blocked until you turn it on.
+    enforceBrandLimits: process.env.ENFORCE_BRAND_LIMITS === 'true',
   },
   verification: {
     // 'stub' auto-resolves from self-reported DOB (dev); real vendors are switched

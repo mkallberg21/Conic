@@ -4,6 +4,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService, EVENTS } from '../../events/event-bus.service';
 import { AiService } from '../ai/ai.service';
+import { BrandBillingService } from '../brand-billing/brand-billing.service';
 import { CreateCampaignDto } from './dto/create-campaign.dto';
 
 @Injectable()
@@ -14,11 +15,15 @@ export class CampaignsService {
     private readonly prisma: PrismaService,
     private readonly eventBus: EventBusService,
     private readonly aiService: AiService,
+    private readonly brandBilling: BrandBillingService,
   ) {}
 
   async create(brandUserId: string, dto: CreateCampaignDto) {
     const brand = await this.prisma.brand.findUnique({ where: { userId: brandUserId } });
     if (!brand) throw new ForbiddenException('Brand profile required');
+
+    // SaaS entitlement: active-campaign volume limit (log-only until enforced).
+    await this.brandBilling.assertWithinCampaignLimit(brandUserId);
 
     // Generate AI timeline
     const aiTimeline = await this.aiService.generateCampaignTimeline({
