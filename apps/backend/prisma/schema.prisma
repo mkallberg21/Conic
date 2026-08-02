@@ -227,11 +227,13 @@ model Brand {
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
 
-  contracts   Contract[]
-  campaigns   Campaign[]
-  nilDeals    NilDeal[]
-  appearances Appearance[]
-  kybCheck    BusinessVerification?
+  contracts     Contract[]
+  campaigns     Campaign[]
+  nilDeals      NilDeal[]
+  appearances   Appearance[]
+  kybCheck      BusinessVerification?
+  profileViews  ProfileView[]
+  savedProfiles SavedProfile[]
 
   @@index([userId])
 }
@@ -254,6 +256,9 @@ model Creator {
   city             String?
   region           String?
   country          String?
+  // Privacy-blurred coordinates (~city level) for a general-area map — never exact
+  approxLat        Float?
+  approxLng        Float?
   followersCount   Int       @default(0)
   engagementRate   Float     @default(0)
   avgReach         Int       @default(0)
@@ -281,6 +286,8 @@ model Creator {
   socialAccounts  SocialAccount[]
   guardians       GuardianRelationship[]
   guardianInvites GuardianInvite[]
+  profileViews    ProfileView[]
+  savedByBrands   SavedProfile[]
 
   @@index([userId])
   @@index([handle])
@@ -954,6 +961,9 @@ model Athlete {
   city                  String?
   region                String?
   country               String?
+  // Privacy-blurred coordinates (~city level) for a general-area map — never exact
+  approxLat             Float?
+  approxLng             Float?
   audienceScore         Float               @default(0)
   fraudScore            Float               @default(0)
   performanceScore      Float               @default(0)
@@ -981,6 +991,8 @@ model Athlete {
   collectiveMemberships CollectiveMember[]
   matchResults          MatchResult[]
   socialAccounts        SocialAccount[]
+  profileViews          ProfileView[]
+  savedByBrands         SavedProfile[]
 
   @@index([userId])
   @@index([universityId])
@@ -1182,6 +1194,44 @@ model BusinessVerification {
   updatedAt           DateTime       @updatedAt
 
   @@index([status])
+}
+
+// ─── Engagement (profile views + saved shortlists) ──────────────────────────────
+
+// A brand viewing a creator/athlete profile. Deduped to one row per brand/target
+// per day by the service so counts reflect distinct interest, not refreshes.
+model ProfileView {
+  id        String   @id @default(cuid())
+  brandId   String
+  brand     Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  creatorId String?
+  creator   Creator? @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  athleteId String?
+  athlete   Athlete? @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([creatorId, createdAt])
+  @@index([athleteId, createdAt])
+  @@index([brandId, createdAt])
+}
+
+// A brand's saved/shortlisted profile, optionally tagged to a campaign.
+model SavedProfile {
+  id         String   @id @default(cuid())
+  brandId    String
+  brand      Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  creatorId  String?
+  creator    Creator? @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  athleteId  String?
+  athlete    Athlete? @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  campaignId String? // optional free reference to a Campaign (no hard FK)
+  note       String?
+  createdAt  DateTime @default(now())
+
+  @@unique([brandId, creatorId])
+  @@unique([brandId, athleteId])
+  @@index([brandId, createdAt])
+  @@index([campaignId])
 }
 
 // ─── Agent ────────────────────────────────────────────────────────────────────

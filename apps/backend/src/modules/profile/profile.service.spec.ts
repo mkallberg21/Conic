@@ -5,6 +5,7 @@ import { ProfileService } from './profile.service';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EmbeddingsService } from '../embeddings/embeddings.service';
 import { GuardianService } from '../guardian/guardian.service';
+import { GeoService } from '../engagement/geo.service';
 import { OwnershipCodeVerifier } from './social-verifier';
 import { AddSocialAccountDto } from './dto/profile.dto';
 
@@ -34,6 +35,7 @@ const mockVerifier = {
   check: jest.fn().mockResolvedValue(false),
 };
 const mockGuardian = { createInvite: jest.fn().mockResolvedValue({ inviteId: 'inv_1' }) };
+const mockGeo = { resolveApprox: jest.fn().mockReturnValue({ lat: 30.3, lng: -97.7 }) };
 
 const CREATOR_USER = 'user_creator';
 
@@ -48,6 +50,7 @@ describe('ProfileService', () => {
         { provide: EmbeddingsService, useValue: mockEmbeddings },
         { provide: OwnershipCodeVerifier, useValue: mockVerifier },
         { provide: GuardianService, useValue: mockGuardian },
+        { provide: GeoService, useValue: mockGeo },
       ],
     }).compile();
     service = module.get<ProfileService>(ProfileService);
