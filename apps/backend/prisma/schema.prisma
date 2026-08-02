@@ -36,6 +36,13 @@ enum ContractStatus {
   DISPUTED
 }
 
+// How the deal originated — drives the (brand-side) platform fee rate.
+enum DealSource {
+  MATCHMAKING // platform discovery/matchmaking sourced it → full rate
+  SELF_SERVE // brand's open brief; parties transacted on-platform → low rate
+  DIRECT // parties arrived together → low rate
+}
+
 enum DeliverableStatus {
   PENDING
   IN_PROGRESS
@@ -332,6 +339,7 @@ model Contract {
   creator         Creator           @relation(fields: [creatorId], references: [id])
   title           String
   status          ContractStatus    @default(DRAFT)
+  dealSource      DealSource        @default(DIRECT) // drives the brand-side fee rate
   content         String            @db.Text
   templateId      String?
   template        ContractTemplate? @relation(fields: [templateId], references: [id])
@@ -480,9 +488,10 @@ model Payment {
   currency         String            @default("USD")
   status           PaymentStatus     @default(PENDING)
   dwollaTransferId String?
-  platformFeeRate  Float             @default(0.05) // 5%
-  platformFee      Int               @default(0)
-  netAmount        Int
+  platformFeeRate  Float             @default(0.12) // brand-side fee applied to this payment
+  platformFee      Int               @default(0) // fee charged to the BRAND (creator nets 100%)
+  netAmount        Int // amount paid to the creator (== amount)
+  brandChargeCents Int               @default(0) // what the brand pays: amount + platformFee
   dueDate          DateTime?
   paidAt           DateTime?
   fraudScore       Float             @default(0) // 0-100

@@ -45,6 +45,7 @@ const mockPendingPayment = {
 const mockPrisma = {
   creator: { findUnique: jest.fn() },
   brand: { findUnique: jest.fn() },
+  contract: { findUnique: jest.fn() },
   payment: {
     findUnique: jest.fn(),
     findFirst: jest.fn(),
@@ -295,27 +296,44 @@ describe('PaymentsService', () => {
       expect(mockPrisma.payment.create).not.toHaveBeenCalled();
     });
 
-    it('creates payment with platform fee on first invocation', async () => {
-      mockPrisma.payment.findFirst.mockResolvedValue(null);
-      mockPrisma.payment.create.mockResolvedValue({ id: 'pay_new' });
+    beforeEach(() => {
       mockConfigService.get.mockImplementation((key: string, d?: unknown) => {
-        if (key === 'dwolla.platformFeeRate') return 0.05;
+        if (key === 'dwolla.platformFeeRate') return 0.12;
+        if (key === 'dwolla.selfServeFeeRate') return 0.05;
         return d;
       });
+    });
 
-      await service.handleDeliverableApproved({
-        deliverableId: 'del_1',
-        contractId: 'con_1',
-        paymentAmount: 10000,
-      });
+    it('charges the full 12% brand-side on a matchmaking-sourced deal; creator nets 100%', async () => {
+      mockPrisma.payment.findFirst.mockResolvedValue(null);
+      mockPrisma.payment.create.mockResolvedValue({ id: 'pay_new' });
+      mockPrisma.contract.findUnique.mockResolvedValue({ dealSource: 'MATCHMAKING' });
+
+      await service.handleDeliverableApproved({ deliverableId: 'del_1', contractId: 'con_1', paymentAmount: 10000 });
 
       expect(mockPrisma.payment.create).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
             amount: 10000,
-            platformFee: 500,
-            netAmount: 9500,
+            platformFeeRate: 0.12,
+            platformFee: 1200,          // charged to the brand
+            netAmount: 10000,           // creator receives 100%
+            brandChargeCents: 11200,    // brand pays amount + fee
           }),
+        }),
+      );
+    });
+
+    it('charges the low 5% rate when the deal was self-served / direct', async () => {
+      mockPrisma.payment.findFirst.mockResolvedValue(null);
+      mockPrisma.payment.create.mockResolvedValue({ id: 'pay_new' });
+      mockPrisma.contract.findUnique.mockResolvedValue({ dealSource: 'DIRECT' });
+
+      await service.handleDeliverableApproved({ deliverableId: 'del_1', contractId: 'con_1', paymentAmount: 10000 });
+
+      expect(mockPrisma.payment.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ platformFee: 500, netAmount: 10000, brandChargeCents: 10500 }),
         }),
       );
     });

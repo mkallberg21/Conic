@@ -211,17 +211,30 @@ export class PaymentsService {
     }
 
     this.logger.log(`Auto-creating payment for approved deliverable ${payload.deliverableId}`);
-    const feeRate = this.configService.get<number>('dwolla.platformFeeRate', 0.05);
+
+    // Fee is charged to the BRAND on top of the creator's amount; the creator
+    // nets 100%. The rate depends on how the deal was sourced.
+    const contract = await this.prisma.contract.findUnique({
+      where: { id: payload.contractId },
+      select: { dealSource: true },
+    });
+    const fullRate = this.configService.get<number>('dwolla.platformFeeRate', 0.12);
+    const lowRate = this.configService.get<number>('dwolla.selfServeFeeRate', 0.05);
+    const feeRate = contract?.dealSource === 'MATCHMAKING' ? fullRate : lowRate;
+
     const platformFee = Math.round(payload.paymentAmount * feeRate);
-    const netAmount = payload.paymentAmount - platformFee;
+    const netAmount = payload.paymentAmount; // creator receives the full amount
+    const brandChargeCents = payload.paymentAmount + platformFee;
 
     await this.prisma.payment.create({
       data: {
         contractId: payload.contractId,
         deliverableId: payload.deliverableId,
         amount: payload.paymentAmount,
+        platformFeeRate: feeRate,
         platformFee,
         netAmount,
+        brandChargeCents,
         status: PaymentStatus.PENDING,
         description: 'Auto-released on deliverable approval',
       },

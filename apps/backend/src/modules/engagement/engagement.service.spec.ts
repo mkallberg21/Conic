@@ -3,7 +3,6 @@ import { ForbiddenException } from '@nestjs/common';
 import { UserRole } from '@prisma/client';
 import { EngagementService } from './engagement.service';
 import { PrismaService } from '../../prisma/prisma.service';
-import { SubscriptionService } from '../subscription/subscription.service';
 import { SaveProfileDto } from './dto/engagement.dto';
 
 describe('EngagementService', () => {
@@ -15,14 +14,11 @@ describe('EngagementService', () => {
     profileView: { findFirst: jest.fn(), create: jest.fn(), count: jest.fn(), groupBy: jest.fn() },
     savedProfile: { upsert: jest.fn(), deleteMany: jest.fn(), count: jest.fn(), findMany: jest.fn() },
   };
-  const mockSubscription = { assertPro: jest.fn().mockResolvedValue(undefined) };
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         EngagementService,
         { provide: PrismaService, useValue: mockPrisma },
-        { provide: SubscriptionService, useValue: mockSubscription },
       ],
     }).compile();
     service = module.get(EngagementService);
@@ -64,14 +60,8 @@ describe('EngagementService', () => {
     });
   });
 
-  describe('getMyViewers (Pro)', () => {
-    it('is blocked for non-Pro users', async () => {
-      mockSubscription.assertPro.mockRejectedValueOnce(new ForbiddenException('Pro feature'));
-      await expect(service.getMyViewers('u1', UserRole.CREATOR)).rejects.toThrow(ForbiddenException);
-    });
-
-    it('returns the brands that viewed, with counts + saved flag, for a Pro user', async () => {
-      mockSubscription.assertPro.mockResolvedValue(undefined);
+  describe('getMyViewers', () => {
+    it('returns the brands that viewed, with counts + saved flag (free for all)', async () => {
       mockPrisma.creator.findUnique.mockResolvedValue({ id: 'cr_1' });
       mockPrisma.profileView.groupBy.mockResolvedValue([
         { brandId: 'b1', _count: { _all: 3 }, _max: { createdAt: new Date('2026-08-01') } },
