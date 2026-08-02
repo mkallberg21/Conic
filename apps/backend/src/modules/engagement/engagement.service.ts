@@ -1,13 +1,17 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { UserRole } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
+import { SubscriptionService } from '../subscription/subscription.service';
 import { SaveProfileDto } from './dto/engagement.dto';
 
 type TargetType = 'creator' | 'athlete';
 
 @Injectable()
 export class EngagementService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly subscription: SubscriptionService,
+  ) {}
 
   // ── Brand: record a profile view (deduped per brand/target/day) ──────────────
 
@@ -46,6 +50,55 @@ export class EngagementService {
       uniqueBrands: distinctBrands.length,
       savedByBrands: savedByCount,
     };
+  }
+
+  /**
+   * PRO feature: the actual brands who viewed/saved this profile (identity + when
+   * + repeat count). Free accounts only see the aggregate counts from getMyInsights.
+   */
+  async getMyViewers(userId: string, role: UserRole) {
+    await this.subscription.assertPro(userId);
+    const target = await this.resolveSelf(userId, role);
+    const where = this.targetWhere(target.type, target.id);
+
+    const [viewGroups, savedRows] = await Promise.all([
+      this.prisma.profileView.groupBy({
+        by: ['brandId'],
+        where,
+        _count: { _all: true },
+        _max: { createdAt: true },
+        orderBy: { _max: { createdAt: 'desc' } },
+        take: 100,
+      }),
+      this.prisma.savedProfile.findMany({
+        where,
+        select: { brandId: true, createdAt: true },
+        orderBy: { createdAt: 'desc' },
+      }),
+    ]);
+
+    const brandIds = [...new Set([...viewGroups.map((g) => g.brandId), ...savedRows.map((s) => s.brandId)])];
+    const brands = await this.prisma.brand.findMany({
+      where: { id: { in: brandIds } },
+      select: { id: true, companyName: true, logoUrl: true, industry: true },
+    });
+    const brandById = new Map(brands.map((b) => [b.id, b]));
+    const savedSet = new Set(savedRows.map((s) => s.brandId));
+
+    const viewers = viewGroups.map((g) => {
+      const b = brandById.get(g.brandId);
+      return {
+        brandId: g.brandId,
+        companyName: b?.companyName ?? 'A brand',
+        logoUrl: b?.logoUrl ?? null,
+        industry: b?.industry ?? null,
+        views: g._count._all,
+        lastViewedAt: g._max.createdAt,
+        saved: savedSet.has(g.brandId),
+      };
+    });
+
+    return { viewers };
   }
 
   // ── Brand: save / unsave / list shortlist ────────────────────────────────────

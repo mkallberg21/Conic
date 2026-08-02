@@ -3,21 +3,27 @@ import { ForbiddenException } from '@nestjs/common';
 import { UserRole } from '@prisma/client';
 import { EngagementService } from './engagement.service';
 import { PrismaService } from '../../prisma/prisma.service';
+import { SubscriptionService } from '../subscription/subscription.service';
 import { SaveProfileDto } from './dto/engagement.dto';
 
 describe('EngagementService', () => {
   let service: EngagementService;
   const mockPrisma = {
-    brand: { findUnique: jest.fn() },
+    brand: { findUnique: jest.fn(), findMany: jest.fn() },
     creator: { findUnique: jest.fn() },
     athlete: { findUnique: jest.fn() },
     profileView: { findFirst: jest.fn(), create: jest.fn(), count: jest.fn(), groupBy: jest.fn() },
     savedProfile: { upsert: jest.fn(), deleteMany: jest.fn(), count: jest.fn(), findMany: jest.fn() },
   };
+  const mockSubscription = { assertPro: jest.fn().mockResolvedValue(undefined) };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [EngagementService, { provide: PrismaService, useValue: mockPrisma }],
+      providers: [
+        EngagementService,
+        { provide: PrismaService, useValue: mockPrisma },
+        { provide: SubscriptionService, useValue: mockSubscription },
+      ],
     }).compile();
     service = module.get(EngagementService);
     jest.clearAllMocks();
@@ -55,6 +61,28 @@ describe('EngagementService', () => {
 
     it('rejects non-influencer roles', async () => {
       await expect(service.getMyInsights('u1', UserRole.BRAND)).rejects.toThrow(ForbiddenException);
+    });
+  });
+
+  describe('getMyViewers (Pro)', () => {
+    it('is blocked for non-Pro users', async () => {
+      mockSubscription.assertPro.mockRejectedValueOnce(new ForbiddenException('Pro feature'));
+      await expect(service.getMyViewers('u1', UserRole.CREATOR)).rejects.toThrow(ForbiddenException);
+    });
+
+    it('returns the brands that viewed, with counts + saved flag, for a Pro user', async () => {
+      mockSubscription.assertPro.mockResolvedValue(undefined);
+      mockPrisma.creator.findUnique.mockResolvedValue({ id: 'cr_1' });
+      mockPrisma.profileView.groupBy.mockResolvedValue([
+        { brandId: 'b1', _count: { _all: 3 }, _max: { createdAt: new Date('2026-08-01') } },
+      ]);
+      mockPrisma.savedProfile.findMany.mockResolvedValue([{ brandId: 'b1', createdAt: new Date() }]);
+      mockPrisma.brand.findMany.mockResolvedValue([{ id: 'b1', companyName: 'Acme', logoUrl: null, industry: 'Retail' }]);
+
+      const r = await service.getMyViewers('u1', UserRole.CREATOR);
+
+      expect(r.viewers).toHaveLength(1);
+      expect(r.viewers[0]).toMatchObject({ brandId: 'b1', companyName: 'Acme', views: 3, saved: true });
     });
   });
 
