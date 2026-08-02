@@ -298,13 +298,13 @@ describe('PaymentsService', () => {
 
     beforeEach(() => {
       mockConfigService.get.mockImplementation((key: string, d?: unknown) => {
-        if (key === 'dwolla.platformFeeRate') return 0.12;
+        if (key === 'dwolla.platformFeeRate') return 0.10;
         if (key === 'dwolla.selfServeFeeRate') return 0.05;
         return d;
       });
     });
 
-    it('charges the full 12% brand-side on a matchmaking-sourced deal; creator nets 100%', async () => {
+    it('charges the full 10% brand-side on a matchmaking-sourced deal; creator nets 100%', async () => {
       mockPrisma.payment.findFirst.mockResolvedValue(null);
       mockPrisma.payment.create.mockResolvedValue({ id: 'pay_new' });
       mockPrisma.contract.findUnique.mockResolvedValue({ dealSource: 'MATCHMAKING' });
@@ -315,10 +315,10 @@ describe('PaymentsService', () => {
         expect.objectContaining({
           data: expect.objectContaining({
             amount: 10000,
-            platformFeeRate: 0.12,
-            platformFee: 1200,          // charged to the brand
+            platformFeeRate: 0.10,
+            platformFee: 1000,          // charged to the brand
             netAmount: 10000,           // creator receives 100%
-            brandChargeCents: 11200,    // brand pays amount + fee
+            brandChargeCents: 11000,    // brand pays amount + fee
           }),
         }),
       );

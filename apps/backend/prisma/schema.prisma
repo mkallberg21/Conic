@@ -489,7 +489,7 @@ model Payment {
   currency         String            @default("USD")
   status           PaymentStatus     @default(PENDING)
   dwollaTransferId String?
-  platformFeeRate  Float             @default(0.12) // brand-side fee applied to this payment
+  platformFeeRate  Float             @default(0.10) // brand-side fee applied to this payment
   platformFee      Int               @default(0) // fee charged to the BRAND (creator nets 100%)
   netAmount        Int // amount paid to the creator (== amount)
   brandChargeCents Int               @default(0) // what the brand pays: amount + platformFee

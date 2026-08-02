@@ -40,7 +40,7 @@ export default () => ({
     // Brand-side platform fee. Full rate when the platform sourced the deal
     // (matchmaking/discovery); a low rate when the parties arrived together
     // (direct or via an open brief). Creators/athletes always net 100%.
-    platformFeeRate: parseFloat(process.env.PLATFORM_FEE_RATE ?? '0.12'),
+    platformFeeRate: parseFloat(process.env.PLATFORM_FEE_RATE ?? '0.10'),
     selfServeFeeRate: parseFloat(process.env.SELF_SERVE_FEE_RATE ?? '0.05'),
   },
   google: {
