@@ -12,7 +12,8 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { toast } from '@/hooks/use-toast';
-import { Star, Trash2, ShieldCheck, ShieldQuestion, Clock, Plus, Link2, Heart, Mail } from 'lucide-react';
+import { AreaMap } from '@/components/area-map';
+import { Star, Trash2, ShieldCheck, ShieldQuestion, Clock, Plus, Link2, Heart, Mail, Eye, Bookmark, Building2, CalendarClock } from 'lucide-react';
 
 const PLATFORMS = ['INSTAGRAM', 'TIKTOK', 'YOUTUBE', 'X', 'FACEBOOK', 'TWITCH', 'LINKEDIN', 'SNAPCHAT', 'PINTEREST', 'THREADS', 'OTHER'] as const;
 type Platform = (typeof PLATFORMS)[number];
@@ -33,8 +34,10 @@ interface ProfileAttrs {
   aestheticTags?: string[];
   languages?: string[];
   city?: string; region?: string; country?: string;
+  approxLat?: number | null; approxLng?: number | null;
 }
 interface ProfileResponse { profile: ProfileAttrs; socialAccounts: SocialAccount[]; }
+interface Insights { profileViews: number; viewsThisWeek: number; uniqueBrands: number; savedByBrands: number; }
 interface GuardianStatus {
   isMinor: boolean;
   guardians: { id: string; relationship: string; guardian: { user: { firstName: string; lastName: string; email: string } } }[];
@@ -55,6 +58,10 @@ export default function ProfilePage() {
   const { data, isLoading } = useQuery<ProfileResponse>({
     queryKey: ['profile', 'me'],
     queryFn: () => api.get('/v1/profile/me').then((r) => r.data.data),
+  });
+  const insights = useQuery<Insights>({
+    queryKey: ['engagement', 'insights'],
+    queryFn: () => api.get('/v1/engagement/insights').then((r) => r.data.data),
   });
 
   // ── Profile attributes form ───────────────────────────────────────────────
@@ -139,6 +146,36 @@ export default function ProfilePage() {
           Tell brands who you are and link your social accounts. Richer profiles rank higher in discovery search.
         </p>
       </div>
+
+      {/* Brand interest / insights */}
+      <Card>
+        <CardHeader><CardTitle className="flex items-center gap-2"><Eye className="h-5 w-5 text-primary" /> Brand interest</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {[
+              { icon: Eye, label: 'Profile views', value: insights.data?.profileViews ?? 0 },
+              { icon: CalendarClock, label: 'Views this week', value: insights.data?.viewsThisWeek ?? 0 },
+              { icon: Building2, label: 'Brands reached', value: insights.data?.uniqueBrands ?? 0 },
+              { icon: Bookmark, label: 'Times saved', value: insights.data?.savedByBrands ?? 0 },
+            ].map((s) => (
+              <div key={s.label} className="rounded-lg border bg-muted/30 p-3">
+                <s.icon className="h-4 w-4 text-muted-foreground" />
+                <p className="mt-1 text-2xl font-bold tabular-nums">{s.value}</p>
+                <p className="text-xs text-muted-foreground">{s.label}</p>
+              </div>
+            ))}
+          </div>
+          <div>
+            <p className="mb-2 text-sm font-medium">Your general area <span className="text-muted-foreground">(brands only see this — never your exact location)</span></p>
+            <AreaMap
+              lat={data?.profile?.approxLat}
+              lng={data?.profile?.approxLng}
+              label={[data?.profile?.city, data?.profile?.region].filter(Boolean).join(', ') || null}
+              height={180}
+            />
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Profile attributes */}
       <Card>

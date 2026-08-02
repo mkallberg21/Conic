@@ -5,6 +5,7 @@ import { Prisma, SocialPlatform, SocialVerificationStatus, UserRole } from '@pri
 import { PrismaService } from '../../prisma/prisma.service';
 import { EmbeddingsService } from '../embeddings/embeddings.service';
 import { GuardianService } from '../guardian/guardian.service';
+import { GeoService } from '../engagement/geo.service';
 import { OwnershipCodeVerifier } from './social-verifier';
 import { AddSocialAccountDto, ResendGuardianInviteDto, UpdateProfileDto } from './dto/profile.dto';
 
@@ -21,6 +22,7 @@ export class ProfileService {
     private readonly embeddings: EmbeddingsService,
     private readonly verifier: OwnershipCodeVerifier,
     private readonly guardian: GuardianService,
+    private readonly geo: GeoService,
   ) {}
 
   // ── Owner resolution ────────────────────────────────────────────────────────
@@ -72,7 +74,7 @@ export class ProfileService {
 
   async updateProfile(userId: string, role: UserRole, dto: UpdateProfileDto) {
     const owner = await this.resolveOwner(userId, role);
-    const data = {
+    const data: Record<string, unknown> = {
       ...(dto.bio !== undefined ? { bio: dto.bio } : {}),
       ...(dto.niche !== undefined ? { niche: dto.niche } : {}),
       ...(dto.contentStyle !== undefined ? { contentStyle: dto.contentStyle } : {}),
@@ -82,6 +84,15 @@ export class ProfileService {
       ...(dto.region !== undefined ? { region: dto.region } : {}),
       ...(dto.country !== undefined ? { country: dto.country } : {}),
     };
+
+    // When the self-provided location changes, refresh the privacy-blurred
+    // coordinates used for the general-area map (never exact).
+    if (dto.city !== undefined || dto.region !== undefined) {
+      const approx = this.geo.resolveApprox(dto.city, dto.region);
+      data.approxLat = approx?.lat ?? null;
+      data.approxLng = approx?.lng ?? null;
+    }
+
     const updated = owner.ownerType === 'creator'
       ? await this.prisma.creator.update({ where: { id: owner.creatorId }, data })
       : await this.prisma.athlete.update({ where: { id: owner.athleteId }, data });

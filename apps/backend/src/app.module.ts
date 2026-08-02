@@ -51,6 +51,7 @@ import { AntiCircumventionModule } from './modules/anti-circumvention/anti-circu
 import { SmsModule } from './common/sms/sms.module';
 import { TwoFactorModule } from './modules/two-factor/two-factor.module';
 import { VerificationModule } from './modules/verification/verification.module';
+import { EngagementModule } from './modules/engagement/engagement.module';
 
 @Module({
   imports: [
@@ -132,6 +133,7 @@ import { VerificationModule } from './modules/verification/verification.module';
     SmsModule,
     TwoFactorModule,
     VerificationModule,
+    EngagementModule,
   ],
   providers: [
     // Apply ThrottlerGuard globally — every route is rate-limited by default

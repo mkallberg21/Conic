@@ -1,14 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Sparkles, Search, ShieldCheck, Lock, TrendingUp } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
+import { Sparkles, Search, ShieldCheck, Lock, TrendingUp, Bookmark, BookmarkCheck } from 'lucide-react';
 
 interface DiscoveryResult {
   id: string;
@@ -38,10 +39,38 @@ function fmt(n: number) {
 
 export function AiSearchPanel() {
   const [query, setQuery] = useState('');
+  const qc = useQueryClient();
   const search = useMutation({
     mutationFn: (q: string) =>
       api.post('/v1/discovery/search', { query: q }).then((r) => r.data.data as { results: DiscoveryResult[] }),
   });
+
+  // Which results this brand has already saved (for the bookmark toggle).
+  const saved = useQuery({
+    queryKey: ['engagement', 'saved-keys'],
+    queryFn: () =>
+      api.get('/v1/engagement/saved').then((r) =>
+        new Set((r.data.data as { targetType: string; targetId: string }[]).map((s) => `${s.targetType}:${s.targetId}`)),
+      ),
+  });
+  const isSaved = (r: DiscoveryResult) => saved.data?.has(`${r.type}:${r.id}`) ?? false;
+
+  const toggleSave = useMutation({
+    mutationFn: (r: DiscoveryResult) =>
+      isSaved(r)
+        ? api.delete(`/v1/engagement/saved?targetType=${r.type}&targetId=${r.id}`)
+        : api.post('/v1/engagement/saved', { targetType: r.type, targetId: r.id }),
+    onSuccess: (_d, r) => {
+      toast({ title: isSaved(r) ? 'Removed from saved' : 'Saved to your shortlist' });
+      qc.invalidateQueries({ queryKey: ['engagement', 'saved-keys'] });
+      qc.invalidateQueries({ queryKey: ['engagement', 'saved'] });
+    },
+  });
+
+  // Record a view (deduped daily server-side) when the brand opens a result.
+  const recordView = (r: DiscoveryResult) => {
+    api.post('/v1/engagement/view', { targetType: r.type, targetId: r.id }).catch(() => {});
+  };
 
   const run = (q: string) => { if (q.trim()) { setQuery(q); search.mutate(q); } };
   const results = search.data?.results ?? [];
@@ -83,7 +112,11 @@ export function AiSearchPanel() {
         {results.length > 0 && (
           <div className="grid gap-3 sm:grid-cols-2">
             {results.map((r) => (
-              <div key={r.id} className="rounded-lg border bg-background p-3">
+              <div
+                key={r.id}
+                className="cursor-pointer rounded-lg border bg-background p-3 transition-colors hover:border-primary/40"
+                onClick={() => recordView(r)}
+              >
                 <div className="flex items-start gap-3">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={r.avatarUrl ?? undefined} />
@@ -94,6 +127,13 @@ export function AiSearchPanel() {
                       <span className="truncate font-medium">{r.displayName}</span>
                       {r.isVerified && <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />}
                       <Badge variant="outline" className="ml-auto shrink-0">{r.matchScore}% match</Badge>
+                      <button
+                        aria-label={isSaved(r) ? 'Remove from saved' : 'Save profile'}
+                        className="shrink-0 rounded p-1 text-muted-foreground hover:text-primary"
+                        onClick={(e) => { e.stopPropagation(); toggleSave.mutate(r); }}
+                      >
+                        {isSaved(r) ? <BookmarkCheck className="h-4 w-4 text-primary" /> : <Bookmark className="h-4 w-4" />}
+                      </button>
                     </div>
                     <p className="text-xs text-muted-foreground">{r.type} • {r.headline}</p>
                   </div>

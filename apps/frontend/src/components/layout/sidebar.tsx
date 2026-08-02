@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, FileText, CheckSquare, CreditCard,
   Megaphone, BarChart2, Users, Settings, Zap, Network, Brain,
-  ShieldCheck, ShieldAlert, GraduationCap, UserCircle, Store, Key, Upload, BadgeCheck,
+  ShieldCheck, ShieldAlert, GraduationCap, UserCircle, Store, Key, Upload, BadgeCheck, Bookmark,
   ClipboardList, TrendingUp, Heart, DollarSign,
   Sparkles, CalendarDays, Building2,
 } from 'lucide-react';
@@ -23,6 +23,7 @@ const navItems = [
   { href: '/dashboard/campaigns', label: 'Campaigns', icon: Megaphone, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/analytics', label: 'Analytics', icon: BarChart2, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/creators', label: 'Creators', icon: Users, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
+  { href: '/saved', label: 'Saved Profiles', icon: Bookmark, roles: ['BRAND', 'AGENCY'] },
   { href: '/dashboard/graph', label: 'Creator Graph', icon: Network, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/insights', label: 'AI Insights', icon: Brain, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/contract-templates', label: 'Templates', icon: ClipboardList, roles: ['BRAND', 'AGENCY', 'ADMIN'] },
