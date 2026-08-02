@@ -901,6 +901,7 @@ model University {
   complianceOfficers  ComplianceOfficer[]
   complianceReports   ComplianceReport[]
   nilCollectives      NilCollective[]
+  saasPlan            SchoolSubscription?
 
   @@index([state])
   @@index([division])
@@ -1298,6 +1299,30 @@ model BrandSubscription {
   brandId                String             @unique
   brand                  Brand              @relation(fields: [brandId], references: [id], onDelete: Cascade)
   plan                   BrandPlan          @default(FREE)
+  status                 SubscriptionStatus @default(ACTIVE)
+  provider               String?
+  providerSubscriptionId String?            @unique
+  currentPeriodEnd       DateTime?
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  @@index([plan, status])
+}
+
+// ─── School / institution SaaS (compliance product) ─────────────────────────────
+
+enum InstitutionPlan {
+  NONE
+  CAMPUS // single team / collective
+  DEPARTMENT // full athletic department
+  ENTERPRISE // multi-sport + priority support
+}
+
+model SchoolSubscription {
+  id                     String             @id @default(cuid())
+  universityId           String             @unique
+  university             University         @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  plan                   InstitutionPlan    @default(NONE)
   status                 SubscriptionStatus @default(ACTIVE)
   provider               String?
   providerSubscriptionId String?            @unique

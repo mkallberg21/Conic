@@ -55,6 +55,7 @@ const navItems = [
   { href: '/agents/contracts', label: 'Client Contracts', icon: FileText, roles: ['AGENT'] },
 
   // ─── Compliance Officer ───────────────────────────────────────────────────
+  { href: '/school', label: 'Compliance Center', icon: GraduationCap, roles: ['COMPLIANCE_OFFICER', 'UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR', 'ADMIN'] },
   { href: '/nil-compliance', label: 'NIL Compliance', icon: ShieldCheck, roles: ['COMPLIANCE_OFFICER'] },
   { href: '/school-reporting', label: 'School Reports', icon: GraduationCap, roles: ['COMPLIANCE_OFFICER'] },
 
