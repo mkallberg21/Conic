@@ -6,6 +6,9 @@ import { PaymentsService } from './payments.service';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService } from '../../events/event-bus.service';
 import { AuditService } from '../../common/audit/audit.service';
+import { EligibilityService } from '../verification/eligibility.service';
+
+const mockEligibility = { assertCanReceivePayout: jest.fn().mockResolvedValue(undefined) };
 
 const PaymentStatus = {
   PENDING: 'PENDING',
@@ -93,6 +96,7 @@ describe('PaymentsService', () => {
         { provide: PrismaService, useValue: mockPrisma },
         { provide: EventBusService, useValue: mockEventBus },
         { provide: AuditService, useValue: mockAuditService },
+        { provide: EligibilityService, useValue: mockEligibility },
         { provide: ConfigService, useValue: mockConfigService },
       ],
     }).compile();
@@ -238,6 +242,7 @@ describe('PaymentsService', () => {
           { provide: PrismaService, useValue: mockPrisma },
           { provide: EventBusService, useValue: mockEventBus },
           { provide: AuditService, useValue: mockAuditService },
+          { provide: EligibilityService, useValue: mockEligibility },
           { provide: ConfigService, useValue: failConfig },
         ],
       }).compile();
