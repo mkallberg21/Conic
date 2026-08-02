@@ -356,7 +356,7 @@ export default function DiscoverPage() {
             <>
               <div className={cn('grid gap-4', showFilters ? 'sm:grid-cols-2 lg:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-4')}>
                 {creators.map((c) => (
-                  <CreatorCard key={c.id} creator={c} onSelect={() => router.push(`/dashboard/creators/${c.id}`)} />
+                  <CreatorCard key={c.id} creator={c} onSelect={() => router.push(`/creators/${c.id}`)} />
                 ))}
               </div>
 

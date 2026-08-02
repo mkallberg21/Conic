@@ -6,25 +6,30 @@ import { Sidebar } from '@/components/layout/sidebar';
 import { Header } from '@/components/layout/header';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { useAuth } from '@/hooks/use-auth';
+import { useAuthStore } from '@/store/auth.store';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
-  // Delay render until client-side hydration has run so Zustand store is populated
-  const [mounted, setMounted] = useState(false);
+  // Wait for the persisted auth store to REHYDRATE before rendering children.
+  // Otherwise the dashboard's data queries fire before the token is restored,
+  // hit 401 → refresh 401 → logout, and bounce the user back to /login.
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    const unsub = useAuthStore.persist.onFinishHydration(() => setHydrated(true));
+    if (useAuthStore.persist.hasHydrated()) setHydrated(true);
+    return () => { unsub?.(); };
   }, []);
 
   useEffect(() => {
-    if (mounted && !isAuthenticated) {
+    if (hydrated && !isAuthenticated) {
       router.replace('/login');
     }
-  }, [mounted, isAuthenticated, router]);
+  }, [hydrated, isAuthenticated, router]);
 
-  // Show a full-screen skeleton while we determine auth state
-  if (!mounted) {
+  // Show a full-screen skeleton until the auth store has rehydrated
+  if (!hydrated) {
     return (
       <div className="flex h-screen items-center justify-center bg-background">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
@@ -39,7 +44,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Header />
-        <main className="flex-1 overflow-auto bg-muted/20 p-6">
+        <main className="flex-1 overflow-auto p-6">
           <ErrorBoundary>
             {children}
           </ErrorBoundary>

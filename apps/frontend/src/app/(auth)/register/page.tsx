@@ -70,7 +70,7 @@ export default function RegisterPage() {
         toast({ title: 'Guardian invited', description: 'We emailed your parent/guardian to approve your account and agreements.' });
       }
       // Influencers must verify email + phone before they can transact.
-      router.push(data.verificationRequired ? '/verify' : '/dashboard');
+      router.push(data.verificationRequired ? '/verify' : '/overview');
     } catch (err: unknown) {
       const message = (err as { response?: { data?: { message?: string } } })?.response?.data?.message ?? 'Registration failed';
       toast({ title: 'Error', description: Array.isArray(message) ? message.join(', ') : message, variant: 'destructive' });

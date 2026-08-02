@@ -1,9 +1,14 @@
 import type { NextConfig } from 'next';
 
-// Strict Content Security Policy — adjust sha256 hashes if you add inline scripts
+// Strict Content Security Policy — adjust sha256 hashes if you add inline scripts.
+// In development, Next.js Fast Refresh evaluates code via eval() and injects inline
+// bootstrap scripts, so 'unsafe-eval'/'unsafe-inline' are required for the dev server
+// to hydrate. Production stays strict ('self' only).
+const isDev = process.env.NODE_ENV !== 'production';
+const scriptSrc = isDev ? "script-src 'self' 'unsafe-eval' 'unsafe-inline'" : "script-src 'self'";
 const cspDirectives = [
   "default-src 'self'",
-  "script-src 'self'",
+  scriptSrc,
   "style-src 'self' 'unsafe-inline'",     // TailwindCSS requires unsafe-inline
   "img-src 'self' data: https:",
   "font-src 'self'",

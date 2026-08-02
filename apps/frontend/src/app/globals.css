@@ -2,54 +2,158 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================================
+   CONIC — "Liquid Chrome" design system
+   A committed dark, futuristic aesthetic: gunmetal grounds, brushed-silver
+   text, glass panels, and an electric chrome-cyan accent.
+   ========================================================================== */
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 239 84% 67%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
+    --background: 222 33% 6%;
+    --foreground: 210 24% 91%;
+
+    --card: 220 26% 10%;
+    --card-foreground: 210 24% 92%;
+    --popover: 221 30% 8%;
+    --popover-foreground: 210 24% 92%;
+
+    --primary: 196 91% 54%;
+    --primary-foreground: 220 45% 6%;
+
+    --secondary: 217 24% 15%;
+    --secondary-foreground: 210 24% 92%;
+
+    --muted: 217 22% 14%;
+    --muted-foreground: 214 15% 60%;
+
+    --accent: 217 27% 18%;
+    --accent-foreground: 200 40% 96%;
+
+    --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 239 84% 67%;
-    --radius: 0.5rem;
+
+    --success: 152 62% 45%;
+    --warning: 38 92% 55%;
+
+    --border: 214 22% 19%;
+    --input: 214 20% 17%;
+    --ring: 196 91% 54%;
+    --radius: 0.75rem;
+
+    /* Raw channels for glows / gradients */
+    --glow: 56 200 255;      /* chrome cyan  */
+    --glow-2: 130 110 255;   /* electric violet (secondary accent) */
+    --chrome-hi: 235 241 250;
+    --chrome-mid: 158 176 199;
+    --chrome-lo: 96 112 134;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 239 84% 67%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+  /* This product commits to a single dark, chrome world — keep .dark identical. */
+  .dark { color-scheme: dark; }
+
+  * { @apply border-border; }
+
+  html { color-scheme: dark; }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'ss01', 'cv01', 'cv03';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
+
+  /* Ambient backdrop — aurora glows + a faint technical grid, fixed behind app */
+  .app-aura {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60rem 40rem at 82% -8%, rgba(var(--glow) / 0.14), transparent 60%),
+      radial-gradient(50rem 38rem at 8% 4%, rgba(var(--glow-2) / 0.12), transparent 62%),
+      radial-gradient(46rem 46rem at 50% 116%, rgba(var(--glow) / 0.08), transparent 60%),
+      linear-gradient(180deg, hsl(222 34% 7%), hsl(223 36% 4.5%));
+  }
+  .app-aura::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(150 180 210 / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(150 180 210 / 0.05) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 78%);
+    -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 78%);
+  }
+
+  ::selection { background: rgba(var(--glow) / 0.28); color: #fff; }
+
+  /* Chrome scrollbar */
+  * { scrollbar-width: thin; scrollbar-color: hsl(215 20% 24%) transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(hsl(214 18% 26%), hsl(214 20% 18%));
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: linear-gradient(hsl(196 60% 40%), hsl(214 20% 20%)); background-clip: padding-box; }
 }
 
-@layer base {
-  * { @apply border-border; }
-  body { @apply bg-background text-foreground; }
+@layer components {
+  /* Glass panel — the core surface treatment */
+  .glass {
+    background:
+      linear-gradient(180deg, rgba(255 255 255 / 0.06), rgba(255 255 255 / 0.015)),
+      hsl(220 26% 10% / 0.72);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255 255 255 / 0.09);
+    box-shadow:
+      0 1px 0 0 rgba(255 255 255 / 0.06) inset,
+      0 22px 50px -28px rgba(0 0 0 / 0.85);
+  }
+
+  /* Top hairline sheen — reads like brushed metal catching light */
+  .sheen { position: relative; }
+  .sheen::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255 255 255 / 0.55), transparent);
+    opacity: 0.6;
+  }
+
+  /* Metallic chrome text */
+  .chrome-text {
+    background: linear-gradient(180deg,
+      rgb(var(--chrome-hi)) 0%,
+      rgb(var(--chrome-mid)) 52%,
+      rgb(var(--chrome-hi)) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -0.01em;
+  }
+
+  /* Accent gradient (used for primary CTAs, active states, glows) */
+  .accent-grad {
+    background-image: linear-gradient(135deg, hsl(196 95% 58%), hsl(214 92% 60%) 55%, hsl(255 85% 68%));
+  }
+
+  .glow-ring { box-shadow: 0 0 0 1px rgba(var(--glow) / 0.5), 0 0 30px -6px rgba(var(--glow) / 0.55); }
+
+  .hover-lift { transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s, border-color .25s; }
+  .hover-lift:hover { transform: translateY(-2px); }
+}
+
+@layer utilities {
+  .text-glow { text-shadow: 0 0 22px rgba(var(--glow) / 0.45); }
+  .bg-grid-fade { }
+  @keyframes shimmer { 0% { background-position: -180% 0; } 100% { background-position: 180% 0; } }
+  @keyframes float-slow { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .animate-float { animation: float-slow 7s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .animate-float { animation: none; } }
 }

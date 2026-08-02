@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -35,7 +36,7 @@ export default function LoginPage() {
     try {
       const data = await login(values);
       setAuth(data.user, data.accessToken, data.refreshToken);
-      router.push('/dashboard');
+      router.push('/overview');
     } catch (err: unknown) {
       const message = (err as { response?: { data?: { message?: string } } })?.response?.data?.message ?? 'Invalid credentials';
       toast({ title: 'Login failed', description: message, variant: 'destructive' });
@@ -45,31 +46,47 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/30 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Welcome back</CardTitle>
-          <CardDescription>Sign in to your Conic account</CardDescription>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden p-4">
+      {/* Brand mark */}
+      <div className="pointer-events-none absolute left-1/2 top-10 -translate-x-1/2 md:left-10 md:translate-x-0">
+        <div className="flex items-center gap-2.5">
+          <div className="accent-grad flex h-9 w-9 items-center justify-center rounded-xl shadow-[0_0_22px_-4px_rgba(56,200,255,0.9)]">
+            <Zap className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
+          </div>
+          <span className="chrome-text font-display text-xl font-bold tracking-tight">Conic</span>
+        </div>
+      </div>
+
+      <Card className="animate-float w-full max-w-md p-1">
+        <CardHeader className="space-y-3 text-center">
+          <div className="mx-auto flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+            <span className="h-1.5 w-1.5 animate-pulse-glow rounded-full bg-primary shadow-glow-sm" />
+            Creator Partnership OS
+          </div>
+          <CardTitle className="font-display text-3xl">
+            <span className="chrome-text">Welcome back</span>
+          </CardTitle>
+          <CardDescription className="text-[0.95rem]">Sign in to your Conic workspace</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-xs uppercase tracking-wider text-muted-foreground">Email</Label>
               <Input id="email" type="email" placeholder="you@example.com" {...register('email')} />
               {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" {...register('password')} />
+              <Label htmlFor="password" className="text-xs uppercase tracking-wider text-muted-foreground">Password</Label>
+              <Input id="password" type="password" placeholder="••••••••" {...register('password')} />
               {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" size="lg" className="w-full" disabled={loading}>
               {loading ? 'Signing in…' : 'Sign in'}
             </Button>
           </form>
-          <p className="mt-4 text-center text-sm text-muted-foreground">
+          <p className="mt-5 text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{' '}
-            <Link href="/register" className="text-primary hover:underline">Sign up</Link>
+            <Link href="/register" className="font-medium text-primary hover:text-glow">Sign up</Link>
           </p>
         </CardContent>
       </Card>
