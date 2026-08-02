@@ -90,6 +90,11 @@ export default function ProfileScreen() {
                 value="Free / Pro"
                 onPress={() => router.push('/plan')}
               />
+              <SettingRow
+                label="Verify your age"
+                value="Identity"
+                onPress={() => router.push('/verify-age')}
+              />
             </View>
           </>
         )}
