@@ -12,6 +12,7 @@ import { AiService } from '../ai/ai.service';
 import { OpenDealRoomDto, PostMessageDto, CreateProposalDto } from './dto/deal-room.dto';
 import { ContactScannerService } from '../anti-circumvention/contact-scanner.service';
 import { AntiCircumventionService } from '../anti-circumvention/anti-circumvention.service';
+import { EmailService } from '../../common/email/email.service';
 
 @Injectable()
 export class DealRoomService {
@@ -23,6 +24,7 @@ export class DealRoomService {
     private readonly aiService: AiService,
     private readonly scanner: ContactScannerService,
     private readonly antiCircumvention: AntiCircumventionService,
+    private readonly email: EmailService,
   ) {}
 
   // ─── Open / Get ────────────────────────────────────────────────────────────
@@ -142,8 +144,8 @@ export class DealRoomService {
 
   /**
    * When the creator on this contract is a minor, copy an inbound deal-room
-   * message to every linked guardian as an in-app notification. The minor's own
-   * outgoing messages are not mirrored back to the guardian.
+   * message to every linked guardian — both as an in-app notification and as an
+   * email. The minor's own outgoing messages are not mirrored back.
    */
   private async mirrorToGuardians(contractId: string, authorUserId: string, content: string) {
     const contract = await this.prisma.contract.findUnique({
@@ -166,22 +168,42 @@ export class DealRoomService {
 
     const relationships = await this.prisma.guardianRelationship.findMany({
       where: { creatorId: creator.id },
-      select: { guardian: { select: { userId: true } } },
+      select: { guardian: { select: { userId: true, user: { select: { email: true, firstName: true } } } } },
     });
     if (relationships.length === 0) return;
 
     const minorName = `${creator.user.firstName} ${creator.user.lastName}`.trim();
+    const contractTitle = contract!.title;
     const snippet = content.length > 160 ? `${content.slice(0, 157)}…` : content;
 
+    // In-app notifications for the guardian portal.
     await this.prisma.notification.createMany({
       data: relationships.map((rel) => ({
         recipientId: rel.guardian.userId,
         type: 'GUARDIAN_DEALROOM_MESSAGE',
         title: `New message in ${minorName}'s deal room`,
-        body: `"${contract!.title}": ${snippet}`,
+        body: `"${contractTitle}": ${snippet}`,
         data: { contractId, kind: 'dealroom_message' },
       })),
     });
+
+    // Email each guardian a copy — best-effort, never blocks the message post.
+    await Promise.all(
+      relationships
+        .filter((rel) => rel.guardian.user?.email)
+        .map((rel) =>
+          this.email
+            .sendGuardianMessageCopy(rel.guardian.user!.email, {
+              guardianFirstName: rel.guardian.user!.firstName,
+              minorName,
+              contractTitle,
+              snippet,
+            })
+            .catch((err) =>
+              this.logger.warn(`Guardian message-copy email failed: ${(err as Error).message}`),
+            ),
+        ),
+    );
   }
 
   // ─── Proposals ─────────────────────────────────────────────────────────────

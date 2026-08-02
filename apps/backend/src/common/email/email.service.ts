@@ -69,6 +69,36 @@ export class EmailService {
     });
   }
 
+  async sendGuardianMessageCopy(
+    to: string,
+    params: { guardianFirstName?: string; minorName: string; contractTitle: string; snippet: string },
+  ): Promise<void> {
+    const portalUrl = `${this.config.get('app.frontendUrl')}/guardian`;
+    const greeting = params.guardianFirstName ? `Hi ${params.guardianFirstName},` : 'Hi,';
+    await this.send({
+      to,
+      subject: `New message for ${params.minorName} on Conic`,
+      html: `
+        <div style="font-family:sans-serif;max-width:480px;margin:0 auto">
+          <h2 style="color:#6366f1">A brand messaged ${params.minorName}</h2>
+          <p>${greeting} you're receiving this because you're the linked guardian.
+             Here's a copy of a new message in the deal room for <strong>${params.contractTitle}</strong>:</p>
+          <blockquote style="border-left:3px solid #6366f1;margin:16px 0;padding:8px 16px;color:#334155;background:#f8fafc">
+            ${params.snippet}
+          </blockquote>
+          <a href="${portalUrl}"
+             style="display:inline-block;background:#6366f1;color:#fff;padding:12px 24px;
+                    border-radius:8px;text-decoration:none;font-weight:600;margin:8px 0">
+            Open the guardian portal
+          </a>
+          <p style="color:#64748b;font-size:12px">
+            Off-platform contact details are automatically removed from these messages.
+          </p>
+        </div>`,
+      text: `New message for ${params.minorName} — "${params.contractTitle}": ${params.snippet}. Review it in the guardian portal: ${portalUrl}`,
+    });
+  }
+
   async sendGuardianInvite(to: string, params: { acceptUrl: string; minorName: string }): Promise<void> {
     await this.send({
       to,
