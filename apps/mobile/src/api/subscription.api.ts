@@ -10,8 +10,20 @@ export interface PlanState {
   dmCredits: number;
 }
 
+export interface CheckoutResult {
+  activated: boolean;
+  plan?: string;
+  checkoutUrl?: string;
+}
+
 export const subscriptionApi = {
   async me(): Promise<PlanState> {
     return unwrap(await apiClient.get('/subscription/me'));
+  },
+  async checkout(plan: 'PRO'): Promise<CheckoutResult> {
+    return unwrap(await apiClient.post('/subscription/checkout', { plan }));
+  },
+  async cancel(): Promise<PlanState> {
+    return unwrap(await apiClient.post('/subscription/cancel'));
   },
 };
