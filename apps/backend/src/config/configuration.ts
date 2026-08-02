@@ -37,7 +37,11 @@ export default () => ({
     secret: process.env.DWOLLA_SECRET,
     environment: process.env.DWOLLA_ENVIRONMENT ?? 'sandbox',
     masterFundingSourceUrl: process.env.DWOLLA_MASTER_FUNDING_SOURCE_URL,
-    platformFeeRate: parseFloat(process.env.PLATFORM_FEE_RATE ?? '0.05'),
+    // Brand-side platform fee. Full rate when the platform sourced the deal
+    // (matchmaking/discovery); a low rate when the parties arrived together
+    // (direct or via an open brief). Creators/athletes always net 100%.
+    platformFeeRate: parseFloat(process.env.PLATFORM_FEE_RATE ?? '0.12'),
+    selfServeFeeRate: parseFloat(process.env.SELF_SERVE_FEE_RATE ?? '0.05'),
   },
   google: {
     clientId: process.env.GOOGLE_CLIENT_ID,

@@ -57,6 +57,7 @@ export class ContractsService {
           brandId: brand.id,
           creatorId: dto.creatorId,
           title: dto.title,
+          dealSource: dto.dealSource ?? undefined,
           content: aiContent.content,
           templateId: dto.templateId,
           usageRights: dto.usageRights,

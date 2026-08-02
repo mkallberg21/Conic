@@ -3,7 +3,8 @@ import { ContractStatus, PaymentStatus, UserRole } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 
 const SELF_EMPLOYMENT_TAX_RATE = 0.153;
-const PLATFORM_FEE_RATE = 0.05;
+// Creators/athletes net 100% — the platform fee is charged brand-side.
+const PLATFORM_FEE_RATE = 0;
 const ACTIVE_CONTRACT_STATUSES: ContractStatus[] = [
   ContractStatus.PENDING_SIGNATURE,
   ContractStatus.ACTIVE,

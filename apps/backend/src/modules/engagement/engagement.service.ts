@@ -1,17 +1,13 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { UserRole } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
-import { SubscriptionService } from '../subscription/subscription.service';
 import { SaveProfileDto } from './dto/engagement.dto';
 
 type TargetType = 'creator' | 'athlete';
 
 @Injectable()
 export class EngagementService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly subscription: SubscriptionService,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   // ── Brand: record a profile view (deduped per brand/target/day) ──────────────
 
@@ -53,11 +49,10 @@ export class EngagementService {
   }
 
   /**
-   * PRO feature: the actual brands who viewed/saved this profile (identity + when
-   * + repeat count). Free accounts only see the aggregate counts from getMyInsights.
+   * The actual brands who viewed/saved this profile (identity + when + repeat
+   * count) — free for all creators/athletes.
    */
   async getMyViewers(userId: string, role: UserRole) {
-    await this.subscription.assertPro(userId);
     const target = await this.resolveSelf(userId, role);
     const where = this.targetWhere(target.type, target.id);
 

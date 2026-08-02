@@ -1,9 +1,10 @@
 import {
   IsString, IsOptional, IsArray, IsBoolean, IsNumber,
-  IsDateString, Min, ValidateNested,
+  IsDateString, Min, ValidateNested, IsEnum,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { DealSource } from '@prisma/client';
 
 export class MilestoneDto {
   @ApiProperty()
@@ -43,6 +44,11 @@ export class CreateContractDto {
   @IsOptional()
   @IsString()
   templateId?: string;
+
+  @ApiProperty({ required: false, enum: DealSource, description: 'How the deal was sourced (drives the brand-side fee rate)' })
+  @IsOptional()
+  @IsEnum(DealSource)
+  dealSource?: DealSource;
 
   @ApiProperty({ required: false })
   @IsOptional()

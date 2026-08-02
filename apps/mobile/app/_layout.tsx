@@ -34,7 +34,6 @@ function RootLayoutNav() {
       <Stack.Screen name="(auth)" />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="insights" />
-      <Stack.Screen name="plan" />
       <Stack.Screen name="verify-age" />
       <Stack.Screen name="+not-found" />
     </Stack>
