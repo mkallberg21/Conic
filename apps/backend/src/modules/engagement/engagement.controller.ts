@@ -19,9 +19,16 @@ export class EngagementController {
 
   @Get('insights')
   @Roles(UserRole.CREATOR, UserRole.ATHLETE)
-  @ApiOperation({ summary: 'My profile-view and saved-by-brand insights' })
+  @ApiOperation({ summary: 'My profile-view and saved-by-brand insights (counts — free)' })
   insights(@CurrentUser('id') userId: string, @CurrentUser('role') role: UserRole) {
     return this.engagement.getMyInsights(userId, role);
+  }
+
+  @Get('viewers')
+  @Roles(UserRole.CREATOR, UserRole.ATHLETE)
+  @ApiOperation({ summary: 'Which brands viewed/saved me (Pro only)' })
+  viewers(@CurrentUser('id') userId: string, @CurrentUser('role') role: UserRole) {
+    return this.engagement.getMyViewers(userId, role);
   }
 
   // ── Brand: views + saved shortlist ─────────────────────────────────────────

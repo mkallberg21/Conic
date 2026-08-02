@@ -13,7 +13,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { toast } from '@/hooks/use-toast';
 import { AreaMap } from '@/components/area-map';
-import { Star, Trash2, ShieldCheck, ShieldQuestion, Clock, Plus, Link2, Heart, Mail, Eye, Bookmark, Building2, CalendarClock } from 'lucide-react';
+import Link from 'next/link';
+import { Star, Trash2, ShieldCheck, ShieldQuestion, Clock, Plus, Link2, Heart, Mail, Eye, Bookmark, Building2, CalendarClock, Sparkles, Lock } from 'lucide-react';
 
 const PLATFORMS = ['INSTAGRAM', 'TIKTOK', 'YOUTUBE', 'X', 'FACEBOOK', 'TWITCH', 'LINKEDIN', 'SNAPCHAT', 'PINTEREST', 'THREADS', 'OTHER'] as const;
 type Platform = (typeof PLATFORMS)[number];
@@ -38,6 +39,7 @@ interface ProfileAttrs {
 }
 interface ProfileResponse { profile: ProfileAttrs; socialAccounts: SocialAccount[]; }
 interface Insights { profileViews: number; viewsThisWeek: number; uniqueBrands: number; savedByBrands: number; }
+interface Viewer { brandId: string; companyName: string; logoUrl: string | null; industry: string | null; views: number; lastViewedAt: string | null; saved: boolean; }
 interface GuardianStatus {
   isMinor: boolean;
   guardians: { id: string; relationship: string; guardian: { user: { firstName: string; lastName: string; email: string } } }[];
@@ -62,6 +64,15 @@ export default function ProfilePage() {
   const insights = useQuery<Insights>({
     queryKey: ['engagement', 'insights'],
     queryFn: () => api.get('/v1/engagement/insights').then((r) => r.data.data),
+  });
+  const plan = useQuery<{ isPro: boolean }>({
+    queryKey: ['subscription', 'me'],
+    queryFn: () => api.get('/v1/subscription/me').then((r) => r.data.data),
+  });
+  const viewers = useQuery<{ viewers: Viewer[] }>({
+    queryKey: ['engagement', 'viewers'],
+    queryFn: () => api.get('/v1/engagement/viewers').then((r) => r.data.data),
+    enabled: !!plan.data?.isPro,
   });
 
   // ── Profile attributes form ───────────────────────────────────────────────
@@ -165,6 +176,47 @@ export default function ProfilePage() {
               </div>
             ))}
           </div>
+
+          {/* Who viewed you — Pro feature */}
+          <div>
+            <p className="mb-2 flex items-center gap-2 text-sm font-medium">
+              Which brands viewed you
+              {!plan.data?.isPro && <Badge variant="outline" className="gap-1 text-primary"><Sparkles className="h-3 w-3" />Pro</Badge>}
+            </p>
+            {plan.data?.isPro ? (
+              (viewers.data?.viewers.length ?? 0) === 0 ? (
+                <p className="text-sm text-muted-foreground">No brands have viewed you yet — keep your profile fresh.</p>
+              ) : (
+                <div className="space-y-2">
+                  {viewers.data!.viewers.map((v) => (
+                    <div key={v.brandId} className="flex items-center gap-3 rounded-lg border p-2.5 text-sm">
+                      <div className="flex h-8 w-8 items-center justify-center rounded bg-muted text-xs font-semibold">
+                        {v.companyName.slice(0, 2).toUpperCase()}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="truncate font-medium">{v.companyName}</p>
+                        {v.industry && <p className="text-xs text-muted-foreground">{v.industry}</p>}
+                      </div>
+                      <div className="ml-auto flex items-center gap-2 text-xs text-muted-foreground">
+                        {v.saved && <Badge className="bg-emerald-600"><Bookmark className="mr-1 h-3 w-3" />Saved you</Badge>}
+                        <span>{v.views} view{v.views === 1 ? '' : 's'}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )
+            ) : (
+              <div className="flex flex-wrap items-center gap-3 rounded-lg border border-dashed bg-muted/30 p-4">
+                <Lock className="h-5 w-5 text-muted-foreground" />
+                <p className="text-sm text-muted-foreground">
+                  <span className="font-medium text-foreground">{insights.data?.uniqueBrands ?? 0} brands</span> viewed your
+                  profile. Upgrade to Pro to see exactly who — and who saved you.
+                </p>
+                <Button asChild size="sm" className="ml-auto"><Link href="/plan"><Sparkles className="mr-1 h-4 w-4" />Upgrade</Link></Button>
+              </div>
+            )}
+          </div>
+
           <div>
             <p className="mb-2 text-sm font-medium">Your general area <span className="text-muted-foreground">(brands only see this — never your exact location)</span></p>
             <AreaMap

@@ -75,6 +75,16 @@ export default () => ({
     twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,
     fromNumber: process.env.TWILIO_FROM_NUMBER,
   },
+  billing: {
+    // 'stripe' when STRIPE_SECRET_KEY is set; otherwise 'stub' (dev activates the
+    // plan immediately, no redirect). Mirrors the other provider-gated services.
+    provider: process.env.BILLING_PROVIDER ?? (process.env.STRIPE_SECRET_KEY ? 'stripe' : 'stub'),
+    stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+    stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+    proPriceId: process.env.STRIPE_PRO_PRICE_ID,
+    checkoutSuccessUrl: process.env.BILLING_SUCCESS_URL ?? 'http://localhost:3000/plan?status=success',
+    checkoutCancelUrl: process.env.BILLING_CANCEL_URL ?? 'http://localhost:3000/plan?status=cancel',
+  },
   verification: {
     // 'stub' auto-resolves from self-reported DOB (dev); real vendors are switched
     // on when their API key is present — mirrors the SMS / social-verifier pattern.

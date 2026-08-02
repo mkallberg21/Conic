@@ -193,6 +193,7 @@ model User {
   verificationCodes     VerificationCode[]
   sentGuardianInvites   GuardianInvite[]   @relation("MinorInvites")
   ageVerifications      AgeVerification[]
+  subscription          Subscription?
 }
 
 model RefreshToken {
@@ -271,6 +272,7 @@ model Creator {
   dwollaVerified   Boolean   @default(false)
   totalEarnings    Int       @default(0)
   isVerified       Boolean   @default(false)
+  isPro            Boolean   @default(false) // denormalized paid-plan flag for fast gating/boost
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 
@@ -975,6 +977,7 @@ model Athlete {
   dwollaVerified        Boolean             @default(false)
   totalEarningsNilCents Int                 @default(0)
   isVerified            Boolean             @default(false)
+  isPro                 Boolean             @default(false) // denormalized paid-plan flag for fast gating/boost
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
 
@@ -1232,6 +1235,38 @@ model SavedProfile {
   @@unique([brandId, athleteId])
   @@index([brandId, createdAt])
   @@index([campaignId])
+}
+
+// ─── Creator/athlete subscription (Free vs Pro) ─────────────────────────────────
+
+enum CreatorPlan {
+  FREE
+  PRO
+  // reserved for future outreach tiers (DM credits to brands)
+  PRO_PLUS
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+}
+
+model Subscription {
+  id                     String             @id @default(cuid())
+  userId                 String             @unique
+  user                   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan                   CreatorPlan        @default(FREE)
+  status                 SubscriptionStatus @default(ACTIVE)
+  provider               String? // 'stripe' | 'stub'
+  providerSubscriptionId String?            @unique
+  currentPeriodEnd       DateTime?
+  // Future outreach tier: remaining direct-messages-to-brands this period.
+  dmCredits              Int                @default(0)
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  @@index([plan, status])
 }
 
 // ─── Agent ────────────────────────────────────────────────────────────────────
