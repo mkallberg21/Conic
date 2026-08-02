@@ -73,7 +73,7 @@ export default function VerifyPage() {
     finally { setBusy(null); }
   };
 
-  const finish = () => router.push('/dashboard');
+  const finish = () => router.push('/overview');
 
   if (!status) return <div className="flex min-h-screen items-center justify-center text-muted-foreground">Loading…</div>;
 
