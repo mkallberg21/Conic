@@ -7,6 +7,7 @@ import { AuditService } from '../../common/audit/audit.service';
 import { AiService } from '../ai/ai.service';
 import { ContactScannerService } from '../anti-circumvention/contact-scanner.service';
 import { AntiCircumventionService } from '../anti-circumvention/anti-circumvention.service';
+import { EmailService } from '../../common/email/email.service';
 import { CreateProposalDto, PostMessageDto } from './dto/deal-room.dto';
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
@@ -24,6 +25,7 @@ const mockAudit = { log: jest.fn() };
 const mockAi = { scoreContractRisk: jest.fn() };
 const realScanner = new ContactScannerService(); // pure logic — use the real scanner
 const mockAntiCircumvention = { recordMessageFlag: jest.fn().mockResolvedValue(undefined) };
+const mockEmail = { sendGuardianMessageCopy: jest.fn().mockResolvedValue(undefined) };
 
 const BRAND_USER = 'user_brand';
 const CREATOR_USER = 'user_creator';
@@ -50,6 +52,7 @@ describe('DealRoomService', () => {
         { provide: AiService, useValue: mockAi },
         { provide: ContactScannerService, useValue: realScanner },
         { provide: AntiCircumventionService, useValue: mockAntiCircumvention },
+        { provide: EmailService, useValue: mockEmail },
       ],
     }).compile();
 
@@ -98,7 +101,9 @@ describe('DealRoomService', () => {
         },
       });
       mockPrisma.dealRoomMessage.create.mockImplementation(async (args: { data: { content: string } }) => ({ id: 'm_3', ...args.data }));
-      mockPrisma.guardianRelationship.findMany.mockResolvedValue([{ guardian: { userId: 'guardian_user' } }]);
+      mockPrisma.guardianRelationship.findMany.mockResolvedValue([
+        { guardian: { userId: 'guardian_user', user: { email: 'parent@x.com', firstName: 'Pat' } } },
+      ]);
 
       await service.postMessage('contract_1', BRAND_USER, UserRole.BRAND, {
         content: 'Excited to work together on this campaign!',
@@ -110,6 +115,11 @@ describe('DealRoomService', () => {
             expect.objectContaining({ recipientId: 'guardian_user', type: 'GUARDIAN_DEALROOM_MESSAGE' }),
           ]),
         }),
+      );
+      // …and a copy is emailed to the guardian.
+      expect(mockEmail.sendGuardianMessageCopy).toHaveBeenCalledWith(
+        'parent@x.com',
+        expect.objectContaining({ minorName: 'Sam Kid', contractTitle: 'Q1 Campaign' }),
       );
     });
 
