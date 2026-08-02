@@ -218,7 +218,7 @@ export class PaymentsService {
       where: { id: payload.contractId },
       select: { dealSource: true },
     });
-    const fullRate = this.configService.get<number>('dwolla.platformFeeRate', 0.12);
+    const fullRate = this.configService.get<number>('dwolla.platformFeeRate', 0.10);
     const lowRate = this.configService.get<number>('dwolla.selfServeFeeRate', 0.05);
     const feeRate = contract?.dealSource === 'MATCHMAKING' ? fullRate : lowRate;
 
