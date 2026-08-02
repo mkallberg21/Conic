@@ -12,6 +12,7 @@ import { AiService } from '../ai/ai.service';
 import { AuditService } from '../../common/audit/audit.service';
 import { GuardianService } from '../guardian/guardian.service';
 import { TwoFactorService } from '../two-factor/two-factor.service';
+import { EligibilityService } from '../verification/eligibility.service';
 
 @Injectable()
 export class ContractsService {
@@ -22,6 +23,7 @@ export class ContractsService {
     private readonly auditService: AuditService,
     private readonly guardianService: GuardianService,
     private readonly twoFactor: TwoFactorService,
+    private readonly eligibility: EligibilityService,
   ) {}
 
   async create(brandUserId: string, dto: CreateContractDto) {
@@ -31,6 +33,12 @@ export class ContractsService {
     ]);
     if (!brand) throw new ForbiddenException('Brand profile required');
     if (!creator) throw new NotFoundException('Creator not found');
+
+    // KYB gate: brand must be verified to transact (log-only until enforced).
+    await this.eligibility.assertBrandCanTransact(brandUserId);
+    // First-contact-to-minor gate (defaults ON): only an enhanced-KYB brand may
+    // open an agreement with a minor.
+    if (creator.isMinor) await this.eligibility.assertBrandCanContactMinor(brandUserId);
 
     // AI call happens OUTSIDE the transaction (network I/O, no DB lock needed)
     const aiContent = await this.aiService.generateContractContent({
@@ -196,6 +204,8 @@ export class ContractsService {
       }
       // Influencer 2FA gate: verified email + phone required before signing.
       await this.twoFactor.assertInfluencerVerified(userId);
+      // Age gate: verified age required before signing (log-only until enforced).
+      await this.eligibility.assertCanSignAgreement(userId);
       // Minor gate: a parent/guardian must have approved this agreement.
       if (creator.isMinor && !(await this.guardianService.isApproved('contract', contractId))) {
         throw new ForbiddenException(

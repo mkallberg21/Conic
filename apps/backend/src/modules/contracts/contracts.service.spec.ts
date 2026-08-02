@@ -8,6 +8,7 @@ import { AiService } from '../ai/ai.service';
 import { AuditService } from '../../common/audit/audit.service';
 import { GuardianService } from '../guardian/guardian.service';
 import { TwoFactorService } from '../two-factor/two-factor.service';
+import { EligibilityService } from '../verification/eligibility.service';
 
 const ContractStatus = {
   DRAFT: 'DRAFT',
@@ -58,6 +59,11 @@ const mockGuardian = {
   isApproved: jest.fn().mockResolvedValue(true),
 };
 const mockTwoFactor = { assertInfluencerVerified: jest.fn().mockResolvedValue(undefined) };
+const mockEligibility = {
+  assertBrandCanTransact: jest.fn().mockResolvedValue(undefined),
+  assertBrandCanContactMinor: jest.fn().mockResolvedValue(undefined),
+  assertCanSignAgreement: jest.fn().mockResolvedValue(undefined),
+};
 const mockAi = {
   generateContractContent: jest.fn().mockResolvedValue({
     content: '# Test Contract',
@@ -82,6 +88,7 @@ describe('ContractsService', () => {
         { provide: AuditService, useValue: mockAudit },
         { provide: GuardianService, useValue: mockGuardian },
         { provide: TwoFactorService, useValue: mockTwoFactor },
+        { provide: EligibilityService, useValue: mockEligibility },
       ],
     }).compile();
 

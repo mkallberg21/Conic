@@ -11,6 +11,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { EventBusService, EVENTS } from '../../events/event-bus.service';
 import { OnEvent } from '@nestjs/event-emitter';
 import { AuditService } from '../../common/audit/audit.service';
+import { EligibilityService } from '../verification/eligibility.service';
 
 const MAX_PAGE_SIZE = 100;
 
@@ -32,6 +33,7 @@ export class PaymentsService {
     private readonly eventBus: EventBusService,
     private readonly configService: ConfigService,
     private readonly auditService: AuditService,
+    private readonly eligibility: EligibilityService,
   ) {
     this.dwolla = new Client({
       key: this.configService.get<string>('dwolla.key') ?? '',
@@ -107,6 +109,10 @@ export class PaymentsService {
     if (payment.status !== PaymentStatus.PENDING) {
       throw new ForbiddenException('Payment is not in pending status');
     }
+
+    // Payout gate: the creator needs document-grade identity verification before
+    // funds move (log-only until enforced).
+    await this.eligibility.assertCanReceivePayout(payment.contract.creator.userId);
 
     try {
       const creatorDwollaId = payment.contract.creator.dwollaCustomerId;
