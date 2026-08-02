@@ -73,6 +73,22 @@ export default function ProfileScreen() {
           </View>
         </View>
 
+        {/* Insights (creators / athletes) */}
+        {(user?.role === 'CREATOR' || user?.role === 'ATHLETE') && (
+          <>
+            <Text className="text-surface-400 text-xs font-semibold uppercase tracking-widest mb-2 ml-1">
+              Your reach
+            </Text>
+            <View className="bg-surface-800 rounded-xl px-4 mb-6">
+              <SettingRow
+                label="Brand interest"
+                value="Who viewed you"
+                onPress={() => router.push('/insights')}
+              />
+            </View>
+          </>
+        )}
+
         {/* Account section */}
         <Text className="text-surface-400 text-xs font-semibold uppercase tracking-widest mb-2 ml-1">
           Account
