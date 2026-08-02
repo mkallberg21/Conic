@@ -5,7 +5,7 @@ export interface AuthUser {
   email: string;
   firstName: string;
   lastName: string;
-  role: 'BRAND' | 'CREATOR' | 'AGENCY' | 'ADMIN';
+  role: 'BRAND' | 'CREATOR' | 'AGENCY' | 'ADMIN' | 'ATHLETE' | 'GUARDIAN' | 'AGENT';
   avatarUrl?: string;
 }
 
