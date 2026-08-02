@@ -92,9 +92,9 @@ export default function InsightsScreen() {
               <Text className="text-surface-400 text-sm mb-3">
                 Upgrade to Pro to see exactly which brands viewed and saved you.
               </Text>
-              <View className="bg-surface-700 rounded-lg py-2.5 items-center">
-                <Text className="text-surface-300 text-sm font-medium">Upgrade to Pro on the web app</Text>
-              </View>
+              <TouchableOpacity className="bg-brand-500 rounded-lg py-2.5 items-center" activeOpacity={0.85} onPress={() => router.push('/plan')}>
+                <Text className="text-white text-sm font-semibold">Upgrade to Pro</Text>
+              </TouchableOpacity>
             </View>
           )}
         </ScrollView>

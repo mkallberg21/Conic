@@ -85,6 +85,11 @@ export default function ProfileScreen() {
                 value="Who viewed you"
                 onPress={() => router.push('/insights')}
               />
+              <SettingRow
+                label="Plan"
+                value="Free / Pro"
+                onPress={() => router.push('/plan')}
+              />
             </View>
           </>
         )}
