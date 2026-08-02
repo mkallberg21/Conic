@@ -53,6 +53,8 @@ import { TwoFactorModule } from './modules/two-factor/two-factor.module';
 import { VerificationModule } from './modules/verification/verification.module';
 import { EngagementModule } from './modules/engagement/engagement.module';
 import { SubscriptionModule } from './modules/subscription/subscription.module';
+import { MarketplaceModule } from './modules/marketplace/marketplace.module';
+import { EscrowModule } from './modules/escrow/escrow.module';
 
 @Module({
   imports: [
@@ -136,6 +138,8 @@ import { SubscriptionModule } from './modules/subscription/subscription.module';
     VerificationModule,
     EngagementModule,
     SubscriptionModule,
+    MarketplaceModule,
+    EscrowModule,
   ],
   providers: [
     // Apply ThrottlerGuard globally — every route is rate-limited by default

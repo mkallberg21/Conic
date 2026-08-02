@@ -235,6 +235,8 @@ model Brand {
   kybCheck      BusinessVerification?
   profileViews  ProfileView[]
   savedProfiles SavedProfile[]
+  briefs        MarketplaceBrief[]
+  escrows       Escrow[]
 
   @@index([userId])
 }
@@ -290,6 +292,7 @@ model Creator {
   guardianInvites GuardianInvite[]
   profileViews    ProfileView[]
   savedByBrands   SavedProfile[]
+  applications    BriefApplication[]
 
   @@index([userId])
   @@index([handle])
@@ -361,6 +364,7 @@ model Contract {
   nilExtension ContractNilExtension?
   nilDeals     NilDeal[]
   dealRoom     DealRoom?
+  escrow       Escrow?
 
   @@index([brandId])
   @@index([creatorId])
@@ -996,6 +1000,7 @@ model Athlete {
   socialAccounts        SocialAccount[]
   profileViews          ProfileView[]
   savedByBrands         SavedProfile[]
+  applications          BriefApplication[]
 
   @@index([userId])
   @@index([universityId])
@@ -1267,6 +1272,101 @@ model Subscription {
   updatedAt              DateTime           @updatedAt
 
   @@index([plan, status])
+}
+
+// ─── Self-serve marketplace (open briefs creators apply to) ─────────────────────
+
+enum BriefStatus {
+  OPEN
+  CLOSED
+  FILLED
+}
+
+enum ApplicationStatus {
+  PENDING
+  SHORTLISTED
+  ACCEPTED
+  DECLINED
+  WITHDRAWN
+}
+
+// A brand posts an open opportunity; any creator/athlete can apply — the
+// "anyone can earn" side of the marketplace.
+model MarketplaceBrief {
+  id              String      @id @default(cuid())
+  brandId         String
+  brand           Brand       @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  campaignId      String? // optional link to a Campaign (no hard FK)
+  title           String
+  description     String      @db.Text
+  budgetCents     Int
+  currency        String      @default("USD")
+  deliverableType String? // e.g. reel, story, post, appearance, UGC video
+  platforms       String[]
+  niche           String[]
+  sport           String?
+  targetType      String      @default("both") // creator | athlete | both
+  minFollowers    Int?
+  status          BriefStatus @default(OPEN)
+  deadline        DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  applications BriefApplication[]
+
+  @@index([status, createdAt])
+  @@index([brandId])
+}
+
+model BriefApplication {
+  id                String            @id @default(cuid())
+  briefId           String
+  brief             MarketplaceBrief  @relation(fields: [briefId], references: [id], onDelete: Cascade)
+  creatorId         String?
+  creator           Creator?          @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  athleteId         String?
+  athlete           Athlete?          @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  pitch             String            @db.Text
+  proposedRateCents Int?
+  status            ApplicationStatus @default(PENDING)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@unique([briefId, creatorId])
+  @@unique([briefId, athleteId])
+  @@index([briefId, status])
+  @@index([creatorId])
+  @@index([athleteId])
+}
+
+// ─── Escrow (funds held until work is approved) ─────────────────────────────────
+
+enum EscrowStatus {
+  PENDING_FUNDING
+  FUNDED
+  RELEASED
+  REFUNDED
+}
+
+model Escrow {
+  id          String       @id @default(cuid())
+  contractId  String       @unique
+  contract    Contract     @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  brandId     String
+  brand       Brand        @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  amountCents Int
+  currency    String       @default("USD")
+  status      EscrowStatus @default(PENDING_FUNDING)
+  provider    String? // 'dwolla' | 'stub'
+  providerRef String?
+  fundedAt    DateTime?
+  releasedAt  DateTime?
+  refundedAt  DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([brandId])
+  @@index([status])
 }
 
 // ─── Agent ────────────────────────────────────────────────────────────────────

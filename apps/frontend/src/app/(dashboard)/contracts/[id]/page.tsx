@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { api } from '@/lib/api';
+import { EscrowPanel } from '@/components/escrow-panel';
 import { useAuthStore } from '@/store/auth.store';
 import { formatCurrency } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
@@ -127,6 +128,7 @@ export default function ContractDetailPage() {
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <Badge variant={statusColor[contract.status] ?? 'secondary'}>{contract.status}</Badge>
+          {/* Escrow panel is rendered below the header */}
           {canSign && (
             <Button onClick={() => signMutation.mutate()} disabled={signMutation.isPending}>
               <CheckCircle className="h-4 w-4 mr-1" />
@@ -166,6 +168,9 @@ export default function ContractDetailPage() {
           )}
         </div>
       </div>
+
+      {/* Escrow */}
+      <EscrowPanel contractId={id} isBrand={isBrand} />
 
       {/* Signatures */}
       <Card>
