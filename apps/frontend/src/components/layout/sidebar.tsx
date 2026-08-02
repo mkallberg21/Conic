@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, FileText, CheckSquare, CreditCard,
   Megaphone, BarChart2, Users, Settings, Zap, Network, Brain,
-  ShieldCheck, ShieldAlert, GraduationCap, UserCircle, Store, Key, Upload,
+  ShieldCheck, ShieldAlert, GraduationCap, UserCircle, Store, Key, Upload, BadgeCheck,
   ClipboardList, TrendingUp, Heart, DollarSign,
   Sparkles, CalendarDays, Building2,
 } from 'lucide-react';
@@ -16,6 +16,7 @@ const navItems = [
   // ─── Brand / Creator / Agency / Admin ────────────────────────────────────
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/profile', label: 'My Profile', icon: UserCircle, roles: ['CREATOR', 'ATHLETE'] },
+  { href: '/verification', label: 'Verification', icon: BadgeCheck, roles: ['CREATOR', 'ATHLETE', 'BRAND'] },
   { href: '/dashboard/contracts', label: 'Contracts', icon: FileText, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/deliverables', label: 'Deliverables', icon: CheckSquare, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/payments', label: 'Payments', icon: CreditCard, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
