@@ -244,6 +244,7 @@ model Brand {
   savedProfiles SavedProfile[]
   briefs        MarketplaceBrief[]
   escrows       Escrow[]
+  saasPlan      BrandSubscription?
 
   @@index([userId])
 }
@@ -1277,6 +1278,30 @@ model Subscription {
   currentPeriodEnd       DateTime?
   // Future outreach tier: remaining direct-messages-to-brands this period.
   dmCredits              Int                @default(0)
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  @@index([plan, status])
+}
+
+// ─── Brand SaaS (seats + campaign-volume tiers) ─────────────────────────────────
+
+enum BrandPlan {
+  FREE
+  STARTER
+  GROWTH
+  SCALE
+}
+
+model BrandSubscription {
+  id                     String             @id @default(cuid())
+  brandId                String             @unique
+  brand                  Brand              @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  plan                   BrandPlan          @default(FREE)
+  status                 SubscriptionStatus @default(ACTIVE)
+  provider               String?
+  providerSubscriptionId String?            @unique
+  currentPeriodEnd       DateTime?
   createdAt              DateTime           @default(now())
   updatedAt              DateTime           @updatedAt
 
