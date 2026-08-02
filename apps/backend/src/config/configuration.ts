@@ -75,6 +75,23 @@ export default () => ({
     twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,
     fromNumber: process.env.TWILIO_FROM_NUMBER,
   },
+  verification: {
+    // 'stub' auto-resolves from self-reported DOB (dev); real vendors are switched
+    // on when their API key is present — mirrors the SMS / social-verifier pattern.
+    ageProvider: process.env.AGE_PROVIDER ?? (process.env.AGE_API_KEY ? 'vendor' : 'stub'),
+    kybProvider: process.env.KYB_PROVIDER ?? (process.env.KYB_API_KEY ? 'vendor' : 'stub'),
+    ageApiKey: process.env.AGE_API_KEY,
+    kybApiKey: process.env.KYB_API_KEY,
+    webhookSecret: process.env.VERIFICATION_WEBHOOK_SECRET,
+    ageReverifyDays: parseInt(process.env.AGE_REVERIFY_DAYS ?? '365', 10),
+    // Enforcement flags — ship the plumbing first, then flip gates on per capability.
+    // Default OFF (log-only) except the minor-contact gate, which defaults ON.
+    enforceAgeToList: process.env.ENFORCE_AGE_LIST === 'true',
+    enforceAgeToSign: process.env.ENFORCE_AGE_SIGN === 'true',
+    enforceAgeToPayout: process.env.ENFORCE_AGE_PAYOUT === 'true',
+    enforceKybToTransact: process.env.ENFORCE_KYB_TRANSACT === 'true',
+    enforceKybToContactMinors: process.env.ENFORCE_KYB_MINORS !== 'false',
+  },
   guardian: {
     // Age below which an influencer (athlete/creator) is a minor and must have a
     // verified guardian linked before entering into any agreement.

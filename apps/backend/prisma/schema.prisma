@@ -148,26 +148,30 @@ enum DivisionLevel {
 // ─── User & Identity ──────────────────────────────────────────────────────────
 
 model User {
-  id                     String    @id @default(cuid())
-  email                  String    @unique
+  id                     String          @id @default(cuid())
+  email                  String          @unique
   passwordHash           String
   role                   UserRole
   firstName              String
   lastName               String
   avatarUrl              String?
   phone                  String?
-  phoneVerified          Boolean   @default(false)
-  emailVerified          Boolean   @default(false)
+  phoneVerified          Boolean         @default(false)
+  emailVerified          Boolean         @default(false)
   emailVerificationToken String?
   passwordResetToken     String?
   passwordResetExpiry    DateTime?
-  twoFactorEnabled       Boolean   @default(false)
+  twoFactorEnabled       Boolean         @default(false)
   twoFactorSecret        String?
+  // Age assurance — denormalized for fast capability gating (authoritative over self-reported DOB)
+  ageVerified            Boolean         @default(false)
+  ageAssurance           AgeCheckMethod?
+  ageVerifiedAt          DateTime?
   dwollaCustomerId       String?
   lastLoginAt            DateTime?
-  isActive               Boolean   @default(true)
-  createdAt              DateTime  @default(now())
-  updatedAt              DateTime  @updatedAt
+  isActive               Boolean         @default(true)
+  createdAt              DateTime        @default(now())
+  updatedAt              DateTime        @updatedAt
 
   brand             Brand?
   creator           Creator?
@@ -188,6 +192,7 @@ model User {
   matchRequests         MatchRequest[]
   verificationCodes     VerificationCode[]
   sentGuardianInvites   GuardianInvite[]   @relation("MinorInvites")
+  ageVerifications      AgeVerification[]
 }
 
 model RefreshToken {
@@ -204,25 +209,29 @@ model RefreshToken {
 // ─── Profiles ─────────────────────────────────────────────────────────────────
 
 model Brand {
-  id               String   @id @default(cuid())
-  userId           String   @unique
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id               String         @id @default(cuid())
+  userId           String         @unique
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   companyName      String
   website          String?
   industry         String?
   logoUrl          String?
   description      String?
   dwollaCustomerId String?
-  dwollaVerified   Boolean  @default(false)
-  totalSpend       Int      @default(0)
-  creditBalance    Int      @default(0)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  dwollaVerified   Boolean        @default(false)
+  // KYB (know-your-business) — denormalized for fast capability gating
+  kybTier          KybTier        @default(NONE)
+  kybStatus        IdentityStatus @default(NOT_STARTED)
+  totalSpend       Int            @default(0)
+  creditBalance    Int            @default(0)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 
   contracts   Contract[]
   campaigns   Campaign[]
   nilDeals    NilDeal[]
   appearances Appearance[]
+  kybCheck    BusinessVerification?
 
   @@index([userId])
 }
@@ -1098,6 +1107,81 @@ model VerificationCode {
 enum VerificationChannel {
   EMAIL
   PHONE
+}
+
+// ─── Identity & business verification ──────────────────────────────────────────
+
+enum AgeCheckMethod {
+  ESTIMATION // low-friction facial age estimation (signup gate)
+  DOCUMENT // ID document + selfie (payout / adult status / minor-contact grade)
+}
+
+enum KybTier {
+  NONE
+  BASIC // registry match + domain/email match → transact, contact adults
+  ENHANCED // + beneficial owners + sanctions/PEP + youth-safety terms → contact minors
+}
+
+enum IdentityStatus {
+  NOT_STARTED
+  PENDING
+  NEEDS_INPUT
+  APPROVED
+  DECLINED
+  EXPIRED
+  REVIEW
+}
+
+// Age-assurance result. Stores the vendor reference + derived decision only —
+// never raw ID images/PII. confirmedDob is encrypted at rest by the app layer.
+model AgeVerification {
+  id              String         @id @default(cuid())
+  userId          String
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  method          AgeCheckMethod
+  status          IdentityStatus @default(PENDING)
+  provider        String
+  providerSession String         @unique
+  isAdult         Boolean?
+  estimatedAge    Int?
+  confirmedDob    DateTime?
+  docType         String?
+  docCountry      String?
+  failureReason   String?
+  reviewNote      String?
+  expiresAt       DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([userId, status])
+  @@index([status])
+}
+
+model BusinessVerification {
+  id                  String         @id @default(cuid())
+  brandId             String         @unique
+  brand               Brand          @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  tier                KybTier        @default(NONE)
+  status              IdentityStatus @default(NOT_STARTED)
+  provider            String
+  providerCase        String?        @unique
+  legalName           String
+  registrationNumber  String?
+  country             String
+  domain              String?
+  matchedName         String?
+  riskScore           Int?
+  sanctionsHit        Boolean        @default(false)
+  beneficialOwnersOk  Boolean        @default(false)
+  youthSafetyAccepted Boolean        @default(false)
+  failureReason       String?
+  reviewNote          String?
+  decidedAt           DateTime?
+  expiresAt           DateTime?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  @@index([status])
 }
 
 // ─── Agent ────────────────────────────────────────────────────────────────────
