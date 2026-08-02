@@ -82,6 +82,12 @@ export const EVENTS = {
   APPEARANCE_COMPLETED: 'appearance.completed',
   GUARDIAN_APPROVED: 'guardian.approved',
   GUARDIAN_REJECTED: 'guardian.rejected',
+  // Identity / business verification
+  AGE_VERIFIED: 'age.verified',
+  AGE_DECLINED: 'age.declined',
+  MINOR_DOWNGRADED: 'age.minor_downgraded',
+  KYB_APPROVED: 'kyb.approved',
+  KYB_FLAGGED: 'kyb.flagged',
   COMPLIANCE_REPORT_GENERATED: 'compliance.report.generated',
   FMV_ASSESSED: 'fmv.assessed',
   ELIGIBILITY_FLAGGED: 'eligibility.flagged',
