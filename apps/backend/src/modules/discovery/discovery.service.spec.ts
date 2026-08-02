@@ -25,9 +25,9 @@ const mockAnthropic = {
   explainMatches: jest.fn().mockResolvedValue({}),
 };
 
-const creatorRow = (id: string, perf: number) => ({
+const creatorRow = (id: string, perf: number, isPro = false) => ({
   id, niche: ['fashion'], contentStyle: ['luxury'], followersCount: 10000, engagementRate: 0.05,
-  performanceScore: perf, audienceScore: 80, fraudScore: 10, isVerified: true,
+  performanceScore: perf, audienceScore: 80, fraudScore: 10, isVerified: true, isPro,
   user: { firstName: 'Jane', lastName: 'Doe', avatarUrl: null },
 });
 
@@ -59,6 +59,17 @@ describe('DiscoveryService', () => {
     const { results } = await service.search({ query: 'luxury fashion' });
 
     expect(results.map((r) => r.id)).toEqual(['cr_high', 'cr_low']);
+    expect(results[0].matchScore).toBeGreaterThan(results[1].matchScore);
+  });
+
+  it('gives Pro profiles a placement boost over an equal non-Pro profile', async () => {
+    // Identical performance + semantic — the Pro boost is the only differentiator.
+    mockPrisma.creator.findMany.mockResolvedValue([creatorRow('cr_free', 80, false), creatorRow('cr_pro', 80, true)]);
+    mockEmbeddings.similarity.mockReturnValue(0.5);
+
+    const { results } = await service.search({ query: 'luxury fashion' });
+
+    expect(results.map((r) => r.id)).toEqual(['cr_pro', 'cr_free']);
     expect(results[0].matchScore).toBeGreaterThan(results[1].matchScore);
   });
 
