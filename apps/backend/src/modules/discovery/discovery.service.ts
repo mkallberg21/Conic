@@ -13,6 +13,9 @@ const W_SEMANTIC = 0.5;
 const W_PERFORMANCE = 0.25;
 const W_AUDIENCE = 0.15;
 const W_FRAUD = 0.1; // applied to (100 - fraudScore)
+// Modest placement boost for Pro-subscribed profiles — nudges ranking without
+// overriding genuine relevance.
+const PRO_BOOST = 4;
 
 export interface DiscoveryResult {
   id: string;
@@ -133,18 +136,19 @@ export class DiscoveryService {
 
   // ── Scoring ─────────────────────────────────────────────────────────────────
 
-  private blend(semantic: number, performance: number, audience: number, fraud: number): number {
+  private blend(semantic: number, performance: number, audience: number, fraud: number, isPro = false): number {
     const score =
       W_SEMANTIC * (semantic * 100) +
       W_PERFORMANCE * performance +
       W_AUDIENCE * audience +
-      W_FRAUD * (100 - fraud);
+      W_FRAUD * (100 - fraud) +
+      (isPro ? PRO_BOOST : 0);
     return Math.round(Math.max(0, Math.min(100, score)));
   }
 
   private scoreCreator(
     c: { id: string; niche: string[]; contentStyle: string[]; followersCount: number; engagementRate: number;
-      performanceScore: number; audienceScore: number; fraudScore: number; isVerified: boolean;
+      performanceScore: number; audienceScore: number; fraudScore: number; isVerified: boolean; isPro: boolean;
       user: { firstName: string; lastName: string; avatarUrl: string | null } },
     queryVector: number[],
     vector?: number[],
@@ -158,14 +162,14 @@ export class DiscoveryService {
       followersCount: c.followersCount, engagementRate: c.engagementRate,
       performanceScore: c.performanceScore, audienceScore: c.audienceScore, fraudScore: c.fraudScore,
       contentStyle: c.contentStyle, isVerified: c.isVerified,
-      matchScore: this.blend(semantic, c.performanceScore, c.audienceScore, c.fraudScore),
+      matchScore: this.blend(semantic, c.performanceScore, c.audienceScore, c.fraudScore, c.isPro),
       reason: 'Matches your niche, audience and performance filters.',
     };
   }
 
   private scoreAthlete(
     a: { id: string; sport: string; contentStyle: string[]; followersCount: number; engagementRate: number;
-      performanceScore: number; audienceScore: number; fraudScore: number; isVerified: boolean;
+      performanceScore: number; audienceScore: number; fraudScore: number; isVerified: boolean; isPro: boolean;
       user: { firstName: string; lastName: string; avatarUrl: string | null } },
     queryVector: number[],
     vector?: number[],
@@ -179,7 +183,7 @@ export class DiscoveryService {
       followersCount: a.followersCount, engagementRate: a.engagementRate,
       performanceScore: a.performanceScore, audienceScore: a.audienceScore, fraudScore: a.fraudScore,
       contentStyle: a.contentStyle, isVerified: a.isVerified,
-      matchScore: this.blend(semantic, a.performanceScore, a.audienceScore, a.fraudScore),
+      matchScore: this.blend(semantic, a.performanceScore, a.audienceScore, a.fraudScore, a.isPro),
       reason: 'Matches your sport, audience and performance filters.',
     };
   }
