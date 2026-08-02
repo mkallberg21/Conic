@@ -17,6 +17,8 @@ const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/profile', label: 'My Profile', icon: UserCircle, roles: ['CREATOR', 'ATHLETE'] },
   { href: '/verification', label: 'Verification', icon: BadgeCheck, roles: ['CREATOR', 'ATHLETE', 'BRAND'] },
+  { href: '/opportunities', label: 'Opportunities', icon: Megaphone, roles: ['CREATOR', 'ATHLETE'] },
+  { href: '/briefs', label: 'Open Briefs', icon: Megaphone, roles: ['BRAND', 'AGENCY'] },
   { href: '/plan', label: 'Upgrade to Pro', icon: Sparkles, roles: ['CREATOR', 'ATHLETE'] },
   { href: '/dashboard/contracts', label: 'Contracts', icon: FileText, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
   { href: '/dashboard/deliverables', label: 'Deliverables', icon: CheckSquare, roles: ['BRAND', 'CREATOR', 'AGENCY', 'ADMIN'] },
