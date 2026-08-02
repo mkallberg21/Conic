@@ -11,7 +11,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { Star, Trash2, ShieldCheck, ShieldQuestion, Clock, Plus, Link2 } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
+import { Star, Trash2, ShieldCheck, ShieldQuestion, Clock, Plus, Link2, Heart, Mail } from 'lucide-react';
 
 const PLATFORMS = ['INSTAGRAM', 'TIKTOK', 'YOUTUBE', 'X', 'FACEBOOK', 'TWITCH', 'LINKEDIN', 'SNAPCHAT', 'PINTEREST', 'THREADS', 'OTHER'] as const;
 type Platform = (typeof PLATFORMS)[number];
@@ -34,6 +35,11 @@ interface ProfileAttrs {
   city?: string; region?: string; country?: string;
 }
 interface ProfileResponse { profile: ProfileAttrs; socialAccounts: SocialAccount[]; }
+interface GuardianStatus {
+  isMinor: boolean;
+  guardians: { id: string; relationship: string; guardian: { user: { firstName: string; lastName: string; email: string } } }[];
+  pendingInvite: { id: string; guardianEmail: string; createdAt: string; expiresAt: string } | null;
+}
 
 const csv = (a?: string[]) => (a ?? []).join(', ');
 const parseCsv = (s: string) => s.split(',').map((x) => x.trim()).filter(Boolean);
@@ -96,6 +102,29 @@ export default function ProfilePage() {
   const verify = useMutation({
     mutationFn: (id: string) => api.post(`/v1/profile/social/${id}/verify`).then((r) => r.data.data),
     onSuccess: (res: { instructions?: string }) => { setInstructions(res?.instructions ?? null); qc.invalidateQueries({ queryKey: ['profile', 'me'] }); },
+  });
+
+  // ── Guardian (minors only) ────────────────────────────────────────────────
+  const guardian = useQuery<GuardianStatus>({
+    queryKey: ['profile', 'guardian'],
+    queryFn: () => api.get('/v1/profile/guardian').then((r) => r.data.data),
+  });
+  const [guardianEmail, setGuardianEmail] = useState('');
+  useEffect(() => {
+    if (guardian.data?.pendingInvite?.guardianEmail) setGuardianEmail(guardian.data.pendingInvite.guardianEmail);
+  }, [guardian.data?.pendingInvite?.guardianEmail]);
+
+  const resendInvite = useMutation({
+    mutationFn: () => api.post('/v1/profile/guardian/invite', { guardianEmail }),
+    onSuccess: () => {
+      toast({ title: 'Invite sent', description: `We emailed ${guardianEmail} a link to approve your account and agreements.` });
+      qc.invalidateQueries({ queryKey: ['profile', 'guardian'] });
+    },
+    onError: (e: unknown) => toast({
+      title: 'Could not send invite',
+      description: (e as { response?: { data?: { message?: string } } })?.response?.data?.message ?? 'Please try again.',
+      variant: 'destructive',
+    }),
   });
 
   if (isLoading) return <div className="p-8 text-muted-foreground">Loading your profile…</div>;
@@ -186,6 +215,56 @@ export default function ProfilePage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Guardian (minors only) */}
+      {guardian.data?.isMinor && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2"><Heart className="h-5 w-5 text-primary" /> Parent / guardian</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Because you’re under 18, a parent or guardian must approve your account and every agreement, and they
+              receive a copy of every brand message. Link them below.
+            </p>
+
+            {guardian.data.guardians.length > 0 ? (
+              <div className="space-y-2">
+                {guardian.data.guardians.map((g) => (
+                  <div key={g.id} className="flex items-center gap-3 rounded-lg border p-3 text-sm">
+                    <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                    <span className="font-medium">{g.guardian.user.firstName} {g.guardian.user.lastName}</span>
+                    <span className="text-muted-foreground">{g.guardian.user.email}</span>
+                    <Badge variant="outline" className="ml-auto capitalize">{g.relationship.replace('_', ' ')}</Badge>
+                  </div>
+                ))}
+              </div>
+            ) : guardian.data.pendingInvite ? (
+              <div className="flex items-center gap-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
+                <Clock className="h-4 w-4" />
+                Invite sent to <span className="font-medium">{guardian.data.pendingInvite.guardianEmail}</span> — waiting for them to accept.
+              </div>
+            ) : (
+              <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
+                No guardian linked yet — you can’t sign agreements until one approves.
+              </div>
+            )}
+
+            <Separator />
+
+            <div className="flex flex-wrap items-end gap-3">
+              <div className="flex-1 min-w-[220px]">
+                <Label htmlFor="guardianEmail">Parent / guardian email</Label>
+                <Input id="guardianEmail" type="email" value={guardianEmail} onChange={(e) => setGuardianEmail(e.target.value)} placeholder="parent@example.com" />
+              </div>
+              <Button onClick={() => resendInvite.mutate()} disabled={!guardianEmail || resendInvite.isPending}>
+                <Mail className="mr-1 h-4 w-4" />
+                {guardian.data.pendingInvite ? 'Resend invite' : 'Send invite'}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { SocialPlatform, SocialVerificationStatus, UserRole } from '@prisma/clie
 import { ProfileService } from './profile.service';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EmbeddingsService } from '../embeddings/embeddings.service';
+import { GuardianService } from '../guardian/guardian.service';
 import { OwnershipCodeVerifier } from './social-verifier';
 import { AddSocialAccountDto } from './dto/profile.dto';
 
@@ -20,6 +21,8 @@ const mockPrisma = {
     updateMany: jest.fn(),
     delete: jest.fn(),
   },
+  guardianRelationship: { findMany: jest.fn().mockResolvedValue([]) },
+  guardianInvite: { findFirst: jest.fn().mockResolvedValue(null) },
   $transaction: jest.fn(),
 };
 const mockEmbeddings = {
@@ -30,6 +33,7 @@ const mockVerifier = {
   begin: jest.fn().mockReturnValue({ method: 'ownership_code', verificationCode: 'conic-verify-abcd', instructions: 'add it' }),
   check: jest.fn().mockResolvedValue(false),
 };
+const mockGuardian = { createInvite: jest.fn().mockResolvedValue({ inviteId: 'inv_1' }) };
 
 const CREATOR_USER = 'user_creator';
 
@@ -43,6 +47,7 @@ describe('ProfileService', () => {
         { provide: PrismaService, useValue: mockPrisma },
         { provide: EmbeddingsService, useValue: mockEmbeddings },
         { provide: OwnershipCodeVerifier, useValue: mockVerifier },
+        { provide: GuardianService, useValue: mockGuardian },
       ],
     }).compile();
     service = module.get<ProfileService>(ProfileService);
@@ -140,6 +145,50 @@ describe('ProfileService', () => {
         expect.objectContaining({ where: { id: 'cr_1' }, data: { bio: 'hi', contentStyle: ['luxury'] } }),
       );
       expect(mockEmbeddings.embedCreatorProfile).toHaveBeenCalledWith('cr_1');
+    });
+  });
+
+  describe('resendGuardianInvite', () => {
+    it('creates an invite for a minor creator', async () => {
+      mockPrisma.creator.findUnique
+        .mockResolvedValueOnce({ id: 'cr_1' })            // resolveOwner
+        .mockResolvedValueOnce({ isMinor: true })          // isMinorOwner
+        .mockResolvedValueOnce({ user: { firstName: 'Sam', lastName: 'Kid' } }); // name lookup
+
+      const res = await service.resendGuardianInvite(CREATOR_USER, UserRole.CREATOR, { guardianEmail: 'parent@x.com' });
+
+      expect(mockGuardian.createInvite).toHaveBeenCalledWith(
+        expect.objectContaining({ subject: { creatorId: 'cr_1' }, guardianEmail: 'parent@x.com', minorName: 'Sam Kid' }),
+      );
+      expect(res).toEqual({ inviteId: 'inv_1' });
+    });
+
+    it('refuses to invite a guardian for a non-minor', async () => {
+      mockPrisma.creator.findUnique
+        .mockResolvedValueOnce({ id: 'cr_1' })   // resolveOwner
+        .mockResolvedValueOnce({ isMinor: false }); // isMinorOwner
+      await expect(
+        service.resendGuardianInvite(CREATOR_USER, UserRole.CREATOR, { guardianEmail: 'parent@x.com' }),
+      ).rejects.toThrow(ForbiddenException);
+      expect(mockGuardian.createInvite).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('getGuardianStatus', () => {
+    it('returns minor status, linked guardians and any pending invite', async () => {
+      mockPrisma.creator.findUnique
+        .mockResolvedValueOnce({ id: 'cr_1' })      // resolveOwner
+        .mockResolvedValueOnce({ isMinor: true });   // isMinorOwner
+      mockPrisma.guardianRelationship.findMany.mockResolvedValue([
+        { id: 'rel_1', relationship: 'parent', guardian: { user: { firstName: 'Pat', lastName: 'Kid', email: 'pat@x.com' } } },
+      ]);
+      mockPrisma.guardianInvite.findFirst.mockResolvedValue({ id: 'inv_1', guardianEmail: 'pat@x.com', createdAt: new Date(), expiresAt: new Date() });
+
+      const res = await service.getGuardianStatus(CREATOR_USER, UserRole.CREATOR);
+
+      expect(res.isMinor).toBe(true);
+      expect(res.guardians).toHaveLength(1);
+      expect(res.pendingInvite?.guardianEmail).toBe('pat@x.com');
     });
   });
 });

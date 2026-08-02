@@ -203,6 +203,13 @@ export class GuardianService {
     const expiryHours = this.config.get<number>('guardian.inviteExpiryHours', 168);
     const expiresAt = new Date(Date.now() + expiryHours * 60 * 60 * 1000);
 
+    // Supersede any still-pending invite for this minor so only the newest
+    // token is valid (this makes "resend" clean).
+    await this.prisma.guardianInvite.updateMany({
+      where: { ...this.subjectWhere(params.subject), status: GuardianInviteStatus.PENDING },
+      data: { status: GuardianInviteStatus.REVOKED },
+    });
+
     const invite = await this.prisma.guardianInvite.create({
       data: {
         invitedByUserId: params.invitedByUserId,

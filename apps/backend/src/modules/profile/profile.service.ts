@@ -4,8 +4,9 @@ import {
 import { Prisma, SocialPlatform, SocialVerificationStatus, UserRole } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { EmbeddingsService } from '../embeddings/embeddings.service';
+import { GuardianService } from '../guardian/guardian.service';
 import { OwnershipCodeVerifier } from './social-verifier';
-import { AddSocialAccountDto, UpdateProfileDto } from './dto/profile.dto';
+import { AddSocialAccountDto, ResendGuardianInviteDto, UpdateProfileDto } from './dto/profile.dto';
 
 type Owner =
   | { ownerType: 'creator'; creatorId: string; athleteId: null }
@@ -19,6 +20,7 @@ export class ProfileService {
     private readonly prisma: PrismaService,
     private readonly embeddings: EmbeddingsService,
     private readonly verifier: OwnershipCodeVerifier,
+    private readonly guardian: GuardianService,
   ) {}
 
   // ── Owner resolution ────────────────────────────────────────────────────────
@@ -206,6 +208,63 @@ export class ProfileService {
       verified: ok,
       reason: ok ? undefined : 'Ownership could not be confirmed automatically (live platform verification is not yet enabled)',
     };
+  }
+
+  // ── Guardian linking (minors) ────────────────────────────────────────────────
+
+  async getGuardianStatus(userId: string, role: UserRole) {
+    const owner = await this.resolveOwner(userId, role);
+    const isMinor = await this.isMinorOwner(owner);
+    const subjectWhere = owner.ownerType === 'creator'
+      ? { creatorId: owner.creatorId }
+      : { athleteId: owner.athleteId };
+
+    const [guardians, pendingInvite] = await Promise.all([
+      this.prisma.guardianRelationship.findMany({
+        where: subjectWhere,
+        select: {
+          id: true,
+          relationship: true,
+          guardian: { select: { user: { select: { firstName: true, lastName: true, email: true } } } },
+        },
+      }),
+      this.prisma.guardianInvite.findFirst({
+        where: { ...subjectWhere, status: 'PENDING' },
+        orderBy: { createdAt: 'desc' },
+        select: { id: true, guardianEmail: true, createdAt: true, expiresAt: true },
+      }),
+    ]);
+
+    return { isMinor, guardians, pendingInvite };
+  }
+
+  async resendGuardianInvite(userId: string, role: UserRole, dto: ResendGuardianInviteDto) {
+    const owner = await this.resolveOwner(userId, role);
+    if (!(await this.isMinorOwner(owner))) {
+      throw new ForbiddenException('Guardian approval is only required for accounts under 18.');
+    }
+    const entity = owner.ownerType === 'creator'
+      ? await this.prisma.creator.findUnique({ where: { id: owner.creatorId }, select: { user: { select: { firstName: true, lastName: true } } } })
+      : await this.prisma.athlete.findUnique({ where: { id: owner.athleteId }, select: { user: { select: { firstName: true, lastName: true } } } });
+
+    const subject = owner.ownerType === 'creator'
+      ? { creatorId: owner.creatorId }
+      : { athleteId: owner.athleteId };
+
+    return this.guardian.createInvite({
+      invitedByUserId: userId,
+      subject,
+      guardianEmail: dto.guardianEmail,
+      relationship: dto.relationship,
+      minorName: entity ? `${entity.user.firstName} ${entity.user.lastName}` : undefined,
+    });
+  }
+
+  private async isMinorOwner(owner: Owner): Promise<boolean> {
+    const entity = owner.ownerType === 'creator'
+      ? await this.prisma.creator.findUnique({ where: { id: owner.creatorId }, select: { isMinor: true } })
+      : await this.prisma.athlete.findUnique({ where: { id: owner.athleteId }, select: { isMinor: true } });
+    return entity?.isMinor ?? false;
   }
 
   // ── Helpers ─────────────────────────────────────────────────────────────────

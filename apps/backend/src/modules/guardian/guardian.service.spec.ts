@@ -20,7 +20,7 @@ const mockPrisma = {
     count: jest.fn(),
   },
   guardianRelationship: { findMany: jest.fn(), create: jest.fn(), findFirst: jest.fn(), count: jest.fn() },
-  guardianInvite: { create: jest.fn(), findUnique: jest.fn(), update: jest.fn() },
+  guardianInvite: { create: jest.fn(), findUnique: jest.fn(), update: jest.fn(), updateMany: jest.fn() },
   nilDeal: { update: jest.fn() },
   contractNilExtension: { updateMany: jest.fn() },
   $transaction: jest.fn(),
