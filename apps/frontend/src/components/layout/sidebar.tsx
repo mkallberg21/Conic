@@ -60,6 +60,7 @@ const navItems = [
   { href: '/school-reporting', label: 'School Reports', icon: GraduationCap, roles: ['COMPLIANCE_OFFICER'] },
 
   // ─── University Admin / Athletic Director ─────────────────────────────────
+  { href: '/dashboard/competitive', label: 'Competitive', icon: ShieldCheck, roles: ['ADMIN', 'UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR', 'COMPLIANCE_OFFICER'] },
   { href: '/school-reporting', label: 'Reporting', icon: GraduationCap, roles: ['UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR'] },
   { href: '/nil-compliance', label: 'Compliance', icon: ShieldCheck, roles: ['UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR'] },
   { href: '/dashboard/importers', label: 'Data Import', icon: Upload, roles: ['UNIVERSITY_ADMIN', 'ATHLETIC_DIRECTOR'] },
