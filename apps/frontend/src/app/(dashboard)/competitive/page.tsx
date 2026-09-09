@@ -9,7 +9,6 @@ import { Separator } from '@/components/ui/separator';
 import {
   CheckCircle2, XCircle, AlertTriangle, Sparkles, ShieldCheck,
   DollarSign, BarChart2, Lock, Zap, ClipboardList,
-  Link as LinkIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -285,6 +284,8 @@ export default function CompetitivePage() {
 function CompetitorCard({ competitor }: { competitor: (typeof competitors)[0] }) {
   const [expanded, setExpanded] = useState(false);
 
+  const absentText = competitor.absent.map((a) => a.props.children as string);
+
   return (
     <Card className="overflow-hidden transition-all hover:border-accent/30">
       <CardHeader className="pb-2">
@@ -345,8 +346,8 @@ function CompetitorCard({ competitor }: { competitor: (typeof competitors)[0] })
               They don&apos;t have
             </div>
             <div className="flex flex-wrap gap-1.5">
-              {competitor.absent.map((a) => (
-                <Badge variant="secondary" key={a.props.children as string} className="text-xs">{a.props.children as string}</Badge>
+              {absentText.map((text) => (
+                <Badge variant="secondary" key={text} className="text-xs">{text}</Badge>
               ))}
             </div>
           </div>

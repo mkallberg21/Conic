@@ -6,6 +6,12 @@ export const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+// Public API — no auth headers. Used for no-login endpoints like DealLink contribution.
+export const publicApi = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL ?? '/api',
+  headers: { 'Content-Type': 'application/json' },
+});
+
 api.interceptors.request.use((config) => {
   const token = useAuthStore.getState().accessToken;
   if (token) config.headers.Authorization = `Bearer ${token}`;
