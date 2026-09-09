@@ -1570,6 +1570,9 @@ model NilDisclosure {
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
 
+  // DealLink — zero-login, shareable disclosure intake (Framework NIL DealLink competitor)
+  dealLink            DealLink?
+
   nilDeals           NilDeal[]
   contractExtensions ContractNilExtension[]
 
@@ -1577,6 +1580,44 @@ model NilDisclosure {
   @@index([universityId])
   @@index([status])
   @@index([createdAt])
+}
+
+// ─── DealLink — Zero-Login Disclosure Intake ─────────────────────────────────
+// Competes directly with Framework NIL's DealLink. See deallink-spec.md.
+
+model DealLink {
+  id                    String            @id @default(cuid())
+  disclosureId          String            @unique
+  disclosure            NilDisclosure     @relation(fields: [disclosureId], references: [id], onDelete: Cascade)
+  linkTokenHash         String            @unique
+  rawToken              String            // stored once at creation; used to reconstruct submission URL in owner GET
+  contributorType       String            // BRAND | AGENT | GUARDIAN | BUSINESS | ATHLETE
+  contributorLabel      String?
+  maxContributions      Int               @default(5)
+  remainingContributions Int              @default(5)
+  expiresAt             DateTime
+  revokedAt             DateTime?
+  acceptedAt            DateTime?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  contributions         DealLinkContribution[]
+
+  @@index([linkTokenHash])
+  @@index([disclosureId])
+}
+
+model DealLinkContribution {
+  id               String   @id @default(cuid())
+  dealLinkId       String
+  dealLink         DealLink @relation(fields: [dealLinkId], references: [id], onDelete: Cascade)
+  contributorType  String   // BRAND | AGENT | GUARDIAN | BUSINESS | ATHLETE
+  contributorLabel String?
+  ipAddress        String?
+  submittedAt      DateTime @default(now())
+  fields           Json     // snapshot of the submitted payload
+
+  @@index([dealLinkId])
+  @@index([submittedAt])
 }
 
 // ─── Appearance ───────────────────────────────────────────────────────────────
