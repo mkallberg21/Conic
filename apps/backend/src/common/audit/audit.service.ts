@@ -28,6 +28,11 @@ export type AuditAction =
   | 'PAYMENT_RELEASED'
   | 'PAYMENT_FAILED'
   | 'PAYMENT_REFUNDED'
+  // DealLink — zero-login disclosure intake
+  | 'DEAL_LINK_CREATED'
+  | 'DEAL_LINK_REVOKED'
+  | 'DEAL_LINK_CONTRIBUTION'
+  | 'DEAL_LINK_RENEWED'
   // Users/Profiles
   | 'PROFILE_UPDATED'
   | 'CREATOR_ONBOARDED'
