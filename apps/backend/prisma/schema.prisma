@@ -2132,6 +2132,254 @@ model CollectiveDistribution {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// SCORM Learning Courses — LMS / Course Platform
+// Competes directly with Framework NIL's SCORM learning courses and Opendorse's
+// athlete education. Conforms to SCORM 1.2 data model fields so courses can be
+// imported/exported from any standard LMS.
+// ═══════════════════════════════════════════════════════════════════════════════
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum EnrollmentStatus {
+  NOT_ENROLLED
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
+
+model ScormCourse {
+  id          String        @id @default(cuid())
+  title       String
+  description String?       @db.Text
+  status      CourseStatus  @default(DRAFT)
+  scormOrg    String?
+  scormItem   String?
+  thumbnailUrl String?
+  durationMinutes Int?
+  objectives    String[]
+  tags        String[]
+  launchUrl   String?
+  launchType  String        @default("scorm_1_2")
+  preRequisites String[]
+  allowedRoles String[]     @default(["ATHLETE", "CREATOR"])
+  scormDataMap Json?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  lessons     ScormLesson[]
+  enrollments ScormEnrollment[]
+  completions ScormCompletion[]
+
+  @@index([status])
+  @@index([title])
+  @@index([scormOrg])
+}
+
+model ScormLesson {
+  id             String       @id @default(cuid())
+  courseId       String
+  course         ScormCourse  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title          String
+  description    String?      @db.Text
+  position       Int          @default(0)
+  durationMinutes Int?
+  contentUrl     String?
+  contentType    String       @default("video")
+  scormInteractionId String?
+  masteryScore   Float?
+  passingScore   Float?
+  tags           String[]
+  isRequiredForCertificate Boolean @default(true)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  progressRecords ScormProgress[]
+
+  @@index([courseId])
+  @@index([position])
+}
+
+model ScormEnrollment {
+  id        String            @id @default(cuid())
+  courseId  String
+  course    ScormCourse        @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User              @relation(fields: [userId], references: [id])
+  enrolledAt DateTime         @default(now())
+  status    EnrollmentStatus  @default(NOT_ENROLLED)
+  learnerId String?
+  notes     String?
+
+  progress  ScormProgress[]
+  completions ScormCompletion[]
+
+  @@unique([courseId, userId])
+  @@index([courseId])
+  @@index([userId])
+  @@index([status])
+}
+
+model ScormProgress {
+  id              String       @id @default(cuid())
+  enrollmentId    String
+  enrollment      ScormEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lessonId        String
+  lesson          ScormLesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  status          String       @default("incomplete")
+  scoreRaw        Float?
+  scoreMin        Float?
+  scoreMax        Float?
+  timeSpent       String?
+  suspendData     String?      @db.Text
+  completedAt     DateTime?
+  interactions    Json?
+
+  @@unique([enrollmentId, lessonId])
+  @@index([enrollmentId])
+  @@index([lessonId])
+  @@index([status])
+}
+
+model ScormCompletion {
+  id          String           @id @default(cuid())
+  enrollmentId String
+  enrollment   ScormEnrollment   @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  completedAt  DateTime        @default(now())
+  scoreRaw     Float?
+  scoreMin     Float?
+  scoreMax     Float?
+  passed       Boolean?
+  totalTime    String?
+  location      String?
+  credit       Boolean         @default(true)
+  recordsReviewed Int          @default(1)
+
+  @@index([enrollmentId])
+  @@index([completedAt])
+  @@index([passed])
+}
+
+model OrganizationCourseCatalog {
+  id              String   @id @default(cuid())
+  organizationId  String
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  courseId        String
+  course          ScormCourse @relation(fields: [courseId], references: [id])
+  titleOverrides  String?
+  descriptionOverrides String? @db.Text
+  thumbnailUrlOverride String?
+  enrollOpen      Boolean  @default(true)
+  maxEnrollments  Int?
+  priority        Int      @default(0)
+  assignedAt      DateTime @default(now())
+
+  @@unique([organizationId, courseId])
+  @@index([organizationId])
+  @@index([courseId])
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// Organization Hierarchy — Multi-Org Structure
+// Competes with Framework NIL's multi-org hierarchy (state associations → schools
+// → athletes) and Teamworks' athletic department hierarchy.
+// ═══════════════════════════════════════════════════════════════════════════════
+
+enum UserOrganizationRole {
+  OWNER
+  ADMIN
+  COMPLIANCE_OFFICER
+  ATHLETIC_DIRECTOR
+  COACH
+  STAFF
+  MEMBER
+  OBSERVER
+}
+
+enum OrganizationType {
+  ROOT
+  STATE_ASSOC
+  CONFERENCE
+  SCHOOL
+  TEAM
+  COLLECTIVE
+  OTHER
+}
+
+model Organization {
+  id          String            @id @default(cuid())
+  name        String
+  slug        String            @unique
+  type        OrganizationType  @default(OTHER)
+  status      OrganizationStatus @default(ACTIVE)
+  parentId    String?
+  parent      Organization?     @relation("OrgHierarchy", fields: [parentId], references: [id])
+  children    Organization[]    @relation("OrgHierarchy")
+  catalogRootOrganizationId String?
+  catalogRootOrganization   Organization? @relation("OrgCatalogRoot", fields: [catalogRootOrganizationId], references: [id])
+  defaultAllowedRoles String[]  @default(["ATHLETE", "CREATOR"])
+  country     String?
+  state       String?
+  timezone    String            @default("America/Chicago")
+  contactEmail String?
+  description String?           @db.Text
+  websiteUrl  String?
+  scormLaunchBaseUrl String?
+  lmsOrgId    String?
+
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  members     OrganizationMember[]
+  courses    OrganizationCourseCatalog[]
+  childCourses OrganizationCourseCatalog[] @relation("OrgCatalogRoot")
+
+  @@unique([parentId, slug])
+  @@index([parentId])
+  @@index([type])
+  @@index([status])
+  @@index([slug])
+  @@index([state])
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  SUSPENDED
+  ARCHIVED
+  PENDING_VERIFICATION
+}
+
+model OrganizationMember {
+  id              String            @id @default(cuid())
+  organizationId  String
+  organization    Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User              @relation(fields: [userId], references: [id])
+  role            UserOrganizationRole @default(MEMBER)
+  memberCode      String?
+  joinedAt        DateTime          @default(now())
+  leftAt          DateTime?
+  status          OrganizationMemberStatus @default(ACTIVE)
+  notes           String?
+
+  @@unique([organizationId, userId])
+  @@index([organizationId])
+  @@index([userId])
+  @@index([role])
+  @@index([status])
+}
+
+enum OrganizationMemberStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  REMOVED
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // AI Matchmaking — Brand × Creator / Athlete Pairing Engine
 // ═══════════════════════════════════════════════════════════════════════════════
 
