@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import compliance, fmv, reports
+from app.routers import compliance, fmv, reports, state_rules
 from app.middleware.internal_auth import InternalAuthMiddleware
 
 app = FastAPI(
@@ -25,6 +25,7 @@ app.add_middleware(
 app.include_router(compliance.router, prefix="/compliance", tags=["compliance"])
 app.include_router(fmv.router, prefix="/fmv", tags=["fmv"])
 app.include_router(reports.router, prefix="/reports", tags=["reports"])
+app.include_router(state_rules.router, prefix="/state-rules", tags=["compliance"])
 
 
 @app.get("/health")

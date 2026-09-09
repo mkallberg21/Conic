@@ -110,7 +110,94 @@ export class NilComplianceService {
       newValue: { athleteId: dto.athleteId, dealType: dto.dealType, dealValueCents: dto.dealValueCents },
     });
 
+    // Snapshot the initial version for the audit trail (Framework NIL versioned-disclosure competitor).
+    void this.snapshotVersion(disclosure.id, {
+      athleteId: dto.athleteId,
+      universityId: dto.universityId,
+      dealType: dto.dealType,
+      brandName: dto.brandName,
+      dealValueCents: dto.dealValueCents,
+      startDate: dto.startDate,
+      endDate: dto.endDate,
+      description: dto.description,
+      platforms: dto.platforms ?? [],
+      status: NilDisclosureStatus.PENDING_REVIEW,
+      submittedAt: new Date().toISOString(),
+      aiGeneratedSummary: aiAnalysis.aiGeneratedSummary,
+      aiComplianceFlags: aiAnalysis.aiComplianceFlags,
+      aiStateRules: aiAnalysis.aiStateRules,
+      aiNcaaRules: aiAnalysis.aiNcaaRules,
+    }, { createdBy: callerId, changesSummary: 'Initial disclosure creation' });
+
     return disclosure;
+  }
+
+  // ─── Versioned disclosures (Framework NIL versioned-disclosure competitor) ──
+  // Every create/update of a disclosure snapshots the full field state into
+  // NilDisclosureVersion. The current disclosure fields are always the latest
+  // version. Compliance officers can call getDisclosureVersions to inspect the
+  // audit trail.
+
+  private async snapshotVersion(
+    disclosureId: string,
+    content: Record<string, unknown>,
+    opts?: { createdBy?: string; changesSummary?: string },
+  ): Promise<void> {
+    const [max] = await this.prisma.nilDisclosureVersion.findMany({
+      where: { disclosureId },
+      select: { versionNumber: true },
+      orderBy: { versionNumber: 'desc' },
+      take: 1,
+    });
+    const next = (max?.versionNumber ?? 0) + 1;
+
+    await this.prisma.nilDisclosureVersion.create({
+      data: {
+        disclosureId,
+        versionNumber: next,
+        content,
+        changesSummary: opts?.changesSummary,
+        createdBy: opts?.createdBy,
+      },
+    });
+  }
+
+  async getDisclosureVersions(
+    callerId: string,
+    disclosureId: string,
+    page = 1,
+    take = 25,
+  ) {
+    const disclosure = await this.prisma.nilDisclosure.findUnique({
+      where: { id: disclosureId },
+    });
+    if (!disclosure) throw new NotFoundException('Disclosure not found');
+
+    // Only the disclosure owner, their compliance officer, or an admin can inspect versions.
+    if (!this.isDisclosureOwnerOrAdmin(callerId, disclosure)) {
+      throw new ForbiddenException('Access denied');
+    }
+
+    const skip = (Math.max(1, page) - 1) * Math.min(take, 100);
+    const limit = Math.min(Math.max(1, take), 100);
+
+    const [items, total] = await this.prisma.$transaction([
+      this.prisma.nilDisclosureVersion.findMany({
+        where: { disclosureId },
+        orderBy: { versionNumber: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.nilDisclosureVersion.count({ where: { disclosureId } }),
+    ]);
+
+    return {
+      items,
+      total,
+      page,
+      pageSize: limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async reviewDisclosure(callerId: string, dto: ReviewDisclosureDto) {
@@ -653,6 +740,20 @@ export class NilComplianceService {
   }
 
   // ─── Helpers ────────────────────────────────────────────────────────────────
+
+  private isDisclosureOwnerOrAdmin(callerId: string, disclosure: { athleteId: string; universityId?: string | null }): boolean {
+    if (callerId === disclosure.athleteId) return true;
+    // Compliance officers and admins at the disclosure's university can inspect.
+    if (disclosure.universityId) {
+      const officer = this.prisma.complianceOfficer.findUnique({
+        where: { userId: callerId },
+        select: { universityId: true },
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      if (officer?.universityId === disclosure.universityId) return true;
+    }
+    return false;
+  }
 
   private parsePeriod(period: string, reportType: string): [Date, Date] {
     const now = new Date();

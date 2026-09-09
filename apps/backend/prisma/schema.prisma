@@ -1620,6 +1620,29 @@ model DealLinkContribution {
   @@index([submittedAt])
 }
 
+// ─── Versioned NIL Disclosures ─────────────────────────────────────────────────────
+// Competes directly with Framework NIL's versioned-disclosure feature.
+// Every time a disclosure is modified, an immutable snapshot (NilDisclosureVersion)
+// is created. The current disclosure fields are the latest version.
+// Compliance officers can inspect the full version history for audit.
+//
+// Mirrors ContractVersion for parity. One version per disclosure per version
+// number, unique (disclosureId, versionNumber).
+
+model NilDisclosureVersion {
+  id             String   @id @default(cuid())
+  disclosureId   String
+  disclosure     NilDisclosure @relation(fields: [disclosureId], references: [id], onDelete: Cascade)
+  versionNumber  Int
+  content        Json     // snapshot of all disclosure fields at this version
+  changesSummary String?  // human-readable diff description (set by reviewer or system)
+  createdBy      String?  // userId who triggered this version (or null for system)
+  createdAt      DateTime @default(now())
+
+  @@index([disclosureId])
+  @@unique([disclosureId, versionNumber])
+}
+
 // ─── Appearance ───────────────────────────────────────────────────────────────
 
 model Appearance {

@@ -53,6 +53,21 @@ export class NilComplianceController {
     return this.nilService.reviewDisclosure(user.userId, dto);
   }
 
+  // ─── Versioned disclosure history (Framework NIL versioned-disclosure competitor) ──
+  // Returns the full immutable version history for a disclosure, newest first.
+  // Authorized for the disclosure owner, their compliance officer, or admin.
+
+  @Get('disclosures/:id/versions')
+  @Roles(UserRole.ATHLETE, UserRole.AGENT, UserRole.COMPLIANCE_OFFICER, UserRole.ADMIN)
+  getDisclosureVersions(
+    @CurrentUser() user: { userId: string },
+    @Param('id') id: string,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('take', new DefaultValuePipe(25), ParseIntPipe) take: number,
+  ) {
+    return this.nilService.getDisclosureVersions(user.userId, id, page, take);
+  }
+
   // ─── NIL Deals ──────────────────────────────────────────────────────────────
 
   @Post('deals')

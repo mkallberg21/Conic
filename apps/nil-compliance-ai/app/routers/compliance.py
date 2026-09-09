@@ -10,6 +10,7 @@ Endpoints:
 import json
 import logging
 import os
+from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
@@ -22,6 +23,57 @@ logger = logging.getLogger("conic.nil_compliance.compliance")
 
 _client = AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY", ""))
 _MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
+
+# Path to the normalized 50-state NIL rules table.
+_RULES_FILE = Path(__file__).resolve().parent.parent / "data" / "state_nil_rules.json"
+
+# In-memory cache, reloaded at startup and on the admin sync endpoint.
+_RULES_CACHE: dict[str, dict] | None = None
+
+
+def _load_rules() -> dict[str, dict]:
+    global _RULES_CACHE
+    if _RULES_CACHE is not None:
+        return _RULES_CACHE
+    if not _RULES_FILE.exists():
+        logger.warning("state_nil_rules.json missing at %s — rules lookup returns empty", _RULES_FILE)
+        _RULES_CACHE = {}
+        return _RULES_CACHE
+    try:
+        _RULES_CACHE = json.loads(_RULES_FILE.read_text(encoding="utf-8"))
+        return _RULES_CACHE
+    except Exception:
+        logger.exception("Failed to parse state_nil_rules.json — rules lookup returns empty")
+        _RULES_CACHE = {}
+        return _RULES_CACHE
+
+
+def _reload_rules() -> dict[str, dict]:
+    global _RULES_CACHE
+    _RULES_CACHE = None
+    return _load_rules()
+
+
+def _normalize_for_state(state: str | None) -> dict:
+    """Return a normalized rules object for callers that want to print/use it directly."""
+    if not state:
+        return {}
+    rules = _load_rules()
+    entry = rules.get(state.upper())
+    if entry is None:
+        return {"unknown_state": True, "state": state.upper()}
+    return {
+        "state": entry.get("name", state.upper()),
+        "state_code": state.upper(),
+        "enacted": entry.get("enacted", False),
+        "effective_date": entry.get("effective_date"),
+        "requires_reporting": entry.get("requires_reporting", False),
+        "disclosure_window_days": entry.get("disclosure_window_days"),
+        "minor_protections": entry.get("minor_protections", False),
+        "caps": entry.get("caps"),
+        "fair_market_value": entry.get("fair_market_value", False),
+        "notes": entry.get("notes", ""),
+    }
 
 
 # ─── Request / Response models ───────────────────────────────────────────────
@@ -133,7 +185,36 @@ Analyze the NIL disclosure and return JSON with these exact keys:
 Only return valid JSON. Do not include markdown fences."""
 
 
-@router.post("/analyze-disclosure", response_model=AnalyzeDisclosureResponse)
+_ELLIGIBILITY_SYSTEM = """You are an NCAA eligibility compliance expert.
+Analyze the athlete's NIL profile and return eligibility assessment as JSON:
+{
+  "is_eligible": true|false,
+  "eligibility_status": "eligible|at_risk|probation|ineligible",
+  "flags": ["<flag1>", ...],
+  "recommendations": ["<rec1>", ...],
+  "summary": "<two-sentence summary>"
+}
+Consider: disclosure compliance, deal count, cap adherence, pending disclosures, division rules.
+Only return valid JSON. No markdown fences."""
+
+
+@router.post("/state-rules", tags=["compliance"])
+async def get_state_rules(state: str = Query(..., description="2-letter postal code")) -> dict:
+    """Lookup a state's normalized NIL rules from the maintained table."""
+    return _normalize_for_state(state)
+
+
+@router.post("/state-rules/sync", tags=["compliance"])
+async def sync_state_rules() -> dict:
+    """Reload the state rules table from disk (admin only in production)."""
+    rules = _reload_rules()
+    enacted = sum(1 for d in rules.values() if d.get("enacted", False))
+    pending = sum(1 for d in rules.values() if not d.get("enacted", False))
+    logger.info("State rules reloaded: %d states (%d enacted, %d pending)", len(rules), enacted, pending)
+    return {"reloaded": True, "state_count": len(rules), "enacted_count": enacted, "pending_count": pending}
+
+
+@router.post("/compliance/analyze-disclosure", response_model=AnalyzeDisclosureResponse)
 async def analyze_disclosure(req: AnalyzeDisclosureRequest) -> AnalyzeDisclosureResponse:
     deal_value_dollars = req.dealValueCents / 100
     user_prompt = (
@@ -148,7 +229,7 @@ async def analyze_disclosure(req: AnalyzeDisclosureRequest) -> AnalyzeDisclosure
     )
 
     try:
-        raw = await _call_openai(_DISCLOSURE_SYSTEM, user_prompt)
+        raw = await _call_openai(_DISCLOSURE_SYSTEM + _STATE_RULES_SYSTEM(req.state), user_prompt)
     except Exception as exc:
         logger.error("OpenAI call failed for analyze-disclosure: %s", exc, exc_info=True)
         raise HTTPException(status_code=502, detail="AI service temporarily unavailable") from exc
